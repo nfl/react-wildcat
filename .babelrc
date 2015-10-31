@@ -1,0 +1,15 @@
+{
+    "env": {
+        "production": {
+            "sourceMaps": false
+        },
+        "test": {
+            "sourceMaps": "inline",
+        }
+    },
+    "optional": [
+        "optimisation.modules.system"
+    ],
+    "sourceMaps": "inline",
+    "stage": 0
+}

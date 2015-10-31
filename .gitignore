@@ -1,0 +1,11 @@
+*.gz
+build
+bundles
+dist
+public
+node_modules
+.idea
+npm-debug.log
+newrelic_agent.log
+jspm_packages
+reports

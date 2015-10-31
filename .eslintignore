@@ -1,0 +1,8 @@
+**/build
+**/bundles
+**/dist
+**/jspm_packages
+**/node_modules
+**/reports
+**/system.config.js
+**/vendor

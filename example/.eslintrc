@@ -1,0 +1,18 @@
+{
+    "extends": "eslint-config-nfl",
+    "globals": {
+        "$": true,
+        "$$": true,
+        "browser": true,
+        "by": true,
+        "chrome": true,
+        "element": true,
+        "protractor": true
+    },
+    "settings": {
+        "import/resolvers": [
+            "jspm-resolve",
+            "resolve"
+        ]
+    }
+}
