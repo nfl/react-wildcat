@@ -30,7 +30,7 @@ for directory in packages/*; do
             npm link ${package};
 
             # Link package to jspm
-            jspm install --link npm:${package}@${version};
+            jspm install --link npm:${package}@${version} -y;
         )
     fi
 
