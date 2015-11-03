@@ -48,7 +48,7 @@
       "react-dom": "npm:react-dom@^0.14.1",
       "react-helmet": "npm:react-helmet@^2.1.1",
       "react-metrics": "npm:react-metrics@^1.0.0-rc1",
-      "react-router": "npm:react-router@^1.0.0-rc3",
+      "react-router": "npm:react-router@^1.0.0-rc4",
       "react-wildcat-handoff": "npm:react-wildcat-handoff@^1.0.0-beta1",
       "react-wildcat-prefetch": "npm:react-wildcat-prefetch@^1.0.0-beta1",
       "react-wildcat-radium": "npm:react-wildcat-radium@^1.0.0-beta1"

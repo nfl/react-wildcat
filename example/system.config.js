@@ -55,7 +55,7 @@ System.config({
     "react-dom": "npm:react-dom@0.14.1",
     "react-helmet": "npm:react-helmet@2.1.1",
     "react-metrics": "npm:react-metrics@1.0.0-rc1",
-    "react-router": "npm:react-router@1.0.0-rc3",
+    "react-router": "npm:react-router@1.0.0-rc4",
     "react-test-tree": "npm:react-test-tree@1.0.0-rc4",
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.0",
     "react-transform-hmr": "npm:react-transform-hmr@1.0.1",
@@ -674,12 +674,6 @@ System.config({
       "systemjs-json": "github:systemjs/plugin-json@0.1.0",
       "url": "github:jspm/nodelibs-url@0.1.0"
     },
-    "npm:history@1.12.3": {
-      "deep-equal": "npm:deep-equal@1.0.1",
-      "invariant": "npm:invariant@2.1.2",
-      "qs": "npm:qs@4.0.0",
-      "warning": "npm:warning@2.1.0"
-    },
     "npm:history@1.13.0": {
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",
       "deep-equal": "npm:deep-equal@1.0.1",
@@ -1072,9 +1066,12 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "react-deep-force-update": "npm:react-deep-force-update@1.0.0"
     },
-    "npm:react-router@1.0.0-rc3": {
-      "history": "npm:history@1.12.3",
+    "npm:react-router@1.0.0-rc4": {
+      "child_process": "github:jspm/nodelibs-child_process@0.1.0",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "history": "npm:history@1.13.0",
       "invariant": "npm:invariant@2.1.2",
+      "process": "github:jspm/nodelibs-process@0.1.2",
       "warning": "npm:warning@2.1.0"
     },
     "npm:react-side-effect@1.0.2": {
@@ -1105,7 +1102,7 @@ System.config({
       "react": "npm:react@0.14.1",
       "react-dom": "npm:react-dom@0.14.1",
       "react-helmet": "npm:react-helmet@2.1.1",
-      "react-router": "npm:react-router@1.0.0-rc3",
+      "react-router": "npm:react-router@1.0.0-rc4",
       "react-wildcat-radium": "npm:react-wildcat-radium@1.0.0-beta1"
     },
     "npm:react-wildcat-prefetch@1.0.0-beta1": {
@@ -1276,7 +1273,7 @@ System.config({
     "npm:stream-browserify@1.0.0": {
       "events": "github:jspm/nodelibs-events@0.1.1",
       "inherits": "npm:inherits@2.0.1",
-      "readable-stream": "npm:readable-stream@1.0.33"
+      "readable-stream": "npm:readable-stream@1.1.13"
     },
     "npm:string_decoder@0.10.31": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
