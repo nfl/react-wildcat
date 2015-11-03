@@ -5,9 +5,42 @@
   "license": "MIT",
   "devDependencies": {
     "babel-eslint": "^4.1.3",
+    "chai": "^3.4.0",
     "eslint": "^1.8.0",
     "eslint-config-nfl": "^4.0.2",
     "eslint-plugin-import": "^0.8.1",
-    "eslint-plugin-react": "^3.6.3"
+    "eslint-plugin-react": "^3.6.3",
+    "istanbul": "nfl/istanbul#feature/source-map-resolve",
+    "jspm": "^0.16.13",
+    "karma": "^0.13.14",
+    "karma-chai-sinon": "^0.1.5",
+    "karma-cli": "^0.1.1",
+    "karma-coverage": "nfl/karma-coverage#feature/source-lookup",
+    "karma-jspm": "nfl/karma-jspm#feature/normalize-override",
+    "karma-mocha": "^0.2.0",
+    "karma-mocha-reporter": "^1.1.1",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "karma-phantomjs-shim": "^1.1.2",
+    "karma-sourcemap-loader": "^0.3.6",
+    "mocha": "^2.3.3",
+    "phantomjs": "^1.9.18",
+    "react": "^0.14.2",
+    "react-addons-test-utils": "^0.14.2",
+    "remap-istanbul": "^0.4.0",
+    "rimraf": "^2.4.3",
+    "shelljs": "^0.5.3",
+    "sinon": "^1.17.2",
+    "sinon-chai": "^2.8.0"
+  },
+  "jspm": {
+    "registry": "npm",
+    "configFile": "system.config.js",
+    "devDependencies": {
+      "exenv": "^1.2.0",
+      "hoist-non-react-statics": "^1.0.3",
+      "invariant": "^2.1.2",
+      "react": "^0.14.2",
+      "react-addons-test-utils": "^0.14.2"
+    }
   }
 }

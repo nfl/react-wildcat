@@ -1,6 +1,7 @@
 *.gz
 build
 bundles
+coverage
 dist
 public
 node_modules

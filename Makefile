@@ -2,6 +2,8 @@ MAKEFLAGS = -j1
 
 export BABEL_ENV = test
 
+.PHONY: bootstrap clean install lint test test-cov update-dependencies
+
 bootstrap:
 	npm install
 	./shell/install.sh
@@ -19,6 +21,9 @@ lint:
 test: lint
 	./shell/test.sh
 	./shell/test-example.sh
+
+test-cov:
+	./shell/test-cov.sh
 
 update-dependencies:
 	./shell/update-dependencies.sh
