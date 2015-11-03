@@ -44,18 +44,18 @@
     "dependencies": {
       "babel-runtime": "npm:babel-runtime@^5.8.25",
       "core-js": "npm:core-js@^1.2.4",
-      "react": "npm:react@^0.14.1",
-      "react-dom": "npm:react-dom@^0.14.1",
+      "react": "npm:react@^0.14.2",
+      "react-dom": "npm:react-dom@^0.14.2",
       "react-helmet": "npm:react-helmet@^2.1.1",
       "react-metrics": "npm:react-metrics@^1.0.0-rc1",
-      "react-router": "npm:react-router@^1.0.0-rc3",
+      "react-router": "npm:react-router@^1.0.0-rc4",
       "react-wildcat-handoff": "npm:react-wildcat-handoff@^1.0.0-beta1",
       "react-wildcat-prefetch": "npm:react-wildcat-prefetch@^1.0.0-beta1",
       "react-wildcat-radium": "npm:react-wildcat-radium@^1.0.0-beta1"
     },
     "devDependencies": {
       "isomorphic-fetch": "npm:isomorphic-fetch@^2.2.0",
-      "react-addons-test-utils": "npm:react-addons-test-utils@^0.14.1",
+      "react-addons-test-utils": "npm:react-addons-test-utils@^0.14.2",
       "react-test-tree": "npm:react-test-tree@^1.0.0-rc4",
       "react-transform-catch-errors": "npm:react-transform-catch-errors@^1.0.0",
       "react-transform-hmr": "npm:react-transform-hmr@^1.0.1",
