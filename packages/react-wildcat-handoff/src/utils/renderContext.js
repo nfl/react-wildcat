@@ -3,7 +3,7 @@
 const React = require("react");
 const ReactDOM = require("react-dom/server");
 const Helmet = require("react-helmet");
-const router = require("react-router");
+const Router = require("react-router");
 const defaultTemplate = require("./defaultTemplate.js");
 
 const radium = require("react-wildcat-radium");
@@ -11,8 +11,8 @@ const matchMediaMock = require("match-media-mock").create();
 
 const getClientSize = require("./clientSize.js").getClientSize;
 
-const RoutingContext = router.RoutingContext;
-const match = router.match;
+const RoutingContext = Router.RoutingContext;
+const match = Router.match;
 
 radium.setMatchMedia(matchMediaMock);
 
