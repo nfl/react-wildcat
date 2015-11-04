@@ -63,9 +63,7 @@ function prefetch(action, key) {
                     var newState = {};
 
                     if (initialDataTarget && initialDataTarget[key]) {
-                        initialData = {
-                            ...initialDataTarget[key]
-                        };
+                        initialData = initialDataTarget[key];
 
                         // Delete stored object
                         delete initialDataTarget[key];
