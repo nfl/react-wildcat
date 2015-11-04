@@ -1,5 +1,10 @@
 var parseDomain = require("parse-domain");
 
+function getLeadingLeafDomain(subdomain) {
+    var leafDomains = subdomain.split(".");
+    return leafDomains[0];
+}
+
 function getDomainDataFromHost(host) {
     var defaultSubdomain = "www";
 
@@ -8,11 +13,10 @@ function getDomainDataFromHost(host) {
     };
 
     var url = parseDomain(host);
-    var subdomain = url.subdomain;
-    var resolvedSubdomain = subdomainAliases[subdomain] || subdomain || defaultSubdomain;
+    var subdomain = getLeadingLeafDomain(url.subdomain || defaultSubdomain);
+    var resolvedSubdomain = subdomainAliases[subdomain] || subdomain;
 
     url.subdomain = resolvedSubdomain;
-
     return url;
 }
 
@@ -31,12 +35,12 @@ module.exports = function getDomainRoutes(domains, header, cb) {
             return cb(null, resolveDomain);
         }
 
-        return resolveDomain(host, function (err, domainRoutes) {
+        return resolveDomain(host, function getSubDomainRoutes(err, domainRoutes) {
             if (err) {
-                throw new Error(err);
+                return cb(err);
             }
 
-            var resolveSubdomain = domainRoutes[subdomain];
+            var resolveSubdomain = (domainRoutes.domains || domainRoutes)[subdomain];
 
             if (typeof resolveSubdomain !== "function") {
                 return cb(null, resolveSubdomain);
