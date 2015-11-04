@@ -18,7 +18,7 @@ function completeRender(cfg, routes) {
 
     var component = clientRouter(cfg);
 
-    match(cfg, (error, redirectLocation, renderProps) => {
+    match(cfg, () => {
         var reactRootElementID = window[__REACT_ROOT_ID__];
         var reactRootElement = document.getElementById(reactRootElementID);
 
