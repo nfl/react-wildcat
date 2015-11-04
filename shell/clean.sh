@@ -18,9 +18,6 @@ for directory in packages/*; do
             # Remove jspm packages
             rm -fr jspm_packages;
 
-            # Unlink existing reference
-            npm unlink;
-
             # spacer.gif
             echo "";
         )

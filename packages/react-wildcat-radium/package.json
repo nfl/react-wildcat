@@ -1,6 +1,6 @@
 {
   "name": "react-wildcat-radium",
-  "version": "1.0.0-beta1",
+  "version": "1.0.0-beta2",
   "description": "Radium configured for use in Wildcat",
   "main": "src/index.js",
   "dependencies": {

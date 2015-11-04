@@ -1,10 +1,10 @@
 {
   "name": "react-wildcat-example",
   "description": "An example Wildcat project.",
-  "version": "1.0.0-beta1",
+  "version": "1.0.0-beta2",
   "dependencies": {
     "babel": "^5.8.29",
-    "react-wildcat": "^1.0.0-beta1",
+    "react-wildcat": "^1.0.0-beta2",
     "rimraf": "^2.4.3"
   },
   "devDependencies": {
@@ -49,9 +49,9 @@
       "react-helmet": "npm:react-helmet@^2.1.1",
       "react-metrics": "npm:react-metrics@^1.0.0-rc1",
       "react-router": "npm:react-router@^1.0.0-rc4",
-      "react-wildcat-handoff": "npm:react-wildcat-handoff@^1.0.0-beta1",
-      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@^1.0.0-beta1",
-      "react-wildcat-radium": "npm:react-wildcat-radium@^1.0.0-beta1"
+      "react-wildcat-handoff": "npm:react-wildcat-handoff@^1.0.0-beta2",
+      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@^1.0.0-beta2",
+      "react-wildcat-radium": "npm:react-wildcat-radium@^1.0.0-beta2"
     },
     "devDependencies": {
       "isomorphic-fetch": "npm:isomorphic-fetch@^2.2.0",
@@ -59,7 +59,7 @@
       "react-test-tree": "npm:react-test-tree@^1.0.0-rc4",
       "react-transform-catch-errors": "npm:react-transform-catch-errors@^1.0.0",
       "react-transform-hmr": "npm:react-transform-hmr@^1.0.1",
-      "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@^1.0.0-beta1",
+      "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@^1.0.0-beta2",
       "redbox-react": "npm:redbox-react@^1.1.1"
     }
   },

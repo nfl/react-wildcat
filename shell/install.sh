@@ -15,6 +15,11 @@ for directory in packages/*; do
         (
             cd ${directory};
 
+            # react-wildcat-handoff depends on react-wildcat-radium
+            if [ "${package}" == "react-wildcat-handoff" ]; then
+                npm link "react-wildcat-radium";
+            fi
+
             # Link package to npm
             npm link;
 

@@ -59,10 +59,10 @@ System.config({
     "react-test-tree": "npm:react-test-tree@1.0.0-rc4",
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.0",
     "react-transform-hmr": "npm:react-transform-hmr@1.0.1",
-    "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@1.0.0-beta1",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@1.0.0-beta1",
-    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0-beta1",
-    "react-wildcat-radium": "npm:react-wildcat-radium@1.0.0-beta1",
+    "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@1.0.0-beta2",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@1.0.0-beta2",
+    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0-beta2",
+    "react-wildcat-radium": "npm:react-wildcat-radium@1.0.0-beta2",
     "redbox-react": "npm:redbox-react@1.1.1",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
@@ -316,7 +316,7 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "pako": "npm:pako@0.2.8",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "readable-stream": "npm:readable-stream@1.0.33",
+      "readable-stream": "npm:readable-stream@1.1.13",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:buffer-xor@1.0.3": {
@@ -342,7 +342,7 @@ System.config({
       "async-each": "npm:async-each@0.1.6",
       "events": "github:jspm/nodelibs-events@0.1.1",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
-      "fsevents": "npm:fsevents@1.0.3",
+      "fsevents": "npm:fsevents@1.0.4",
       "glob-parent": "npm:glob-parent@2.0.0",
       "is-binary-path": "npm:is-binary-path@1.0.1",
       "is-glob": "npm:is-glob@2.0.1",
@@ -556,7 +556,7 @@ System.config({
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0"
     },
-    "npm:fsevents@1.0.3": {
+    "npm:fsevents@1.0.4": {
       "events": "github:jspm/nodelibs-events@0.1.1",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "nan": "npm:nan@2.1.0",
@@ -1099,7 +1099,7 @@ System.config({
       "global": "npm:global@4.3.0",
       "react-proxy": "npm:react-proxy@1.1.1"
     },
-    "npm:react-wildcat-handoff@1.0.0-beta1": {
+    "npm:react-wildcat-handoff@1.0.0-beta2": {
       "cookies-js": "npm:cookies-js@1.2.2",
       "debounce": "npm:debounce@1.0.0",
       "exenv": "npm:exenv@1.2.0",
@@ -1112,14 +1112,14 @@ System.config({
       "react-dom": "npm:react-dom@0.14.2",
       "react-helmet": "npm:react-helmet@2.1.1",
       "react-router": "npm:react-router@1.0.0-rc4",
-      "react-wildcat-radium": "npm:react-wildcat-radium@1.0.0-beta1"
+      "react-wildcat-radium": "npm:react-wildcat-radium@1.0.0-beta2"
     },
-    "npm:react-wildcat-prefetch@1.0.0-beta1": {
+    "npm:react-wildcat-prefetch@1.0.0-beta2": {
       "exenv": "npm:exenv@1.2.0",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.3",
       "invariant": "npm:invariant@2.1.2"
     },
-    "npm:react-wildcat-radium@1.0.0-beta1": {
+    "npm:react-wildcat-radium@1.0.0-beta2": {
       "radium": "npm:radium@0.14.3"
     },
     "npm:react@0.14.2": {
@@ -1282,7 +1282,7 @@ System.config({
     "npm:stream-browserify@1.0.0": {
       "events": "github:jspm/nodelibs-events@0.1.1",
       "inherits": "npm:inherits@2.0.1",
-      "readable-stream": "npm:readable-stream@1.0.33"
+      "readable-stream": "npm:readable-stream@1.1.13"
     },
     "npm:string_decoder@0.10.31": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
