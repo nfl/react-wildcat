@@ -17,11 +17,23 @@
     "react-router": "^1.0.0-rc4",
     "react-wildcat-radium": "^1.0.0-beta2"
   },
+  "devDependencies": {
+    "babel": "^5.8.29",
+    "rimraf": "^2.4.3"
+  },
   "jspm": {
     "directories": {
       "lib": "src"
     },
     "main": false
+  },
+  "scripts": {
+    "build": "npm run clean && npm run compile",
+    "clean": "rimraf dist",
+    "clean-test": "rimraf dist/**/server{*,}.js",
+    "compile": "babel src --out-dir dist",
+    "pretest": "env NODE_ENV=production npm run build",
+    "posttest": "npm run clean-test"
   },
   "author": "engineers@nfl.com",
   "license": "MIT"

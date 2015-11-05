@@ -8,14 +8,16 @@
     "hoist-non-react-statics": "^1.0.3",
     "invariant": "^2.1.2"
   },
+  "devDependencies": {
+    "babel": "^5.8.29",
+    "rimraf": "^2.4.3"
+  },
   "scripts": {
     "build": "npm run clean && npm run compile",
-    "build-test": "npm run build && npm run compile-test",
     "clean": "rimraf dist",
     "compile": "babel src --out-dir dist",
-    "compile-test": "babel test --out-dir dist",
     "prepublish": "env NODE_ENV=production npm run build",
-    "pretest": "npm run build-test"
+    "pretest": "npm run prepublish"
   },
   "author": "engineers@nfl.com",
   "license": "MIT"

@@ -34,12 +34,7 @@ module.exports = function (karmaConfig) {
 
         coverageReporter: {
             dir: "coverage/browser",
-            includeAllSources: true,
             reporters: [
-                {
-                    type: "text",
-                    subdir: normalizationBrowserName
-                },
                 {
                     type: "json",
                     subdir: normalizationBrowserName

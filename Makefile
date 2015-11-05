@@ -6,6 +6,7 @@ export BABEL_ENV = test
 
 bootstrap:
 	npm install
+	jspm install
 	./shell/install.sh
 	./shell/install-example.sh
 
@@ -13,7 +14,7 @@ clean:
 	./shell/clean.sh
 	./shell/clean-example.sh
 
-install: clean bootstrap test
+install: clean bootstrap test-cov
 
 lint:
 	node node_modules/.bin/eslint packages/* --ext .js

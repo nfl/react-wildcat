@@ -14,9 +14,17 @@ ls("packages/*").forEach((loc) => {
 
     const pkg = require(pkgPath);
 
-    if (pkg.scripts && pkg.scripts.pretest) {
+    if (pkg.scripts) {
         cd(loc);
-        exec(pkg.scripts.pretest);
+
+        if (pkg.scripts.pretest) {
+            exec(pkg.scripts.pretest);
+        }
+
+        if (pkg.scripts.posttest) {
+            exec(pkg.scripts.posttest);
+        }
+
         cd(cwd);
     }
 });
