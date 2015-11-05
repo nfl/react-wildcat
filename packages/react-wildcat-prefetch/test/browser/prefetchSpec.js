@@ -1,10 +1,10 @@
 import React from "react";
 import ReactTestUtils from "react-addons-test-utils";
-import Prefetch from "../index.js"; // eslint-disable-line import/default
+import Prefetch from "../index.js"; // eslint-disable-line
 
-import Hello from "./Hello.js";
-import HelloES7 from "./HelloES7.js";
-import World from "./World.js";
+import Hello from "./fixtures/Hello.js";
+import HelloES7 from "./fixtures/HelloES7.js";
+import World from "./fixtures/World.js";
 
 describe("Higher Order Components", () => {
     const noop = () => {

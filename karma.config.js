@@ -76,7 +76,7 @@ module.exports = function (karmaConfig) {
 
         preprocessors: {
             "packages/*/dist/**/*.js": ["sourcemap"],
-            "packages/*/dist/!(*Test).js": ["coverage"]
+            "packages/*/dist/!(*Spec).js": ["coverage"]
         },
 
         proxies: {

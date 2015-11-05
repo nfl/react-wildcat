@@ -8,50 +8,14 @@
     "hoist-non-react-statics": "^1.0.3",
     "invariant": "^2.1.2"
   },
-  "devDependencies": {
-    "babel": "^5.8.29",
-    "babel-eslint": "^4.1.3",
-    "chai": "^3.4.0",
-    "istanbul": "nfl/istanbul#feature/source-map-resolve",
-    "jspm": "^0.16.13",
-    "karma": "^0.13.14",
-    "karma-chai-sinon": "^0.1.5",
-    "karma-cli": "^0.1.1",
-    "karma-coverage": "nfl/karma-coverage#feature/source-lookup",
-    "karma-jspm": "nfl/karma-jspm#feature/normalize-override",
-    "karma-mocha": "^0.2.0",
-    "karma-mocha-reporter": "^1.1.1",
-    "karma-phantomjs-launcher": "^0.2.1",
-    "karma-phantomjs-shim": "^1.1.2",
-    "karma-sourcemap-loader": "^0.3.6",
-    "mocha": "^2.3.3",
-    "phantomjs": "^1.9.18",
-    "react": "^0.14.2",
-    "react-addons-test-utils": "^0.14.2",
-    "rimraf": "^2.4.3",
-    "sinon": "^1.17.2",
-    "sinon-chai": "^2.8.0"
-  },
-  "jspm": {
-    "registry": "jspm",
-    "configFile": "system.config.js",
-    "dependencies": {
-      "exenv": "npm:exenv@^1.2.0",
-      "hoist-non-react-statics": "npm:hoist-non-react-statics@^1.0.3",
-      "invariant": "npm:invariant@^2.1.2"
-    },
-    "devDependencies": {
-      "react": "npm:react@^0.14.2",
-      "react-addons-test-utils": "npm:react-addons-test-utils@^0.14.2"
-    }
-  },
   "scripts": {
     "build": "npm run clean && npm run compile",
+    "build-test": "npm run build && npm run compile-test",
     "clean": "rimraf dist",
     "compile": "babel src --out-dir dist",
+    "compile-test": "babel test --out-dir dist",
     "prepublish": "env NODE_ENV=production npm run build",
-    "pretest": "env BABEL_ENV=test NODE_ENV=production npm run build && jspm install",
-    "test": "karma start karma.config.js"
+    "pretest": "npm run build-test"
   },
   "author": "engineers@nfl.com",
   "license": "MIT"

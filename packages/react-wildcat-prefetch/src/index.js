@@ -4,6 +4,7 @@ import invariant from "invariant";
 import hoistStatics from "hoist-non-react-statics";
 
 const __INITIAL_DATA__ = "__INITIAL_DATA__";
+const __DEFAULT_KEY__ = "asyncData";
 
 function getAction(action, ComposedComponent) {
     switch (typeof action) {
@@ -48,8 +49,11 @@ function invariantCheck(exists, key, action, ComposedComponent) {
  * If action is a function it will execute the function
  * If action is an string it will make a request based on that url
  */
-function prefetch(action, key) {
-    key = key || "asyncData";
+function prefetch(action, options) {
+    var key;
+
+    options = options || {};
+    key = options.key || (typeof options === "string" ? options : __DEFAULT_KEY__);
 
     return function wrap(ComposedComponent) {
         var _action = getAction(action, ComposedComponent);
