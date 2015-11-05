@@ -16,12 +16,12 @@ const match = Router.match;
 
 radium.setMatchMedia(matchMediaMock);
 
-module.exports = function renderContext(cfg) {
+module.exports = function serverRender(cfg) {
     const cookies = cfg.cookies;
     const request = cfg.request;
     const wildcatConfig = cfg.wildcatConfig;
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         match(cfg, (error, redirectLocation, renderProps) => {
             let result = {};
 

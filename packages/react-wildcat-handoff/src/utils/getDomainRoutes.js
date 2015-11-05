@@ -20,6 +20,20 @@ function getDomainDataFromHost(host) {
     return url;
 }
 
+function completeGetDomainRoutes(resolveOptions, cb) {
+    var domainRoutes = resolveOptions.domainRoutes;
+    var subdomain = resolveOptions.subdomain;
+    var host = resolveOptions.host;
+
+    var resolveSubdomain = (domainRoutes.domains || domainRoutes)[subdomain];
+
+    if (typeof resolveSubdomain !== "function") {
+        return cb(null, resolveSubdomain);
+    }
+
+    return resolveSubdomain(host, cb);
+}
+
 module.exports = function getDomainRoutes(domains, header, cb) {
     var host = header.host;
     var url = getDomainDataFromHost(host);
@@ -29,24 +43,25 @@ module.exports = function getDomainRoutes(domains, header, cb) {
     var resolveDomain;
 
     if (domains[domain]) {
+        var resolveOptions = {
+            subdomain,
+            host
+        };
+
         resolveDomain = domains[domain];
 
         if (typeof resolveDomain !== "function") {
-            return cb(null, resolveDomain);
+            resolveOptions.domainRoutes = resolveDomain;
+            return completeGetDomainRoutes(resolveOptions, cb);
         }
 
-        return resolveDomain(host, function getSubDomainRoutes(err, domainRoutes) {
-            if (err) {
-                return cb(err);
+        return resolveDomain(host, function getSubDomainRoutes(error, domainRoutes) {
+            if (error) {
+                return cb(error);
             }
 
-            var resolveSubdomain = (domainRoutes.domains || domainRoutes)[subdomain];
-
-            if (typeof resolveSubdomain !== "function") {
-                return cb(null, resolveSubdomain);
-            }
-
-            return resolveSubdomain(host, cb);
+            resolveOptions.domainRoutes = domainRoutes;
+            return completeGetDomainRoutes(resolveOptions, cb);
         });
     }
 
