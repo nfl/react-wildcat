@@ -9,7 +9,7 @@ const serverSettings = wildcatConfig.serverSettings;
 let log, env;
 
 if (serverSettings.graylog) {
-    env = serverSettings.graylog.env;
+    env = serverSettings.graylog.fields.env;
     log = require("gelf-pro");
     log.setConfig(serverSettings.graylog);
 }
