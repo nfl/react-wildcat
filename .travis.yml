@@ -1,7 +1,7 @@
 language: node_js
 sudo: false
 node_js:
-- 4.2.1
+- 4.2
 script:
 - make test-travis
 env:
@@ -10,3 +10,5 @@ env:
 before_install:
 - npm install -g jspm
 - jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
+# Skip installing optional dependencies
+- npm config set optional false
