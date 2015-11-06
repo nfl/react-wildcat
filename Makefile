@@ -31,7 +31,7 @@ test-browser-cov:
 test-cov:
 	./shell/test-cov.sh
 
-test-travis: bootstrap test
+test-travis: bootstrap test-cov
 
 update-dependencies:
 	./shell/update-dependencies.sh

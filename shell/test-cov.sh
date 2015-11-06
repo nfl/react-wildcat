@@ -21,5 +21,10 @@ node ${karmaBin} start karma.config.js
 # Combine Node / browser reports
 node ${istanbulBin} report lcov
 
+# Send to codecov.io
+if [ -n "$CI" ]; then
+    cat ./coverage/lcov.info | ./node_modules/.bin/codecov
+fi
+
 # Open in browser
 test -n "`which open`" && open coverage/lcov-report/index.html
