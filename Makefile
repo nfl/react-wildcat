@@ -8,6 +8,7 @@ bootstrap:
 	npm install
 	jspm install
 	./shell/install.sh
+	npm link react-wildcat-prefetch
 	# ./shell/install-example.sh
 
 clean:
