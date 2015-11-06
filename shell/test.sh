@@ -1,21 +1,10 @@
-#!/bin/bash
+#!/bin/sh
+set -e
 
-set -u
-set -x
+if [ -z "$TEST_GREP" ]; then
+   TEST_GREP=""
+fi
 
-# Set up links
-for directory in packages/*; do
-    if [ -d "${directory}" ]; then
-        package=${directory##*/}
+mochaArgs=$(shell/_get-test-directories.sh --opts mocha.opts)
 
-        # Create module / package links
-        (
-            cd ${directory};
-
-            # Link package to npm
-            npm test;
-        )
-    fi
-
-    echo "";
-done
+node node_modules/mocha/bin/_mocha ${mochaArgs} --grep "$TEST_GREP"

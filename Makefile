@@ -14,13 +14,14 @@ clean:
 	./shell/clean.sh
 	./shell/clean-example.sh
 
-install: clean bootstrap test-cov
+install: clean bootstrap test
 
 lint:
 	node node_modules/.bin/eslint packages/* --ext .js
 
 test: lint
 	./shell/test.sh
+	./shell/test-browser.sh
 	./shell/test-example.sh
 
 test-browser-cov:
@@ -28,6 +29,8 @@ test-browser-cov:
 
 test-cov:
 	./shell/test-cov.sh
+
+test-travis: bootstrap test
 
 update-dependencies:
 	./shell/update-dependencies.sh
