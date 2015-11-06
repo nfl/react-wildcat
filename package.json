@@ -24,7 +24,6 @@
     "karma-phantomjs-shim": "^1.1.2",
     "karma-sourcemap-loader": "^0.3.6",
     "mocha": "^2.3.3",
-    "phantomjs": "^1.9.18",
     "react": "^0.14.2",
     "react-addons-test-utils": "^0.14.2",
     "remap-istanbul": "^0.4.0",
@@ -32,6 +31,9 @@
     "shelljs": "^0.5.3",
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0"
+  },
+  "optionalDependencies": {
+    "phantomjs": "^1.9.18"
   },
   "jspm": {
     "registry": "npm",

@@ -32,12 +32,14 @@
     "karma-phantomjs-shim": "^1.1.2",
     "karma-sourcemap-loader": "^0.3.6",
     "mocha": "^2.3.3",
-    "phantomjs": "^1.9.18",
     "protractor": "^2.5.1",
     "request": "^2.65.0",
     "resolve": "^1.1.6",
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0"
+  },
+  "optionalDependencies": {
+    "phantomjs": "^1.9.18"
   },
   "jspm": {
     "configFile": "system.config.js",
