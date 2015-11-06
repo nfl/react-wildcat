@@ -14,6 +14,8 @@ module.exports = function defaultTemplate(cfg) {
     const reactRootElementID = clientSettings.reactRootElementID;
     const staticUrl = generalSettings.staticUrl;
 
+    const __DEV__ = (typeof process !== "undefined") && (process.env.NODE_ENV === "development");
+
     return `
 <!doctype html>
 <html>
@@ -67,7 +69,7 @@ module.exports = function defaultTemplate(cfg) {
                             return render(options);
                         });
                 })
-                ${process.env.NODE_ENV === "development" ? `.then(function () {
+                ${__DEV__ ? `.then(function () {
                     var socket = new WebSocket("${staticUrl.replace("http", "ws")}");
 
                     socket.addEventListener("message", function (message) {

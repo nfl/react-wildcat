@@ -23,12 +23,14 @@ function render(cfg) {
     cfg.location = clientLocation;
 
     if (!cfg.routes && cfg.domains) {
-        return getDomainRoutes(cfg.domains, location, function (err, routes) {
-            if (err) {
-                throw new Error(err);
-            }
+        return new Promise(function (resolve, reject) {
+            getDomainRoutes(cfg.domains, location, function (err, routes) {
+                if (err) {
+                    return reject(new Error(err));
+                }
 
-            return completeRender(cfg, routes);
+                return resolve(completeRender(cfg, routes));
+            });
         });
     }
 

@@ -12,7 +12,12 @@ function getDomainDataFromHost(host) {
         "local": defaultSubdomain
     };
 
-    var url = parseDomain(host);
+    var url = parseDomain(host) || {
+        domain: (host || "").split(":")[0],
+        subdomain: defaultSubdomain,
+        tld: undefined
+    };
+
     var subdomain = getLeadingLeafDomain(url.subdomain || defaultSubdomain);
     var resolvedSubdomain = subdomainAliases[subdomain] || subdomain;
 

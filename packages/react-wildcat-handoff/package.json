@@ -31,7 +31,7 @@
     "build": "npm run clean && npm run compile",
     "clean": "rimraf dist",
     "clean-test": "rimraf dist/**/server{*,}.js",
-    "compile": "babel src --out-dir dist",
+    "compile": "babel src test/stubFixtures.js --out-dir dist",
     "pretest": "env NODE_ENV=production npm run build",
     "posttest": "npm run clean-test"
   },

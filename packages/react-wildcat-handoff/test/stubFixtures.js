@@ -72,6 +72,11 @@ exports.routes = {
         React.createElement(Router.Redirect, {
             from: "/redirect",
             to: "/"
+        }),
+
+        React.createElement(Router.Redirect, {
+            from: "/context.html",
+            to: "/"
         })
     )
 };
@@ -85,7 +90,12 @@ exports.invalidRoutes = {
             getComponent: (location, cb) => {
                 return cb(exports.callbackError);
             }
-        }
+        },
+
+        React.createElement(Router.Redirect, {
+            from: "/context.html",
+            to: "/"
+        })
     )
 };
 
@@ -128,13 +138,18 @@ exports.domains = {
         domains: {
             example: function getExampleRoutes(location, cb) {
                 return setTimeout(() => cb(null, exports.subdomains.async), 0);
+            },
+
+            localhost: function getLocalhostRoutes(location, cb) {
+                return setTimeout(() => cb(null, exports.subdomains.async), 0);
             }
         }
     },
 
     sync: {
         domains: {
-            example: exports.subdomains.sync
+            example: exports.subdomains.sync,
+            localhost: exports.subdomains.sync
         }
     }
 };
@@ -142,7 +157,11 @@ exports.domains = {
 exports.unwrappedDomains = {
     async: {
         domains: {
-            example: function getExampleRoutes(location, cb) {
+            example: function getUnwrappedExampleRoutes(location, cb) {
+                return setTimeout(() => cb(null, exports.unwrappedSubdomains.async), 0);
+            },
+
+            localhost: function getUnwrappedLocalhostRoutes(location, cb) {
                 return setTimeout(() => cb(null, exports.unwrappedSubdomains.async), 0);
             }
         }
@@ -150,7 +169,8 @@ exports.unwrappedDomains = {
 
     sync: {
         domains: {
-            example: exports.unwrappedSubdomains.sync
+            example: exports.unwrappedSubdomains.sync,
+            localhost: exports.unwrappedSubdomains.sync
         }
     }
 };
@@ -158,7 +178,11 @@ exports.unwrappedDomains = {
 exports.invalidDomains = {
     async: {
         domains: {
-            example: function getExampleRoutes(location, cb) {
+            example: function getInvalidExampleRoutes(location, cb) {
+                return setTimeout(() => cb(exports.callbackError, null), 0);
+            },
+
+            localhost: function getInvalidLocalhostRoutes(location, cb) {
                 return setTimeout(() => cb(exports.callbackError, null), 0);
             }
         }
@@ -188,3 +212,5 @@ exports.prefetchedRoutes = {
 
 exports.developmentPayload = `var socket = new WebSocket("${exports.wildcatConfig.generalSettings.staticUrl.replace("http", "ws")}");`;
 exports.hydratedPayload = `__INITIAL_DATA__ = {"${exports.prefetchedDataKey}":${JSON.stringify(exports.prefetchedData)}};`;
+
+exports.__REACT_ROOT_ID__ = "__REACT_ROOT_ID__";
