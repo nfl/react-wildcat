@@ -32,7 +32,8 @@
     "rimraf": "^2.4.3",
     "shelljs": "^0.5.3",
     "sinon": "^1.17.2",
-    "sinon-chai": "^2.8.0"
+    "sinon-chai": "^2.8.0",
+    "whatwg-fetch": "^0.10.1"
   },
   "optionalDependencies": {
     "phantomjs": "^1.9.18"

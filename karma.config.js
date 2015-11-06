@@ -44,7 +44,10 @@ module.exports = function (karmaConfig) {
             ]
         },
 
-        files: [],
+        files: [{
+            pattern: "./node_modules/whatwg-fetch/fetch.js",
+            watched: false
+        }],
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
