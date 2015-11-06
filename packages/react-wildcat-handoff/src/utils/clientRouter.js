@@ -9,6 +9,7 @@ var storeClientSize = require("./clientSize.js").storeClientSize;
  * @return {Promise}
  */
 module.exports = function clientRouter(cfg) {
+    /* eslint-disable react/no-multi-comp */
     var ClientRouter = React.createClass({
         componentDidMount: function () {
             if (ExecutionEnvironment.canUseDOM) {
