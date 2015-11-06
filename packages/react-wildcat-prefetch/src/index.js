@@ -13,13 +13,20 @@ function getAction(action, ComposedComponent) {
 
         case "string":
             return function asyncAction() {
-                return fetch(action)
-                    .then(function (response) {
-                        return response.json();
-                    })
-                    .catch(function (e) {
-                        console.error(e);
-                    });
+                return new Promise(function (resolve) {
+                    return fetch(action)
+                        .then(function (response) {
+                            return response.json();
+                        })
+                        .then(function (json) {
+                            return resolve(json);
+                        })
+                        .catch(function (error) {
+                            return resolve({
+                                error: error
+                            });
+                        });
+                });
             };
     }
 
@@ -60,33 +67,36 @@ function prefetch(action, options) {
 
         var Prefetch = React.createClass({
             componentWillMount: function componentWillMount() {
+                /* istanbul ignore else */
                 if (ExecutionEnvironment.canUseDOM) {
-                    var initialDataTarget = window[__INITIAL_DATA__] || Prefetch.prefetch;
-
-                    var initialData;
+                    var initialData = window[__INITIAL_DATA__] || Prefetch.prefetch[key];
                     var newState = {};
 
-                    if (initialDataTarget && initialDataTarget[key]) {
-                        initialData = initialDataTarget[key];
+                    if (initialData) {
+                        // Delete stored objects
+                        if (window[__INITIAL_DATA__]) {
+                            delete window[__INITIAL_DATA__];
+                        }
 
-                        // Delete stored object
-                        delete initialDataTarget[key];
+                        if (Prefetch.prefetch[key]) {
+                            delete Prefetch.prefetch[key];
+                        }
 
                         invariantCheck(initialData, key, action, ComposedComponent);
 
                         newState[key] = initialData;
-                        this.setState(newState);
-                    } else if (typeof _action === "function") {
-                        _action(this.props)
-                            .then(function asyncData(data) {
-                                initialData = data;
-
-                                invariantCheck(initialData, key, action, ComposedComponent);
-
-                                newState[key] = initialData;
-                                this.setState(newState);
-                            }.bind(this));
+                        return this.setState(newState);
                     }
+
+                    return _action(this.props)
+                        .then(function asyncData(data) {
+                            initialData = data;
+
+                            invariantCheck(initialData, key, action, ComposedComponent);
+
+                            newState[key] = initialData;
+                            this.setState(newState);
+                        }.bind(this));
                 }
             },
 
