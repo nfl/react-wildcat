@@ -24,7 +24,7 @@ node ${istanbulBin} report lcov
 # Send to codecov.io
 if [ -n "$CI" ]; then
     cat ./coverage/lcov.info | ./node_modules/.bin/codecov
+else
+    # Open in browser
+    test -n "`which open`" && open coverage/lcov-report/index.html
 fi
-
-# Open in browser
-test -n "`which open`" && open coverage/lcov-report/index.html
