@@ -32,10 +32,10 @@ test-example:
 test-browser-cov:
 	./shell/test-browser-cov.sh
 
-test-cov: lint
+test-cov:
 	./shell/test-cov.sh
 
-test-travis: bootstrap test-cov
+test-travis: bootstrap lint test-cov
 
 update-dependencies:
 	./shell/update-dependencies.sh
