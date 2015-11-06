@@ -12,3 +12,4 @@ before_install:
 - jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
 # Skip installing optional dependencies
 - npm config set optional false
+- npm config set loglevel warn
