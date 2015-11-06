@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -u
-set -x
 
 example=example
 

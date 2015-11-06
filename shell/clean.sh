@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -u
-set -x
 
 # Set up links
 for directory in packages/*; do

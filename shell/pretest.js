@@ -18,11 +18,11 @@ ls("packages/*").forEach((loc) => {
         cd(loc);
 
         if (pkg.scripts.pretest) {
-            exec(pkg.scripts.pretest);
+            exec(`npm run pretest --silent`);
         }
 
         if (pkg.scripts.posttest) {
-            exec(pkg.scripts.posttest);
+            exec(`npm run posttest --silent`);
         }
 
         cd(cwd);

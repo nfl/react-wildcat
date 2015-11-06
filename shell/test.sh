@@ -1,7 +1,6 @@
 #!/bin/sh
 
 set -e
-set -x
 
 if [ -z "$TEST_GREP" ]; then
    TEST_GREP=""

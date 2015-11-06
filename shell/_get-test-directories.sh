@@ -1,4 +1,5 @@
 #!/bin/sh
+
 set -e
 
 TEST_DIRS=""

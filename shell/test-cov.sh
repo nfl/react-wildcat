@@ -1,4 +1,5 @@
 #!/bin/sh
+
 set -e
 
 rm -fr coverage
@@ -7,16 +8,16 @@ istanbulBin=node_modules/istanbul/lib/cli.js
 karmaBin=node_modules/karma/bin/karma
 mochaBin=node_modules/mocha/bin/_mocha
 
-mochaArgs=$(shell/_get-test-directories.sh --opts mocha.opts)
+mochaArgs=$(shell/_get-test-directories.sh)
 
 # pretest tasks
 node ./shell/pretest.js
 
 # Run Node tests
-node ${istanbulBin} cover ${mochaBin} -- ${mochaArgs}
+node ${istanbulBin} cover --print none ${mochaBin} -- ${mochaArgs} --reporter dot --ui tdd
 
 # Run browser test
-node ${karmaBin} start karma.config.js
+node ${karmaBin} start karma.config.js --log-level warn --reporters dots --ui tdd
 
 # Combine Node / browser reports
 node ${istanbulBin} report lcov
