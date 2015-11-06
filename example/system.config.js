@@ -1117,10 +1117,7 @@ System.config({
     "npm:react-wildcat-prefetch@1.0.0-beta2": {
       "exenv": "npm:exenv@1.2.0",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.3",
-      "invariant": "npm:invariant@2.1.2",
-      "isomorphic-fetch": "npm:isomorphic-fetch@2.2.0",
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "react": "npm:react@0.14.2"
+      "invariant": "npm:invariant@2.1.2"
     },
     "npm:react-wildcat-radium@1.0.0-beta2": {
       "radium": "npm:radium@0.14.3"

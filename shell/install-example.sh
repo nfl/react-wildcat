@@ -13,5 +13,5 @@ example=example
     npm install;
 
     # Install jspm packages
-    jspm install;
+    jspm install --log warn -y;
 )

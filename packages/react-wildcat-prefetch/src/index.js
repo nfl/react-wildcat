@@ -1,5 +1,3 @@
-import "isomorphic-fetch";
-
 import React from "react";
 import ExecutionEnvironment from "exenv";
 import invariant from "invariant";

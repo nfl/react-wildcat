@@ -1,5 +1,7 @@
 "use strict";
 
+require("isomorphic-fetch");
+
 // Karma configuration
 module.exports = function (karmaConfig) {
     function normalizationBrowserName(browser) {

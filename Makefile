@@ -6,7 +6,7 @@ export BABEL_ENV = test
 
 bootstrap:
 	npm install
-	jspm install
+	jspm install --log warn -y
 	./shell/install.sh
 	npm link react-wildcat-prefetch
 	# ./shell/install-example.sh
