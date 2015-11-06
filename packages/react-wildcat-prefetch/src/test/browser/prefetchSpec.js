@@ -122,7 +122,25 @@ describe("react-wildcat-prefetch", () => {
             WrappedPrefetch = Prefetch(stubs.fetchPromise)(World);
         });
 
-        it("fetches data using a Promise", () => {});
+        it("fetches data using a Promise", (done) => {
+            expect(WrappedPrefetch.prefetch)
+                .to.exist;
+
+            expect(WrappedPrefetch.prefetch)
+                .to.respondTo("run");
+
+            const runner = WrappedPrefetch.prefetch.run()
+                .then((response) => {
+                    expect(response)
+                        .to.be.an("object")
+                        .that.equals(stubs.prefetchedData);
+
+                    done();
+                });
+
+            expect(runner)
+                .to.be.an.instanceof(Promise);
+        });
 
         it("fetches data from a url", (done) => {
             WrappedPrefetch = Prefetch(stubs.prefetchUrl)(World);
