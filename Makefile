@@ -8,7 +8,7 @@ bootstrap:
 	npm install
 	jspm install
 	./shell/install.sh
-	./shell/install-example.sh
+	# ./shell/install-example.sh
 
 clean:
 	./shell/clean.sh
@@ -22,7 +22,7 @@ lint:
 test: lint
 	./shell/test.sh
 	./shell/test-browser.sh
-	./shell/test-example.sh
+	# ./shell/test-example.sh
 
 test-browser-cov:
 	./shell/test-browser-cov.sh
