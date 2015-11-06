@@ -1,12 +1,13 @@
+.eslintcache
+.idea
 *.gz
 build
 bundles
 coverage
 dist
-public
+jspm_packages
 node_modules
-.idea
 npm-debug.log
 newrelic_agent.log
-jspm_packages
+public
 reports

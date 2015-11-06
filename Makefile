@@ -20,7 +20,7 @@ install-example:
 	./shell/install-example.sh
 
 lint:
-	node node_modules/.bin/eslint packages/* --ext .js
+	node node_modules/.bin/eslint_d packages/* --ext .js --cache true
 
 test: lint
 	./shell/test.sh
