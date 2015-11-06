@@ -26,6 +26,7 @@
     "mocha": "^2.3.3",
     "react": "^0.14.2",
     "react-addons-test-utils": "^0.14.2",
+    "react-wildcat-prefetch": "^1.0.0-beta2",
     "remap-istanbul": "^0.4.0",
     "rimraf": "^2.4.3",
     "shelljs": "^0.5.3",
