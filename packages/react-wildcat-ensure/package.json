@@ -1,0 +1,19 @@
+{
+  "name": "react-wildcat-ensure",
+  "version": "1.0.0-beta2",
+  "description": "An asynchronous System.import helper.",
+  "main": "dist/index.js",
+  "devDependencies": {
+    "babel": "^5.8.29",
+    "rimraf": "^2.4.3"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run compile",
+    "clean": "rimraf dist",
+    "compile": "babel src --out-dir dist",
+    "prepublish": "env NODE_ENV=production npm run build",
+    "pretest": "npm run prepublish"
+  },
+  "author": "engineers@nfl.com",
+  "license": "MIT"
+}
