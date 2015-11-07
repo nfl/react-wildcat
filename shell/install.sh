@@ -37,6 +37,4 @@ for directory in packages/*; do
             jspm install --link npm:${package}@${version} --log warn -y;
         )
     fi
-
-    echo "";
 done

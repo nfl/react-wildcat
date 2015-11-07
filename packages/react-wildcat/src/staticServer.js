@@ -14,6 +14,7 @@ const url = require("url");
 const path = require("path");
 const pathExists = require("path-exists");
 
+const http = require("http");
 const http2 = require("spdy");
 const https = require("https");
 
@@ -29,6 +30,9 @@ const cwd = process.cwd();
 const wildcatConfig = require(path.join(cwd, "wildcat.config"));
 const generalSettings = wildcatConfig.generalSettings;
 const serverSettings = wildcatConfig.serverSettings;
+
+const staticServerSettings = serverSettings.staticServer || {};
+const secureSettings = staticServerSettings.secureSettings;
 
 const __PROD__ = (process.env.NODE_ENV === "production");
 const __TEST__ = (process.env.BABEL_ENV === "test");
@@ -49,13 +53,12 @@ if (!__PROD__ || __TEST__) {
 
 const staticParts = url.parse(generalSettings.staticUrl);
 
-const staticPort = Number(process.env.STATIC_PORT || staticParts.port || 80);
-const allowedOrigins = (serverSettings.corsOrigins || []).concat([staticParts.host]);
+const staticPort = Number(staticServerSettings.port || staticParts.port || 80);
+const allowedOrigins = (staticServerSettings.corsOrigins || []).concat([staticParts.host]);
 
-const ssl = !!(process.env.SSL !== "false");
 const sslDir = path.join(__dirname, "..", "ssl");
 
-const serverOptions = {
+const serverOptions = Object.assign({
     key: fs.readFileSync(path.join(sslDir, "server.key")),
     cert: fs.readFileSync(path.join(sslDir, "server.crt")),
     ca: fs.readFileSync(path.join(sslDir, "server.csr")),
@@ -67,8 +70,8 @@ const serverOptions = {
         "http/1.1",
         "http/1.0"
     ],
-    ssl: ssl
-};
+    ssl: true
+}, secureSettings);
 
 const fileServer = serve({
     root: cwd,
@@ -122,7 +125,13 @@ sticky({
     // serve statics
     app.use(fileServer);
 
-    const server = (serverSettings.http2 ? http2 : https).createServer(serverOptions, app.callback());
+    let server;
+
+    if (!staticServerSettings.http2 && !staticServerSettings.https) {
+        server = http.createServer(app.callback());
+    } else {
+        server = (staticServerSettings.http2 ? http2 : https).createServer(serverOptions, app.callback());
+    }
 
     if (!__PROD__) {
         const startWebSocketServer = require("./utils/startWebSocketServer");

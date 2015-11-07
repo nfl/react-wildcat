@@ -16,9 +16,6 @@ for directory in packages/*; do
 
             # Remove jspm packages
             rm -fr jspm_packages;
-
-            # spacer.gif
-            echo "";
         )
     fi
 done
