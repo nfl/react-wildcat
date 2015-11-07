@@ -4,6 +4,7 @@
 
 [![npm package](https://img.shields.io/npm/v/react-wildcat.svg?style=flat-square)](https://www.npmjs.org/package/react-wildcat)
 [![build status](https://img.shields.io/travis/nfl/react-wildcat/master.svg?style=flat-square)](https://travis-ci.org/nfl/react-wildcat)
+[![codecov.io](https://codecov.io/github/nfl/react-wildcat/coverage.svg?branch=master)](https://codecov.io/github/nfl/react-wildcat?branch=master)
 [![dependency status](https://img.shields.io/david/nfl/react-wildcat.svg?style=flat-square)](https://david-dm.org/nfl/react-wildcat)
 
 A new, opinionated React environment from the National Football League.
