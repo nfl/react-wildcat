@@ -1,31 +1,21 @@
 var Cookies = require("cookies-js");
-var clientSizeKey = "clientSize";
+var clientSizeKey = require("./clientSizeKey.js");
 var mediaQueryAliases = {
     mobile: {
         height: undefined,
-        width: 300
+        width: "300"
     },
     tablet: {
         height: undefined,
-        width: 768
+        width: "768"
     },
     desktop: {
         height: undefined,
-        width: 992
+        width: "992"
     }
 };
 
-function queryClientSize(client) {
-    client = client || window;
-
-    return {
-        height: client.innerHeight,
-        width: client.innerWidth
-    };
-}
-
 function parseClientSizeFromString(string) {
-    string = string || "";
     var clientSize = decodeURIComponent(string).split(",");
 
     return {
@@ -34,16 +24,15 @@ function parseClientSizeFromString(string) {
     };
 }
 
-exports.getClientSize = function getClientSize(cookieParser, query) {
+module.exports = function getClientSize(cookieParser, query) {
     cookieParser = cookieParser || Cookies;
     query = query || {};
 
     var storedClientSize = cookieParser.get(clientSizeKey);
 
     if (storedClientSize) {
-        return parseClientSizeFromString(storedClientSize);
+        return mediaQueryAliases[storedClientSize] || parseClientSizeFromString(storedClientSize);
     }
-
 
     if (query[clientSizeKey]) {
         var size = query[clientSizeKey];
@@ -51,12 +40,4 @@ exports.getClientSize = function getClientSize(cookieParser, query) {
     }
 
     return {};
-};
-
-exports.storeClientSize = function storeClientSize(client) {
-    var clientSize = queryClientSize(client);
-
-    Cookies.set(clientSizeKey, `${clientSize.width},${clientSize.height}`, {
-        secure: true
-    });
 };

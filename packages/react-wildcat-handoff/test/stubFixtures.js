@@ -39,8 +39,38 @@ exports.requests = {
     }
 };
 
-exports.cookies = {
+exports.cookieData = {
+    alias: {
+        clientSize: "desktop"
+    },
+
+    values: {
+        clientSize: "1024,768"
+    }
+};
+
+exports.clientSize = {
+    alias: {
+        height: undefined,
+        width: "992"
+    },
+
+    values: {
+        height: "768",
+        width: "1024"
+    }
+};
+
+exports.cookieParser = {
     get: () => {}
+};
+
+exports.cookieParserWithValues = {
+    get: (key) => exports.cookieData.values[key]
+};
+
+exports.cookieParserWithAlias = {
+    get: (key) => exports.cookieData.alias[key]
 };
 
 exports.wildcatConfig = {

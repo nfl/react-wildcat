@@ -2,7 +2,7 @@ var React = require("react");
 var Router = require("react-router");
 var debounce = require("debounce");
 var ExecutionEnvironment = require("exenv");
-var storeClientSize = require("./clientSize.js").storeClientSize;
+var storeClientSize = require("./storeClientSize.js");
 
 /**
  * Client Router is used to handle client routing

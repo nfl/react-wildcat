@@ -13,7 +13,7 @@ module.exports = function clientRender(cfg) {
     return new Promise((resolve) => {
         match(cfg, () => {
             var reactRootElementID = window[__REACT_ROOT_ID__];
-            var reactRootElement = document.getElementById(reactRootElementID) || document.body;
+            var reactRootElement = document.getElementById(reactRootElementID);
 
             ReactDOM.render(component, reactRootElement);
 
@@ -21,7 +21,7 @@ module.exports = function clientRender(cfg) {
             // This is a helpful hook for running tests
             reactRootElement.setAttribute("data-react-available", true);
 
-            resolve(reactRootElement);
+            resolve([reactRootElement, component]);
         });
     });
 };

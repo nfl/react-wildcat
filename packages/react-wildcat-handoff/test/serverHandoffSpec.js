@@ -6,6 +6,8 @@ const expect = chai.expect;
 const server = require("../src/server.js");
 const stubs = require("./stubFixtures.js");
 
+const getClientSize = require("../src/utils/getClientSize.js");
+
 /* eslint-disable max-nested-callbacks */
 describe("react-wildcat-handoff/server", () => {
     it("exists", () => {
@@ -26,7 +28,7 @@ describe("react-wildcat-handoff/server", () => {
                 .that.has.property("name")
                 .that.equals("serverHandoff");
 
-            const result = serverHandoff(stubs.requests.redirect, stubs.cookies, stubs.wildcatConfig)
+            const result = serverHandoff(stubs.requests.redirect, stubs.cookieParser, stubs.wildcatConfig)
                 .then(response => {
                     expect(response)
                         .to.be.an("object")
@@ -68,7 +70,7 @@ describe("react-wildcat-handoff/server", () => {
                 .that.has.property("name")
                 .that.equals("serverHandoff");
 
-            const result = serverHandoff(stubs.requests.invalid, stubs.cookies, stubs.wildcatConfig)
+            const result = serverHandoff(stubs.requests.invalid, stubs.cookieParser, stubs.wildcatConfig)
                 .then(response => {
                     expect(response)
                         .to.be.an("object")
@@ -96,7 +98,7 @@ describe("react-wildcat-handoff/server", () => {
                 .that.has.property("name")
                 .that.equals("serverHandoff");
 
-            const result = serverHandoff(stubs.requests.basic, stubs.cookies, stubs.wildcatConfig)
+            const result = serverHandoff(stubs.requests.basic, stubs.cookieParser, stubs.wildcatConfig)
                 .then(response => {
                     expect(response)
                         .to.be.an("object")
@@ -125,7 +127,7 @@ describe("react-wildcat-handoff/server", () => {
                     .that.has.property("name")
                     .that.equals("serverHandoff");
 
-                const result = serverHandoff(stubs.requests.basic, stubs.cookies, stubs.wildcatConfig)
+                const result = serverHandoff(stubs.requests.basic, stubs.cookieParser, stubs.wildcatConfig)
                     .then(response => {
                         expect(response)
                             .to.be.an("object")
@@ -151,7 +153,7 @@ describe("react-wildcat-handoff/server", () => {
                     .that.has.property("name")
                     .that.equals("serverHandoff");
 
-                const result = serverHandoff(stubs.requests.basic, stubs.cookies, stubs.wildcatConfig)
+                const result = serverHandoff(stubs.requests.basic, stubs.cookieParser, stubs.wildcatConfig)
                     .then(response => {
                         expect(response)
                             .to.be.an("object")
@@ -179,7 +181,7 @@ describe("react-wildcat-handoff/server", () => {
                 .that.has.property("name")
                 .that.equals("serverHandoff");
 
-            const result = serverHandoff(stubs.requests.basic, stubs.cookies, stubs.wildcatConfig)
+            const result = serverHandoff(stubs.requests.basic, stubs.cookieParser, stubs.wildcatConfig)
                 .then(response => {
                     expect(response)
                         .to.be.an("object")
@@ -204,7 +206,7 @@ describe("react-wildcat-handoff/server", () => {
                         .that.has.property("name")
                         .that.equals("serverHandoff");
 
-                    const result = serverHandoff(stubs.requests.basic, stubs.cookies, stubs.wildcatConfig)
+                    const result = serverHandoff(stubs.requests.basic, stubs.cookieParser, stubs.wildcatConfig)
                         .then(response => {
                             expect(response)
                                 .to.be.an("object")
@@ -231,7 +233,7 @@ describe("react-wildcat-handoff/server", () => {
                         .that.has.property("name")
                         .that.equals("serverHandoff");
 
-                    const result = serverHandoff(stubs.requests.noSubdomain, stubs.cookies, stubs.wildcatConfig)
+                    const result = serverHandoff(stubs.requests.noSubdomain, stubs.cookieParser, stubs.wildcatConfig)
                         .then(response => {
                             expect(response)
                                 .to.be.an("object")
@@ -258,7 +260,7 @@ describe("react-wildcat-handoff/server", () => {
                         .that.has.property("name")
                         .that.equals("serverHandoff");
 
-                    const result = serverHandoff(stubs.requests.noSubdomain, stubs.cookies, stubs.wildcatConfig)
+                    const result = serverHandoff(stubs.requests.noSubdomain, stubs.cookieParser, stubs.wildcatConfig)
                         .then(response => {
                             expect(response)
                                 .to.be.an("object")
@@ -285,7 +287,7 @@ describe("react-wildcat-handoff/server", () => {
                         .that.has.property("name")
                         .that.equals("serverHandoff");
 
-                    const result = serverHandoff(stubs.requests.basic, stubs.cookies, stubs.wildcatConfig)
+                    const result = serverHandoff(stubs.requests.basic, stubs.cookieParser, stubs.wildcatConfig)
                         .then(response => {
                             expect(response)
                                 .to.be.an("object")
@@ -310,7 +312,7 @@ describe("react-wildcat-handoff/server", () => {
                 .that.has.property("name")
                 .that.equals("serverHandoff");
 
-            const result = serverHandoff(stubs.requests.err, stubs.cookies, stubs.wildcatConfig)
+            const result = serverHandoff(stubs.requests.err, stubs.cookieParser, stubs.wildcatConfig)
                 .then(response => {
                     expect(response)
                         .to.be.an("object")
@@ -341,7 +343,7 @@ describe("react-wildcat-handoff/server", () => {
                 .that.has.property("name")
                 .that.equals("serverHandoff");
 
-            const result = serverHandoff(stubs.requests.basic, stubs.cookies, stubs.wildcatConfig)
+            const result = serverHandoff(stubs.requests.basic, stubs.cookieParser, stubs.wildcatConfig)
                 .then(response => {
                     expect(response)
                         .to.be.an("object")
@@ -355,6 +357,51 @@ describe("react-wildcat-handoff/server", () => {
 
             expect(result)
                 .to.be.an.instanceof(Promise);
+        });
+    });
+
+    context("matchMedia", () => {
+        it("exists", () => {
+            expect(getClientSize)
+                .to.be.a("function")
+                .that.has.property("name")
+                .that.eql("getClientSize");
+        });
+
+        context("matches using client width / height", () => {
+            it("using cookie data", () => {
+                const clientSize = getClientSize(stubs.cookieParserWithValues, stubs.cookieData.values);
+
+                expect(clientSize)
+                    .to.be.an("object")
+                    .that.eql(stubs.clientSize.values);
+            });
+
+            it("using query data", () => {
+                const clientSize = getClientSize(stubs.cookieParser, stubs.cookieData.values);
+
+                expect(clientSize)
+                    .to.be.an("object")
+                    .that.eql(stubs.clientSize.values);
+            });
+        });
+
+        context("matches using client alias", () => {
+            it("using cookie data", () => {
+                const clientSize = getClientSize(stubs.cookieParserWithAlias, stubs.cookieData.alias);
+
+                expect(clientSize)
+                    .to.be.an("object")
+                    .that.eql(stubs.clientSize.alias);
+            });
+
+            it("using query data", () => {
+                const clientSize = getClientSize(stubs.cookieParser, stubs.cookieData.alias);
+
+                expect(clientSize)
+                    .to.be.an("object")
+                    .that.eql(stubs.clientSize.alias);
+            });
         });
     });
 });

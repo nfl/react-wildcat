@@ -4,10 +4,25 @@ const client = require("../../client.js");
 const defaultTemplate = require("../../utils/defaultTemplate.js");
 const stubs = require("../stubFixtures");
 
+const storeClientSize = require("../../utils/storeClientSize.js");
 const __REACT_ROOT_ID__ = stubs.__REACT_ROOT_ID__;
 
 /* eslint-disable max-nested-callbacks */
 describe("react-wildcat-handoff/client", () => {
+    before(() => {
+        window[__REACT_ROOT_ID__] = stubs.wildcatConfig.clientSettings.reactRootElementID;
+        document.body.innerHTML = defaultTemplate({
+            data: {},
+            head: {
+                title: "<title></title>",
+                meta: "",
+                link: ""
+            },
+            html: "",
+            wildcatConfig: stubs.wildcatConfig
+        });
+    });
+
     it("exists", () => {
         expect(client).to.exist;
 
@@ -18,23 +33,9 @@ describe("react-wildcat-handoff/client", () => {
     });
 
     context("routing", () => {
-        before(() => {
-            window[__REACT_ROOT_ID__] = stubs.wildcatConfig.clientSettings.reactRootElementID;
-            document.body.innerHTML = defaultTemplate({
-                data: {},
-                head: {
-                    title: "<title></title>",
-                    meta: "",
-                    link: ""
-                },
-                html: "",
-                wildcatConfig: stubs.wildcatConfig
-            });
-        });
-
         it("matches routes", (done) => {
             const clientHandoff = client(stubs.routes)
-                .then((response) => {
+                .then(([response]) => {
                     expect(response).to.exist;
 
                     expect(response)
@@ -60,7 +61,7 @@ describe("react-wildcat-handoff/client", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
                     const clientHandoff = client(stubs.subdomains[timing])
-                        .then(response => {
+                        .then(([response]) => {
                             expect(response).to.exist;
 
                             expect(response)
@@ -88,7 +89,7 @@ describe("react-wildcat-handoff/client", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
                     const clientHandoff = client(stubs.unwrappedDomains[timing])
-                        .then(response => {
+                        .then(([response]) => {
                             expect(response).to.exist;
 
                             expect(response)
@@ -116,7 +117,7 @@ describe("react-wildcat-handoff/client", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
                     const clientHandoff = client(stubs.domains[timing])
-                        .then(response => {
+                        .then(([response]) => {
                             expect(response).to.exist;
 
                             expect(response)
@@ -149,6 +150,22 @@ describe("react-wildcat-handoff/client", () => {
 
             expect(clientHandoff)
                 .to.be.an.instanceof(Promise);
+        });
+    });
+
+    context("matchMedia", () => {
+        it("exists", () => {
+            expect(storeClientSize)
+                .to.be.a("function")
+                .that.has.property("name")
+                .that.eql("storeClientSize");
+        });
+
+        it("matches the client width / height", () => {
+            const clientSize = storeClientSize(null);
+
+            expect(clientSize)
+                .to.equal("400,300");
         });
     });
 });
