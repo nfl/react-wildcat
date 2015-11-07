@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -u
-set -x
 
 example=example
 version=$(<VERSION)
@@ -24,7 +23,7 @@ for directory in packages/*; do
             npm link;
 
             # Link package to jspm
-            jspm link npm:${package}@${version} -y;
+            jspm link npm:${package}@${version} --log warn -y;
         )
 
         # Link module / package in example
@@ -35,7 +34,7 @@ for directory in packages/*; do
             npm link ${package};
 
             # Link package to jspm
-            jspm install --link npm:${package}@${version} -y;
+            jspm install --link npm:${package}@${version} --log warn -y;
         )
     fi
 

@@ -9,19 +9,19 @@ const defaultTemplate = require("./defaultTemplate.js");
 const radium = require("react-wildcat-radium");
 const matchMediaMock = require("match-media-mock").create();
 
-const getClientSize = require("./clientSize.js").getClientSize;
+const getClientSize = require("./getClientSize.js");
 
 const RoutingContext = Router.RoutingContext;
 const match = Router.match;
 
 radium.setMatchMedia(matchMediaMock);
 
-module.exports = function renderContext(cfg) {
+module.exports = function serverRender(cfg) {
     const cookies = cfg.cookies;
     const request = cfg.request;
     const wildcatConfig = cfg.wildcatConfig;
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         match(cfg, (error, redirectLocation, renderProps) => {
             let result = {};
 

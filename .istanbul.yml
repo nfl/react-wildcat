@@ -1,0 +1,11 @@
+# verbose: true
+instrumentation:
+  root: ./packages
+  excludes:
+    - "**/jspm_packages/**"
+    - "**/node_modules/**"
+    - "**/reports/**"
+    - "**/dist/**"
+reporting:
+  reports:
+    - json

@@ -1,5 +1,7 @@
 "use strict";
 
+require("isomorphic-fetch");
+
 // Karma configuration
 module.exports = function (karmaConfig) {
     function normalizationBrowserName(browser) {
@@ -33,21 +35,19 @@ module.exports = function (karmaConfig) {
         colors: true,
 
         coverageReporter: {
-            includeAllSources: true,
+            dir: "coverage/browser",
             reporters: [
                 {
-                    type: "text",
-                    subdir: normalizationBrowserName
-                },
-                {
-                    type: "html",
-                    dir: "reports/",
+                    type: "json",
                     subdir: normalizationBrowserName
                 }
             ]
         },
 
-        files: [],
+        files: [{
+            pattern: "./node_modules/whatwg-fetch/fetch.js",
+            watched: false
+        }],
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -60,10 +60,10 @@ module.exports = function (karmaConfig) {
 
         jspm: {
             config: "system.config.js",
-            loadFiles: ["dist/**/*.js"],
+            loadFiles: ["packages/*/dist/**/*.js"],
             serveFiles: [
                 "jspm_packages/**/*",
-                "dist/**/*"
+                "packages/*/dist/**/*"
             ]
         },
 
@@ -75,12 +75,12 @@ module.exports = function (karmaConfig) {
         port: 9876,
 
         preprocessors: {
-            "dist/**/*.js": ["sourcemap"],
-            "dist/!(*Test).js": ["coverage"]
+            "packages/*/dist/**/*.js": ["sourcemap"],
+            "packages/*/dist/{!(test)/,}!(*Spec).js": ["coverage"]
         },
 
         proxies: {
-            "/dist": "/base/dist",
+            "/packages": "/base/packages",
             "/jspm_packages": "/base/jspm_packages"
         },
 

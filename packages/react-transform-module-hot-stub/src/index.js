@@ -10,7 +10,7 @@ function moduleHotStub(ref) {
 
     if (local) {
         local.hot = local.hot || {};
-        local.hot.accept = local.hot.accept || () => {};
+        local.hot.accept = local.hot.accept || function hotStub() {};
     }
 
     return function (ReactClass) {

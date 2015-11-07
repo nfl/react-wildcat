@@ -1,7 +1,7 @@
 "use strict";
 
 const history = require("history");
-const renderContext = require("./utils/renderContext.js");
+const serverRender = require("./utils/serverRender.js");
 const getDomainRoutes = require("./utils/getDomainRoutes.js");
 
 const createLocation = history.createLocation;
@@ -12,11 +12,11 @@ function completeRender(cfg, routes) {
         cfg.routes = routes;
     }
 
-    return renderContext(cfg);
+    return serverRender(cfg);
 }
 
 function render(cfg) {
-    return (request, cookies, wildcatConfig) => {
+    return function serverHandoff(request, cookies, wildcatConfig) {
         const header = request.header;
         const url = request.url;
 
@@ -24,20 +24,25 @@ function render(cfg) {
         const serverLocation = createLocation(url);
 
         cfg = Object.assign({}, cfg, {
-            cookies: cookies,
+            cookies,
             history: serverHistory,
             location: serverLocation,
-            request: request,
-            wildcatConfig: wildcatConfig
+            request,
+            wildcatConfig
         });
 
         if (!cfg.routes && cfg.domains) {
-            return getDomainRoutes(cfg.domains, header, (err, routes) => {
-                if (err) {
-                    throw new Error(err);
-                }
+            return new Promise((resolve) => {
+                getDomainRoutes(cfg.domains, header, (error, routes) => {
+                    if (error) {
+                        return resolve({
+                            error,
+                            status: 500
+                        });
+                    }
 
-                return completeRender(cfg, routes);
+                    return resolve(completeRender(cfg, routes));
+                });
             });
         }
 

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 for directory in packages/*; do
     if [ -d "${directory}" ]; then
         (
