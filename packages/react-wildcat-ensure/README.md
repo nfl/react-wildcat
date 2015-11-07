@@ -25,7 +25,7 @@ npm:
 npm install react-wildcat-ensure
 ```
 
-## Example
+## Usage
 
 Importing a single module:
 
