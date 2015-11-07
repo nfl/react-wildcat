@@ -18,10 +18,8 @@ export const prefetchedData = {
     "stub": true
 };
 
-const nflCDN = `https://nflcdns.nfl.com/static/content/public/static`;
-
-export const prefetchUrl = `${nflCDN}/config/anthology/superbowls/superbowls.json`;
-export const prefetchInvalidUrl = `${nflCDN}/invalid.json`;
+export const prefetchUrl = "https://example.com/example.json";
+export const prefetchInvalidUrl = "https://example.com/invalid.json";
 
 export const fetchPromise = () => Promise.resolve(exports.prefetchedData);
 

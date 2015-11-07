@@ -122,77 +122,94 @@ describe("react-wildcat-prefetch", () => {
             WrappedPrefetch = Prefetch(stubs.fetchPromise)(World);
         });
 
-        it("fetches data using a Promise", (done) => {
-            expect(WrappedPrefetch.prefetch)
-                .to.exist;
+        context("happy path", () => {
+            beforeEach(() => {
+                sinon.stub(window, "fetch");
 
-            expect(WrappedPrefetch.prefetch)
-                .to.respondTo("run");
-
-            const runner = WrappedPrefetch.prefetch.run()
-                .then((response) => {
-                    expect(response)
-                        .to.be.an("object")
-                        .that.equals(stubs.prefetchedData);
-
-                    done();
+                var res = new window.Response(JSON.stringify(stubs.prefetchedData), {
+                    status: 200,
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
                 });
 
-            expect(runner)
-                .to.be.an.instanceof(Promise);
+                window.fetch.returns(Promise.resolve(res));
+            });
+
+            it("fetches data using a Promise", (done) => {
+                expect(WrappedPrefetch.prefetch)
+                    .to.exist;
+
+                expect(WrappedPrefetch.prefetch)
+                    .to.respondTo("run");
+
+                const runner = WrappedPrefetch.prefetch.run()
+                    .then((response) => {
+                        expect(response)
+                            .to.be.an("object")
+                            .that.equals(stubs.prefetchedData);
+
+                        done();
+                    });
+
+                expect(runner)
+                    .to.be.an.instanceof(Promise);
+            });
+
+            it("fetches data from a url", (done) => {
+                WrappedPrefetch = Prefetch(stubs.prefetchUrl)(World);
+
+                expect(WrappedPrefetch.prefetch)
+                    .to.exist;
+
+                expect(WrappedPrefetch.prefetch)
+                    .to.respondTo("run");
+
+                const runner = WrappedPrefetch.prefetch.run()
+                    .then((response) => {
+                        expect(response)
+                            .to.be.an("object")
+                            .that.has.keys(stubs.prefetchedData);
+
+                        done();
+                    });
+
+                expect(runner)
+                    .to.be.an.instanceof(Promise);
+            });
+
+            afterEach(() => {
+                window.fetch.restore();
+            });
         });
 
-        it("fetches data from a url", (done) => {
-            WrappedPrefetch = Prefetch(stubs.prefetchUrl)(World);
+        context("sad path", () => {
+            it("returns error payload on an invalid url", (done) => {
+                WrappedPrefetch = Prefetch(stubs.prefetchInvalidUrl)(World);
 
-            expect(WrappedPrefetch.prefetch)
-                .to.exist;
+                expect(WrappedPrefetch.prefetch)
+                    .to.exist;
 
-            expect(WrappedPrefetch.prefetch)
-                .to.respondTo("run");
+                expect(WrappedPrefetch.prefetch)
+                    .to.respondTo("run");
 
-            const runner = WrappedPrefetch.prefetch.run()
-                .then((response) => {
-                    expect(response)
-                        .to.be.an("object")
-                        .that.has.keys([
-                            "currentReleaseText",
-                            "teams",
-                            "superBowls"
-                        ]);
+                const runner = WrappedPrefetch.prefetch.run()
+                    .then((response) => {
+                        expect(response)
+                            .to.be.an("object")
+                            .that.has.property("error");
 
-                    done();
-                });
+                        done();
+                    });
 
-            expect(runner)
-                .to.be.an.instanceof(Promise);
-        });
+                expect(runner)
+                    .to.be.an.instanceof(Promise);
+            });
 
-        it("returns error payload on an invalid url", (done) => {
-            WrappedPrefetch = Prefetch(stubs.prefetchInvalidUrl)(World);
-
-            expect(WrappedPrefetch.prefetch)
-                .to.exist;
-
-            expect(WrappedPrefetch.prefetch)
-                .to.respondTo("run");
-
-            const runner = WrappedPrefetch.prefetch.run()
-                .then((response) => {
-                    expect(response)
-                        .to.be.an("object")
-                        .that.has.property("error");
-
-                    done();
-                });
-
-            expect(runner)
-                .to.be.an.instanceof(Promise);
-        });
-
-        it("throws an invariant on an invalid configuration", () => {
-            const stubErrorHandler = () => Prefetch(null)(World);
-            expect(stubErrorHandler).to.throw(Error, /Invariant Violation/);
+            it("throws an invariant on an invalid configuration", () => {
+                const stubErrorHandler = () => Prefetch(null)(World);
+                expect(stubErrorHandler).to.throw(Error, /Invariant Violation/);
+            });
         });
 
         it("exposes run static method", (done) => {
