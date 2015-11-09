@@ -14,6 +14,7 @@ const conditional = require("koa-conditional-get");
 const fs = require("fs-extra");
 const path = require("path");
 
+const http = require("http");
 const http2 = require("spdy");
 const https = require("https");
 
@@ -32,6 +33,9 @@ const wildcatConfig = require(path.join(cwd, "wildcat.config"));
 const generalSettings = wildcatConfig.generalSettings;
 const serverSettings = wildcatConfig.serverSettings;
 
+const appServerSettings = serverSettings.appServer || {};
+const secureSettings = appServerSettings.secureSettings;
+
 const __PROD__ = (process.env.NODE_ENV === "production");
 const __TEST__ = (process.env.BABEL_ENV === "test");
 
@@ -42,12 +46,11 @@ if (!__PROD__ || __TEST__) {
     cpuCount = 1;
 }
 
-const originPort = Number(process.env.PORT || serverSettings.port || 80);
+const originPort = Number(appServerSettings.port || 80);
 
-const ssl = !!(process.env.SSL !== "false");
 const sslDir = path.join(__dirname, "..", "ssl");
 
-const serverOptions = {
+const serverOptions = Object.assign({
     key: fs.readFileSync(path.join(sslDir, "server.key")),
     cert: fs.readFileSync(path.join(sslDir, "server.crt")),
     ca: fs.readFileSync(path.join(sslDir, "server.csr")),
@@ -59,8 +62,8 @@ const serverOptions = {
         "http/1.1",
         "http/1.0"
     ],
-    ssl: ssl
-};
+    ssl: true
+}, secureSettings);
 
 sticky({
     "workers": cpuCount,
@@ -89,7 +92,7 @@ sticky({
     if (!__PROD__ || __TEST__ || process.env.DANGEROUSLY_ENABLE_PROXIES_IN_PRODUCTION) {
         const proxy = require("./middleware/proxy");
 
-        app.use(proxy(serverSettings.proxies || {}, {
+        app.use(proxy(appServerSettings.proxies || {}, {
             logger: logger
         }));
     }
@@ -99,7 +102,13 @@ sticky({
         wildcatConfig: wildcatConfig
     }));
 
-    const server = (serverSettings.http2 ? http2 : https).createServer(serverOptions, app.callback());
+    let server;
+
+    if (!appServerSettings.http2 && !appServerSettings.https) {
+        server = http.createServer(app.callback());
+    } else {
+        server = (appServerSettings.http2 ? http2 : https).createServer(serverOptions, app.callback());
+    }
 
     if (!__PROD__) {
         const connectToWebSocketServer = require("./utils/connectToWebSocketServer");
@@ -111,7 +120,7 @@ sticky({
             logger: logger,
             maxRetries: 10,
             retryTimer: 10000,
-            url: generalSettings.staticUrl.replace(/https?/, "wss")
+            url: generalSettings.staticUrl.replace(/http/, "ws")
         });
     }
 

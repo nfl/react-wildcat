@@ -2,7 +2,7 @@ MAKEFLAGS = -j1
 
 export BABEL_ENV = test
 
-.PHONY: bootstrap clean install lint test test-browser-cov test-cov test-travis update-dependencies
+.PHONY: bootstrap clean install install-example lint test test-example test-browser-cov test-cov test-travis update-dependencies
 
 bootstrap:
 	npm install --silent
