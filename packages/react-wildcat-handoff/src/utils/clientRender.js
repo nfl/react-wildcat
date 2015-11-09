@@ -10,8 +10,8 @@ var __REACT_ROOT_ID__ = "__REACT_ROOT_ID__";
 module.exports = function clientRender(cfg) {
     var component = clientRouter(cfg);
 
-    return new Promise((resolve) => {
-        match(cfg, () => {
+    return new Promise(function (resolve) {
+        match(cfg, function () {
             var reactRootElementID = window[__REACT_ROOT_ID__];
             var reactRootElement = document.getElementById(reactRootElementID);
 
