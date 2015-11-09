@@ -18,7 +18,7 @@ const Batch = require("batch");
 const Logger = require("../src/utils/logger");
 const logger = new Logger(`👀`);
 
-const wildcatConfig = require(path.join(cwd, "wildcat.config"));
+const wildcatConfig = require("../src/utils/getWildcatConfig")(cwd);
 
 function patterns(val) {
     return val.split(" ");

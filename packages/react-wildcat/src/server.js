@@ -12,6 +12,7 @@ const compress = require("koa-compress");
 const conditional = require("koa-conditional-get");
 
 const fs = require("fs-extra");
+const cwd = process.cwd();
 const path = require("path");
 
 const http = require("http");
@@ -28,8 +29,7 @@ const routeCache = {};
 
 const renderReactWithJSPM = require("./middleware/renderReactWithJSPM");
 
-const cwd = process.cwd();
-const wildcatConfig = require(path.join(cwd, "wildcat.config"));
+const wildcatConfig = require("./utils/getWildcatConfig")(cwd);
 const generalSettings = wildcatConfig.generalSettings;
 const serverSettings = wildcatConfig.serverSettings;
 
@@ -104,10 +104,11 @@ sticky({
 
     let server;
 
-    if (!appServerSettings.http2 && !appServerSettings.https) {
+    if (appServerSettings.protocol === "http") {
         server = http.createServer(app.callback());
     } else {
-        server = (appServerSettings.http2 ? http2 : https).createServer(serverOptions, app.callback());
+        const serverType = appServerSettings.protocol === "http2" ? http2 : https;
+        server = serverType.createServer(serverOptions, app.callback());
     }
 
     if (!__PROD__) {
