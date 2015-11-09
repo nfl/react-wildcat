@@ -1,8 +1,16 @@
-var fs = require("fs-extra");
-var path = require("path");
+const fs = require("fs-extra");
+const path = require("path");
+
+function getDefaultFile(filename) {
+    return fs.readFileSync(path.join(__dirname, `../../../ssl/${filename}`));
+}
+
+const defaultServerKey = getDefaultFile("server.key");
+const defaultServerCert = getDefaultFile("server.crt");
+const defaultServerCA = getDefaultFile("server.csr");
 
 /* istanbul ignore next */
-var wildcatConfig = {
+const wildcatConfig = {
     generalSettings: {
         // Grab the config file from package.json
         jspmConfigFile: "config.js",
@@ -58,7 +66,7 @@ var wildcatConfig = {
             hostname: "localhost",
 
             // App server port
-            port: process.env.PORT || 3000,
+            port: 3000,
 
             // A key/value of urls to proxy
             // e.g. /static -> http://example.com/static
@@ -68,9 +76,9 @@ var wildcatConfig = {
             // https://github.com/indutny/node-spdy#options
             secureSettings: {
                 // Provide your own key / cert / ca
-                key: fs.readFileSync(path.join(__dirname, "../../../ssl/server.key")),
-                cert: fs.readFileSync(path.join(__dirname, "../../../ssl/server.crt")),
-                ca: fs.readFileSync(path.join(__dirname, "../../../ssl/server.csr")),
+                key: defaultServerKey,
+                cert: defaultServerCert,
+                ca: defaultServerCA,
 
                 // If using http2, use the following protocols
                 protocols: [
@@ -100,15 +108,15 @@ var wildcatConfig = {
             hostname: "localhost",
 
             // Static server port
-            port: process.env.STATIC_PORT || 4000,
+            port: 4000,
 
             // Only applicable when protocol is one of http2 / https
             // https://github.com/indutny/node-spdy#options
             secureSettings: {
                 // Provide your own key / cert / ca
-                key: fs.readFileSync(path.join(__dirname, "../../../ssl/server.key")),
-                cert: fs.readFileSync(path.join(__dirname, "../../../ssl/server.crt")),
-                ca: fs.readFileSync(path.join(__dirname, "../../../ssl/server.csr")),
+                key: defaultServerKey,
+                cert: defaultServerCert,
+                ca: defaultServerCA,
 
                 // If using http2, use the following protocols
                 protocols: [
