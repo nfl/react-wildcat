@@ -19,7 +19,7 @@ System.config({
     "react": "npm:react@0.14.2",
     "react-addons-test-utils": "npm:react-addons-test-utils@0.14.2",
     "react-dom": "npm:react-dom@0.14.2",
-    "react-router": "npm:react-router@1.0.0-rc4",
+    "react-router": "npm:react-router@1.0.0",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0-beta2",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
@@ -91,7 +91,7 @@ System.config({
       "ieee754": "npm:ieee754@1.1.6",
       "is-array": "npm:is-array@1.0.1"
     },
-    "npm:core-js@1.2.5": {
+    "npm:core-js@1.2.6": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
@@ -120,7 +120,7 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:fbjs@0.3.2": {
-      "core-js": "npm:core-js@1.2.5",
+      "core-js": "npm:core-js@1.2.6",
       "loose-envify": "npm:loose-envify@1.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "promise": "npm:promise@7.0.4",
@@ -206,7 +206,7 @@ System.config({
     "npm:react-dom@0.14.2": {
       "react": "npm:react@0.14.2"
     },
-    "npm:react-router@1.0.0-rc4": {
+    "npm:react-router@1.0.0": {
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "history": "npm:history@1.13.0",
