@@ -1,13 +1,13 @@
 const fs = require("fs-extra");
 const path = require("path");
 
-function getDefaultFile(filename) {
+function getDefaultSSLFile(filename) {
     return fs.readFileSync(path.join(__dirname, `../../../ssl/${filename}`));
 }
 
-const defaultServerKey = getDefaultFile("server.key");
-const defaultServerCert = getDefaultFile("server.crt");
-const defaultServerCA = getDefaultFile("server.csr");
+const defaultServerKey = getDefaultSSLFile("server.key");
+const defaultServerCert = getDefaultSSLFile("server.crt");
+const defaultServerCA = getDefaultSSLFile("server.csr");
 
 /* istanbul ignore next */
 const wildcatConfig = {
