@@ -57,7 +57,7 @@
       "react": "^0.14.2",
       "react-addons-test-utils": "^0.14.2",
       "react-dom": "^0.14.2",
-      "react-router": "^1.0.0-rc4",
+      "react-router": "^1.0.0",
       "react-wildcat-prefetch": "^1.0.0-beta2"
     }
   }
