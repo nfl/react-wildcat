@@ -10,7 +10,7 @@ for directory in packages/*; do
     if [ -d "${directory}" ]; then
         package=${directory##*/}
 
-        if [ -n "$(find "${directory}" -name "package.json" -depth 1 -print)" ]; then
+        if [ -f "${directory}/package.json" ]; then
             # Create module / package links
             (
                 cd ${directory};
