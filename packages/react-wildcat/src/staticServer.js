@@ -10,6 +10,7 @@ const compress = require("koa-compress");
 const serve = require("koa-file-server");
 
 const fs = require("fs-extra");
+const cwd = process.cwd();
 const url = require("url");
 const path = require("path");
 const pathExists = require("path-exists");
@@ -26,8 +27,7 @@ const logger = new Logger(`☁`);
 
 const babelDevTranspiler = require("./middleware/babelDevTranspiler");
 
-const cwd = process.cwd();
-const wildcatConfig = require(path.join(cwd, "wildcat.config"));
+const wildcatConfig = require("./utils/getWildcatConfig")(cwd);
 const generalSettings = wildcatConfig.generalSettings;
 const serverSettings = wildcatConfig.serverSettings;
 
@@ -127,10 +127,11 @@ sticky({
 
     let server;
 
-    if (!staticServerSettings.http2 && !staticServerSettings.https) {
+    if (staticServerSettings.protocol === "http") {
         server = http.createServer(app.callback());
     } else {
-        server = (staticServerSettings.http2 ? http2 : https).createServer(serverOptions, app.callback());
+        const serverType = staticServerSettings.protocol === "http2" ? http2 : https;
+        server = serverType.createServer(serverOptions, app.callback());
     }
 
     if (!__PROD__) {

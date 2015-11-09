@@ -1,9 +1,7 @@
 "use strict";
 
 const chalk = require("chalk");
-const cwd = process.cwd();
-const path = require("path");
-const wildcatConfig = require(path.join(cwd, "wildcat.config"));
+const wildcatConfig = require("./getWildcatConfig")();
 const serverSettings = wildcatConfig.serverSettings;
 
 let log, env;

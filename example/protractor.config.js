@@ -1,8 +1,18 @@
 var cwd = process.cwd();
+var url = require("url");
 var path = require("path");
-var wildcatConfig = require(path.join(cwd, "wildcat.config"));
+
+var wildcatConfig = require(path.join(cwd, "wildcat.config.js"));
 var clientSettings = wildcatConfig.clientSettings;
-var generalSettings = wildcatConfig.generalSettings;
+
+var serverSettings = wildcatConfig.serverSettings;
+var appServerSettings = serverSettings.appServer;
+
+var originUrl = url.format({
+    protocol: appServerSettings.protocol.replace("http2", "https"),
+    hostname: appServerSettings.hostname,
+    port: appServerSettings.port
+});
 
 require("babel/register")({
     resolveModuleSource: function (importPath) {
@@ -25,7 +35,7 @@ exports.config = {
     // tasks.
     allScriptsTimeout: timeout + 1000,
 
-    baseUrl: generalSettings.originUrl,
+    baseUrl: originUrl,
 
     // Boolean. If true, Protractor will connect directly to the browser Drivers
     // at the locations specified by chromeDriver and firefoxPath. Only Chrome
@@ -93,7 +103,7 @@ exports.config = {
 
     params: {
         maxTimeout: 5000,
-        originUrl: generalSettings.originUrl
+        originUrl
     },
 
     plugins: [],
