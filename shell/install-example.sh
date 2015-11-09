@@ -10,16 +10,18 @@ for directory in packages/*; do
     if [ -d "${directory}" ]; then
         package=${directory##*/}
 
-        # Link module / package in example
-        (
-            cd ${example};
+        if [ -f "${directory}/package.json" ]; then
+            # Link module / package in example
+            (
+                cd ${example};
 
-            # Link package to npm
-            npm link ${package};
+                # Link package to npm
+                npm link ${package};
 
-            # Link package to jspm
-            jspm install --link npm:${package}@${version} --log warn -y;
-        )
+                # Link package to jspm
+                jspm install --link npm:${package}@${version} --log warn -y;
+            )
+        fi
     fi
 done
 
