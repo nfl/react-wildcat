@@ -96,8 +96,7 @@ const wildcatConfig = {
         staticServer: {
             // An array of domains to allow for cross-origin requests
             corsOrigins: [
-                "localhost",
-                "example.com"
+                "localhost"
             ],
 
             // One of "http2" | "https" | "http"

@@ -2,6 +2,7 @@
 
 set -e
 
+# remove coverage dir
 rm -fr coverage
 
 istanbulBin=node_modules/istanbul/lib/cli.js
@@ -22,8 +23,8 @@ node ${karmaBin} start karma.config.js --log-level error --reporters coverage,do
 # Combine Node / browser reports
 node ${istanbulBin} report lcov
 
-# Send to codecov.io
 if [ -n "$CI" ]; then
+    # Send to codecov.io
     cat ./coverage/lcov.info | ./node_modules/.bin/codecov
 else
     # Open in browser

@@ -9,6 +9,7 @@ module.exports = function (url, options) {
     return realFetch.call(this, url, options);
 };
 
-if (!global.fetch) {
+/* istanbul ignore else */
+if (typeof global !== "undefined" && !global.fetch) {
     global.fetch = module.exports;
 }

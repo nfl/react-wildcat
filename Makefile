@@ -35,7 +35,7 @@ test-browser-cov:
 test-cov:
 	./shell/test-cov.sh
 
-test-travis: bootstrap lint test-cov
+test-travis: bootstrap install-example lint test-cov
 
 update-dependencies:
 	./shell/update-dependencies.sh
