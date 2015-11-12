@@ -18,6 +18,7 @@ module.exports = function (proxyObject, options) {
                 const pathname = req.url.replace(matchingRoute, "");
 
                 request(`${host}${pathname}`, (err, response, body) => {
+                    /* istanbul ignore next */
                     if (err) {
                         return reject(err);
                     }

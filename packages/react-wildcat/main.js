@@ -9,4 +9,4 @@ require("./src/utils/fetch");
 // Stub for baseURI
 require("./src/utils/baseURI");
 
-require("./src/server");
+require("./src/server").start();
