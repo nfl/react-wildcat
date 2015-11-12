@@ -2,6 +2,7 @@
 
 set -e
 
+# remove coverage dir
 rm -fr coverage
 
 istanbulBin=node_modules/istanbul/lib/cli.js
