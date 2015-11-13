@@ -14,7 +14,7 @@ clean:
 	./shell/clean.sh
 	./shell/clean-example.sh
 
-install: clean bootstrap install-example test test-example
+install: clean bootstrap install-example test-cov test-example
 
 install-example:
 	./shell/install-example.sh

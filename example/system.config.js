@@ -59,10 +59,11 @@ System.config({
     "react-test-tree": "npm:react-test-tree@1.0.0-rc4",
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.0",
     "react-transform-hmr": "npm:react-transform-hmr@1.0.1",
-    "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@1.0.0-beta2",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@1.0.0-beta2",
-    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0-beta2",
-    "react-wildcat-radium": "npm:react-wildcat-radium@1.0.0-beta2",
+    "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@1.0.0-beta3",
+    "react-wildcat-ensure": "npm:react-wildcat-ensure@1.0.0-beta3",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@1.0.0-beta3",
+    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0-beta3",
+    "react-wildcat-radium": "npm:react-wildcat-radium@1.0.0-beta3",
     "redbox-react": "npm:redbox-react@1.1.1",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
@@ -1083,7 +1084,7 @@ System.config({
       "global": "npm:global@4.3.0",
       "react-proxy": "npm:react-proxy@1.1.1"
     },
-    "npm:react-wildcat-handoff@1.0.0-beta2": {
+    "npm:react-wildcat-handoff@1.0.0-beta3": {
       "cookies-js": "npm:cookies-js@1.2.2",
       "debounce": "npm:debounce@1.0.0",
       "exenv": "npm:exenv@1.2.0",
@@ -1096,14 +1097,15 @@ System.config({
       "react-dom": "npm:react-dom@0.14.2",
       "react-helmet": "npm:react-helmet@2.1.1",
       "react-router": "npm:react-router@1.0.0",
-      "react-wildcat-radium": "npm:react-wildcat-radium@1.0.0-beta2"
+      "react-wildcat-radium": "npm:react-wildcat-radium@1.0.0-beta3"
     },
-    "npm:react-wildcat-prefetch@1.0.0-beta2": {
+    "npm:react-wildcat-prefetch@1.0.0-beta3": {
       "exenv": "npm:exenv@1.2.0",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.3",
-      "invariant": "npm:invariant@2.1.2"
+      "invariant": "npm:invariant@2.1.2",
+      "react": "npm:react@0.14.2"
     },
-    "npm:react-wildcat-radium@1.0.0-beta2": {
+    "npm:react-wildcat-radium@1.0.0-beta3": {
       "radium": "npm:radium@0.14.3"
     },
     "npm:react@0.14.2": {
