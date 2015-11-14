@@ -1,6 +1,6 @@
 import React from "react";
 
-class AsyncExampleTwo extends React.Component {
+class AsyncExampleMixed extends React.Component {
     render() {
         return (
             <div></div>
@@ -8,4 +8,4 @@ class AsyncExampleTwo extends React.Component {
     }
 }
 
-export default AsyncExampleTwo;
+export default AsyncExampleMixed;

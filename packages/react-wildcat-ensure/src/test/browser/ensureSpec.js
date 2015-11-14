@@ -1,7 +1,13 @@
-import ensure, {__moduleCache} from "../../index.js"; // eslint-disable-line import/default, import/named
+import ensure from "../../index.js"; // eslint-disable-line import/default, import/named
 import {path, getComponent, getIndexRoute} from "./fixtures/routes.js";
-import {getComponents as getComponentsUsingArray} from "./fixtures/routesArray.js";
-import {getComponents as getComponentsUsingHash} from "./fixtures/routesHash.js";
+import {
+    getChildRoutes as getComponentsUsingMixedArray,
+    getComponents as getComponentsUsingArray
+} from "./fixtures/routesArray.js";
+import {
+    getChildRoutes as getComponentsUsingMixedHash,
+    getComponents as getComponentsUsingHash
+} from "./fixtures/routesHash.js";
 
 import {getComponent as getMissingComponent} from "./fixtures/routesMissing.js";
 import {getComponents as getMissingComponentsUsingHash} from "./fixtures/routesMissingHash.js";
@@ -14,9 +20,6 @@ describe("react-wildcat-ensure", () => {
             .to.be.a("function")
             .that.has.property("name")
             .that.equals("ensure");
-
-        expect(__moduleCache)
-            .to.be.an("object");
 
         expect(path)
             .to.be.a("string");
@@ -40,24 +43,28 @@ describe("react-wildcat-ensure", () => {
     context("import", () => {
         context("single import", () => {
             it("asynchronously imports a module", (done) => {
-                getComponent(location, (err, module) => {
+                getComponent(location, (err, importedModule) => {
                     expect(err)
                         .to.not.exist;
 
-                    expect(module)
-                        .to.exist;
+                    expect(importedModule)
+                        .to.be.a("function")
+                        .that.has.property("name")
+                        .that.equals("AsyncExampleOne");
 
                     done();
                 });
             });
 
             it("returns a cached module on subsequent requests", (done) => {
-                getComponent(location, (err, module) => {
+                getComponent(location, (err, importedModule) => {
                     expect(err)
                         .to.not.exist;
 
-                    expect(module)
-                        .to.exist;
+                    expect(importedModule)
+                        .to.be.a("function")
+                        .that.has.property("name")
+                        .that.equals("AsyncExampleOne");
 
                     done();
                 });
@@ -65,19 +72,19 @@ describe("react-wildcat-ensure", () => {
 
             it("handles multiple individual asynchronous imports per module", (done) => {
                 Promise.all([
-                    new Promise((resolve, reject) => getComponent(location, (err, module) => {
+                    new Promise((resolve, reject) => getComponent(location, (err, importedModule) => {
                         if (err) {
                             return reject(err);
                         }
 
-                        return resolve(module);
+                        return resolve(importedModule);
                     })),
-                    new Promise((resolve, reject) => getIndexRoute(location, (err, module) => {
+                    new Promise((resolve, reject) => getIndexRoute(location, (err, importedModule) => {
                         if (err) {
                             return reject(err);
                         }
 
-                        return resolve(module);
+                        return resolve(importedModule);
                     }))
                 ])
                     .then(([component, indexRoute]) => {
@@ -100,38 +107,91 @@ describe("react-wildcat-ensure", () => {
         context("multiple imports", () => {
             context("as key/value hash", () => {
                 it("asynchronously imports multiple modules", (done) => {
-                    getComponentsUsingHash(location, (err, modules) => {
+                    getComponentsUsingHash(location, (err, importedModules) => {
                         expect(err)
                             .to.not.exist;
 
-                        expect(modules)
+                        expect(importedModules)
                             .to.exist;
 
-                        expect(modules)
+                        expect(importedModules)
                             .to.be.an("object")
                             .that.has.keys([
                                 "one",
                                 "two"
                             ]);
+
+                        expect(importedModules.one)
+                            .to.be.an("function")
+                            .that.has.property("name")
+                            .that.equals("AsyncExampleOne");
+
+                        expect(importedModules.two)
+                            .to.be.an("object")
+                            .that.has.property("AsyncExampleTwo")
+                            .that.is.a("function")
+                            .that.has.property("name")
+                            .that.equals("AsyncExampleTwo");
+
+                        done();
+                    });
+                });
+
+                it("handles a mixed hash of cached / uncached modules", (done) => {
+                    getComponentsUsingMixedHash(location, (err, importedModules) => {
+                        expect(err)
+                            .to.not.exist;
+
+                        expect(importedModules)
+                            .to.exist;
+
+                        expect(importedModules)
+                            .to.be.an("object")
+                            .that.has.keys([
+                                "one",
+                                "two"
+                            ]);
+
+                        expect(importedModules.one)
+                            .to.be.an("function")
+                            .that.has.property("name")
+                            .that.equals("AsyncExampleOne");
+
+                        expect(importedModules.two)
+                            .to.be.an("function")
+                            .that.has.property("name")
+                            .that.equals("AsyncExampleMixed");
 
                         done();
                     });
                 });
 
                 it("returns cached modules on subsequent requests", (done) => {
-                    getComponentsUsingHash(location, (err, modules) => {
+                    getComponentsUsingHash(location, (err, importedModules) => {
                         expect(err)
                             .to.not.exist;
 
-                        expect(modules)
+                        expect(importedModules)
                             .to.exist;
 
-                        expect(modules)
+                        expect(importedModules)
                             .to.be.an("object")
                             .that.has.keys([
                                 "one",
                                 "two"
                             ]);
+
+                        expect(importedModules.one)
+                            .to.be.an("function")
+                            .that.has.property("name")
+                            .that.equals("AsyncExampleOne");
+
+                        expect(importedModules.two)
+                            .to.be.an("object")
+                            .that.has.property("AsyncExampleTwo")
+                            .that.is.a("function")
+                            .that.has.property("name")
+                            .that.equals("AsyncExampleTwo");
 
                         done();
                     });
@@ -140,32 +200,82 @@ describe("react-wildcat-ensure", () => {
 
             context("as array", () => {
                 it("asynchronously imports multiple modules", (done) => {
-                    getComponentsUsingArray(location, (err, modules) => {
+                    getComponentsUsingArray(location, (err, importedModules) => {
                         expect(err)
                             .to.not.exist;
 
-                        expect(modules)
+                        expect(importedModules)
                             .to.exist;
 
-                        expect(modules)
+                        expect(importedModules)
                             .to.be.an("array")
                             .that.has.length.of(2);
+
+                        expect(importedModules[0])
+                            .to.be.an("function")
+                            .that.has.property("name")
+                            .that.equals("AsyncExampleOne");
+
+                        expect(importedModules[1])
+                            .to.be.an("object")
+                            .that.has.property("AsyncExampleTwo")
+                            .that.is.a("function")
+                            .that.has.property("name")
+                            .that.equals("AsyncExampleTwo");
+
+                        done();
+                    });
+                });
+
+                it("handles a mixed array of cached / uncached modules", (done) => {
+                    getComponentsUsingMixedArray(location, (err, importedModules) => {
+                        expect(err)
+                            .to.not.exist;
+
+                        expect(importedModules)
+                            .to.exist;
+
+                        expect(importedModules)
+                            .to.be.an("array")
+                            .that.has.length.of(2);
+
+                        expect(importedModules[0])
+                            .to.be.an("function")
+                            .that.has.property("name")
+                            .that.equals("AsyncExampleOne");
+
+                        expect(importedModules[1])
+                            .to.be.an("function")
+                            .that.has.property("name")
+                            .that.equals("AsyncExampleMixed");
 
                         done();
                     });
                 });
 
                 it("returns cached modules on subsequent requests", (done) => {
-                    getComponentsUsingArray(location, (err, modules) => {
+                    getComponentsUsingArray(location, (err, importedModules) => {
                         expect(err)
                             .to.not.exist;
 
-                        expect(modules)
+                        expect(importedModules)
                             .to.exist;
 
-                        expect(modules)
+                        expect(importedModules)
                             .to.be.an("array")
                             .that.has.length.of(2);
+
+                        expect(importedModules[0])
+                            .to.be.an("function")
+                            .that.has.property("name")
+                            .that.equals("AsyncExampleOne");
+
+                        expect(importedModules[1])
+                            .to.be.an("object")
+                            .that.has.property("AsyncExampleTwo")
+                            .that.is.a("function")
+                            .that.has.property("name")
+                            .that.equals("AsyncExampleTwo");
 
                         done();
                     });
@@ -175,11 +285,11 @@ describe("react-wildcat-ensure", () => {
 
         context("sad path", () => {
             it("handles error on single module", (done) => {
-                getMissingComponent(location, (err, module) => {
+                getMissingComponent(location, (err, importedModule) => {
                     expect(err)
                         .to.exist;
 
-                    expect(module)
+                    expect(importedModule)
                         .to.not.exist;
 
                     expect(err)
@@ -192,11 +302,11 @@ describe("react-wildcat-ensure", () => {
             });
 
             it("handles error on a key/value hash of modules", (done) => {
-                getMissingComponentsUsingHash(location, (err, module) => {
+                getMissingComponentsUsingHash(location, (err, importedModules) => {
                     expect(err)
                         .to.exist;
 
-                    expect(module)
+                    expect(importedModules)
                         .to.not.exist;
 
                     expect(err)
@@ -209,11 +319,11 @@ describe("react-wildcat-ensure", () => {
             });
 
             it("handles error on an array of modules", (done) => {
-                getMissingComponentsUsingArray(location, (err, modules) => {
+                getMissingComponentsUsingArray(location, (err, importedModules) => {
                     expect(err)
                         .to.exist;
 
-                    expect(modules)
+                    expect(importedModules)
                         .to.not.exist;
 
                     expect(err)
