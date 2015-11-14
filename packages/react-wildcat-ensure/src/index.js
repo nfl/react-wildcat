@@ -1,70 +1,113 @@
-const __moduleCache = {};
+function hasCachedModule(moduleName) {
+    return System.has(moduleName);
+}
 
-function ensure(importPaths, {id}, cb) {
-    let moduleCacheName;
+function getNormalizedName(moduleName, id) {
+    return System.normalizeSync(moduleName, id);
+}
 
-    if (!__moduleCache[id]) {
-        __moduleCache[id] = {};
+function getCachedModule(moduleName) {
+    const cachedModule = System.get(moduleName);
+
+    if (!cachedModule) {
+        return cachedModule;
     }
 
-    // Handle a single import
-    if (typeof importPaths === "string") {
-        moduleCacheName = importPaths;
+    return cachedModule.__useDefault ? cachedModule.default : cachedModule;
+}
 
-        if (__moduleCache[id][moduleCacheName]) {
-            return cb(null, __moduleCache[id][moduleCacheName]);
-        }
+function ensureString(importPath, id, cb) {
+    const normalizedImport = getNormalizedName(importPath, id);
 
-        return System.import(importPaths, id)
-            .then(module => {
-                __moduleCache[id][moduleCacheName] = module;
-                return cb(null, __moduleCache[id][moduleCacheName]);
+    if (hasCachedModule(normalizedImport)) {
+        return cb(null, getCachedModule(normalizedImport));
+    }
+
+    return System.import(normalizedImport)
+        .then(importedModule => cb(null, importedModule))
+        .catch(e => cb(e));
+}
+
+function ensureArray(importPaths, id, cb) {
+    const normalizedImports = importPaths
+        .map(importPath => getNormalizedName(importPath, id));
+
+    const cachedImports = normalizedImports
+        .map(normalizedImport => getCachedModule(normalizedImport))
+        .filter(normalizedImport => normalizedImport);
+
+    if (cachedImports.length === normalizedImports.length) {
+        return cb(null, cachedImports);
+    }
+
+    return Promise.all(
+        normalizedImports
+            .map(normalizedImport => {
+                if (hasCachedModule(normalizedImport)) {
+                    return Promise.resolve(getCachedModule(normalizedImport));
+                }
+
+                return System.import(normalizedImport);
             })
-            .catch(e => cb(e));
-    }
+    )
+        .then(importedModules => cb(null, importedModules))
+        .catch(e => cb(e));
+}
 
-    // Handle an array of imports
-    if (Array.isArray(importPaths)) {
-        moduleCacheName = importPaths.join(",");
-
-        if (__moduleCache[id][moduleCacheName]) {
-            return cb(null, __moduleCache[id][moduleCacheName]);
-        }
-
-        return Promise.all(
-            importPaths
-                .map(importPath => System.import(importPath, id))
-        )
-            .then(modules => {
-                __moduleCache[id][moduleCacheName] = modules;
-                return cb(null, __moduleCache[id][moduleCacheName]);
-            })
-            .catch(e => cb(e));
-    }
-
+function ensureHash(importPaths, id, cb) {
     const importPathKeys = Object.keys(importPaths);
     const moduleHashCache = {};
 
-    moduleCacheName = importPathKeys.join(",");
+    const normalizedImports = importPathKeys
+        .map(importPath => getNormalizedName(importPaths[importPath], id));
 
-    if (__moduleCache[id][moduleCacheName]) {
-        return cb(null, __moduleCache[id][moduleCacheName]);
+    const cachedImports = normalizedImports
+        .map(normalizedImport => getCachedModule(normalizedImport))
+        .filter(normalizedImport => normalizedImport);
+
+    if (cachedImports.length === normalizedImports.length) {
+        importPathKeys.forEach((importPathKey, idx) => {
+            moduleHashCache[importPathKey] = cachedImports[idx];
+        });
+
+        return cb(null, moduleHashCache);
     }
 
-    // Handle a key/value hash of imports
     return Promise.all(
-        Object.keys(importPaths)
-            .map(moduleName => System.import(importPaths[moduleName], id))
-    )
-        .then(modules => {
-            importPathKeys
-                .forEach((moduleName, idx) => moduleHashCache[moduleName] = modules[idx]);
+        normalizedImports
+            .map(normalizedImport => {
+                if (hasCachedModule(normalizedImport)) {
+                    return Promise.resolve(getCachedModule(normalizedImport));
+                }
 
-            __moduleCache[id][moduleCacheName] = moduleHashCache;
-            return cb(null, __moduleCache[id][moduleCacheName]);
+                return System.import(normalizedImport);
+            })
+    )
+        .then(importedModules => {
+            importPathKeys
+                .forEach((importPathKey, idx) => {
+                    const importedModule = importedModules[idx];
+                    moduleHashCache[importPathKey] = importedModule;
+                });
+
+            return cb(null, moduleHashCache);
         })
         .catch(e => cb(e));
 }
 
-export {__moduleCache};
+function ensure(importPaths, {id}, cb) {
+    // Handle a single import
+    if (typeof importPaths === "string") {
+        return ensureString(importPaths, id, cb);
+    }
+
+    // Handle an array of imports
+    if (Array.isArray(importPaths)) {
+        return ensureArray(importPaths, id, cb);
+    }
+
+    // Handle a key/value hash of imports
+    return ensureHash(importPaths, id, cb);
+}
+
 export default ensure;
