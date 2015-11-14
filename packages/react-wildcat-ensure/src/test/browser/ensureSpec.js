@@ -1,5 +1,5 @@
 import ensure, {__moduleCache} from "../../index.js"; // eslint-disable-line import/default, import/named
-import {path, getComponent} from "./fixtures/routes.js";
+import {path, getComponent, getIndexRoute} from "./fixtures/routes.js";
 import {getComponents as getComponentsUsingArray} from "./fixtures/routesArray.js";
 import {getComponents as getComponentsUsingHash} from "./fixtures/routesHash.js";
 
@@ -61,6 +61,39 @@ describe("react-wildcat-ensure", () => {
 
                     done();
                 });
+            });
+
+            it("handles multiple individual asynchronous imports per module", (done) => {
+                Promise.all([
+                    new Promise((resolve, reject) => getComponent(location, (err, module) => {
+                        if (err) {
+                            return reject(err);
+                        }
+
+                        return resolve(module);
+                    })),
+                    new Promise((resolve, reject) => getIndexRoute(location, (err, module) => {
+                        if (err) {
+                            return reject(err);
+                        }
+
+                        return resolve(module);
+                    }))
+                ])
+                    .then(([component, indexRoute]) => {
+                        expect(component)
+                            .to.be.a("function")
+                            .that.has.property("name")
+                            .that.equals("AsyncExampleOne");
+
+                        expect(indexRoute)
+                            .to.be.a("function")
+                            .that.has.property("name")
+                            .that.equals("AsyncExampleIndex");
+
+                        done();
+                    })
+                    .catch(e => done(e));
             });
         });
 
