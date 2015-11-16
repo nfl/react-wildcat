@@ -1,49 +1,95 @@
-const __moduleCache = {};
-
-function ensure(importPaths, {id}, cb) {
-    if (!__moduleCache[id]) {
-        // Handle a single import
-        if (typeof importPaths === "string") {
-            return System.import(importPaths, id)
-                .then(module => {
-                    __moduleCache[id] = module;
-                    return cb(null, __moduleCache[id]);
-                })
-                .catch(e => cb(e));
-        }
-
-        // Handle an array of imports
-        if (Array.isArray(importPaths)) {
-            return Promise.all(
-                importPaths
-                    .map(importPath => System.import(importPath, id))
-            )
-                .then(modules => {
-                    __moduleCache[id] = modules;
-                    return cb(null, __moduleCache[id]);
-                })
-                .catch(e => cb(e));
-        }
-
-        const moduleHashCache = {};
-
-        // Handle a key/value hash of imports
-        return Promise.all(
-            Object.keys(importPaths)
-                .map(moduleName => System.import(importPaths[moduleName], id))
-        )
-            .then(modules => {
-                Object.keys(importPaths)
-                    .forEach((moduleName, idx) => moduleHashCache[moduleName] = modules[idx]);
-
-                __moduleCache[id] = moduleHashCache;
-                return cb(null, __moduleCache[id]);
-            })
-            .catch(e => cb(e));
-    }
-
-    return cb(null, __moduleCache[id]);
+function hasCachedModule(moduleName) {
+    return System.has(moduleName);
 }
 
-export {__moduleCache};
+function getNormalizedName(moduleName, id) {
+    return System.normalizeSync(moduleName, id);
+}
+
+function getCachedModule(moduleName) {
+    const cachedModule = System.get(moduleName);
+
+    if (!cachedModule) {
+        return cachedModule;
+    }
+
+    return cachedModule.__useDefault ? cachedModule.default : cachedModule;
+}
+
+function ensureString(importPath, id, cb) {
+    if (importPath && id) {
+        importPath = getNormalizedName(importPath, id);
+    }
+
+    if (hasCachedModule(importPath)) {
+        return cb(null, getCachedModule(importPath));
+    }
+
+    return System.import(importPath)
+        .then(importedModule => cb(null, importedModule))
+        .catch(e => cb(e));
+}
+
+function ensureArray(importPaths, id, cb) {
+    const normalizedImports = importPaths
+        .map(importPath => getNormalizedName(importPath, id));
+
+    const cachedImports = normalizedImports
+        .map(normalizedImport => getCachedModule(normalizedImport))
+        .filter(normalizedImport => normalizedImport);
+
+    if (cachedImports.length === normalizedImports.length) {
+        return cb(null, cachedImports);
+    }
+
+    return Promise.all(
+        normalizedImports
+            .map(normalizedImport => ensureString(normalizedImport, null, (err, importedModules) => {
+                if (err) {
+                    return Promise.reject(err);
+                }
+
+                return Promise.resolve(importedModules);
+            }))
+    )
+        .then(importedModules => cb(null, importedModules))
+        .catch(e => cb(e));
+}
+
+function ensureHash(importPaths, id, cb) {
+    const importPathKeys = Object.keys(importPaths);
+    const moduleHashCache = {};
+
+    importPaths = importPathKeys.map(importPath => importPaths[importPath]);
+
+    return ensureArray(importPaths, id, (err, importedModules) => {
+        if (err) {
+            return cb(err);
+        }
+
+        importPathKeys
+            .forEach((importPath, idx) => {
+                const importedModule = importedModules[idx];
+                moduleHashCache[importPath] = importedModule;
+            });
+
+        return cb(null, moduleHashCache);
+    });
+}
+
+function ensure(importPaths, {id}, cb) {
+    // Handle a single import
+    if (typeof importPaths === "string") {
+        return ensureString(importPaths, id, cb);
+    }
+
+    // Handle an array of imports
+    if (Array.isArray(importPaths)) {
+        return ensureArray(importPaths, id, cb);
+    }
+
+    // Handle a key/value hash of imports
+    return ensureHash(importPaths, id, cb);
+}
+
 export default ensure;

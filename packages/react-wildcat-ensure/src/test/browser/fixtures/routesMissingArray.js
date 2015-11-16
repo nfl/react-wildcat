@@ -6,8 +6,8 @@ export const path = "/import-async-example";
 // Lazy loaded components
 export function getComponents(location, cb) {
     return ensure([
-        "./AsyncErrorExampleOne.js",
-        "./AsyncErrorExampleTwo.js"
+        "./array/AsyncErrorExampleOne.fixture.js",
+        "./array/AsyncErrorExampleTwo.fixture.js"
     ], module, (err, modules) => {
         return cb(err, modules);
     });

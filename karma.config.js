@@ -60,7 +60,7 @@ module.exports = function (karmaConfig) {
 
         jspm: {
             config: "system.config.js",
-            loadFiles: ["packages/*/dist/**/*.js"],
+            loadFiles: ["packages/*/dist/**/!(*fixture).js"],
             serveFiles: [
                 "jspm_packages/**/*",
                 "packages/*/dist/**/*"
