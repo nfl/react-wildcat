@@ -2,38 +2,45 @@ const React = require("react");
 const Router = require("react-router");
 const prefetch = require("react-wildcat-prefetch");
 
+exports.stubUserAgent = "Mozilla/5.0";
+
 exports.requests = {
     basic: {
         header: {
-            host: "www.example.com"
+            host: "www.example.com",
+            "user-agent": exports.stubUserAgent
         },
         url: "/"
     },
 
     err: {
         header: {
-            host: "err.example.com"
+            host: "err.example.com",
+            "user-agent": exports.stubUserAgent
         },
         url: "/"
     },
 
     invalid: {
         header: {
-            host: "www.example.com"
+            host: "www.example.com",
+            "user-agent": exports.stubUserAgent
         },
         url: "/this-route-does-not-exist"
     },
 
     noSubdomain: {
         header: {
-            host: "example.com"
+            host: "example.com",
+            "user-agent": exports.stubUserAgent
         },
         url: "/"
     },
 
     redirect: {
         header: {
-            host: "www.example.com"
+            host: "www.example.com",
+            "user-agent": exports.stubUserAgent
         },
         url: "/redirect"
     }

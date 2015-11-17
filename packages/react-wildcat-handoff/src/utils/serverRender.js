@@ -10,8 +10,8 @@ const radium = require("react-wildcat-radium");
 const matchMediaMock = require("match-media-mock").create();
 
 const getClientSize = require("./getClientSize.js");
+const serverContext = require("./serverContext.js");
 
-const RoutingContext = Router.RoutingContext;
 const match = Router.match;
 
 radium.setMatchMedia(matchMediaMock);
@@ -64,8 +64,11 @@ module.exports = function serverRender(cfg) {
                             });
                         })
                 ).then(() => {
-                    const reactMarkup = ReactDOM.renderToStaticMarkup(
-                        React.createElement(RoutingContext, renderProps)
+                    const reactMarkup = ReactDOM.renderToString(
+                        React.createElement(
+                            serverContext(request),
+                            renderProps
+                        )
                     );
 
                     const head = Object.assign({

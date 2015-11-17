@@ -280,7 +280,8 @@ describe("react-wildcat", () => {
                                         },
                                         request: {
                                             header: {
-                                                host: wildcatConfig.generalSettings.originUrl
+                                                host: wildcatConfig.generalSettings.originUrl,
+                                                "user-agent": "Mozilla/5.0"
                                             },
                                             fresh: render.fresh,
                                             url: render.url
@@ -294,16 +295,12 @@ describe("react-wildcat", () => {
                                         }
                                     });
 
-                                    console.log("pre-result!", result);
                                     return result;
                                 } catch (e) {
-                                    console.log("reject!", e);
                                     return Promise.reject(e);
                                 }
                             })
                                 .then((result) => {
-                                    console.log("result!", result);
-
                                     expect(result)
                                         .to.be.a("string");
 
