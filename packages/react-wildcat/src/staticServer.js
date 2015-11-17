@@ -1,7 +1,6 @@
 "use strict";
 
 const os = require("os");
-const sticky = require("sticky-socket-cluster");
 const cluster = require("cluster");
 
 const koa = require("koa");
@@ -55,7 +54,8 @@ function start() {
         cpuCount = 1;
     }
 
-    const staticPort = Number(staticServerSettings.port);
+    const port = Number(staticServerSettings.port);
+
     const allowedOrigins = (staticServerSettings.corsOrigins).concat([staticServerSettings.host]);
 
     const fileServer = serve({
@@ -71,12 +71,17 @@ function start() {
         skip: (req, res) => res.statusCode < 400
     } : {};
 
-    return new Promise(resolve => {
-        sticky({
-            "workers": cpuCount,
-            "first_port": staticPort,
-            "proxy_port": staticPort + 100
-        }, (port) => {
+    /* istanbul ignore if */
+    if (cluster.isMaster) {
+        for (let i = 0, c = cpuCount; i < c; i++) {
+            cluster.fork();
+        }
+
+        cluster.on("exit", (worker, code, signal) => {
+            logger.warn(`worker ${worker.process.pid} has died (code: ${code}) (signal: ${signal})`);
+        });
+    } else {
+        return new Promise(resolve => {
             const app = koa();
 
             app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
@@ -157,7 +162,7 @@ function start() {
                 }
             });
         });
-    });
+    }
 }
 
 function close() {

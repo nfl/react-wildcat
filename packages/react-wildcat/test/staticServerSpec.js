@@ -239,15 +239,13 @@ describe("react-wildcat", () => {
                 ["http2", "https", "http"].forEach(currentProtocol => {
                     context(currentProtocol, () => {
                         it("starts the server programmatically", (done) => {
-                            const stickySocketClusterStub = (options, cb) => cb(options.first_port);
-
                             const staticServer = proxyquire("../src/staticServer.js", {
                                 "cluster": {
+                                    isMaster: false,
                                     worker: {
                                         id: 1
                                     }
                                 },
-                                "sticky-socket-cluster": stickySocketClusterStub,
                                 "./utils/getWildcatConfig": () => {
                                     const defaultConfig = require("../src/utils/getWildcatConfig")();
                                     defaultConfig.serverSettings.staticServer.protocol = currentProtocol;
