@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.0.0-beta4
+
+- **Bug Fixes**
+    - Bump dependencies
+    - **example**
+        - Lint fixes
+    - **react-wildcat**
+        - Update cluster workers to aid with concurrency
+    - **react-wildcat-ensure**
+        - Use SystemJS to manage cached modules
+        - DRY up code
+        - Add more unit test coverage
+    - **react-wildcat-handoff**
+        - Pass user-agent to server to render universal server/client styles
+    - **react-wildcat-radium**
+        - Pass user-agent to Radium to render universal server/client styles
+
 ## 1.0.0-beta3
 
 - **Bug Fixes**
