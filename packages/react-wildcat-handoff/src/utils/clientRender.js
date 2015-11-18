@@ -2,13 +2,13 @@
 
 var ReactDOM = require("react-dom");
 var Router = require("react-router");
-var clientRouter = require("./clientRouter.js");
+var clientContext = require("./clientContext.js");
 
 var match = Router.match;
 var __REACT_ROOT_ID__ = "__REACT_ROOT_ID__";
 
 module.exports = function clientRender(cfg) {
-    var component = clientRouter(cfg);
+    var component = clientContext(cfg);
 
     return new Promise(function (resolve) {
         match(cfg, function () {

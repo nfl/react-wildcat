@@ -4,7 +4,7 @@
   "description": "Radium configured for use in Wildcat",
   "main": "src/index.js",
   "dependencies": {
-    "radium": "^0.14.3"
+    "radium": "^0.15.3"
   },
   "author": "engineers@nfl.com",
   "license": "MIT",

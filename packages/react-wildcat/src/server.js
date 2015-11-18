@@ -1,7 +1,6 @@
 "use strict";
 
 const os = require("os");
-const sticky = require("sticky-socket-cluster");
 const cluster = require("cluster");
 
 const koa = require("koa");
@@ -49,14 +48,19 @@ function start() {
         cpuCount = 1;
     }
 
-    const originPort = Number(appServerSettings.port);
+    const port = Number(appServerSettings.port);
 
-    return new Promise(resolve => {
-        sticky({
-            "workers": cpuCount,
-            "first_port": originPort,
-            "proxy_port": originPort + 100
-        }, (port) => {
+    /* istanbul ignore if */
+    if (cluster.isMaster) {
+        for (let i = 0; i < cpuCount; i++) {
+            cluster.fork();
+        }
+
+        cluster.on("exit", (worker, code, signal) => {
+            logger.warn(`worker ${worker.process.pid} has died (code: ${code}) (signal: ${signal})`);
+        });
+    } else {
+        return new Promise(resolve => {
             const app = koa();
 
             app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms"));
@@ -127,7 +131,7 @@ function start() {
                 }
             });
         });
-    });
+    }
 }
 
 function close() {
