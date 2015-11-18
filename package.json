@@ -32,7 +32,7 @@
     "proxyquire": "^1.7.3",
     "react": "^0.14.2",
     "react-addons-test-utils": "^0.14.2",
-    "react-wildcat-prefetch": "^1.0.0-beta3",
+    "react-wildcat-prefetch": "^1.0.0-beta4",
     "remap-istanbul": "^0.4.0",
     "resolve": "^1.1.6",
     "rimraf": "^2.4.3",
@@ -60,7 +60,7 @@
       "react-addons-test-utils": "^0.14.2",
       "react-dom": "^0.14.2",
       "react-router": "^1.0.0",
-      "react-wildcat-prefetch": "^1.0.0-beta3"
+      "react-wildcat-prefetch": "^1.0.0-beta4"
     }
   }
 }
