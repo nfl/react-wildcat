@@ -1,6 +1,10 @@
 {
   "name": "wildcat",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nfl/react-wildcat.git"
+  },
   "author": "engineers@nfl.com",
   "license": "MIT",
   "devDependencies": {
@@ -8,6 +12,7 @@
     "chai": "^3.4.0",
     "co": "^4.6.0",
     "codecov.io": "^0.1.6",
+    "cz-conventional-changelog": "^1.1.4",
     "eslint": "^1.8.0",
     "eslint-config-nfl": "^4.0.2",
     "eslint-plugin-import": "^0.9.1",
@@ -36,6 +41,7 @@
     "remap-istanbul": "^0.4.0",
     "resolve": "^1.1.6",
     "rimraf": "^2.4.3",
+    "semantic-release": "^4.3.5",
     "shelljs": "^0.5.3",
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0",
@@ -61,6 +67,14 @@
       "react-dom": "^0.14.2",
       "react-router": "^1.0.0",
       "react-wildcat-prefetch": "^1.0.0-beta4"
+    }
+  },
+  "scripts": {
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
     }
   }
 }

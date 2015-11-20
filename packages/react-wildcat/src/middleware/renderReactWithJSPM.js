@@ -55,15 +55,16 @@ module.exports = function renderReactWithJSPM(root, options) {
                 const renderHandler = serverSettings.renderHandler;
 
                 return Promise.all([
-                    loader.import(entry),
+                    // Entry value can be an async import, a hash of options, or falsy
+                    (typeof entry === "string") ? loader.import(entry) : Promise.resolve(entry),
                     loader.import(renderHandler)
                 ])
-                    .then(promises => {
-                        // First promise is a hash of project options
-                        const serverOptions = promises[0];
+                    .then(responses => {
+                        // First response is a hash of project options
+                        const serverOptions = responses[0];
 
-                        // Second promise is the handoff to the server
-                        const server = promises[1];
+                        // Second response is the handoff to the server
+                        const server = responses[1];
 
                         // Pass options to server
                         return server(serverOptions);

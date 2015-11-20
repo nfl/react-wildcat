@@ -1,5 +1,13 @@
 var pkg = require("./package.json");
 
+function getPort(port, defaultPort) {
+    if ((typeof port !== "undefined") && !(Number(port))) {
+        return false;
+    }
+
+    return Number(port) || defaultPort;
+}
+
 /* istanbul ignore next */
 var wildcatConfig = {
     generalSettings: {
@@ -55,7 +63,7 @@ var wildcatConfig = {
             hostname: "localhost",
 
             // App server port
-            port: process.env.PORT || 3000,
+            port: getPort(process.env.PORT, 3000),
 
             // A key/value of urls to proxy
             // e.g. /static -> http://example.com/static
@@ -97,7 +105,7 @@ var wildcatConfig = {
             hostname: "localhost",
 
             // Static server port
-            port: process.env.STATIC_PORT || 4000
+            port: getPort(process.env.STATIC_PORT, 4000)
 
             // Only applicable when one of http2/https is true
             // https://github.com/indutny/node-spdy#options

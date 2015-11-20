@@ -61,13 +61,19 @@ module.exports = function defaultTemplate(cfg) {
         <script src="${staticUrl}/system.config.js"></script>
 
         <script>
-            System
-                .import("${entry}")
-                .then(function (options) {
-                    return System.import("${renderHandler}")
-                        .then(function (render) {
-                            return render(options);
-                        });
+            Promise.all([
+                System.import("${entry}"),
+                System.import("${renderHandler}")
+            ])
+                .then(function (responses) {
+                    // First response is a hash of project options
+                    var clientOptions = responses[0];
+
+                    // Second response is the handoff to the client
+                    var client = responses[1];
+
+                    // Pass options to server
+                    return client(clientOptions);
                 })
                 ${__DEV__ ? `.then(function () {
                     var socket = new WebSocket("${staticUrl.replace("http", "ws")}");
