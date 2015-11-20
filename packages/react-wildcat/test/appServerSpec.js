@@ -151,7 +151,7 @@ describe("react-wildcat", () => {
             const currentLogLevel = process.env.LOG_LEVEL;
             let staticServer;
 
-            before((done) => {
+            beforeEach((done) => {
                 sinon.stub(console, "log");
                 console.log.returns();
 
@@ -182,7 +182,7 @@ describe("react-wildcat", () => {
                     .then(() => done());
             });
 
-            after((done) => {
+            afterEach((done) => {
                 staticServer.close()
                     .then(() => {
                         console.log.restore();
@@ -192,127 +192,184 @@ describe("react-wildcat", () => {
                     });
             });
 
-            const stubResponses = {
-                "200": {
-                    type: "text/html",
-                    status: 200,
-                    redirect: false
-                },
+            context("with asynchronous entry path", () => {
+                const stubResponses = {
+                    "200": {
+                        type: "text/html",
+                        status: 200,
+                        redirect: false
+                    },
 
-                "301": {
-                    redirect: true,
-                    redirectLocation: {
-                        pathname: "/redirect",
-                        search: ""
+                    "301": {
+                        redirect: true,
+                        redirectLocation: {
+                            pathname: "/redirect",
+                            search: ""
+                        }
+                    },
+
+                    "304": {
+                        type: "text/html",
+                        status: 200,
+                        redirect: false,
+                        html: "<div>cached HTML stub</div>"
+                    },
+
+                    "404": {
+                        type: "text/json",
+                        status: 404,
+                        redirect: false
                     }
-                },
+                };
 
-                "304": {
-                    type: "text/html",
-                    status: 200,
-                    redirect: false,
-                    html: "<div>cached HTML stub</div>"
-                },
+                const renderTypes = [{
+                    name: "renders HTML",
+                    cache: {},
+                    fresh: false,
+                    reply: {
+                        reply: stubResponses["200"]
+                    },
+                    url: "/"
+                }, {
+                    name: "returns HTML from cache",
+                    cache: {
+                        "/": {
+                            cache: stubResponses["304"]
+                        }
+                    },
+                    fresh: true,
+                    reply: {
+                        reply: stubResponses["304"]
+                    },
+                    url: "/"
+                }, {
+                    name: "returns error payload",
+                    cache: {},
+                    fresh: false,
+                    reply: {
+                        reply: stubResponses["404"]
+                    },
+                    url: "/error"
+                }, {
+                    name: "redirects the page",
+                    cache: {},
+                    fresh: false,
+                    reply: {
+                        reply: stubResponses["301"]
+                    },
+                    url: "/redirect"
+                }];
 
-                "404": {
-                    type: "text/json",
-                    status: 404,
-                    redirect: false
-                }
-            };
+                ["development", "production"].forEach(currentEnv => {
+                    context(currentEnv, () => {
+                        before(() => {
+                            process.env.NODE_ENV = currentEnv;
+                        });
 
-            const renderTypes = [{
-                name: "renders HTML",
-                cache: {},
-                fresh: false,
-                reply: {
-                    reply: stubResponses["200"]
-                },
-                url: "/"
-            }, {
-                name: "returns HTML from cache",
-                cache: {
-                    "/": {
-                        cache: stubResponses["304"]
-                    }
-                },
-                fresh: true,
-                reply: {
-                    reply: stubResponses["304"]
-                },
-                url: "/"
-            }, {
-                name: "returns error payload",
-                cache: {},
-                fresh: false,
-                reply: {
-                    reply: stubResponses["404"]
-                },
-                url: "/error"
-            }, {
-                name: "redirects the page",
-                cache: {},
-                fresh: false,
-                reply: {
-                    reply: stubResponses["301"]
-                },
-                url: "/redirect"
-            }];
+                        renderTypes.forEach((render) => {
+                            it(render.name, (done) => {
+                                const renderReactWithJSPM = require("../src/middleware/renderReactWithJSPM")(exampleDir, {
+                                    cache: render.cache,
+                                    wildcatConfig
+                                });
 
-            ["development", "production"].forEach(currentEnv => {
-                context(currentEnv, () => {
-                    before(() => {
-                        process.env.NODE_ENV = currentEnv;
-                    });
-
-                    renderTypes.forEach((render) => {
-                        it(render.name, (done) => {
-                            const renderReactWithJSPM = require("../src/middleware/renderReactWithJSPM")(exampleDir, {
-                                cache: render.cache,
-                                wildcatConfig
-                            });
-
-                            co(function* () {
-                                try {
-                                    const result = yield renderReactWithJSPM.call({
-                                        cookies: {
-                                            get: () => "clientSize"
-                                        },
-                                        request: {
-                                            header: {
-                                                host: wildcatConfig.generalSettings.originUrl,
-                                                "user-agent": "Mozilla/5.0"
+                                co(function* () {
+                                    try {
+                                        const result = yield renderReactWithJSPM.call({
+                                            cookies: {
+                                                get: () => "clientSize"
                                             },
-                                            fresh: render.fresh,
-                                            url: render.url
-                                        },
-                                        redirect: () => "",
-                                        response: {
-                                            get: () => Date.now(),
-                                            status: null,
-                                            type: null,
-                                            lastModified: null
-                                        }
-                                    });
+                                            request: {
+                                                header: {
+                                                    host: wildcatConfig.generalSettings.originUrl,
+                                                    "user-agent": "Mozilla/5.0"
+                                                },
+                                                fresh: render.fresh,
+                                                url: render.url
+                                            },
+                                            redirect: () => "",
+                                            response: {
+                                                get: () => Date.now(),
+                                                status: null,
+                                                type: null,
+                                                lastModified: null
+                                            }
+                                        });
 
-                                    return result;
-                                } catch (e) {
-                                    return Promise.reject(e);
-                                }
-                            })
-                                .then((result) => {
-                                    expect(result)
-                                        .to.be.a("string");
-
-                                    done();
+                                        return result;
+                                    } catch (e) {
+                                        return Promise.reject(e);
+                                    }
                                 })
-                                .catch(e => done(e));
+                                    .then((result) => {
+                                        expect(result)
+                                            .to.be.a("string");
+
+                                        done();
+                                    })
+                                    .catch(e => done(e));
+                            });
+                        });
+
+                        after(() => {
+                            process.env.NODE_ENV = nodeEnv;
                         });
                     });
+                });
+            });
 
-                    after(() => {
-                        process.env.NODE_ENV = nodeEnv;
+            context("with no defined entry path", () => {
+                const existingEntry = wildcatConfig.serverSettings.entry;
+
+                before(() => {
+                    wildcatConfig.serverSettings.entry = false;
+                });
+
+                it("renders HTML", (done) => {
+                    const renderReactWithJSPM = require("../src/middleware/renderReactWithJSPM")(exampleDir, {
+                        cache: {},
+                        wildcatConfig
                     });
+
+                    co(function* () {
+                        try {
+                            const result = yield renderReactWithJSPM.call({
+                                cookies: {
+                                    get: () => "clientSize"
+                                },
+                                request: {
+                                    header: {
+                                        host: wildcatConfig.generalSettings.originUrl,
+                                        "user-agent": "Mozilla/5.0"
+                                    },
+                                    fresh: false,
+                                    url: "/"
+                                },
+                                redirect: () => "",
+                                response: {
+                                    get: () => Date.now(),
+                                    status: null,
+                                    type: null,
+                                    lastModified: null
+                                }
+                            });
+
+                            return result;
+                        } catch (e) {
+                            return Promise.reject(e);
+                        }
+                    })
+                        .then((result) => {
+                            expect(result)
+                                .to.be.a("string");
+
+                            done();
+                        })
+                        .catch(e => done(e));
+                });
+
+                after(() => {
+                    wildcatConfig.serverSettings.entry = existingEntry;
                 });
             });
         });
