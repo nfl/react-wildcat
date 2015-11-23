@@ -1,4 +1,19 @@
-# Changelog
+<a name="1.0.0-beta5"></a>
+# [1.0.0-beta5](//compare/1.0.0-beta4...v1.0.0-beta5) (2015-11-23)
+
+
+### Bug Fixes
+
+* **example:** allow port values to be falsy in production environments b84d7b9
+* **react-wildcat:** add code coverage ba7d2ce
+* **react-wildcat:** allow entry config to be falsy e59e0f8
+* **react-wildcat-handoff:** request initial imports in parallel 073787e
+* **react-wildcat-prefetch:** add code coverage 1e53d64
+
+### Features
+
+* **react-wildcat-handoff:** add a simple render option e0b060c
+
 
 ## 1.0.0-beta4
 

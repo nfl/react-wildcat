@@ -12,6 +12,7 @@
     "chai": "^3.4.0",
     "co": "^4.6.0",
     "codecov.io": "^0.1.6",
+    "conventional-changelog": "^0.5.1",
     "cz-conventional-changelog": "^1.1.4",
     "eslint": "^1.8.0",
     "eslint-config-nfl": "^4.0.2",
@@ -37,7 +38,7 @@
     "proxyquire": "^1.7.3",
     "react": "^0.14.2",
     "react-addons-test-utils": "^0.14.2",
-    "react-wildcat-prefetch": "^1.0.0-beta4",
+    "react-wildcat-prefetch": "^1.0.0-beta5",
     "remap-istanbul": "^0.4.0",
     "resolve": "^1.1.6",
     "rimraf": "^2.4.3",
@@ -66,10 +67,11 @@
       "react-addons-test-utils": "^0.14.2",
       "react-dom": "^0.14.2",
       "react-router": "^1.0.0",
-      "react-wildcat-prefetch": "^1.0.0-beta4"
+      "react-wildcat-prefetch": "^1.0.0-beta5"
     }
   },
   "scripts": {
+    "changelog": "conventional-changelog -k packages/react-wildcat/package.json -p angular -i CHANGELOG.md -w",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "config": {
