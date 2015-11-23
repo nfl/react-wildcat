@@ -20,7 +20,7 @@ System.config({
     "react-addons-test-utils": "npm:react-addons-test-utils@0.14.2",
     "react-dom": "npm:react-dom@0.14.2",
     "react-router": "npm:react-router@1.0.0",
-    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0-beta4",
+    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0-beta5",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },
@@ -214,7 +214,7 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "warning": "npm:warning@2.1.0"
     },
-    "npm:react-wildcat-prefetch@1.0.0-beta4": {
+    "npm:react-wildcat-prefetch@1.0.0-beta5": {
       "exenv": "npm:exenv@1.2.0",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.3",
       "invariant": "npm:invariant@2.1.2",
