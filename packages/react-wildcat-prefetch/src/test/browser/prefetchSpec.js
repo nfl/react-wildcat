@@ -310,7 +310,7 @@ describe("react-wildcat-prefetch", () => {
 
                     render() {
                         expect(this.props.asyncData)
-                            .to.equal(stubs.prefetchedData);
+                            .to.equal(stubs.prefetchedData.asyncData);
 
                         done();
 
@@ -351,7 +351,7 @@ describe("react-wildcat-prefetch", () => {
 
                         render() {
                             expect(this.props[stubs.prefetchedDataKey])
-                                .to.equal(stubs.prefetchedDataCustomKey);
+                                .to.equal(stubs.prefetchedDataCustomKey[stubs.prefetchedDataKey]);
 
                             done();
 
@@ -377,7 +377,7 @@ describe("react-wildcat-prefetch", () => {
 
                         render() {
                             expect(this.props[stubs.prefetchedDataKey])
-                                .to.equal(stubs.prefetchedDataCustomKey);
+                                .to.equal(stubs.prefetchedDataCustomKey[stubs.prefetchedDataKey]);
 
                             done();
 
@@ -402,7 +402,7 @@ describe("react-wildcat-prefetch", () => {
 
                     render() {
                         expect(this.props.asyncData)
-                            .to.equal(stubs.prefetchedData);
+                            .to.equal(stubs.prefetchedData.asyncData);
 
                         done();
 
@@ -453,7 +453,7 @@ describe("react-wildcat-prefetch", () => {
                             renderCount += 1;
                         } else {
                             expect(this.props.asyncData)
-                                .to.equal(stubs.prefetchedData);
+                                .to.equal(stubs.prefetchedData.asyncData);
 
                             done();
                         }
