@@ -15,13 +15,22 @@ export const wildcatConfig = {
 export const prefetchedDataKey = "stubData";
 
 export const prefetchedData = {
-    "stub": true
+    "asyncData": {
+        "stub": true
+    }
+};
+
+export const prefetchedDataCustomKey = {
+    [prefetchedDataKey]: {
+        "stub": true
+    }
 };
 
 export const prefetchUrl = "https://example.com/example.json";
 export const prefetchInvalidUrl = "https://example.com/invalid.json";
 
 export const fetchPromise = () => Promise.resolve(exports.prefetchedData);
+export const fetchPromiseCustomKey = () => Promise.resolve(exports.prefetchedDataCustomKey);
 
 export const __INITIAL_DATA__ = "__INITIAL_DATA__";
 export const __REACT_ROOT_ID__ = "__REACT_ROOT_ID__";

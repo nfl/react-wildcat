@@ -310,7 +310,7 @@ describe("react-wildcat-prefetch", () => {
 
                     render() {
                         expect(this.props.asyncData)
-                            .to.equal(stubs.prefetchedData);
+                            .to.equal(stubs.prefetchedData.asyncData);
 
                         done();
 
@@ -320,6 +320,74 @@ describe("react-wildcat-prefetch", () => {
 
                 const WrappedPrefetch = Prefetch(stubs.fetchPromise)(WindowHydrationTest);
                 ReactTestUtils.renderIntoDocument(<WrappedPrefetch title={"Test Title"} />);
+            });
+
+            context("setting a custom key", () => {
+                beforeEach(() => {
+                    document.body.innerHTML = stubs.defaultTemplate({
+                        data: stubs.prefetchedData,
+                        head: {
+                            title: "<title></title>",
+                            meta: "",
+                            link: ""
+                        },
+                        html: "",
+                        wildcatConfig: stubs.wildcatConfig
+                    });
+
+                    window[stubs.__REACT_ROOT_ID__] = stubs.wildcatConfig.clientSettings.reactRootElementID;
+                    window[stubs.__INITIAL_DATA__] = stubs.prefetchedDataCustomKey;
+                });
+
+                it("using a custom key as hash", (done) => {
+                    class CustomKeyHydrationTest extends React.Component {
+                        static propTypes = {
+                            [stubs.prefetchedDataKey]: React.PropTypes.object
+                        }
+
+                        static defaultProps = {
+                            [stubs.prefetchedDataKey]: {}
+                        }
+
+                        render() {
+                            expect(this.props[stubs.prefetchedDataKey])
+                                .to.equal(stubs.prefetchedDataCustomKey[stubs.prefetchedDataKey]);
+
+                            done();
+
+                            return <div>{Object.keys(this.props)}</div>;
+                        }
+                    }
+
+                    const WrappedPrefetch = Prefetch(stubs.fetchPromiseCustomKey, {
+                        key: stubs.prefetchedDataKey
+                    })(CustomKeyHydrationTest);
+                    ReactTestUtils.renderIntoDocument(<WrappedPrefetch title={"Test Title"} />);
+                });
+
+                it("using a custom key as string", (done) => {
+                    class CustomKeyHydrationTest extends React.Component {
+                        static propTypes = {
+                            [stubs.prefetchedDataKey]: React.PropTypes.object
+                        }
+
+                        static defaultProps = {
+                            [stubs.prefetchedDataKey]: {}
+                        }
+
+                        render() {
+                            expect(this.props[stubs.prefetchedDataKey])
+                                .to.equal(stubs.prefetchedDataCustomKey[stubs.prefetchedDataKey]);
+
+                            done();
+
+                            return <div>{Object.keys(this.props)}</div>;
+                        }
+                    }
+
+                    const WrappedPrefetch = Prefetch(stubs.fetchPromiseCustomKey, stubs.prefetchedDataKey)(CustomKeyHydrationTest);
+                    ReactTestUtils.renderIntoDocument(<WrappedPrefetch title={"Test Title"} />);
+                });
             });
 
             it("hydrates React components with memory data", (done) => {
@@ -334,7 +402,7 @@ describe("react-wildcat-prefetch", () => {
 
                     render() {
                         expect(this.props.asyncData)
-                            .to.equal(stubs.prefetchedData);
+                            .to.equal(stubs.prefetchedData.asyncData);
 
                         done();
 
@@ -385,7 +453,7 @@ describe("react-wildcat-prefetch", () => {
                             renderCount += 1;
                         } else {
                             expect(this.props.asyncData)
-                                .to.equal(stubs.prefetchedData);
+                                .to.equal(stubs.prefetchedData.asyncData);
 
                             done();
                         }
