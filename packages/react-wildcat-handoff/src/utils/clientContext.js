@@ -34,7 +34,7 @@ module.exports = function clientContext(cfg) {
             storeClientSize(window);
         }, 50),
 
-        getChildContext() {
+        getChildContext: function () {
             // Pass user agent to Radium
             return {
                 radiumConfig: {
