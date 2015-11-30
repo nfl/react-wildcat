@@ -18,6 +18,7 @@ const http2 = require("spdy");
 const https = require("https");
 
 const morgan = require("koa-morgan");
+const getMorganOptions = require("./utils/getMorganOptions");
 require("./utils/customMorganTokens")(morgan, `☁️`);
 
 const Logger = require("./utils/logger");
@@ -64,30 +65,6 @@ function start() {
         hidden: false
     });
 
-    /* istanbul ignore next */
-    const morganOptions = (() => {
-        var skip = null;
-
-        switch (generalSettings.logLevel) {
-            case 0:
-            case 1:
-                skip = (req, res) => res.statusCode < 400;
-                break;
-
-            case 2:
-                skip = (req, res) => res.statusCode !== 201 && res.statusCode < 400;
-                break;
-
-            case 3:
-                skip = (req, res) => !req.url.startsWith("/public") || res.statusCode >= 400;
-                break;
-        }
-
-        return {
-            skip
-        };
-    }());
-
     /* istanbul ignore if */
     if (cluster.isMaster) {
         for (let i = 0, c = cpuCount; i < c; i++) {
@@ -101,7 +78,7 @@ function start() {
         return new Promise(resolve => {
             const app = koa();
 
-            app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
+            app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", getMorganOptions()));
 
             // enable cors
             app.use(cors({

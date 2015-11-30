@@ -18,6 +18,7 @@ const http2 = require("spdy");
 const https = require("https");
 
 const morgan = require("koa-morgan");
+const getMorganOptions = require("./utils/getMorganOptions");
 require("./utils/customMorganTokens")(morgan, `🏈`);
 
 const Logger = require("./utils/logger");
@@ -63,7 +64,7 @@ function start() {
         return new Promise(resolve => {
             const app = koa();
 
-            app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms"));
+            app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", getMorganOptions()));
 
             // enable cors
             app.use(cors());

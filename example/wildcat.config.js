@@ -26,7 +26,7 @@ var wildcatConfig = {
         // 2 = warn
         // 3 = info
         // 4 = debug
-        logLevel: Number(process.env.LOG_LEVEL) || 4
+        logLevel: process.env.LOG_LEVEL ? Number(process.env.LOG_LEVEL) : 4
     },
 
     clientSettings: {
