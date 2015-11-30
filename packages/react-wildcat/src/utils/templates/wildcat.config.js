@@ -19,7 +19,15 @@ const wildcatConfig = {
         name: undefined,
 
         // Project version
-        version: undefined
+        version: undefined,
+
+        // level of logging
+        // 0 = disable
+        // 1 = error
+        // 2 = warn
+        // 3 = info
+        // 4 = debug
+        logLevel: 4
     },
 
     clientSettings: {

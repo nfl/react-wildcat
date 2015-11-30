@@ -18,7 +18,15 @@ var wildcatConfig = {
         name: pkg.name,
 
         // Project version
-        version: pkg.version
+        version: pkg.version,
+
+        // level of logging
+        // 0 = disable
+        // 1 = error
+        // 2 = warn
+        // 3 = info
+        // 4 = debug
+        logLevel: Number(process.env.LOG_LEVEL) || 4
     },
 
     clientSettings: {

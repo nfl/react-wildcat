@@ -3,7 +3,6 @@ const path = require("path");
 const chalk = require("chalk");
 const pathExists = require("path-exists");
 const pathResolve = require("resolve-path");
-const LOG_LEVEL = Number(process.env.LOG_LEVEL) || 0;
 
 module.exports = function babelDevTranspiler(root, options) {
     "use strict";
@@ -12,6 +11,7 @@ module.exports = function babelDevTranspiler(root, options) {
     const binDir = options.binDir;
     const extensions = options.extensions;
     const logger = options.logger;
+    const logLevel = options.logLevel;
     const origin = options.origin;
     const outDir = options.outDir;
     const sourceDir = options.sourceDir;
@@ -31,7 +31,7 @@ module.exports = function babelDevTranspiler(root, options) {
 
         const statusCode = chalk.styles.yellow.open + 201 + chalk.styles.yellow.close;
         const relOut = chalk.styles.grey.open + modulePath.replace(`${root}`, "") + chalk.styles.grey.close;
-        const prettyLog = `${statusCode} CREATED ${relOut}`;
+        const prettyLog = `${statusCode} CREATE ${relOut}`;
 
         return new Promise((resolve, reject) => {
             if (extensions.indexOf(path.extname(moduleSourcePath)) !== -1) {
@@ -73,7 +73,7 @@ module.exports = function babelDevTranspiler(root, options) {
                             return reject(outputErr);
                         })
                         .on("finish", () => {
-                            if (LOG_LEVEL < 1) {
+                            if (logLevel > 1) {
                                 logger.meta(prettyLog);
                             }
                             return resolve(modulePath);
@@ -107,7 +107,7 @@ module.exports = function babelDevTranspiler(root, options) {
                                         return rejectBinary(outputErr);
                                     })
                                     .on("finish", () => {
-                                        if (LOG_LEVEL < 1) {
+                                        if (logLevel > 1) {
                                             logger.meta(prettyLog);
                                         }
                                         return resolveBinary(moduleBinPath || modulePath);

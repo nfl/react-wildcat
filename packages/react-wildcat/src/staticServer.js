@@ -21,7 +21,7 @@ const morgan = require("koa-morgan");
 require("./utils/customMorganTokens")(morgan, `☁️`);
 
 const Logger = require("./utils/logger");
-const logger = new Logger(`☁`);
+const logger = new Logger(`☁️`);
 
 const babelDevTranspiler = require("./middleware/babelDevTranspiler");
 
@@ -64,12 +64,29 @@ function start() {
         hidden: false
     });
 
-    const LOG_LEVEL = Number(process.env.LOG_LEVEL) || 0;
-
     /* istanbul ignore next */
-    const morganOptions = LOG_LEVEL > 0 ? {
-        skip: (req, res) => res.statusCode < 400
-    } : {};
+    const morganOptions = (() => {
+        var skip = null;
+
+        switch (generalSettings.logLevel) {
+            case 0:
+            case 1:
+                skip = (req, res) => res.statusCode < 400;
+                break;
+
+            case 2:
+                skip = (req, res) => res.statusCode !== 201 && res.statusCode < 400;
+                break;
+
+            case 3:
+                skip = (req, res) => !req.url.startsWith("/public") || res.statusCode >= 400;
+                break;
+        }
+
+        return {
+            skip
+        };
+    }());
 
     /* istanbul ignore if */
     if (cluster.isMaster) {
@@ -111,6 +128,7 @@ function start() {
                     binDir: serverSettings.binDir,
                     extensions: [".es6", ".js", ".es", ".jsx"],
                     logger,
+                    logLevel: generalSettings.logLevel,
                     origin: generalSettings.staticUrl,
                     outDir: serverSettings.publicDir,
                     sourceDir: serverSettings.sourceDir
