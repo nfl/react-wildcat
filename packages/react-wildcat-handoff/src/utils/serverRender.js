@@ -1,6 +1,5 @@
 "use strict";
 
-const React = require("react");
 const ReactDOM = require("react-dom/server");
 const Helmet = require("react-helmet");
 const Router = require("react-router");
@@ -65,10 +64,7 @@ module.exports = function serverRender(cfg) {
                         })
                 ).then(() => {
                     const reactMarkup = ReactDOM.renderToString(
-                        React.createElement(
-                            serverContext(request),
-                            renderProps
-                        )
+                        serverContext(request, renderProps)
                     );
 
                     const head = Object.assign({
