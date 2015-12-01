@@ -18,10 +18,11 @@ const http2 = require("spdy");
 const https = require("https");
 
 const morgan = require("koa-morgan");
+const getMorganOptions = require("./utils/getMorganOptions");
 require("./utils/customMorganTokens")(morgan, `☁️`);
 
 const Logger = require("./utils/logger");
-const logger = new Logger(`☁`);
+const logger = new Logger(`☁️`);
 
 const babelDevTranspiler = require("./middleware/babelDevTranspiler");
 
@@ -64,13 +65,6 @@ function start() {
         hidden: false
     });
 
-    const LOG_LEVEL = Number(process.env.LOG_LEVEL) || 0;
-
-    /* istanbul ignore next */
-    const morganOptions = LOG_LEVEL > 0 ? {
-        skip: (req, res) => res.statusCode < 400
-    } : {};
-
     /* istanbul ignore if */
     if (cluster.isMaster) {
         for (let i = 0, c = cpuCount; i < c; i++) {
@@ -84,7 +78,7 @@ function start() {
         return new Promise(resolve => {
             const app = koa();
 
-            app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
+            app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", getMorganOptions()));
 
             // enable cors
             app.use(cors({
@@ -111,6 +105,7 @@ function start() {
                     binDir: serverSettings.binDir,
                     extensions: [".es6", ".js", ".es", ".jsx"],
                     logger,
+                    logLevel: generalSettings.logLevel,
                     origin: generalSettings.staticUrl,
                     outDir: serverSettings.publicDir,
                     sourceDir: serverSettings.sourceDir
