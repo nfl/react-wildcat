@@ -83,7 +83,8 @@ module.exports = function serverRender(cfg) {
                     });
 
                     result = Object.assign({}, result, {
-                        html: html
+                        html: html,
+                        status: 200
                     });
 
                     return resolve(result);
