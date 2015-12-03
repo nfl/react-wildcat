@@ -126,13 +126,16 @@ module.exports = function renderReactWithJSPM(root, options) {
             const data = yield pageHandler(request, cookies);
             reply = data.reply;
 
-            // Save to cache
-            cache[request.url] = {
-                cache: reply,
-                lastModified: response.get("last-modified"),
-                packageCache: data.packageCache,
-                status: 304
-            };
+            // Only cache a successful response
+            if (reply.status >= 200 && reply.status < 400) {
+                // Save to cache
+                cache[request.url] = {
+                    cache: reply,
+                    lastModified: response.get("last-modified"),
+                    packageCache: data.packageCache,
+                    status: 304
+                };
+            }
         }
 
         if (reply.type) {
