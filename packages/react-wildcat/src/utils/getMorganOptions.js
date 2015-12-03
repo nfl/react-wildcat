@@ -1,11 +1,8 @@
 /* istanbul ignore next */
-module.exports = function getMorganOptions() {
-    const wildcatConfig = require("./getWildcatConfig")();
-    const generalSettings = wildcatConfig.generalSettings;
-
+module.exports = function getMorganOptions(logLevel) {
     var skip = null;
 
-    switch (generalSettings.logLevel) {
+    switch (logLevel) {
         case 0:
         case 1:
             skip = (req, res) => res.statusCode < 400;

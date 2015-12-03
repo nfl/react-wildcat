@@ -36,6 +36,8 @@ function start() {
     const staticServerSettings = serverSettings.staticServer;
     const secureSettings = staticServerSettings.secureSettings;
 
+    const morganOptions = getMorganOptions(generalSettings.logLevel);
+
     const __PROD__ = (process.env.NODE_ENV === "production");
     const __TEST__ = (process.env.BABEL_ENV === "test");
 
@@ -78,7 +80,7 @@ function start() {
         return new Promise(resolve => {
             const app = koa();
 
-            app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", getMorganOptions()));
+            app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
 
             // enable cors
             app.use(cors({
