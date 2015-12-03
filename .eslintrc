@@ -1,9 +1,11 @@
 {
     "extends": "eslint-config-nfl",
     "settings": {
-        "import/resolvers": [
-            "jspm-resolve",
-            "resolve"
-        ]
+        "import/resolver": {
+            "jspm": {
+                "moduleDirectory": "jspm_packages"
+            },
+            "node": true
+        }
     }
 }
