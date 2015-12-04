@@ -208,7 +208,7 @@ describe("react-wildcat-prefetch", () => {
 
             it("throws an invariant on an invalid configuration", () => {
                 const stubErrorHandler = () => Prefetch(null)(World);
-                expect(stubErrorHandler).to.throw(Error, /Invariant Violation/);
+                expect(stubErrorHandler).to.throw(Error, /Action must be typeof function or a string/);
             });
         });
 

@@ -37,6 +37,7 @@ function start() {
     const secureSettings = appServerSettings.secureSettings;
 
     const routeCache = {};
+    const morganOptions = getMorganOptions(generalSettings.logLevel);
 
     const __PROD__ = (process.env.NODE_ENV === "production");
     const __TEST__ = (process.env.BABEL_ENV === "test");
@@ -64,7 +65,7 @@ function start() {
         return new Promise(resolve => {
             const app = koa();
 
-            app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", getMorganOptions()));
+            app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
 
             // enable cors
             app.use(cors());
@@ -95,10 +96,30 @@ function start() {
                 wildcatConfig: wildcatConfig
             }));
 
+            var serverType;
+
+            switch (appServerSettings.protocol) {
+                case "http2":
+                    serverType = http2;
+                    break;
+
+                case "https":
+                    serverType = https;
+                    break;
+
+                case "http":
+                default:
+                    serverType = http;
+                    break;
+            }
+
+            // Stop Limiting Your Connections with Default MaxSockets Value
+            // http://webapplog.com/seven-things-you-should-stop-doing-with-node-js/
+            (serverType.globalAgent || https.globalAgent).maxSockets = Infinity;
+
             if (appServerSettings.protocol === "http") {
-                server = http.createServer(app.callback());
+                server = serverType.createServer(app.callback());
             } else {
-                const serverType = appServerSettings.protocol === "http2" ? http2 : https;
                 server = serverType.createServer(secureSettings, app.callback());
             }
 

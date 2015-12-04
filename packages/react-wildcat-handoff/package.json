@@ -11,8 +11,8 @@
     "isomorphic-fetch": "^2.2.0",
     "match-media-mock": "^0.1.0",
     "parse-domain": "^0.2.0",
-    "react": "^0.14.2",
-    "react-dom": "^0.14.2",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
     "react-helmet": "^2.2.0",
     "react-router": "^1.0.0",
     "react-wildcat-radium": "^1.0.0-beta5"
