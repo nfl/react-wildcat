@@ -1,3 +1,32 @@
+<a name="1.0.0-beta7"></a>
+# [1.0.0-beta7](//compare/1.0.0-beta5...v1.0.0-beta7) (2015-12-05)
+
+
+### Bug Fixes
+
+* **react-wildcat:** add css / swf to normalize whitelist 604abd9
+* **react-wildcat:** avoid caching unsuccessful responses 4ceba69
+* **react-wildcat:** disable http connection limit 3775aa5
+* **react-wildcat:** share config between servers 7e9031e
+* **react-wildcat:** update bbod 10cf725
+* **react-wildcat-handoff:** add css / swf to normalize whitelist 226d62c
+* **react-wildcat-handoff:** escape regex character dac7603
+* **react-wildcat-handoff:** make es5-friendly a758174
+* **react-wildcat-handoff:** mirror client render and context 84c46cf
+* **react-wildcat-handoff:** reject promise on error 84f8948
+* **react-wildcat-handoff:** send 200 status 959cc53
+* **react-wildcat-prefetch:** add css / swf to normalize whitelist 71de5f2
+
+### Features
+
+* **react-wildcat:** add more custom log levels e9b8e66
+
+### Performance Improvements
+
+* **react-wildcat:** disable cache check in dev mode 95fb287
+
+
+
 <a name="1.0.0-beta5"></a>
 # [1.0.0-beta5](//compare/1.0.0-beta4...v1.0.0-beta5) (2015-11-23)
 
