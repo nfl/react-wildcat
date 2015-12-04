@@ -2,6 +2,9 @@ var React = require("react");
 var Router = require("react-router");
 var debounce = require("debounce");
 var ExecutionEnvironment = require("exenv");
+
+const radium = require("radium");
+const prefixAll = require("radium-plugin-prefix-all");
 var storeClientSize = require("./storeClientSize.js");
 
 /**
@@ -9,10 +12,23 @@ var storeClientSize = require("./storeClientSize.js");
  * @return {Promise}
  */
 module.exports = function clientContext(cfg) {
+    var userAgent = ExecutionEnvironment.canUseDOM ? window.navigator.userAgent : null;
+
+    var plugins = [
+        radium.Plugins.mergeStyleArray,
+        radium.Plugins.checkProps,
+        radium.Plugins.resolveMediaQueries,
+        radium.Plugins.resolveInteractionStyles,
+        radium.Plugins.prefix,
+        prefixAll,
+        radium.Plugins.checkProps
+    ];
+
     /* eslint-disable react/no-multi-comp */
     var ClientContext = React.createClass({
         childContextTypes: {
             radiumConfig: React.PropTypes.shape({
+                plugins: React.PropTypes.array,
                 userAgent: React.PropTypes.string
             })
         },
@@ -38,7 +54,8 @@ module.exports = function clientContext(cfg) {
             // Pass user agent to Radium
             return {
                 radiumConfig: {
-                    userAgent: ExecutionEnvironment.canUseDOM ? window.navigator.userAgent : null
+                    plugins: plugins,
+                    userAgent: userAgent
                 }
             };
         },
