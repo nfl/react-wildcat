@@ -18,9 +18,9 @@ System.config({
     "parse-domain": "npm:parse-domain@0.2.0",
     "radium": "npm:radium@0.15.3",
     "radium-plugin-prefix-all": "npm:radium-plugin-prefix-all@1.0.0",
-    "react": "npm:react@0.14.2",
-    "react-addons-test-utils": "npm:react-addons-test-utils@0.14.2",
-    "react-dom": "npm:react-dom@0.14.2",
+    "react": "npm:react@0.14.3",
+    "react-addons-test-utils": "npm:react-addons-test-utils@0.14.3",
+    "react-dom": "npm:react-dom@0.14.3",
     "react-router": "npm:react-router@1.0.0",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0-beta5",
     "github:jspm/nodelibs-assert@0.1.0": {
@@ -279,7 +279,7 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "pako": "npm:pako@0.2.8",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "readable-stream": "npm:readable-stream@1.1.13",
+      "readable-stream": "npm:readable-stream@1.0.33",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:browserslist@1.0.1": {
@@ -629,7 +629,7 @@ System.config({
       "systemjs-json": "github:systemjs/plugin-json@0.1.0",
       "url": "github:jspm/nodelibs-url@0.1.0"
     },
-    "npm:history@1.13.0": {
+    "npm:history@1.13.1": {
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",
       "deep-equal": "npm:deep-equal@1.0.1",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
@@ -680,7 +680,7 @@ System.config({
       "caniuse-api": "npm:caniuse-api@1.4.1",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:invariant@2.1.2": {
+    "npm:invariant@2.2.0": {
       "loose-envify": "npm:loose-envify@1.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
@@ -1042,8 +1042,8 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "strip-json-comments": "npm:strip-json-comments@1.0.4"
     },
-    "npm:react-addons-test-utils@0.14.2": {
-      "react": "npm:react@0.14.2"
+    "npm:react-addons-test-utils@0.14.3": {
+      "react": "npm:react@0.14.3"
     },
     "npm:react-dom@0.14.3": {
       "react": "npm:react@0.14.3"
