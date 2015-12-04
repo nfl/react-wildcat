@@ -118,7 +118,7 @@ exports.routes = {
     )
 };
 
-exports.callbackError = "Fake Error!";
+exports.callbackError = new Error("Fake Error!");
 
 exports.invalidRoutes = {
     routes: React.createElement(

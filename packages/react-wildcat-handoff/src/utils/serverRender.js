@@ -20,20 +20,19 @@ module.exports = function serverRender(cfg) {
     const request = cfg.request;
     const wildcatConfig = cfg.wildcatConfig;
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         match(cfg, (error, redirectLocation, renderProps) => {
             let result = {};
+
+            if (error) {
+                return reject(error);
+            }
 
             if (redirectLocation) {
                 result = {
                     redirect: true,
                     redirectLocation,
                     status: 301
-                };
-            } else if (error) {
-                result = {
-                    error,
-                    status: 500
                 };
             } else if (!renderProps) {
                 result = {
@@ -83,7 +82,8 @@ module.exports = function serverRender(cfg) {
                     });
 
                     result = Object.assign({}, result, {
-                        html: html
+                        html: html,
+                        status: 200
                     });
 
                     return resolve(result);

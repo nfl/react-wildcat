@@ -99,20 +99,16 @@ describe("react-wildcat-handoff/server", () => {
                 .that.equals("serverHandoff");
 
             const result = serverHandoff(stubs.requests.basic, stubs.cookieParser, stubs.wildcatConfig)
-                .then(response => {
-                    expect(response)
-                        .to.be.an("object")
-                        .that.has.property("error")
+                .catch(error => {
+                    expect(error)
+                        .to.exist;
+
+                    expect(error)
+                        .to.be.an("error")
                         .that.equals(stubs.callbackError);
 
-                    expect(response)
-                        .to.be.an("object")
-                        .that.has.property("status")
-                        .that.equals(500);
-
                     done();
-                })
-                .catch(error => done(error));
+                });
 
             expect(result)
                 .to.be.an.instanceof(Promise);
@@ -317,7 +313,7 @@ describe("react-wildcat-handoff/server", () => {
                     expect(response)
                         .to.be.an("object")
                         .that.has.property("error")
-                        .that.is.a("string")
+                        .that.is.an("error")
                         .that.equals(stubs.callbackError);
 
                     expect(response)

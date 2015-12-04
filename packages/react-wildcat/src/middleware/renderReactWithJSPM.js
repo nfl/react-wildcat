@@ -117,21 +117,25 @@ module.exports = function renderReactWithJSPM(root, options) {
         response.type = "text/html";
         response.lastModified = file.lastModified || new Date().toGMTString();
 
+        const isFresh = (request.fresh || !__PROD__);
         var reply;
 
-        if (request.fresh && file.cache) {
+        if (isFresh && file.cache) {
             reply = file.cache;
         } else {
-            var data = yield pageHandler(request, cookies);
+            const data = yield pageHandler(request, cookies);
             reply = data.reply;
 
-            // Save to cache
-            cache[request.url] = {
-                cache: reply,
-                lastModified: response.get("last-modified"),
-                packageCache: data.packageCache,
-                status: 304
-            };
+            // Only cache a successful response
+            if (reply.status >= 200 && reply.status < 400) {
+                // Save to cache
+                cache[request.url] = {
+                    cache: reply,
+                    lastModified: response.get("last-modified"),
+                    packageCache: data.packageCache,
+                    status: 304
+                };
+            }
         }
 
         if (reply.type) {
