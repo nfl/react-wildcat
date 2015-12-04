@@ -24,7 +24,7 @@ module.exports = function renderReactWithJSPM(root, options) {
                 // override the normalization function
                 function customNormalize(name, parentName, parentAddress) {
                     return systemNormalize.call(this, name, parentName, parentAddress).then(function (url) {
-                        if ((/\.(?:eot|gif|jpe?g|json|otf|png|svg|ttf|woff)\.js$/).test(url)) {
+                        if ((/\.(?:css|eot|gif|jpe?g|json|otf|png|swf|svg|ttf|woff)\.js$/).test(url)) {
                             return url.replace(/\.js$/, "");
                         }
 
