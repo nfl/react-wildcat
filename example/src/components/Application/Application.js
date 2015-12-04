@@ -1,5 +1,5 @@
 import React from "react";
-import radium from "react-wildcat-radium";
+import radium from "radium";
 import {Link as RawLink} from "react-router";
 import {metrics} from "react-metrics";
 import metricsConfig from "metrics.config.js";
