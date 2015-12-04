@@ -46,6 +46,7 @@
     "dependencies": {
       "babel-runtime": "npm:babel-runtime@^5.8.25",
       "core-js": "npm:core-js@^1.2.6",
+      "radium": "npm:radium@^0.15.3",
       "react": "npm:react@^0.14.2",
       "react-dom": "npm:react-dom@^0.14.2",
       "react-helmet": "npm:react-helmet@^2.1.1",
@@ -53,8 +54,7 @@
       "react-router": "npm:react-router@^1.0.0",
       "react-wildcat-ensure": "npm:react-wildcat-ensure@^1.0.0-beta5",
       "react-wildcat-handoff": "npm:react-wildcat-handoff@^1.0.0-beta5",
-      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@^1.0.0-beta5",
-      "react-wildcat-radium": "npm:react-wildcat-radium@^1.0.0-beta5"
+      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@^1.0.0-beta5"
     },
     "devDependencies": {
       "isomorphic-fetch": "npm:isomorphic-fetch@^2.2.0",
