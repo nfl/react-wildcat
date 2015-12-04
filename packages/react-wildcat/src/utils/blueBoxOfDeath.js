@@ -72,7 +72,7 @@ module.exports = function (err, request) {
                 <p>An error occurred importing jspm packages for route <code>${request.url}</code>.</p>
                 <p>This is usually the result of attempting to load missing or invalid jspm package(s). Possible solutions:</p>
                 <ul>
-                    <li>Check your console for 404 status codes. These should identify missing packages or modules.</li>
+                    <li>Check your console for <code>40x</code> or <code>50x</code> status codes. These should identify missing packages or modules.</li>
                     <li>Run <code>jspm install</code> to install any missing dependencies.</li>
                 </ul>
             </div>
