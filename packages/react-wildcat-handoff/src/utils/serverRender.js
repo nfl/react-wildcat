@@ -5,15 +5,8 @@ const Helmet = require("react-helmet");
 const Router = require("react-router");
 const defaultTemplate = require("./defaultTemplate.js");
 
-const radium = require("react-wildcat-radium");
-const matchMediaMock = require("match-media-mock").create();
-
-const getClientSize = require("./getClientSize.js");
 const serverContext = require("./serverContext.js");
-
 const match = Router.match;
-
-radium.setMatchMedia(matchMediaMock);
 
 module.exports = function serverRender(cfg) {
     const cookies = cfg.cookies;
@@ -40,14 +33,6 @@ module.exports = function serverRender(cfg) {
                     status: 404
                 };
             } else {
-                const clientSize = getClientSize(cookies, request.query);
-
-                matchMediaMock.setConfig({
-                    type: "screen",
-                    height: clientSize.height,
-                    width: clientSize.width
-                });
-
                 const initialData = {};
 
                 return Promise.all(
@@ -63,7 +48,7 @@ module.exports = function serverRender(cfg) {
                         })
                 ).then(() => {
                     const reactMarkup = ReactDOM.renderToString(
-                        serverContext(request, renderProps)
+                        serverContext(request, cookies, renderProps)
                     );
 
                     const head = Object.assign({
@@ -78,7 +63,7 @@ module.exports = function serverRender(cfg) {
                         data: initialData,
                         head: head,
                         html: reactMarkup,
-                        wildcatConfig: wildcatConfig
+                        wildcatConfig
                     });
 
                     result = Object.assign({}, result, {

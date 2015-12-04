@@ -1,7 +1,7 @@
 import React from "react";
 import Helmet from "react-helmet";
 
-import radium from "react-wildcat-radium";
+import radium from "radium";
 import styles from "./styles/index.js";
 
 @radium
