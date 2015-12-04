@@ -63,6 +63,8 @@
       "invariant": "^2.1.2",
       "isomorphic-fetch": "^2.2.0",
       "parse-domain": "^0.2.0",
+      "radium": "^0.15.3",
+      "radium-plugin-prefix-all": "^1.0.0",
       "react": "^0.14.2",
       "react-addons-test-utils": "^0.14.2",
       "react-dom": "^0.14.2",

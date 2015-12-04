@@ -96,7 +96,9 @@ module.exports = function defaultTemplate(cfg) {
                         }
                     });
                 })` : ``}
-                .catch(console.error.bind(console));
+                .catch(function (err) {
+                    console.error(err);
+                });
         </script>
     </body>
 </html>
