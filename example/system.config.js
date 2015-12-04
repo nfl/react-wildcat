@@ -1087,6 +1087,9 @@ System.config({
     "npm:punycode@1.3.2": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
+    "npm:radium-plugin-prefix-all@1.0.0": {
+      "inline-style-prefixer": "npm:inline-style-prefixer@0.5.4"
+    },
     "npm:radium@0.15.3": {
       "array-find": "npm:array-find@1.0.0",
       "babel": "npm:babel@5.8.34",
@@ -1178,20 +1181,18 @@ System.config({
       "match-media-mock": "npm:match-media-mock@0.1.0",
       "parse-domain": "npm:parse-domain@0.2.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
+      "radium": "npm:radium@0.15.3",
+      "radium-plugin-prefix-all": "npm:radium-plugin-prefix-all@1.0.0",
       "react": "npm:react@0.14.3",
       "react-dom": "npm:react-dom@0.14.3",
       "react-helmet": "npm:react-helmet@2.2.0",
-      "react-router": "npm:react-router@1.0.0",
-      "react-wildcat-radium": "npm:react-wildcat-radium@1.0.0-beta5"
+      "react-router": "npm:react-router@1.0.0"
     },
     "npm:react-wildcat-prefetch@1.0.0-beta5": {
       "exenv": "npm:exenv@1.2.0",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.3",
       "invariant": "npm:invariant@2.2.0",
       "react": "npm:react@0.14.3"
-    },
-    "npm:react-wildcat-radium@1.0.0-beta5": {
-      "radium": "npm:radium@0.15.3"
     },
     "npm:react@0.14.3": {
       "envify": "npm:envify@3.4.0",
