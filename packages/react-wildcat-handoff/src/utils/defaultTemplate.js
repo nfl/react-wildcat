@@ -49,7 +49,7 @@ module.exports = function defaultTemplate(cfg) {
             // override the normalization function
             System.normalize = function (name, parentName, parentAddress) {
                 return systemNormalize.call(this, name, parentName, parentAddress).then(function (url) {
-                    if ((/\.(?:css|eot|gif|jpe?g|json|otf|png|swf|svg|ttf|woff)\.js$/).test(url)) {
+                    if ((/\\.(?:css|eot|gif|jpe?g|json|otf|png|swf|svg|ttf|woff)\.js$/).test(url)) {
                         return url.replace(/\.js$/, "");
                     }
 
