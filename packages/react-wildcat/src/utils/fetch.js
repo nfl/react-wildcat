@@ -2,7 +2,7 @@
 
 var realFetch = require("node-fetch");
 
-module.exports = function (url, options) {
+module.exports = function fetch(url, options) {
     if (/^\/\//.test(url)) {
         url = "https:" + url;
     }

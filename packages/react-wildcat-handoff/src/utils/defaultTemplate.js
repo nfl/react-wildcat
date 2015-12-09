@@ -47,14 +47,16 @@ module.exports = function defaultTemplate(cfg) {
             var systemNormalize = System.normalize;
 
             // override the normalization function
-            System.normalize = function (name, parentName, parentAddress) {
-                return systemNormalize.call(this, name, parentName, parentAddress).then(function (url) {
-                    if ((/\\.(?:css|eot|gif|jpe?g|json|otf|png|swf|svg|ttf|woff)\.js$/).test(url)) {
-                        return url.replace(/\.js$/, "");
-                    }
+            System.normalize = function normalize(name, parentName, parentAddress) {
+                return systemNormalize.call(this, name, parentName, parentAddress).then(
+                    function normalizeCallback(url) {
+                        if ((/\\.(?:css|eot|gif|jpe?g|json|otf|png|swf|svg|ttf|woff)\.js$/).test(url)) {
+                            return url.replace(/\.js$/, "");
+                        }
 
-                    return url;
-                });
+                        return url;
+                    }
+                );
             };
         </script>
 
@@ -65,7 +67,7 @@ module.exports = function defaultTemplate(cfg) {
                 System.import("${entry}"),
                 System.import("${renderHandler}")
             ])
-                .then(function (responses) {
+                .then(function clientEntry(responses) {
                     // First response is a hash of project options
                     var clientOptions = responses[0];
 
@@ -75,10 +77,10 @@ module.exports = function defaultTemplate(cfg) {
                     // Pass options to server
                     return client(clientOptions);
                 })
-                ${__DEV__ ? `.then(function () {
+                ${__DEV__ ? `.then(function clientHotLoad() {
                     var socket = new WebSocket("${staticUrl.replace("http", "ws")}");
 
-                    socket.addEventListener("message", function (message) {
+                    socket.addEventListener("message", function socketMessage(message) {
                         message = JSON.parse(message.data);
                         var modulePath = message.data;
 
@@ -96,7 +98,7 @@ module.exports = function defaultTemplate(cfg) {
                         }
                     });
                 })` : ``}
-                .catch(function (err) {
+                .catch(function clientError(err) {
                     console.error(err);
                 });
         </script>

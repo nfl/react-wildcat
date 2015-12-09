@@ -13,15 +13,15 @@ function getAction(action, ComposedComponent) {
 
         case "string":
             return function asyncAction() {
-                return new Promise(function (resolve) {
+                return new Promise(function asyncPromise(resolve) {
                     return fetch(action)
-                        .then(function (response) {
+                        .then(function asyncPromiseResponse(response) {
                             return response.json();
                         })
-                        .then(function (json) {
+                        .then(function asyncPromiseJSON(json) {
                             return resolve(json);
                         })
-                        .catch(function (error) {
+                        .catch(function asyncPromiseError(error) {
                             return resolve({
                                 error: error
                             });

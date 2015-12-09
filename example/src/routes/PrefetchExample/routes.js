@@ -5,7 +5,7 @@ export const path = "/prefetch-example";
 
 // Lazy loaded components
 export function getComponent(location, cb) {
-    ensure(["./PrefetchExample"], module, function (err, [module]) {
+    ensure(["./PrefetchExample"], module, function ensureResult(err, [module]) {
         return cb(err, module);
     });
 }

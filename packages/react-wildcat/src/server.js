@@ -58,11 +58,11 @@ function start() {
             cluster.fork();
         }
 
-        cluster.on("exit", (worker, code, signal) => {
+        cluster.on("exit", function clusterExit(worker, code, signal) {
             logger.warn(`worker ${worker.process.pid} has died (code: ${code}) (signal: ${signal})`);
         });
     } else {
-        return new Promise(resolve => {
+        return new Promise(function startPromise(resolve) {
             const app = koa();
 
             app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
@@ -137,7 +137,7 @@ function start() {
                 });
             }
 
-            server.listen(port, () => {
+            server.listen(port, function serverListener() {
                 /* istanbul ignore else */
                 if (cluster.worker.id === cpuCount) {
                     if (__PROD__) {
@@ -157,7 +157,9 @@ function start() {
 }
 
 function close() {
-    return new Promise(resolve => server.close(resolve));
+    return new Promise(function closePromise(resolve) {
+        server.close(resolve);
+    });
 }
 
 exports.start = start;

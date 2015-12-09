@@ -13,7 +13,7 @@ function moduleHotStub(ref) {
         local.hot.accept = local.hot.accept || function hotStub() {};
     }
 
-    return function (ReactClass) {
+    return function hotStubClass(ReactClass) {
         return ReactClass;
     };
 }

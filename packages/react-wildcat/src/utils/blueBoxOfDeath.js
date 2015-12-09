@@ -1,4 +1,4 @@
-module.exports = function (err, request) {
+module.exports = function blueBoxOfDeath(err, request) {
     const bbod = `
 <!doctype html>
 <html>

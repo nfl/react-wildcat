@@ -93,7 +93,7 @@ function write(src, relative, done) {
         sourceMapTarget: path.basename(relative)
     });
 
-    babel.transformFile(src, dataOptions, (transformErr, data) => {
+    babel.transformFile(src, dataOptions, function transformData(transformErr, data) {
         if (transformErr) {
             logger.error(logError(transformErr));
 
@@ -123,7 +123,7 @@ function write(src, relative, done) {
         }
 
         fs.createOutputStream(dest)
-            .on("finish", () => {
+            .on("finish", function outputStreamFinish() {
                 log(src + " -> " + dest);
                 return done && done();
             })
@@ -156,7 +156,7 @@ function handleFile(src, filename, done) {
         fs.createReadStream(src)
             .pipe(
                 fs.createOutputStream(rawDest || dest)
-                    .on("finish", () => {
+                    .on("finish", function outputStreamFinish() {
                         log(src + " -> " + dest);
                         return done && done();
                     })
@@ -165,12 +165,12 @@ function handleFile(src, filename, done) {
 }
 
 function handle(filename) {
-    pathExists(filename).then(exists => {
+    pathExists(filename).then(function existsResult(exists) {
         if (!exists) {
             return;
         }
 
-        fs.stat(filename, (statErr, stats) => {
+        fs.stat(filename, function statResult(statErr, stats) {
             if (statErr) {
                 return logger.error(statErr);
             }
@@ -183,15 +183,19 @@ function handle(filename) {
 
                 function batchFile(currentFile) {
                     const src = path.join(currentDirectory, currentFile);
-                    batch.push(done => handleFile(src, currentFile, done));
+                    batch.push(function batchJob(done) {
+                        handleFile(src, currentFile, done);
+                    });
                 }
 
                 glob(`**`, {
                     cwd: filename,
                     nodir: true,
                     ignore: commander.ignore
-                }, (err, files) => {
-                    files.forEach(currentFile => batchFile(currentFile));
+                }, function globResult(err, files) {
+                    files.forEach(function individualFile(currentFile) {
+                        batchFile(currentFile);
+                    });
                     batch.end();
                 });
             } else {
@@ -203,7 +207,7 @@ function handle(filename) {
 }
 
 if (!commander.watch) {
-    let filenames = commander.args.reduce((globbed, input) => {
+    let filenames = commander.args.reduce(function fileReducer(globbed, input) {
         let files = glob.sync(input, {
             ignore: commander.ignore
         });
@@ -213,7 +217,7 @@ if (!commander.watch) {
         return globbed.concat(files);
     }, []);
 
-    filenames = filenames.filter((element, idx) => {
+    filenames = filenames.filter(function fileReducerFilter(element, idx) {
         return filenames.indexOf(element) === idx;
     });
 
@@ -226,8 +230,8 @@ if (commander.watch) {
         persistent: true
     });
 
-    ["add", "change"].forEach(type => {
-        watcher.on(type, filename => {
+    ["add", "change"].forEach(function watchEventType(type) {
+        watcher.on(type, function watchEventHandler(filename) {
             const relative = path.relative(dirname, filename) || filename;
 
             try {
