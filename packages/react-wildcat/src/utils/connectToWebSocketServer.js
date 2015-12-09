@@ -39,12 +39,12 @@ module.exports = function connectToWebSocketServer(options) {
 
         switch (message.event) {
             case "filechange":
-                Object.keys(routeCache).forEach(function cacheCheck(route) {
-                    const routePackageCache = routeCache[route].packageCache;
+                routeCache.forEach(function cacheCheck(routeData, routeName) {
+                    const routePackageCache = routeData.packageCache;
 
                     if (Array.isArray(routePackageCache) && routePackageCache.indexOf(modulePath) !== -1) {
-                        logger.info(`expiring cache for`, route, cluster.worker.id);
-                        delete routeCache[route];
+                        logger.info(`expiring cache for`, routeData, cluster.worker.id);
+                        routeCache.delete(routeName);
                     }
                 });
                 break;
