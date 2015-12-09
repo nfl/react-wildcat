@@ -13,8 +13,8 @@ module.exports = function serverRender(cfg) {
     const request = cfg.request;
     const wildcatConfig = cfg.wildcatConfig;
 
-    return new Promise((resolve, reject) => {
-        match(cfg, (error, redirectLocation, renderProps) => {
+    return new Promise(function serverRenderPromise(resolve, reject) {
+        match(cfg, function serverRenderMatch(error, redirectLocation, renderProps) {
             let result = {};
 
             if (error) {
@@ -37,42 +37,47 @@ module.exports = function serverRender(cfg) {
 
                 return Promise.all(
                     renderProps.components
-                        .filter(component => component.prefetch)
-                        .map(component => {
+                        .filter(function renderPropsFilter(component) {
+                            return component.prefetch;
+                        })
+                        .map(function renderPropsMap(component) {
                             const prefetch = component.prefetch;
                             const key = prefetch.getKey();
 
-                            return prefetch.run(renderProps).then(props => {
-                                initialData[key] = prefetch[key] = props;
-                            });
+                            return prefetch.run(renderProps).then(
+                                function renderPropsPrefetchResult(props) {
+                                    initialData[key] = prefetch[key] = props;
+                                }
+                            );
                         })
-                ).then(() => {
-                    const reactMarkup = ReactDOM.renderToString(
-                        serverContext(request, cookies, renderProps)
-                    );
+                )
+                    .then(function serverRenderPromiseResult() {
+                        const reactMarkup = ReactDOM.renderToString(
+                            serverContext(request, cookies, renderProps)
+                        );
 
-                    const head = Object.assign({
-                        link: "",
-                        meta: "",
-                        title: ""
-                    }, Helmet.rewind());
+                        const head = Object.assign({
+                            link: "",
+                            meta: "",
+                            title: ""
+                        }, Helmet.rewind());
 
-                    const htmlTemplate = wildcatConfig.serverSettings.htmlTemplate || defaultTemplate;
+                        const htmlTemplate = wildcatConfig.serverSettings.htmlTemplate || defaultTemplate;
 
-                    const html = htmlTemplate({
-                        data: initialData,
-                        head: head,
-                        html: reactMarkup,
-                        wildcatConfig
+                        const html = htmlTemplate({
+                            data: initialData,
+                            head: head,
+                            html: reactMarkup,
+                            wildcatConfig
+                        });
+
+                        result = Object.assign({}, result, {
+                            html: html,
+                            status: 200
+                        });
+
+                        return resolve(result);
                     });
-
-                    result = Object.assign({}, result, {
-                        html: html,
-                        status: 200
-                    });
-
-                    return resolve(result);
-                });
             }
 
             return resolve(result);

@@ -33,24 +33,24 @@ module.exports = function clientContext(cfg) {
             })
         },
 
-        componentDidMount: function () {
+        componentDidMount: function componentDidMount() {
             if (ExecutionEnvironment.canUseDOM) {
                 window.addEventListener("resize", this.onResize);
                 this.onResize();
             }
         },
 
-        componentWillUnmount: function () {
+        componentWillUnmount: function componentWillUnmount() {
             if (ExecutionEnvironment.canUseDOM) {
                 window.removeEventListener("resize", this.onResize);
             }
         },
 
-        onResize: debounce(function () {
+        onResize: debounce(function onResize() {
             storeClientSize(window);
         }, 50),
 
-        getChildContext: function () {
+        getChildContext: function getChildContext() {
             // Pass user agent to Radium
             return {
                 radiumConfig: {
@@ -60,7 +60,7 @@ module.exports = function clientContext(cfg) {
             };
         },
 
-        render: function () {
+        render: function render() {
             return (
                 React.createElement(Router.default || Router, cfg, cfg.routes)
             );

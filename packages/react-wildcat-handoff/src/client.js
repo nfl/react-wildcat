@@ -23,8 +23,8 @@ function render(cfg) {
     cfg.location = clientLocation;
 
     if (!cfg.routes && cfg.domains) {
-        return new Promise(function (resolve, reject) {
-            getDomainRoutes(cfg.domains, location, function (err, routes) {
+        return new Promise(function renderPromise(resolve, reject) {
+            getDomainRoutes(cfg.domains, location, function renderCallback(err, routes) {
                 if (err) {
                     return reject(new Error(err));
                 }
