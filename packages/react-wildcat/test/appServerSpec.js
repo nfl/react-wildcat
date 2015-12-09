@@ -155,6 +155,12 @@ describe("react-wildcat", () => {
                 sinon.stub(console, "log");
                 console.log.returns();
 
+                sinon.stub(console, "info");
+                console.info.returns();
+
+                sinon.stub(console, "warn");
+                console.warn.returns();
+
                 process.env.LOG_LEVEL = 0;
 
                 staticServer = proxyquire("../src/staticServer.js", {
@@ -192,6 +198,8 @@ describe("react-wildcat", () => {
                 staticServer.close()
                     .then(() => {
                         console.log.restore();
+                        console.info.restore();
+                        console.warn.restore();
 
                         process.env.LOG_LEVEL = currentLogLevel;
                         done();
