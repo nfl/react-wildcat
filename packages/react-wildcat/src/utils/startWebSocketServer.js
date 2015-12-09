@@ -20,13 +20,17 @@ module.exports = function connectToWebSocketServer(root, options) {
         server: server
     });
 
-    chokidar.watch(root, watchOptions).on("all", (type, filename) => {
+    chokidar.watch(root, watchOptions).on("all", function fileWatcher(type, filename) {
         if ((!filename.endsWith(".gz") && !filename.endsWith(".map")) && (type === "add" || type === "change")) {
             const modulePath = filename.replace(root, origin);
-            wss.clients.forEach(client => send("filechange", modulePath, client));
+            wss.clients.forEach(function wssClient(client) {
+                send("filechange", modulePath, client);
+            });
 
             if (cache[filename]) {
-                wss.clients.forEach(client => send("cacheflush", filename, client));
+                wss.clients.forEach(function wssClient(client) {
+                    send("cacheflush", filename, client);
+                });
                 delete cache[filename];
             }
         }

@@ -33,9 +33,9 @@ module.exports = function babelDevTranspiler(root, options) {
         const relOut = chalk.styles.grey.open + modulePath.replace(`${root}`, "") + chalk.styles.grey.close;
         const prettyLog = `${statusCode} CREATE ${relOut}`;
 
-        return new Promise((resolve, reject) => {
+        return new Promise(function transpilerPromise(resolve, reject) {
             if (extensions.indexOf(path.extname(moduleSourcePath)) !== -1) {
-                babel.transformFile(moduleSourcePath, dataOptions, (transformErr, data) => {
+                babel.transformFile(moduleSourcePath, dataOptions, function transformFile(transformErr, data) {
                     /* istanbul ignore next */
                     if (transformErr) {
                         logger.error(transformErr);
@@ -56,7 +56,7 @@ module.exports = function babelDevTranspiler(root, options) {
                         data.code = addSourceMappingUrl(data.code, mapLoc);
 
                         fs.createOutputStream(mapLoc)
-                            .on("error", (outputErr) => {
+                            .on("error", function outputStreamError(outputErr) {
                                 /* istanbul ignore next */
                                 logger.error(outputErr);
                                 /* istanbul ignore next */
@@ -66,13 +66,13 @@ module.exports = function babelDevTranspiler(root, options) {
                     }
 
                     fs.createOutputStream(modulePath)
-                        .on("error", (outputErr) => {
+                        .on("error", function outputStreamError(outputErr) {
                             /* istanbul ignore next */
                             logger.error(outputErr);
                             /* istanbul ignore next */
                             return reject(outputErr);
                         })
-                        .on("finish", () => {
+                        .on("finish", function outputStreamFinish() {
                             if (logLevel > 1) {
                                 logger.meta(prettyLog);
                             }
@@ -84,29 +84,31 @@ module.exports = function babelDevTranspiler(root, options) {
                 const importable = `module.exports = "${origin}${moduleBinPath.replace(`${root}`, "")}";`;
 
                 Promise.all([
-                    new Promise((resolveImportable, rejectImportable) => {
+                    new Promise(function importablePromise(resolveImportable, rejectImportable) {
                         fs.createOutputStream(modulePath)
-                            .on("error", (outputErr) => {
+                            .on("error", function importableStreamError(outputErr) {
                                 /* istanbul ignore next */
                                 logger.error(outputErr);
                                 /* istanbul ignore next */
                                 return rejectImportable(outputErr);
                             })
-                            .on("finish", () => resolveImportable(modulePath))
+                            .on("finish", function importableStreamFinish() {
+                                return resolveImportable(modulePath);
+                            })
                             .end(importable);
                     }),
 
-                    new Promise((resolveBinary, rejectBinary) => {
+                    new Promise(function binaryPromise(resolveBinary, rejectBinary) {
                         fs.createReadStream(moduleSourcePath)
                             .pipe(
                                 fs.createOutputStream(moduleBinPath || modulePath)
-                                    .on("error", (outputErr) => {
+                                    .on("error", function binaryStreamError(outputErr) {
                                         /* istanbul ignore next */
                                         logger.error(outputErr);
                                         /* istanbul ignore next */
                                         return rejectBinary(outputErr);
                                     })
-                                    .on("finish", () => {
+                                    .on("finish", function binaryStreamFinish() {
                                         if (logLevel > 1) {
                                             logger.meta(prettyLog);
                                         }
@@ -115,8 +117,12 @@ module.exports = function babelDevTranspiler(root, options) {
                             );
                     })
                 ])
-                    .then(() => resolve(moduleBinPath || modulePath))
-                    .catch((err) => reject(err));
+                    .then(function promiseResolve() {
+                        return resolve(moduleBinPath || modulePath);
+                    })
+                    .catch(function promiseError(err) {
+                        return reject(err);
+                    });
             }
         });
     }

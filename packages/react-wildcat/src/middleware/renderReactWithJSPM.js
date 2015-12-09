@@ -16,20 +16,22 @@ module.exports = function renderReactWithJSPM(root, options) {
 
         // Load remote config
         return loader.import(generalSettings.jspmConfigFile)
-            .then(() => {
+            .then(function jspmConfigImportHandler() {
                 // FIXME: Possibly not needed in jspm 0.17
                 // store the old normalization function
                 const systemNormalize = loader.normalize;
 
                 // override the normalization function
                 function customNormalize(name, parentName, parentAddress) {
-                    return systemNormalize.call(this, name, parentName, parentAddress).then(function (url) {
-                        if ((/\.(?:css|eot|gif|jpe?g|json|otf|png|swf|svg|ttf|woff)\.js$/).test(url)) {
-                            return url.replace(/\.js$/, "");
-                        }
+                    return systemNormalize.call(this, name, parentName, parentAddress).then(
+                        function normalizeCallback(url) {
+                            if ((/\.(?:css|eot|gif|jpe?g|json|otf|png|swf|svg|ttf|woff)\.js$/).test(url)) {
+                                return url.replace(/\.js$/, "");
+                            }
 
-                        return url;
-                    });
+                            return url;
+                        }
+                    );
                 }
 
                 loader.config({
@@ -45,7 +47,7 @@ module.exports = function renderReactWithJSPM(root, options) {
 
         // Set up jspm to use our custom fetch implementation
         return customizeJSPMLoader(wildcatConfig)
-            .then(loader => {
+            .then(function customJSPMLoader(loader) {
                 // Store a pristine package array to map packages to page requests
                 const serverSettings = wildcatConfig.serverSettings;
                 const predefinedPackages = Object.keys(loader.defined);
@@ -59,7 +61,7 @@ module.exports = function renderReactWithJSPM(root, options) {
                     (typeof entry === "string") ? loader.import(entry) : Promise.resolve(entry),
                     loader.import(renderHandler)
                 ])
-                    .then(responses => {
+                    .then(function serverEntry(responses) {
                         // First response is a hash of project options
                         const serverOptions = responses[0];
 
@@ -69,10 +71,12 @@ module.exports = function renderReactWithJSPM(root, options) {
                         // Pass options to server
                         return server(serverOptions);
                     })
-                    .then(render => render(request, cookies, wildcatConfig))
-                    .then(reply => {
+                    .then(function serverRender(render) {
+                        return render(request, cookies, wildcatConfig);
+                    })
+                    .then(function serverReply(reply) {
                         // Find all packages not found in predefinedPackages. This is our dependency cache
-                        const difference = Object.keys(loader.defined).filter(predefinedPkg => {
+                        const difference = Object.keys(loader.defined).filter(function diff(predefinedPkg) {
                             return predefinedPackages.indexOf(predefinedPkg) === -1;
                         });
 
@@ -84,7 +88,7 @@ module.exports = function renderReactWithJSPM(root, options) {
                             reply: reply
                         };
                     })
-                    .catch(err => {
+                    .catch(function serverError(err) {
                         if (!__PROD__) {
                             const blueBoxOfDeath = require("../utils/blueBoxOfDeath");
 
