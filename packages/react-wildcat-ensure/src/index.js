@@ -26,17 +26,27 @@ function ensureString(importPath, id, cb) {
     }
 
     return System.import(importPath)
-        .then(importedModule => cb(null, importedModule))
-        .catch(e => cb(e));
+        .then(function ensureImport(importedModule) {
+            return cb(null, importedModule);
+        })
+        .catch(function ensureError(e) {
+            return cb(e);
+        });
 }
 
 function ensureArray(importPaths, id, cb) {
     const normalizedImports = importPaths
-        .map(importPath => getNormalizedName(importPath, id));
+        .map(function normalizedImportsMap(importPath) {
+            return getNormalizedName(importPath, id);
+        });
 
     const cachedImports = normalizedImports
-        .map(normalizedImport => getCachedModule(normalizedImport))
-        .filter(normalizedImport => normalizedImport);
+        .map(function cachedImportsMap(normalizedImport) {
+            return getCachedModule(normalizedImport);
+        })
+        .filter(function cachedImportsFilter(normalizedImport) {
+            return normalizedImport;
+        });
 
     if (cachedImports.length === normalizedImports.length) {
         return cb(null, cachedImports);
@@ -44,31 +54,39 @@ function ensureArray(importPaths, id, cb) {
 
     return Promise.all(
         normalizedImports
-            .map(normalizedImport => ensureString(normalizedImport, null, (err, importedModules) => {
-                if (err) {
-                    return Promise.reject(err);
-                }
+            .map(function normalizedImportsMap(normalizedImport) {
+                return ensureString(normalizedImport, null, function ensureStringCallback(err, importedModules) {
+                    if (err) {
+                        return Promise.reject(err);
+                    }
 
-                return Promise.resolve(importedModules);
-            }))
+                    return Promise.resolve(importedModules);
+                });
+            })
     )
-        .then(importedModules => cb(null, importedModules))
-        .catch(e => cb(e));
+        .then(function normalizedImportsHandler(importedModules) {
+            return cb(null, importedModules);
+        })
+        .catch(function normalizedImportsError(e) {
+            return cb(e);
+        });
 }
 
 function ensureHash(importPaths, id, cb) {
     const importPathKeys = Object.keys(importPaths);
     const moduleHashCache = {};
 
-    importPaths = importPathKeys.map(importPath => importPaths[importPath]);
+    importPaths = importPathKeys.map(function importPathsMap(importPath) {
+        return importPaths[importPath];
+    });
 
-    return ensureArray(importPaths, id, (err, importedModules) => {
+    return ensureArray(importPaths, id, function ensureArrayResult(err, importedModules) {
         if (err) {
             return cb(err);
         }
 
         importPathKeys
-            .forEach((importPath, idx) => {
+            .forEach(function importPathKey(importPath, idx) {
                 const importedModule = importedModules[idx];
                 moduleHashCache[importPath] = importedModule;
             });
