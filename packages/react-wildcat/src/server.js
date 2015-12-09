@@ -36,7 +36,7 @@ function start() {
     const appServerSettings = serverSettings.appServer;
     const secureSettings = appServerSettings.secureSettings;
 
-    const routeCache = {};
+    const routeCache = new Map();
     const morganOptions = getMorganOptions(generalSettings.logLevel);
 
     const __PROD__ = (process.env.NODE_ENV === "production");

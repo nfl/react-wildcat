@@ -238,7 +238,7 @@ describe("react-wildcat", () => {
 
                 const renderTypes = [{
                     name: "renders HTML",
-                    cache: {},
+                    cache: new Map(),
                     fresh: false,
                     reply: {
                         reply: stubResponses["200"]
@@ -246,11 +246,11 @@ describe("react-wildcat", () => {
                     url: "/"
                 }, {
                     name: "returns HTML from cache",
-                    cache: {
-                        "/": {
+                    cache: new Map([
+                        ["/", {
                             cache: stubResponses["304"]
-                        }
-                    },
+                        }]
+                    ]),
                     fresh: true,
                     reply: {
                         reply: stubResponses["304"]
@@ -258,7 +258,7 @@ describe("react-wildcat", () => {
                     url: "/"
                 }, {
                     name: "returns error payload",
-                    cache: {},
+                    cache: new Map(),
                     fresh: false,
                     reply: {
                         reply: stubResponses["404"]
@@ -266,7 +266,7 @@ describe("react-wildcat", () => {
                     url: "/error"
                 }, {
                     name: "redirects the page",
-                    cache: {},
+                    cache: new Map(),
                     fresh: false,
                     reply: {
                         reply: stubResponses["301"]
@@ -344,7 +344,7 @@ describe("react-wildcat", () => {
 
                 it("renders HTML", (done) => {
                     const renderReactWithJSPM = require("../src/middleware/renderReactWithJSPM")(exampleDir, {
-                        cache: {},
+                        cache: new Map(),
                         wildcatConfig
                     });
 

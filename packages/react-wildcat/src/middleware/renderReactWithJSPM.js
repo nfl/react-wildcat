@@ -4,7 +4,7 @@ module.exports = function renderReactWithJSPM(root, options) {
     const jspm = require("jspm");
     const __PROD__ = (process.env.NODE_ENV === "production");
 
-    const cache = options.cache;
+    const routeCache = options.cache;
     const wildcatConfig = options.wildcatConfig;
 
     function customizeJSPMLoader() {
@@ -115,7 +115,7 @@ module.exports = function renderReactWithJSPM(root, options) {
         const request = this.request;
         const response = this.response;
 
-        const file = cache[request.url] || {};
+        const file = routeCache.get(request.url) || {};
 
         response.status = 200;
         response.type = "text/html";
@@ -133,12 +133,12 @@ module.exports = function renderReactWithJSPM(root, options) {
             // Only cache a successful response
             if (reply.status >= 200 && reply.status < 400) {
                 // Save to cache
-                cache[request.url] = {
+                routeCache.set(request.url, {
                     cache: reply,
                     lastModified: response.get("last-modified"),
                     packageCache: data.packageCache,
                     status: 304
-                };
+                });
             }
         }
 
