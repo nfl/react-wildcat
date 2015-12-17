@@ -151,9 +151,9 @@ function start() {
                 /* istanbul ignore else */
                 if (cluster.worker.id === cpuCount) {
                     if (__PROD__) {
-                        logger.ok(`Node server is running`);
+                        logger.ok(`Node server is running on pid`, process.pid);
                     } else {
-                        logger.ok(`Node server is running at ${generalSettings.originUrl}`);
+                        logger.ok(`Node server is running at ${generalSettings.originUrl} on pid`, process.pid);
                     }
 
                     resolve({
