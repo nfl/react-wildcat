@@ -83,6 +83,9 @@ module.exports = function serverRender(cfg) {
                         });
 
                         return resolve(result);
+                    })
+                    .catch(function serverRenderError(err) {
+                        return reject(err);
                     });
             }
 
