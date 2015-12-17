@@ -25,7 +25,7 @@ require("./utils/customMorganTokens")(morgan, `🏈`);
 const Logger = require("./utils/logger");
 const logger = new Logger(`🏈`);
 
-const renderReactWithJSPM = require("./middleware/renderReactWithJSPM");
+const renderReactWithJspm = require("./middleware/renderReactWithJSPM");
 
 let server;
 
@@ -101,7 +101,7 @@ function start() {
                 }));
             }
 
-            app.use(renderReactWithJSPM(cwd, {
+            app.use(renderReactWithJspm(cwd, {
                 cache: routeCache,
                 wildcatConfig: wildcatConfig
             }));
