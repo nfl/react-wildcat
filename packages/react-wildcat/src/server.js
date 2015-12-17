@@ -136,7 +136,7 @@ function start() {
             if (!__PROD__) {
                 const connectToWebSocketServer = require("./utils/connectToWebSocketServer");
 
-                connectToWebSocketServer({
+                connectToWebSocketServer(cwd, {
                     cache: routeCache,
                     cpuCount: cpuCount,
                     cluster: cluster,

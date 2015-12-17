@@ -3,7 +3,9 @@
 const WebSocket = require("ws");
 let retryCount = 0;
 
-module.exports = function connectToWebSocketServer(options) {
+module.exports = function connectToWebSocketServer(root, options) {
+    const customLoader = require("./customJspmLoader")(root);
+
     const cluster = options.cluster;
     const cpuCount = options.cpuCount;
     const logger = options.logger;
@@ -33,20 +35,20 @@ module.exports = function connectToWebSocketServer(options) {
         }
     });
 
+    // TODO: Refactor per-route cache expiration
     socket.on("message", function socketMessage(message) {
         message = JSON.parse(message);
-        var modulePath = message.data;
+        const modulePath = message.data;
 
         switch (message.event) {
             case "filechange":
-                routeCache.forEach(function cacheCheck(routeData, routeName) {
-                    const routePackageCache = routeData.packageCache;
+                if (routeCache && routeCache.size > 0) {
+                    logger.info(`expiring route cache`, cluster.worker.id);
 
-                    if (Array.isArray(routePackageCache) && routePackageCache.indexOf(modulePath) !== -1) {
-                        logger.info(`expiring cache for`, routeData, cluster.worker.id);
-                        routeCache.delete(routeName);
-                    }
-                });
+                    customLoader.delete(modulePath);
+                    routeCache.clear();
+                }
+
                 break;
         }
     });
