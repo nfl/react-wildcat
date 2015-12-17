@@ -39,6 +39,10 @@
     "spdy": "^3.0.0",
     "ws": "^0.8.0"
   },
+  "devDependencies": {
+    "debug": "^2.2.0",
+    "memwatch-next": "^0.2.10"
+  },
   "scripts": {
     "test": "echo \"no test specified\" && exit 0"
   },

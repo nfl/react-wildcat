@@ -16,6 +16,7 @@ const path = require("path");
 const http = require("http");
 const http2 = require("spdy");
 const https = require("https");
+const debug = require("debug")("memwatch");
 
 const morgan = require("koa-morgan");
 const getMorganOptions = require("./utils/getMorganOptions");
@@ -62,6 +63,15 @@ function start() {
             logger.warn(`worker ${worker.process.pid} has died (code: ${code}) (signal: ${signal})`);
         });
     } else {
+        if (process.env.DEBUG) {
+            debug("Watching for memory leaks...", process.pid);
+
+            var memwatch = require("memwatch-next");
+
+            memwatch.on("leak", info => console.error("Memory leak detected", info));
+            memwatch.on("stats", stats => console.info("Stats", stats));
+        }
+
         return new Promise(function startPromise(resolve) {
             const app = koa();
 
