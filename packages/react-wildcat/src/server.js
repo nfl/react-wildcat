@@ -97,13 +97,13 @@ function start() {
                 const proxy = require("./middleware/proxy");
 
                 app.use(proxy(appServerSettings.proxies, {
-                    logger: logger
+                    logger
                 }));
             }
 
             app.use(renderReactWithJspm(cwd, {
                 cache: routeCache,
-                wildcatConfig: wildcatConfig
+                wildcatConfig
             }));
 
             var serverType;
@@ -138,9 +138,9 @@ function start() {
 
                 connectToWebSocketServer(cwd, {
                     cache: routeCache,
-                    cpuCount: cpuCount,
-                    cluster: cluster,
-                    logger: logger,
+                    cpuCount,
+                    cluster,
+                    logger,
                     maxRetries: 10,
                     retryTimer: 10000,
                     url: generalSettings.staticUrl.replace(/http/, "ws")
