@@ -283,7 +283,7 @@ describe("react-wildcat", () => {
 
                         renderTypes.forEach((render) => {
                             it(render.name, (done) => {
-                                const renderReactWithJspm = require("../src/middleware/renderReactWithJSPM")(exampleDir, {
+                                const renderReactWithJspm = require("../src/middleware/renderReactWithJspm")(exampleDir, {
                                     cache: render.cache,
                                     wildcatConfig
                                 });
@@ -343,7 +343,7 @@ describe("react-wildcat", () => {
                 });
 
                 it("renders HTML", (done) => {
-                    const renderReactWithJspm = require("../src/middleware/renderReactWithJSPM")(exampleDir, {
+                    const renderReactWithJspm = require("../src/middleware/renderReactWithJspm")(exampleDir, {
                         cache: new Map(),
                         wildcatConfig
                     });

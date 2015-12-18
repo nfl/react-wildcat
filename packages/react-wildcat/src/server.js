@@ -25,7 +25,7 @@ require("./utils/customMorganTokens")(morgan, `🏈`);
 const Logger = require("./utils/logger");
 const logger = new Logger(`🏈`);
 
-const renderReactWithJspm = require("./middleware/renderReactWithJSPM");
+const renderReactWithJspm = require("./middleware/renderReactWithJspm");
 
 let server;
 
