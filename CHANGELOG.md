@@ -1,3 +1,23 @@
+<a name="1.0.0-beta8"></a>
+# [1.0.0-beta8](//compare/1.0.0-beta7...v1.0.0-beta8) (2015-12-18)
+
+
+### Bug Fixes
+
+* **example:** disable react-metrics due to incompatibility 8d442d7
+* **react-wildcat:** log process id 460d610
+* **react-wildcat:** print performance metrics in debug mode 4d17084
+* **react-wildcat-handoff:** Add workaround for navigator.userAgent requirement 4ccaa57
+* **react-wildcat-handoff:** catch and reject rendering errors 52f5f51
+
+### Performance Improvements
+
+* **react-wildcat:** convert custom jspm loader to a singleton pattern d3ad011
+* **react-wildcat:** remove per-route cache invalidation 4ee42af
+* **react-wildcat:** store cache data in a weak map 2bacbcb
+
+
+
 <a name="1.0.0-beta7"></a>
 # [1.0.0-beta7](//compare/1.0.0-beta5...v1.0.0-beta7) (2015-12-05)
 
