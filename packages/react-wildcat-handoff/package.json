@@ -1,6 +1,6 @@
 {
   "name": "react-wildcat-handoff",
-  "version": "1.0.0-beta8",
+  "version": "1.0.0-beta9",
   "description": "Default client/server rendering for react-wildcat",
   "main": "src",
   "dependencies": {

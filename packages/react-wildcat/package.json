@@ -1,6 +1,6 @@
 {
   "name": "react-wildcat",
-  "version": "1.0.0-beta8",
+  "version": "1.0.0-beta9",
   "description": "An opinionated React environment.",
   "bin": {
     "wildcat": "./cli/wildcat.js",

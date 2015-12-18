@@ -60,10 +60,10 @@ System.config({
     "react-test-tree": "npm:react-test-tree@1.0.0",
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.0",
     "react-transform-hmr": "npm:react-transform-hmr@1.0.1",
-    "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@1.0.0-beta8",
-    "react-wildcat-ensure": "npm:react-wildcat-ensure@1.0.0-beta8",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@1.0.0-beta8",
-    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0-beta8",
+    "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@1.0.0-beta9",
+    "react-wildcat-ensure": "npm:react-wildcat-ensure@1.0.0-beta9",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@1.0.0-beta9",
+    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0-beta9",
     "redbox-react": "npm:redbox-react@1.2.0",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
@@ -1156,7 +1156,7 @@ System.config({
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "history": "npm:history@1.13.1",
-      "invariant": "npm:invariant@2.2.0",
+      "invariant": "npm:invariant@2.1.2",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "warning": "npm:warning@2.1.0"
     },
@@ -1174,7 +1174,7 @@ System.config({
       "global": "npm:global@4.3.0",
       "react-proxy": "npm:react-proxy@1.1.1"
     },
-    "npm:react-wildcat-handoff@1.0.0-beta8": {
+    "npm:react-wildcat-handoff@1.0.0-beta9": {
       "cookies-js": "npm:cookies-js@1.2.2",
       "debounce": "npm:debounce@1.0.0",
       "exenv": "npm:exenv@1.2.0",
@@ -1190,7 +1190,7 @@ System.config({
       "react-helmet": "npm:react-helmet@2.2.0",
       "react-router": "npm:react-router@1.0.2"
     },
-    "npm:react-wildcat-prefetch@1.0.0-beta8": {
+    "npm:react-wildcat-prefetch@1.0.0-beta9": {
       "exenv": "npm:exenv@1.2.0",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.3",
       "invariant": "npm:invariant@2.2.0",
