@@ -16,6 +16,7 @@ const path = require("path");
 const http = require("http");
 const http2 = require("spdy");
 const https = require("https");
+const debug = require("debug")("memwatch");
 
 const morgan = require("koa-morgan");
 const getMorganOptions = require("./utils/getMorganOptions");
@@ -24,7 +25,7 @@ require("./utils/customMorganTokens")(morgan, `🏈`);
 const Logger = require("./utils/logger");
 const logger = new Logger(`🏈`);
 
-const renderReactWithJSPM = require("./middleware/renderReactWithJSPM");
+const renderReactWithJspm = require("./middleware/renderReactWithJspm");
 
 let server;
 
@@ -62,6 +63,15 @@ function start() {
             logger.warn(`worker ${worker.process.pid} has died (code: ${code}) (signal: ${signal})`);
         });
     } else {
+        if (process.env.DEBUG) {
+            debug("Watching for memory leaks...", process.pid);
+
+            var memwatch = require("memwatch-next");
+
+            memwatch.on("leak", info => console.error("Memory leak detected", info));
+            memwatch.on("stats", stats => console.info("Stats", stats));
+        }
+
         return new Promise(function startPromise(resolve) {
             const app = koa();
 
@@ -87,13 +97,13 @@ function start() {
                 const proxy = require("./middleware/proxy");
 
                 app.use(proxy(appServerSettings.proxies, {
-                    logger: logger
+                    logger
                 }));
             }
 
-            app.use(renderReactWithJSPM(cwd, {
+            app.use(renderReactWithJspm(cwd, {
                 cache: routeCache,
-                wildcatConfig: wildcatConfig
+                wildcatConfig
             }));
 
             var serverType;
@@ -126,11 +136,11 @@ function start() {
             if (!__PROD__) {
                 const connectToWebSocketServer = require("./utils/connectToWebSocketServer");
 
-                connectToWebSocketServer({
+                connectToWebSocketServer(cwd, {
                     cache: routeCache,
-                    cpuCount: cpuCount,
-                    cluster: cluster,
-                    logger: logger,
+                    cpuCount,
+                    cluster,
+                    logger,
                     maxRetries: 10,
                     retryTimer: 10000,
                     url: generalSettings.staticUrl.replace(/http/, "ws")
@@ -141,9 +151,9 @@ function start() {
                 /* istanbul ignore else */
                 if (cluster.worker.id === cpuCount) {
                     if (__PROD__) {
-                        logger.ok(`Node server is running`);
+                        logger.ok(`Node server is running on pid`, process.pid);
                     } else {
-                        logger.ok(`Node server is running at ${generalSettings.originUrl}`);
+                        logger.ok(`Node server is running at ${generalSettings.originUrl} on pid`, process.pid);
                     }
 
                     resolve({

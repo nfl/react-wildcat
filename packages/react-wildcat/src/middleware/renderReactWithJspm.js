@@ -1,25 +1,27 @@
-module.exports = function renderReactWithJSPM(root, options) {
+module.exports = function renderReactWithJspm(root, options) {
     "use strict";
 
-    const jspm = require("jspm");
+    const customLoader = require("../utils/customJspmLoader")(root);
     const __PROD__ = (process.env.NODE_ENV === "production");
 
     const routeCache = options.cache;
     const wildcatConfig = options.wildcatConfig;
 
-    function customizeJSPMLoader() {
+    let isCustomized = false;
+
+    function customizeJspmLoader() {
+        if (isCustomized) {
+            return Promise.resolve(customLoader);
+        }
+
         const generalSettings = wildcatConfig.generalSettings;
 
-        const loader = jspm.Loader({
-            baseURL: generalSettings.staticUrl
-        });
-
         // Load remote config
-        return loader.import(generalSettings.jspmConfigFile)
+        return customLoader.import(generalSettings.jspmConfigFile)
             .then(function jspmConfigImportHandler() {
                 // FIXME: Possibly not needed in jspm 0.17
                 // store the old normalization function
-                const systemNormalize = loader.normalize;
+                const systemNormalize = customLoader.normalize;
 
                 // override the normalization function
                 function customNormalize(name, parentName, parentAddress) {
@@ -34,23 +36,21 @@ module.exports = function renderReactWithJSPM(root, options) {
                     );
                 }
 
-                loader.config({
+                customLoader.config({
                     normalize: customNormalize
                 });
 
-                return loader;
+                isCustomized = true;
+                return customLoader;
             });
     }
 
     function pageHandler(request, cookies) {
-        jspm.setPackagePath(root);
-
         // Set up jspm to use our custom fetch implementation
-        return customizeJSPMLoader(wildcatConfig)
-            .then(function customJSPMLoader(loader) {
+        return customizeJspmLoader(wildcatConfig)
+            .then(function customJspmLoader(loader) {
                 // Store a pristine package array to map packages to page requests
                 const serverSettings = wildcatConfig.serverSettings;
-                const predefinedPackages = Object.keys(loader.defined);
 
                 // Load the server files from the current file system
                 const entry = serverSettings.entry;
@@ -75,17 +75,9 @@ module.exports = function renderReactWithJSPM(root, options) {
                         return render(request, cookies, wildcatConfig);
                     })
                     .then(function serverReply(reply) {
-                        // Find all packages not found in predefinedPackages. This is our dependency cache
-                        const difference = Object.keys(loader.defined).filter(function diff(predefinedPkg) {
-                            return predefinedPackages.indexOf(predefinedPkg) === -1;
-                        });
-
                         return {
-                            // Return the difference as packageCache
-                            packageCache: difference,
-
                             // Return the original reply
-                            reply: reply
+                            reply
                         };
                     })
                     .catch(function serverError(err) {
@@ -136,7 +128,6 @@ module.exports = function renderReactWithJSPM(root, options) {
                 routeCache.set(request.url, {
                     cache: reply,
                     lastModified: response.get("last-modified"),
-                    packageCache: data.packageCache,
                     status: 304
                 });
             }

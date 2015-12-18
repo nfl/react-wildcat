@@ -143,7 +143,7 @@ describe("react-wildcat", () => {
             });
         });
 
-        context("renderReactWithJSPM", function () {
+        context("renderReactWithJspm", function () {
             this.timeout(30000);
 
             const nodeEnv = process.env.NODE_ENV;
@@ -283,14 +283,14 @@ describe("react-wildcat", () => {
 
                         renderTypes.forEach((render) => {
                             it(render.name, (done) => {
-                                const renderReactWithJSPM = require("../src/middleware/renderReactWithJSPM")(exampleDir, {
+                                const renderReactWithJspm = require("../src/middleware/renderReactWithJspm")(exampleDir, {
                                     cache: render.cache,
                                     wildcatConfig
                                 });
 
                                 co(function* () {
                                     try {
-                                        const result = yield renderReactWithJSPM.call({
+                                        const result = yield renderReactWithJspm.call({
                                             cookies: {
                                                 get: () => "clientSize"
                                             },
@@ -343,14 +343,14 @@ describe("react-wildcat", () => {
                 });
 
                 it("renders HTML", (done) => {
-                    const renderReactWithJSPM = require("../src/middleware/renderReactWithJSPM")(exampleDir, {
+                    const renderReactWithJspm = require("../src/middleware/renderReactWithJspm")(exampleDir, {
                         cache: new Map(),
                         wildcatConfig
                     });
 
                     co(function* () {
                         try {
-                            const result = yield renderReactWithJSPM.call({
+                            const result = yield renderReactWithJspm.call({
                                 cookies: {
                                     get: () => "clientSize"
                                 },
