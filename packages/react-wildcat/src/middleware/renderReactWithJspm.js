@@ -15,13 +15,13 @@ module.exports = function renderReactWithJspm(root, options) {
 
         const generalSettings = wildcatConfig.generalSettings;
 
+        // store the old normalization function
+        const systemNormalize = customLoader.normalize;
+
         // Load remote config
         return customLoader.import(generalSettings.jspmConfigFile)
             .then(function jspmConfigImportHandler() {
                 // FIXME: Possibly not needed in jspm 0.17
-                // store the old normalization function
-                const systemNormalize = customLoader.normalize;
-
                 // override the normalization function
                 function customNormalize(name, parentName, parentAddress) {
                     return systemNormalize.call(this, name, parentName, parentAddress).then(
