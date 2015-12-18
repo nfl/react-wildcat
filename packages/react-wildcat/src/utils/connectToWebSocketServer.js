@@ -11,7 +11,6 @@ module.exports = function connectToWebSocketServer(root, options) {
     const logger = options.logger;
     const maxRetries = options.maxRetries;
     const retryTimer = options.retryTimer;
-    const routeCache = options.cache;
     const socketUrl = options.url;
 
     const socket = new WebSocket(socketUrl);
@@ -35,18 +34,15 @@ module.exports = function connectToWebSocketServer(root, options) {
         }
     });
 
-    // TODO: Refactor per-route cache expiration
     socket.on("message", function socketMessage(message) {
         message = JSON.parse(message);
         const modulePath = message.data;
 
         switch (message.event) {
             case "filechange":
-                if (routeCache && routeCache.size > 0) {
-                    logger.info(`expiring route cache`, cluster.worker.id);
-
+                if (customLoader.has(modulePath)) {
+                    logger.info(`expiring cache for ${modulePath}`, cluster.worker.id);
                     customLoader.delete(modulePath);
-                    routeCache.clear();
                 }
 
                 break;

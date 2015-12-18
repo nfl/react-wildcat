@@ -4,7 +4,6 @@ module.exports = function renderReactWithJspm(root, options) {
     const customLoader = require("../utils/customJspmLoader")(root);
     const __PROD__ = (process.env.NODE_ENV === "production");
 
-    const routeCache = options.cache;
     const wildcatConfig = options.wildcatConfig;
 
     let isCustomized = false;
@@ -107,31 +106,13 @@ module.exports = function renderReactWithJspm(root, options) {
         const request = this.request;
         const response = this.response;
 
-        const file = routeCache.get(request.url) || {};
-
         response.status = 200;
         response.type = "text/html";
-        response.lastModified = file.lastModified || new Date().toGMTString();
 
-        const isFresh = (request.fresh || !__PROD__);
         var reply;
 
-        if (isFresh && file.cache) {
-            reply = file.cache;
-        } else {
-            const data = yield pageHandler(request, cookies);
-            reply = data.reply;
-
-            // Only cache a successful response
-            if (reply.status >= 200 && reply.status < 400) {
-                // Save to cache
-                routeCache.set(request.url, {
-                    cache: reply,
-                    lastModified: response.get("last-modified"),
-                    status: 304
-                });
-            }
-        }
+        const data = yield pageHandler(request, cookies);
+        reply = data.reply;
 
         if (reply.type) {
             response.type = reply.type;
