@@ -9,9 +9,8 @@ module.exports = function customJspmLoader(root) {
     if (!customLoader) {
         jspm.setPackagePath(root);
 
-        customLoader = jspm.Loader({
-            baseURL
-        });
+        customLoader = jspm.Loader();
+        customLoader.baseURL = baseURL;
     }
 
     return customLoader;
