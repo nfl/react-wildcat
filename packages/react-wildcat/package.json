@@ -20,7 +20,6 @@
     "fs-extra": "^0.26.2",
     "gelf-pro": "^0.2.0",
     "glob": "^6.0.1",
-    "hash-stream": "^1.1.0",
     "jspm": "nfl/jspm-cli#0.16.19/fetch-support",
     "koa": "^1.1.1",
     "koa-compress": "^1.0.8",

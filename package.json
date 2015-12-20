@@ -17,11 +17,11 @@
     "eslint": "^1.10.3",
     "eslint-config-nfl": "^4.0.2",
     "eslint-import-resolver-jspm": "^1.0.0",
-    "eslint-plugin-import": "^0.11.0",
-    "eslint-plugin-react": "^3.11.2",
+    "eslint-plugin-import": "^0.12.1",
+    "eslint-plugin-react": "^3.12.0",
     "isomorphic-fetch": "^2.2.0",
     "istanbul": "nfl/istanbul#feature/source-map-resolve",
-    "jspm": "^0.16.13",
+    "jspm": "^0.16.19",
     "karma": "^0.13.14",
     "karma-chai-sinon": "^0.1.5",
     "karma-chrome-launcher": "^0.2.2",
@@ -47,7 +47,7 @@
     "whatwg-fetch": "^0.10.1"
   },
   "optionalDependencies": {
-    "phantomjs": "^1.9.18"
+    "phantomjs": "^1.9.19"
   },
   "jspm": {
     "registry": "npm",
