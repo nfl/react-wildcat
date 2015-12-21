@@ -41,6 +41,7 @@ function start() {
 
     const __PROD__ = (process.env.NODE_ENV === "production");
     const __TEST__ = (process.env.BABEL_ENV === "test");
+    const __DEBUG__ = (process.env.DEBUG);
 
     let cpuCount = os.cpus().length;
 
@@ -62,12 +63,14 @@ function start() {
             logger.warn(`worker ${worker.process.pid} has died (code: ${code}) (signal: ${signal})`);
         });
     } else {
-        if (process.env.DEBUG) {
+        if (__DEBUG__) {
             debug("Watching for memory leaks...", process.pid);
 
             var memwatch = require("memwatch-next");
 
+            /* istanbul ignore next */
             memwatch.on("leak", info => console.error("Memory leak detected", info));
+            /* istanbul ignore next */
             memwatch.on("stats", stats => console.info("Stats", stats));
         }
 

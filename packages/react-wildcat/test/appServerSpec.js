@@ -404,16 +404,23 @@ describe("react-wildcat", () => {
             "production": [
                 "Node server is running"
             ],
+            "production-with-debug": [
+                "Stats",
+                "Node server is running"
+            ],
             "production-with-proxies": [
                 "Proxy",
                 "Node server is running"
             ]
         };
 
-        ["development", "production", "production-with-proxies"].forEach(currentEnv => {
+        Object.keys(expectations).forEach(currentEnv => {
             context(currentEnv, () => {
                 before(() => {
-                    if (currentEnv === "production-with-proxies") {
+                    if (currentEnv === "production-with-debug") {
+                        process.env.DEBUG = "*";
+                        process.env.NODE_ENV = "production";
+                    } else if (currentEnv === "production-with-proxies") {
                         process.env.DANGEROUSLY_ENABLE_PROXIES_IN_PRODUCTION = "true";
                         process.env.NODE_ENV = "production";
                     } else {
