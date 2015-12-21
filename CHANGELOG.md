@@ -1,3 +1,19 @@
+<a name="1.0.0-beta10"></a>
+# [1.0.0-beta10](//compare/1.0.0-beta9...v1.0.0-beta10) (2015-12-21)
+
+
+### Bug Fixes
+
+* **react-wildcat:** fix api regression a141ec5
+
+### Performance Improvements
+
+* **react-wildcat:** avoid resetting jspm package path bd35169
+* **react-wildcat:** cache System.normalize reference 845dfad
+* **react-wildcat:** remove route cache 49ce8eb
+
+
+
 <a name="1.0.0-beta8"></a>
 # [1.0.0-beta8](//compare/1.0.0-beta7...v1.0.0-beta8) (2015-12-18)
 

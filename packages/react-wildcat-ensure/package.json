@@ -1,6 +1,6 @@
 {
   "name": "react-wildcat-ensure",
-  "version": "1.0.0-beta9",
+  "version": "1.0.0-beta10",
   "description": "An asynchronous System.import helper.",
   "main": "dist/index.js",
   "devDependencies": {
