@@ -6,11 +6,12 @@ const baseURL = require("./baseURI");
 let customLoader;
 
 module.exports = function customJspmLoader(root) {
-    jspm.setPackagePath(root);
+    if (!customLoader) {
+        jspm.setPackagePath(root);
 
-    customLoader = customLoader || jspm.Loader({
-        baseURL
-    });
+        customLoader = jspm.Loader();
+        customLoader.baseURL = baseURL;
+    }
 
     return customLoader;
 };

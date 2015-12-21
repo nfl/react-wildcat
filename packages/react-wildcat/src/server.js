@@ -37,7 +37,6 @@ function start() {
     const appServerSettings = serverSettings.appServer;
     const secureSettings = appServerSettings.secureSettings;
 
-    const routeCache = new Map();
     const morganOptions = getMorganOptions(generalSettings.logLevel);
 
     const __PROD__ = (process.env.NODE_ENV === "production");
@@ -102,7 +101,6 @@ function start() {
             }
 
             app.use(renderReactWithJspm(cwd, {
-                cache: routeCache,
                 wildcatConfig
             }));
 
@@ -137,7 +135,6 @@ function start() {
                 const connectToWebSocketServer = require("./utils/connectToWebSocketServer");
 
                 connectToWebSocketServer(cwd, {
-                    cache: routeCache,
                     cpuCount,
                     cluster,
                     logger,
