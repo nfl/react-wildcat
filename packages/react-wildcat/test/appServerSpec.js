@@ -477,6 +477,9 @@ describe("react-wildcat", () => {
                                     id: 1
                                 }
                             },
+                            "memwatch-next": {
+                                "on": (type, cb) => cb({})
+                            },
                             "./utils/getWildcatConfig": () => {
                                 const defaultConfig = require("../src/utils/getWildcatConfig")();
                                 defaultConfig.serverSettings.appServer.protocol = currentProtocol;
@@ -525,6 +528,10 @@ describe("react-wildcat", () => {
                 after(() => {
                     if (currentEnv === "production-with-proxies") {
                         process.env.DANGEROUSLY_ENABLE_PROXIES_IN_PRODUCTION = undefined;
+                    }
+
+                    if (currentEnv === "production-with-debug") {
+                        process.env.DEBUG = undefined;
                     }
 
                     process.env.NODE_ENV = nodeEnv;
