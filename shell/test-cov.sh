@@ -15,7 +15,7 @@ mochaArgs=$(shell/_get-test-directories.sh)
 node ./shell/pretest.js
 
 # Run Node tests
-node ${istanbulBin} cover --report json --print none ${mochaBin} -- ${mochaArgs} --reporter spec --ui tdd --timeout 10000
+node ${istanbulBin} cover --report json --print none ${mochaBin} -- ${mochaArgs} --reporter dot --ui tdd --timeout 10000
 
 # Run browser test
 node ${karmaBin} start karma.config.js --log-level error --reporters coverage,dots --ui tdd --timeout 10000
