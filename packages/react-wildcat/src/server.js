@@ -63,14 +63,13 @@ function start() {
             logger.warn(`worker ${worker.process.pid} has died (code: ${code}) (signal: ${signal})`);
         });
     } else {
+        /* istanbul ignore next */
         if (__DEBUG__) {
             debug("Watching for memory leaks...", process.pid);
 
             var memwatch = require("memwatch-next");
 
-            /* istanbul ignore next */
             memwatch.on("leak", info => console.error("Memory leak detected", info));
-            /* istanbul ignore next */
             memwatch.on("stats", stats => console.info("Stats", stats));
         }
 
