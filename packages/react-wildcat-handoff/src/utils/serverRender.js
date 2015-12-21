@@ -84,9 +84,12 @@ module.exports = function serverRender(cfg) {
 
                         return resolve(result);
                     })
-                    .catch(function serverRenderError(err) {
-                        return reject(err);
-                    });
+                    .catch(
+                        /* istanbul ignore next */
+                        function serverRenderError(err) {
+                            return reject(err);
+                        }
+                    );
             }
 
             return resolve(result);
