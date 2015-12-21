@@ -15,10 +15,10 @@ mochaArgs=$(shell/_get-test-directories.sh)
 node ./shell/pretest.js
 
 # Run Node tests
-node ${istanbulBin} cover --report json --print none ${mochaBin} -- ${mochaArgs} --reporter dot --ui tdd
+node ${istanbulBin} cover --report json --print none ${mochaBin} -- ${mochaArgs} --reporter spec --ui tdd --timeout 10000
 
 # Run browser test
-node ${karmaBin} start karma.config.js --log-level error --reporters coverage,dots --ui tdd
+node ${karmaBin} start karma.config.js --log-level error --reporters coverage,dots --ui tdd --timeout 10000
 
 # Combine Node / browser reports
 node ${istanbulBin} report lcov

@@ -462,58 +462,56 @@ describe("react-wildcat", () => {
                 });
 
                 ["http2", "https", "http"].forEach(currentProtocol => {
-                    context(currentProtocol, () => {
-                        it("starts the server programmatically", (done) => {
-                            const server = proxyquire("../src/server.js", {
-                                "cluster": {
-                                    isMaster: false,
-                                    worker: {
-                                        id: 1
-                                    }
-                                },
-                                "./utils/getWildcatConfig": () => {
-                                    const defaultConfig = require("../src/utils/getWildcatConfig")();
-                                    defaultConfig.serverSettings.appServer.protocol = currentProtocol;
+                    it(`starts the server programmatically using ${currentProtocol}`, (done) => {
+                        const server = proxyquire("../src/server.js", {
+                            "cluster": {
+                                isMaster: false,
+                                worker: {
+                                    id: 1
+                                }
+                            },
+                            "./utils/getWildcatConfig": () => {
+                                const defaultConfig = require("../src/utils/getWildcatConfig")();
+                                defaultConfig.serverSettings.appServer.protocol = currentProtocol;
 
-                                    return defaultConfig;
-                                },
-                                "./utils/logger": () => {
-                                    function Logger() {}
+                                return defaultConfig;
+                            },
+                            "./utils/logger": () => {
+                                function Logger() {}
 
-                                    Logger.prototype = {
-                                        info: () => {},
-                                        meta: () => {},
-                                        ok: () => {},
-                                        warn: () => {}
-                                    };
+                                Logger.prototype = {
+                                    info: () => {},
+                                    meta: () => {},
+                                    ok: () => {},
+                                    warn: () => {}
+                                };
 
-                                    return Logger;
-                                }()
-                            });
-
-                            expect(server)
-                                .to.exist;
-
-                            expect(server)
-                                .to.respondTo("start");
-
-                            expect(server.start)
-                                .to.be.a("function");
-
-                            server.start()
-                                .then((result) => {
-                                    expect(result)
-                                        .to.exist;
-
-                                    expect(result)
-                                        .to.be.an("object")
-                                        .that.has.property("env")
-                                        .that.equals(process.env.NODE_ENV);
-
-                                    server.close()
-                                        .then(() => done());
-                                });
+                                return Logger;
+                            }()
                         });
+
+                        expect(server)
+                            .to.exist;
+
+                        expect(server)
+                            .to.respondTo("start");
+
+                        expect(server.start)
+                            .to.be.a("function");
+
+                        server.start()
+                            .then((result) => {
+                                expect(result)
+                                    .to.exist;
+
+                                expect(result)
+                                    .to.be.an("object")
+                                    .that.has.property("env")
+                                    .that.equals(process.env.NODE_ENV);
+
+                                server.close()
+                                    .then(() => done());
+                            });
                     });
                 });
 
