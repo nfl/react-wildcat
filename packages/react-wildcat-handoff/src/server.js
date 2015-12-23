@@ -32,13 +32,10 @@ function render(cfg) {
         });
 
         if (!cfg.routes && cfg.domains) {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 getDomainRoutes(cfg.domains, header, (error, routes) => {
                     if (error) {
-                        return resolve({
-                            error,
-                            status: 500
-                        });
+                        return reject(error);
                     }
 
                     return resolve(completeRender(cfg, routes));
