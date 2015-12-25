@@ -40,12 +40,16 @@ module.exports = function connectToWebSocketServer(root, options) {
 
         switch (message.event) {
             case "filechange":
-                if (customLoader.has(modulePath)) {
-                    logger.info(`expiring cache for ${modulePath}`, cluster.worker.id);
-                    customLoader.delete(modulePath);
-                }
-
-                break;
+                return customLoader.normalize(modulePath)
+                    .then(function onNormalize(normalizedModulePath) {
+                        if (customLoader.has(normalizedModulePath)) {
+                            logger.info(`expiring cache for ${modulePath}`, cluster.worker.id);
+                            customLoader.delete(normalizedModulePath);
+                        }
+                    })
+                    .catch(function normalizeError(err) {
+                        logger.error(err);
+                    });
         }
     });
 };

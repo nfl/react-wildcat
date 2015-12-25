@@ -152,7 +152,6 @@ function start() {
 
                 startWebSocketServer(cwd, {
                     cache: fileServer.cache,
-                    origin: generalSettings.staticUrl,
                     server: server,
                     watchOptions: {
                         ignored: /node_modules|jspm_packages|src/,

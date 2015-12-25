@@ -12,7 +12,6 @@ function send(eventName, response, client) {
 
 module.exports = function connectToWebSocketServer(root, options) {
     const cache = options.cache;
-    const origin = options.origin;
     const server = options.server;
     const watchOptions = options.watchOptions;
 
@@ -21,8 +20,8 @@ module.exports = function connectToWebSocketServer(root, options) {
     });
 
     chokidar.watch(root, watchOptions).on("all", function fileWatcher(type, filename) {
-        if ((!filename.endsWith(".gz") && !filename.endsWith(".map")) && (type === "add" || type === "change")) {
-            const modulePath = filename.replace(root, origin);
+        if ((!filename.endsWith(".gz") && !filename.endsWith(".map")) && (type === "change")) {
+            const modulePath = filename.replace(`${root}/`, "");
             wss.clients.forEach(function wssClient(client) {
                 send("filechange", modulePath, client);
             });
