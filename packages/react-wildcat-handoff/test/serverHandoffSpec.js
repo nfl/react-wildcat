@@ -45,6 +45,7 @@ describe("react-wildcat-handoff/server", () => {
                         .that.has.property("redirectLocation")
                         .that.is.an("object")
                         .that.has.keys([
+                            "$searchBase",
                             "pathname",
                             "search",
                             "hash",
