@@ -4,7 +4,7 @@
   "version": "1.0.0-beta10",
   "dependencies": {
     "babel": "^5.8.29",
-    "react-wildcat": "^1.0.0-beta10",
+    "react-wildcat": "1.0.0-beta10",
     "rimraf": "^2.4.3"
   },
   "devDependencies": {
@@ -46,23 +46,23 @@
     "dependencies": {
       "babel-runtime": "npm:babel-runtime@^5.8.25",
       "core-js": "npm:core-js@^1.2.6",
+      "isomorphic-fetch": "npm:isomorphic-fetch@^2.2.0",
       "radium": "npm:radium@^0.15.3",
       "react": "npm:react@^0.14.3",
       "react-dom": "npm:react-dom@^0.14.3",
       "react-helmet": "npm:react-helmet@^2.1.1",
-      "react-metrics": "npm:react-metrics@^1.0.0",
-      "react-router": "npm:react-router@^1.0.0",
-      "react-wildcat-ensure": "npm:react-wildcat-ensure@^1.0.0-beta10",
-      "react-wildcat-handoff": "npm:react-wildcat-handoff@^1.0.0-beta10",
-      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@^1.0.0-beta10"
+      "react-metrics": "npm:react-metrics@^1.0.1",
+      "react-router": "npm:react-router@^1.0.3",
+      "react-wildcat-ensure": "npm:react-wildcat-ensure@1.0.0-beta10",
+      "react-wildcat-handoff": "npm:react-wildcat-handoff@1.0.0-beta10",
+      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0-beta10"
     },
     "devDependencies": {
-      "isomorphic-fetch": "npm:isomorphic-fetch@^2.2.0",
       "react-addons-test-utils": "npm:react-addons-test-utils@^0.14.3",
-      "react-test-tree": "npm:react-test-tree@^1.0.0-rc4",
-      "react-transform-catch-errors": "npm:react-transform-catch-errors@^1.0.0",
+      "react-test-tree": "npm:react-test-tree@^1.0.0",
+      "react-transform-catch-errors": "npm:react-transform-catch-errors@^1.0.1",
       "react-transform-hmr": "npm:react-transform-hmr@^1.0.1",
-      "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@^1.0.0-beta10",
+      "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@1.0.0-beta10",
       "redbox-react": "npm:redbox-react@^1.1.1"
     }
   },
