@@ -185,9 +185,7 @@ function start() {
 }
 
 function close() {
-    return new Promise(function closePromise(resolve) {
-        server.close(resolve);
-    });
+    return server.close();
 }
 
 exports.start = start;
