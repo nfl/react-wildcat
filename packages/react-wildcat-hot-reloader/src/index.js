@@ -62,6 +62,36 @@ HotReloader.prototype = {
         self.pushImporters(self.Loader.loads);
     },
 
+    clearFailedImportAttempt: function clearFailedImportAttempt(moduleToClear) {
+        var self = this;
+
+        var failedModuleDependencies = self.Loader.failed
+            .filter(function filterFailedModules(failure) {
+                return failure.name === moduleToClear;
+            })
+            .map(function mapFailedDependencies(failure) {
+                return failure.dependencies.filter(function filterFailedDependencies(failedDependency) {
+                    return self.Loader.failed.some(function matchFailedDependency(f) {
+                        return f.name === failedDependency.value;
+                    });
+                });
+            })[0];
+
+        failedModuleDependencies.forEach(function withFailedDependency(failedDependency) {
+            var normalizedDependencyName = failedDependency.value;
+
+            // SystemJS doesn't register failures as defined modules
+            // so we have to manually remove them
+            if (self.Loader._loader.moduleRecords[normalizedDependencyName]) {
+                delete self.Loader._loader.moduleRecords[normalizedDependencyName];
+            }
+
+            if (self.Loader.defined[normalizedDependencyName]) {
+                delete self.Loader.defined[normalizedDependencyName];
+            }
+        });
+    },
+
     onFileChanged: function onFileChanged(moduleName) {
         var self = this;
 
@@ -69,6 +99,8 @@ HotReloader.prototype = {
             document.location.reload(true);
         } else {
             if (self.lastFailedImport) { // for wehn inital CustomLoader.import fails
+                self.clearFailedImportAttempt.apply(self, self.lastFailedImport);
+
                 return self.originalImportFn.apply(
                     self.Loader, self.lastFailedImport
                 ).then(

@@ -91,29 +91,6 @@ module.exports = function renderReactWithJspm(root, options) {
                     .catch(function serverError(err) {
                         if (!__PROD__) {
                             const blueBoxOfDeath = require("../utils/blueBoxOfDeath");
-                            const modulePath = err.message.split(" ").pop();
-
-                            if (modulePath && modulePath.startsWith("http")) {
-                                const failedModules = customLoader.failed
-                                    .filter(function filterFailedModules(failure) {
-                                        return failure.dependencies.some(dep => dep.value === modulePath);
-                                    })
-                                    .map(function remapFailedModules(failedModule) {
-                                        return failedModule.name;
-                                    });
-
-                                failedModules.forEach(function withFailedModule(failedModule) {
-                                    // SystemJS doesn't register failures as defined modules
-                                    // so we have to manually remove them
-                                    if (customLoader._loader.moduleRecords[failedModule]) {
-                                        delete customLoader._loader.moduleRecords[failedModule];
-                                    }
-
-                                    if (customLoader.defined[failedModule]) {
-                                        delete customLoader.defined[failedModule];
-                                    }
-                                });
-                            }
 
                             return {
                                 reply: {
