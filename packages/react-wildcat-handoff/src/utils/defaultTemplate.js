@@ -37,7 +37,8 @@ module.exports = function defaultTemplate(cfg) {
 
         <script>
             System.config({
-                baseURL: "${staticUrl}"
+                baseURL: "${staticUrl}",
+                trace: ${__DEV__}
             });
         </script>
 
@@ -65,39 +66,26 @@ module.exports = function defaultTemplate(cfg) {
         <script>
             Promise.all([
                 System.import("${entry}"),
-                System.import("${renderHandler}")
+                System.import("${renderHandler}")${__DEV__ ? `,
+                System.import("react-wildcat-hot-reloader")` : ``}
             ])
                 .then(function clientEntry(responses) {
                     // First response is a hash of project options
                     var clientOptions = responses[0];
 
                     // Second response is the handoff to the client
-                    var client = responses[1];
+                    var client = responses[1];${__DEV__ ? `
+
+                    // Third response is our hot reloader
+                    var HotReloader = responses[2];
+
+                    if (HotReloader) {
+                        new HotReloader("${staticUrl.replace("http", "ws")}");
+                    }` : ``}
 
                     // Pass options to server
                     return client(clientOptions);
                 })
-                ${__DEV__ ? `.then(function clientHotLoad() {
-                    var socket = new WebSocket("${staticUrl.replace("http", "ws")}");
-
-                    socket.addEventListener("message", function socketMessage(message) {
-                        message = JSON.parse(message.data);
-                        var modulePath = message.data;
-
-                        switch (message.event) {
-                            case "filechange":
-                                try {
-                                    if (System.has(modulePath)) {
-                                        System.delete(modulePath);
-                                        System.import(modulePath);
-                                    }
-                                } catch (e) {
-                                    console.error(e);
-                                }
-                                break;
-                        }
-                    });
-                })` : ``}
                 .catch(function clientError(err) {
                     console.error(err);
                 });

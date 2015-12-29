@@ -154,7 +154,11 @@ function start() {
                     cache: fileServer.cache,
                     server: server,
                     watchOptions: {
-                        ignored: /node_modules|jspm_packages|src/,
+                        awaitWriteFinish: {
+                            pollInterval: 100,
+                            stabilityThreshold: 250
+                        },
+                        ignored: /\.(git|gz|map)|node_modules|jspm_packages|src/,
                         ignoreInitial: true,
                         persistent: true
                     }

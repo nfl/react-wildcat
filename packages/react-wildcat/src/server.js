@@ -133,19 +133,6 @@ function start() {
                 server = serverType.createServer(secureSettings, app.callback());
             }
 
-            if (!__PROD__) {
-                const connectToWebSocketServer = require("./utils/connectToWebSocketServer");
-
-                connectToWebSocketServer(cwd, {
-                    cpuCount,
-                    cluster,
-                    logger,
-                    maxRetries: 10,
-                    retryTimer: 10000,
-                    url: generalSettings.staticUrl.replace(/http/, "ws")
-                });
-            }
-
             server.listen(port, function serverListener() {
                 /* istanbul ignore else */
                 if (cluster.worker.id === cpuCount) {

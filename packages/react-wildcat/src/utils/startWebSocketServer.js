@@ -19,19 +19,19 @@ module.exports = function connectToWebSocketServer(root, options) {
         server: server
     });
 
-    chokidar.watch(root, watchOptions).on("all", function fileWatcher(type, filename) {
-        if ((!filename.endsWith(".gz") && !filename.endsWith(".map")) && (type === "change")) {
-            const modulePath = filename.replace(`${root}/`, "");
-            wss.clients.forEach(function wssClient(client) {
-                send("filechange", modulePath, client);
+    chokidar.watch(root, watchOptions).on("change", function fileWatcher(filename) {
+        const modulePath = filename.replace(`${root}/`, "");
+
+        wss.clients.forEach(function sendFileChange(client) {
+            send("filechange", modulePath, client);
+        });
+
+        if (cache[filename]) {
+            wss.clients.forEach(function sendCacheFlush(client) {
+                send("cacheflush", filename, client);
             });
 
-            if (cache[filename]) {
-                wss.clients.forEach(function wssClient(client) {
-                    send("cacheflush", filename, client);
-                });
-                delete cache[filename];
-            }
+            delete cache[filename];
         }
     });
 };

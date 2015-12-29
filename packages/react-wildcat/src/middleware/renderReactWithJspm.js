@@ -19,8 +19,17 @@ module.exports = function renderReactWithJspm(root, options) {
         const systemNormalize = customLoader.normalize;
 
         // Load remote config
-        return customLoader.import(generalSettings.jspmConfigFile)
-            .then(function jspmConfigImportHandler() {
+        return Promise.all([
+            customLoader.import(generalSettings.jspmConfigFile),
+            __PROD__ ? Promise.resolve() : customLoader.import("react-wildcat-hot-reloader")
+        ])
+            .then(function jspmConfigImportHandler(responses) {
+                const HotReloader = responses[1];
+
+                if (HotReloader) {
+                    new HotReloader(generalSettings.staticUrl.replace(/http/, "ws"), customLoader);
+                }
+
                 // FIXME: Possibly not needed in jspm 0.17
                 // override the normalization function
                 function customNormalize(name, parentName, parentAddress) {
