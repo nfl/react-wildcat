@@ -49,8 +49,8 @@ module.exports = function getDomainRoutes(domains, header, cb) {
 
     if (domains[domain]) {
         var resolveOptions = {
-            subdomain,
-            host
+            subdomain: subdomain,
+            host: host
         };
 
         resolveDomain = domains[domain];
