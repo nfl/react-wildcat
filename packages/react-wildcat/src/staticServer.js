@@ -152,10 +152,13 @@ function start() {
 
                 startWebSocketServer(cwd, {
                     cache: fileServer.cache,
-                    origin: generalSettings.staticUrl,
                     server: server,
                     watchOptions: {
-                        ignored: /node_modules|jspm_packages|src/,
+                        awaitWriteFinish: {
+                            pollInterval: 100,
+                            stabilityThreshold: 250
+                        },
+                        ignored: /\.(git|gz|map)|node_modules|jspm_packages|src/,
                         ignoreInitial: true,
                         persistent: true
                     }
@@ -182,9 +185,7 @@ function start() {
 }
 
 function close() {
-    return new Promise(function closePromise(resolve) {
-        server.close(resolve);
-    });
+    return server.close();
 }
 
 exports.start = start;

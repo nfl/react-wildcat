@@ -285,8 +285,8 @@ describe("react-wildcat", () => {
                                         .that.has.property("env")
                                         .that.equals(process.env.NODE_ENV);
 
-                                    staticServer.close()
-                                        .then(() => done());
+                                    staticServer.close();
+                                    done();
                                 });
                         });
                     });

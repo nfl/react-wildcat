@@ -195,15 +195,14 @@ describe("react-wildcat", () => {
             });
 
             afterEach((done) => {
-                staticServer.close()
-                    .then(() => {
-                        console.log.restore();
-                        console.info.restore();
-                        console.warn.restore();
+                staticServer.close();
 
-                        process.env.LOG_LEVEL = currentLogLevel;
-                        done();
-                    });
+                console.log.restore();
+                console.info.restore();
+                console.warn.restore();
+
+                process.env.LOG_LEVEL = currentLogLevel;
+                done();
             });
 
             context("with asynchronous entry path", () => {
@@ -242,18 +241,6 @@ describe("react-wildcat", () => {
                     fresh: false,
                     reply: {
                         reply: stubResponses["200"]
-                    },
-                    url: "/"
-                }, {
-                    name: "returns HTML from cache",
-                    cache: new Map([
-                        ["/", {
-                            cache: stubResponses["304"]
-                        }]
-                    ]),
-                    fresh: true,
-                    reply: {
-                        reply: stubResponses["304"]
                     },
                     url: "/"
                 }, {
@@ -509,8 +496,8 @@ describe("react-wildcat", () => {
                                     .that.has.property("env")
                                     .that.equals(process.env.NODE_ENV);
 
-                                server.close()
-                                    .then(() => done());
+                                server.close();
+                                done();
                             });
                     });
                 });
