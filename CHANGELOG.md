@@ -1,3 +1,17 @@
+<a name="1.0.0-rc1"></a>
+# [1.0.0-rc1](//compare/1.0.0-beta10...v1.0.0-rc1) (2016-01-04)
+
+
+### Bug Fixes
+
+* **react-wildcat:** enable System.trace in dev mode 156224d
+* **react-wildcat:** Invalidate failed module imports f456a92
+* **react-wildcat:** use System.normalize to resolve module names 79cd0c2
+* **react-wildcat-handoff:** reject Promise if error is found e232122
+* **react-wildcat-handoff:** use object longhand notation for browsers c1b58e8
+
+
+
 <a name="1.0.0-beta10"></a>
 # [1.0.0-beta10](//compare/1.0.0-beta9...v1.0.0-beta10) (2015-12-21)
 
