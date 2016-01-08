@@ -1,0 +1,28 @@
+{
+  "name": "react-wildcat-test-runners",
+  "version": "1.0.0-rc1",
+  "description": "Test runners for Wildcat.",
+  "bin": {
+    "wildcat-protractor-runner": "./cli/protractor.js",
+    "wildcat-karma-runner": "./cli/karma.js"
+  },
+  "author": "engineers@nfl.com",
+  "license": "MIT",
+  "dependencies": {
+    "babel": "^5.8.29",
+    "chalk": "^1.1.1",
+    "glob": "^6.0.3",
+    "istanbul": "nfl/istanbul#feature/source-map-resolve",
+    "karma": "^0.13.19",
+    "karma-cli": "^0.1.1",
+    "open": "^0.0.5",
+    "protractor": "^3.0.0",
+    "request": "^2.65.0",
+    "rimraf": "^2.4.3"
+  },
+  "peerDependencies": {
+    "istanbul": "*",
+    "karma": "<=0.13.19",
+    "protractor": "<=3.0.0"
+  }
+}
