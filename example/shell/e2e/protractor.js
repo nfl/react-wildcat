@@ -58,6 +58,7 @@ export default async () => {
 
         await yawn(`npm run webdriver-update`);
         await yawn(`protractor protractor.config.js ${args}`);
+        await yawn(`istanbul report --include=coverage/e2e/*.json --dir coverage/e2e ${args}`);
 
         process.exit();
     } catch (e) {

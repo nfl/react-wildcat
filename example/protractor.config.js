@@ -106,7 +106,18 @@ exports.config = {
         originUrl
     },
 
-    plugins: [],
+    plugins: [{
+        package: "protractor-console-plugin",
+        failOnWarning: false,
+        failOnError: false,
+        logWarnings: true,
+        exclude: []
+    }, {
+        package: "protractor-istanbul-plugin",
+        logAssertions: true,
+        failAssertions: true,
+        outputPath: "coverage/e2e"
+    }],
 
     rootElement: `#${clientSettings.reactRootElementID}`,
 
