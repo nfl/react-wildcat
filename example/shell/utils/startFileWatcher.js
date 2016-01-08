@@ -9,7 +9,17 @@ const args = process.argv.slice(2);
  * @return {Promise}        Returns a promise
  */
 export default async function startFileWatcher() {
-    return yawn(`${testEnv} npm run compile -- --ignore '**/!(*Test).*' --watch`, {
+    const cmd = [
+        `wildcat-babel`,
+        `--copy-files`,
+        `--binary-to-module`,
+        `--ignore '**/!(*Test).*'`,
+        `--watch`,
+        `src`,
+        `--out-dir public`
+    ];
+
+    return yawn(`${testEnv} ${cmd.join(` `)}`, {
         resolveWhenLineIncludes: WATCHER_AVAILABLE_STRING,
         printStdout: args.includes("--verbose")
     });
