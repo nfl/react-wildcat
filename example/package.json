@@ -72,7 +72,7 @@
     }
   },
   "scripts": {
-    "build": "time npm run compile -- --ignore '**/{shell,e2e,test}/**' && npm run bundle && jspm depcache public/main.js",
+    "build": "time npm run compile -- --ignore '**/{shell,e2e,test}/**' && npm run bundle",
     "bundle": "jspm bundle \"public/**/* - [public/**/*]\" bundles/vendor.js --inject",
     "clean": "rimraf bin bundles public",
     "compile": "wildcat-babel --copy-files --binary-to-module src --out-dir public",
