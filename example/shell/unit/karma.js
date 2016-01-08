@@ -1,10 +1,11 @@
 import url from "url";
 import path from "path";
+import glob from "glob";
 import open from "open";
 import yawn from "../utils/yawn.js";
 import cleanDirectory from "../utils/cleanDirectory.js";
 import checkServerStatus from "../utils/checkServerStatus.js";
-import startLocalServer from "../utils/startLocalServer.js";
+import startFileWatcher from "../utils/startFileWatcher.js";
 import startStaticServer from "../utils/startStaticServer.js";
 
 const cwd = process.cwd();
@@ -14,14 +15,7 @@ const wildcatConfig = require(path.join(cwd, "wildcat.config.js"));
 const generalSettings = wildcatConfig.generalSettings;
 const coverageSettings = generalSettings.coverageSettings;
 const serverSettings = wildcatConfig.serverSettings;
-const appServerSettings = serverSettings.appServer;
 const staticServerSettings = serverSettings.staticServer;
-
-const originUrl = url.format({
-    protocol: appServerSettings.protocol.replace("http2", "https"),
-    hostname: appServerSettings.hostname,
-    port: appServerSettings.port
-});
 
 const staticUrl = url.format({
     protocol: staticServerSettings.protocol.replace("http2", "https"),
@@ -34,21 +28,13 @@ const args = process.argv.slice(2).join(` `).trim();
 /* eslint-disable no-process-exit */
 export default async () => {
     try {
-        const origin = originUrl;
-        const shouldStartLocalServer = await checkServerStatus(origin);
-
         const staticOrigin = staticUrl;
         const shouldStartStaticServer = await checkServerStatus(staticOrigin);
-        const e2eTestReportDir = coverageSettings.reports.e2e;
+        const unitTestReportDir = coverageSettings.reports.unit;
 
-        let promises = [];
-
-        if (shouldStartLocalServer) {
-            promises = [
-                ...promises,
-                startLocalServer()
-            ];
-        }
+        let promises = [
+            startFileWatcher()
+        ];
 
         if (shouldStartStaticServer) {
             promises = [
@@ -59,17 +45,15 @@ export default async () => {
             ];
         }
 
-        await cleanDirectory(e2eTestReportDir);
+        await cleanDirectory(unitTestReportDir);
 
         if (promises.length) {
             await Promise.all(promises);
         }
 
-        await yawn(`npm run webdriver-update`);
-        await yawn(`protractor protractor.config.js ${args}`);
-        await yawn(`istanbul report --include=${e2eTestReportDir}/*.json --dir ${e2eTestReportDir} ${args}`);
+        await yawn(`karma start karma.config.js ${args}`);
 
-        open(`${e2eTestReportDir}/lcov-report/index.html`);
+        glob.sync(`${unitTestReportDir}/*/index.html`).forEach(pathname => open(pathname));
         process.exit();
     } catch (e) {
         console.error(e);

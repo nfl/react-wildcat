@@ -9,10 +9,12 @@ const args = process.argv.slice(2);
  * Starts a local server in production mode
  * @return {Promise}        Returns a promise
  */
-export default async function startStaticServer() {
+export default async function startStaticServer({clean}) {
     console.info(chalk.grey(`No static server found. Starting one now.`));
 
-    await yawn(`${testEnv} npm run clean`);
+    if (clean) {
+        await yawn(`${testEnv} npm run clean`);
+    }
 
     return yawn(`${testEnv} wildcat-static-server`, {
         resolveWhenLineIncludes: SERVER_AVAILABLE_STRING,

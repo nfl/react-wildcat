@@ -10,7 +10,7 @@ module.exports = function babelDevTranspiler(root, options) {
     const babelOptions = options.babelOptions;
     const binDir = options.binDir;
     const coverage = options.coverage;
-    const coverageOptions = options.coverageOptions;
+    const coverageSettings = options.coverageSettings;
     const extensions = options.extensions;
     const logger = options.logger;
     const logLevel = options.logLevel;
@@ -22,7 +22,7 @@ module.exports = function babelDevTranspiler(root, options) {
 
     if (coverage) {
         Istanbul = require("istanbul");
-        instrumenter = new Istanbul.Instrumenter(coverageOptions);
+        instrumenter = new Istanbul.Instrumenter(coverageSettings);
     }
 
     /* istanbul ignore next */

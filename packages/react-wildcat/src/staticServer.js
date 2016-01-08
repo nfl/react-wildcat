@@ -105,8 +105,8 @@ function start() {
                 app.use(babelDevTranspiler(cwd, {
                     babelOptions,
                     binDir: serverSettings.binDir,
-                    coverage: staticServerSettings.coverage,
-                    coverageOptions: staticServerSettings.coverageOptions,
+                    coverage: generalSettings.coverage,
+                    coverageSettings: generalSettings.coverageSettings,
                     extensions: [".es6", ".js", ".es", ".jsx"],
                     logger,
                     logLevel: generalSettings.logLevel,

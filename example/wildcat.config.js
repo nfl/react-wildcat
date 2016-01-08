@@ -20,6 +20,25 @@ var wildcatConfig = {
         // Project version
         version: pkg.version,
 
+        // Instrument your code with Istanbul.
+        coverage: !!(process.env.COVERAGE),
+
+        // Only applicable when coverage is true
+        coverageSettings: {
+            reports: {
+                e2e: "coverage/e2e",
+                unit: "coverage/unit"
+            },
+
+            ignore: [
+                "**/node_modules/**",
+                "**/jspm_packages/**",
+                "**/test/**",
+                "**/Test*",
+                "**/*.json"
+            ]
+        },
+
         // level of logging
         // 0 = disable
         // 1 = error
@@ -106,20 +125,6 @@ var wildcatConfig = {
                 "localhost",
                 "example.com"
             ],
-
-            // Instrument your code with Istanbul. Useful for e2e testing.
-            coverage: !!(process.env.COVERAGE),
-
-            // Only applicable when coverage is true
-            coverageOptions: {
-                ignore: [
-                    "**/node_modules/**",
-                    "**/jspm_packages/**",
-                    "**/test/**",
-                    "**/Test*",
-                    "**/*.json"
-                ]
-            },
 
             // One of http2 | https | http
             protocol: "http2",

@@ -21,6 +21,25 @@ const wildcatConfig = {
         // Project version
         version: undefined,
 
+        // Instrument your code with Istanbul.
+        coverage: true,
+
+        // Only applicable when coverage is true
+        coverageSettings: {
+            reports: {
+                e2e: "coverage/e2e",
+                unit: "coverage/unit"
+            },
+
+            ignore: [
+                "**/node_modules/**",
+                "**/jspm_packages/**",
+                "**/test/**",
+                "**/Test*",
+                "**/*.json"
+            ]
+        },
+
         // level of logging
         // 0 = disable
         // 1 = error
