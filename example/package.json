@@ -13,14 +13,12 @@
     "babel-runtime": "^5.8.25",
     "chai": "^3.4.1",
     "chai-as-promised": "^5.2.0",
-    "chalk": "^1.1.1",
     "concurrently": "^1.0.0",
     "eslint": "^1.9.0",
     "eslint-config-nfl": "^4.0.2",
     "eslint-import-resolver-jspm": "^1.0.0",
     "eslint-plugin-import": "^0.12.1",
     "eslint-plugin-react": "^3.12.0",
-    "glob": "^6.0.3",
     "istanbul": "nfl/istanbul#feature/source-map-resolve",
     "karma": "^0.13.19",
     "karma-chai-sinon": "^0.1.5",
@@ -33,11 +31,9 @@
     "karma-phantomjs-shim": "^1.1.2",
     "karma-sourcemap-loader": "^0.3.6",
     "mocha": "^2.3.4",
-    "open": "^0.0.5",
     "protractor": "^3.0.0",
     "protractor-console-plugin": "^0.1.1",
     "protractor-istanbul-plugin": "^2.0.0",
-    "request": "^2.65.0",
     "resolve": "^1.1.6",
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0"
@@ -87,8 +83,8 @@
     "prod-local": "env BABEL_ENV=test concurrent 'npm run prod' 'npm run prod-static'",
     "prod-static": "env NODE_ENV=production wildcat-static-server",
     "test": "npm run lint && npm run test:unit && npm run test:e2e",
-    "test:e2e": "env COVERAGE=true node ./shell/e2e/e2e.js",
-    "test:unit": "env COVERAGE=true node ./shell/unit/unit.js",
+    "test:e2e": "env COVERAGE=true wildcat-protractor-runner",
+    "test:unit": "env COVERAGE=true wildcat-karma-runner",
     "webdriver-update": "./node_modules/protractor/bin/webdriver-manager update"
   }
 }
