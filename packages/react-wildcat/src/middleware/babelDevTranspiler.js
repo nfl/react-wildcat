@@ -18,7 +18,7 @@ module.exports = function babelDevTranspiler(root, options) {
     const outDir = options.outDir;
     const sourceDir = options.sourceDir;
 
-    var Istanbul, instrumenter;
+    let Istanbul, instrumenter;
 
     if (coverage) {
         Istanbul = require("istanbul");
