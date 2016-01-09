@@ -34,6 +34,7 @@
     "protractor": "^3.0.0",
     "protractor-console-plugin": "^0.1.1",
     "protractor-istanbul-plugin": "^2.0.0",
+    "react-wildcat-test-runners": "1.0.0-rc1",
     "resolve": "^1.1.6",
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0"
