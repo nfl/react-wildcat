@@ -1,3 +1,19 @@
+<a name="1.0.0-rc2"></a>
+# [1.0.0-rc2](//compare/1.0.0-rc1...v1.0.0-rc2) (2016-01-11)
+
+
+### Bug Fixes
+
+* **example:** access wildcat-babel directly 87dc33f
+
+### Features
+
+* **react-wildcat:** code coverage analysis for e2e tests 34d9ac6
+* **react-wildcat:** code coverage analysis for unit tests 62938b4
+* **react-wildcat-test-runners:** initial release 73ce0f8
+
+
+
 <a name="1.0.0-rc1"></a>
 # [1.0.0-rc1](//compare/1.0.0-beta10...v1.0.0-rc1) (2016-01-04)
 
