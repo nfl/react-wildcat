@@ -1,9 +1,9 @@
 import chalk from "chalk";
 import yawn from "./yawn.js";
+import {argv} from "yargs";
 import {testEnv} from "./envFlags.js";
 
 const SERVER_AVAILABLE_STRING = `server is running`;
-const args = process.argv.slice(2);
 
 /**
  * Starts a local server in production mode
@@ -14,6 +14,6 @@ export default async function startLocalServer() {
 
     return yawn(`${testEnv} wildcat`, {
         resolveWhenLineIncludes: SERVER_AVAILABLE_STRING,
-        printStdout: args.includes("--verbose")
+        printStdout: argv.verbose
     });
 }

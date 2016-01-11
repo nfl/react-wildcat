@@ -1,8 +1,8 @@
 import yawn from "./yawn.js";
+import {argv} from "yargs";
 import {testEnv} from "./envFlags.js";
 
 const WATCHER_AVAILABLE_STRING = `Watching local files for code changes`;
-const args = process.argv.slice(2);
 
 /**
  * Starts a local file watcher
@@ -21,6 +21,6 @@ export default async function startFileWatcher() {
 
     return yawn(`${testEnv} ${cmd.join(` `)}`, {
         resolveWhenLineIncludes: WATCHER_AVAILABLE_STRING,
-        printStdout: args.includes("--verbose")
+        printStdout: argv.verbose
     });
 }
