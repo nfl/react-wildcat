@@ -1,7 +1,27 @@
 "use strict";
 
+const cwd = process.cwd();
+const url = require("url");
+const path = require("path");
+
+const wildcatConfig = require(path.join(cwd, "wildcat.config.js"));
+
+const generalSettings = wildcatConfig.generalSettings;
+const coverageSettings = generalSettings.coverageSettings;
+const serverSettings = wildcatConfig.serverSettings;
+const staticServerSettings = serverSettings.staticServer;
+
+const staticUrl = url.format({
+    protocol: staticServerSettings.protocol.replace("http2", "https"),
+    hostname: staticServerSettings.hostname,
+    port: staticServerSettings.port
+});
+
 // Karma configuration
 module.exports = function (karmaConfig) {
+    const unitReportDir = coverageSettings.unit.reporting.dir;
+    const unitInstrumentation = coverageSettings.unit.instrumentation;
+
     function normalizationBrowserName(browser) {
         return browser.toLowerCase().split(/[ /-]/)[0];
     }
@@ -25,7 +45,8 @@ module.exports = function (karmaConfig) {
 
         client: {
             mocha: {
-                reporter: "html"
+                reporter: "html",
+                timeout: 30000
             }
         },
 
@@ -33,6 +54,7 @@ module.exports = function (karmaConfig) {
         colors: true,
 
         coverageReporter: {
+            dir: unitReportDir,
             includeAllSources: true,
             reporters: [
                 {
@@ -41,10 +63,13 @@ module.exports = function (karmaConfig) {
                 },
                 {
                     type: "html",
-                    dir: "reports/",
                     subdir: normalizationBrowserName
                 }
             ]
+        },
+
+        instrumenterOptions: {
+            istanbul: unitInstrumentation
         },
 
         // list of files to exclude
@@ -67,12 +92,7 @@ module.exports = function (karmaConfig) {
 
         jspm: {
             config: "system.config.js",
-            loadFiles: ["public/**/*Test.js"],
-            serveFiles: [
-                "bin/**/*",
-                "jspm_packages/**/*",
-                "public/**/*"
-            ]
+            loadFiles: ["public/**/*Test.js"]
         },
 
         // level of logging
@@ -82,10 +102,11 @@ module.exports = function (karmaConfig) {
         // web server port
         port: 9876,
 
-        preprocessors: {
-            "public/**/*.js": ["sourcemap"],
-            "public/!(test)/**/!(*Test).js": ["coverage"]
+        proxies: {
+            "/base": staticUrl
         },
+
+        proxyValidateSSL: false,
 
         // test results reporter to use
         // possible values: "dots", "progress"

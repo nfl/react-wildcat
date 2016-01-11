@@ -1,20 +1,28 @@
-var cwd = process.cwd();
-var url = require("url");
-var path = require("path");
+"use strict";
 
-var wildcatConfig = require(path.join(cwd, "wildcat.config.js"));
-var clientSettings = wildcatConfig.clientSettings;
+const cwd = process.cwd();
+const url = require("url");
+const path = require("path");
 
-var serverSettings = wildcatConfig.serverSettings;
-var appServerSettings = serverSettings.appServer;
+const wildcatConfig = require(path.join(cwd, "wildcat.config.js"));
+const clientSettings = wildcatConfig.clientSettings;
 
-var originUrl = url.format({
+const generalSettings = wildcatConfig.generalSettings;
+const coverageSettings = generalSettings.coverageSettings;
+const serverSettings = wildcatConfig.serverSettings;
+const appServerSettings = serverSettings.appServer;
+
+const originUrl = url.format({
     protocol: appServerSettings.protocol.replace("http2", "https"),
     hostname: appServerSettings.hostname,
     port: appServerSettings.port
 });
 
-require("babel/register")({
+if (!global._babelPolyfill) {
+    require("babel/polyfill");
+}
+
+require("babel/register-without-polyfill")({
     resolveModuleSource: function (importPath) {
         if (/^src/.test(importPath)) {
             importPath = path.join(cwd, importPath);
@@ -26,7 +34,8 @@ require("babel/register")({
     sourceRoot: __dirname
 });
 
-var timeout = 30000;
+const timeout = 30000;
+const e2eReportDir = coverageSettings.e2e.reporting.dir;
 
 /* global browser */
 exports.config = {
@@ -106,7 +115,18 @@ exports.config = {
         originUrl
     },
 
-    plugins: [],
+    plugins: [{
+        package: "protractor-console-plugin",
+        failOnWarning: false,
+        failOnError: false,
+        logWarnings: true,
+        exclude: []
+    }, {
+        package: "protractor-istanbul-plugin",
+        logAssertions: true,
+        failAssertions: true,
+        outputPath: e2eReportDir
+    }],
 
     rootElement: `#${clientSettings.reactRootElementID}`,
 

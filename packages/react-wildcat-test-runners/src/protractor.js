@@ -1,25 +1,29 @@
 import url from "url";
 import path from "path";
 import yawn from "./utils/yawn.js";
+import cleanDirectory from "./utils/cleanDirectory.js";
 import checkServerStatus from "./utils/checkServerStatus.js";
 import startLocalServer from "./utils/startLocalServer.js";
 import startStaticServer from "./utils/startStaticServer.js";
+import writeCoverageResults from "./utils/writeCoverageResults.js";
 
 const cwd = process.cwd();
 
-var wildcatConfig = require(path.join(cwd, "wildcat.config.js"));
+const wildcatConfig = require(path.join(cwd, "wildcat.config.js"));
 
-var serverSettings = wildcatConfig.serverSettings;
-var appServerSettings = serverSettings.appServer;
-var staticServerSettings = serverSettings.staticServer;
+const generalSettings = wildcatConfig.generalSettings;
+const coverageSettings = generalSettings.coverageSettings;
+const serverSettings = wildcatConfig.serverSettings;
+const appServerSettings = serverSettings.appServer;
+const staticServerSettings = serverSettings.staticServer;
 
-var originUrl = url.format({
+const originUrl = url.format({
     protocol: appServerSettings.protocol.replace("http2", "https"),
     hostname: appServerSettings.hostname,
     port: appServerSettings.port
 });
 
-var staticUrl = url.format({
+const staticUrl = url.format({
     protocol: staticServerSettings.protocol.replace("http2", "https"),
     hostname: staticServerSettings.hostname,
     port: staticServerSettings.port
@@ -36,6 +40,9 @@ export default async () => {
         const staticOrigin = staticUrl;
         const shouldStartStaticServer = await checkServerStatus(staticOrigin);
 
+        const coverage = generalSettings.coverage;
+        const e2eSettings = coverageSettings.e2e;
+
         let promises = [];
 
         if (shouldStartLocalServer) {
@@ -48,19 +55,30 @@ export default async () => {
         if (shouldStartStaticServer) {
             promises = [
                 ...promises,
-                startStaticServer()
+                startStaticServer({
+                    clean: false
+                })
             ];
+        }
+
+        if (coverage) {
+            await cleanDirectory(e2eSettings.reporting.dir);
         }
 
         if (promises.length) {
             await Promise.all(promises);
         }
 
-        await yawn(`npm run webdriver-update`);
+        await yawn(`webdriver-manager update`);
         await yawn(`protractor protractor.config.js ${args}`);
+
+        if (coverage) {
+            await writeCoverageResults(e2eSettings);
+        }
 
         process.exit();
     } catch (e) {
-        process.exit(e);
+        console.error(e.message);
+        process.exit(1);
     }
 }();

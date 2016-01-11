@@ -1,21 +1,19 @@
 import chalk from "chalk";
 import yawn from "./yawn.js";
+import {argv} from "yargs";
 import {testEnv} from "./envFlags.js";
 
 const SERVER_AVAILABLE_STRING = `server is running`;
-const args = process.argv.slice(2);
 
 /**
  * Starts a local server in production mode
  * @return {Promise}        Returns a promise
  */
-export default async function startStaticServer() {
-    console.info(chalk.grey(`No static server found. Starting one now.`));
+export default async function startLocalServer() {
+    console.info(chalk.grey(`No server found. Starting one now.`));
 
-    await yawn(`${testEnv} npm run clean`);
-
-    return yawn(`${testEnv} wildcat-static-server`, {
+    return yawn(`${testEnv} wildcat`, {
         resolveWhenLineIncludes: SERVER_AVAILABLE_STRING,
-        printStdout: args.includes("--verbose")
+        printStdout: argv.verbose
     });
 }

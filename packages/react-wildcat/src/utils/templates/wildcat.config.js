@@ -21,6 +21,36 @@ const wildcatConfig = {
         // Project version
         version: undefined,
 
+        // Instrument your code with Istanbul.
+        coverage: true,
+
+        // Only applicable when coverage is true
+        coverageSettings: {
+            env: undefined,
+
+            e2e: {
+                instrumentation: {
+                    excludes: []
+                },
+
+                reporting: {
+                    dir: "coverage/e2e",
+                    reports: ["lcov", "html"]
+                }
+            },
+
+            unit: {
+                instrumentation: {
+                    excludes: []
+                },
+
+                reporting: {
+                    dir: "coverage/unit",
+                    reports: ["lcov", "html"]
+                }
+            }
+        },
+
         // level of logging
         // 0 = disable
         // 1 = error

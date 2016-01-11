@@ -18,8 +18,10 @@ for directory in packages/*; do
                 # Link package to npm
                 npm link;
 
-                # Link package to jspm
-                jspm link npm:${package}@${version} --log warn -y;
+                if [[ "$package" != "react-wildcat" && "$package" != "react-wildcat-test-runners" ]]; then
+                    # Link package to jspm
+                    jspm link npm:${package}@${version} --log warn -y;
+                fi
             )
         fi
     fi
