@@ -8,6 +8,14 @@ function getPort(port, defaultPort) {
     return Number(port) || defaultPort;
 }
 
+const excludes = [
+    "**/node_modules/**",
+    "**/jspm_packages/**",
+    "**/test/**",
+    "**/Test*",
+    "**/*.json"
+];
+
 /* istanbul ignore next */
 var wildcatConfig = {
     generalSettings: {
@@ -25,18 +33,28 @@ var wildcatConfig = {
 
         // Only applicable when coverage is true
         coverageSettings: {
-            reports: {
-                e2e: "coverage/e2e",
-                unit: "coverage/unit"
+            env: process.env.COVERAGE,
+
+            e2e: {
+                instrumentation: {
+                    excludes
+                },
+
+                reporting: {
+                    dir: "coverage/e2e",
+                    reports: ["lcov", "html"]
+                }
             },
 
-            ignore: [
-                "**/node_modules/**",
-                "**/jspm_packages/**",
-                "**/test/**",
-                "**/Test*",
-                "**/*.json"
-            ]
+            unit: {
+                instrumentation: {
+                    excludes
+                },
+
+                reporting: {
+                    dir: "coverage/unit"
+                }
+            }
         },
 
         // level of logging

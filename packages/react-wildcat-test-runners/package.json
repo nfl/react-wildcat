@@ -11,14 +11,15 @@
   "dependencies": {
     "babel": "^5.8.29",
     "chalk": "^1.1.1",
-    "glob": "^6.0.3",
+    "glob": "^6.0.4",
     "istanbul": "nfl/istanbul#feature/source-map-resolve",
     "karma": "^0.13.19",
     "karma-cli": "^0.1.1",
     "open": "^0.0.5",
     "protractor": "^3.0.0",
     "request": "^2.65.0",
-    "rimraf": "^2.4.3"
+    "rimraf": "^2.4.3",
+    "yargs": "^3.31.0"
   },
   "peerDependencies": {
     "istanbul": "*",

@@ -84,8 +84,8 @@
     "prod-local": "env BABEL_ENV=test concurrent 'npm run prod' 'npm run prod-static'",
     "prod-static": "env NODE_ENV=production wildcat-static-server",
     "test": "npm run lint && npm run test:unit && npm run test:e2e",
-    "test:e2e": "env COVERAGE=true wildcat-protractor-runner",
-    "test:unit": "env COVERAGE=true wildcat-karma-runner",
+    "test:e2e": "env COVERAGE=e2e wildcat-protractor-runner",
+    "test:unit": "env COVERAGE=unit wildcat-karma-runner",
     "webdriver-update": "./node_modules/protractor/bin/webdriver-manager update"
   }
 }

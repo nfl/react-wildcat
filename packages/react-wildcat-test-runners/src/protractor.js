@@ -1,11 +1,11 @@
 import url from "url";
 import path from "path";
-import open from "open";
 import yawn from "./utils/yawn.js";
 import cleanDirectory from "./utils/cleanDirectory.js";
 import checkServerStatus from "./utils/checkServerStatus.js";
 import startLocalServer from "./utils/startLocalServer.js";
 import startStaticServer from "./utils/startStaticServer.js";
+import writeCoverageResults from "./utils/writeCoverageResults.js";
 
 const cwd = process.cwd();
 
@@ -39,7 +39,9 @@ export default async () => {
 
         const staticOrigin = staticUrl;
         const shouldStartStaticServer = await checkServerStatus(staticOrigin);
-        const e2eTestReportDir = coverageSettings.reports.e2e;
+
+        const coverage = generalSettings.coverage;
+        const e2eSettings = coverageSettings.e2e;
 
         let promises = [];
 
@@ -59,23 +61,24 @@ export default async () => {
             ];
         }
 
-        await cleanDirectory(e2eTestReportDir);
+        if (coverage) {
+            await cleanDirectory(e2eSettings.reporting.dir);
+        }
 
         if (promises.length) {
             await Promise.all(promises);
         }
 
-        await yawn(`npm run webdriver-update`);
+        await yawn(`webdriver-manager update`);
         await yawn(`protractor protractor.config.js ${args}`);
 
-        if (generalSettings.coverage) {
-            await yawn(`istanbul report --include=${e2eTestReportDir}/*.json --dir ${e2eTestReportDir} ${args}`);
+        if (coverage) {
+            await writeCoverageResults(e2eSettings);
         }
 
-        open(`${e2eTestReportDir}/lcov-report/index.html`);
         process.exit();
     } catch (e) {
-        console.error(e);
+        console.error(e.message);
         process.exit(1);
     }
 }();

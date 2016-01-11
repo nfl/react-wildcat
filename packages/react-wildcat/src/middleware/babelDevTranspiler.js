@@ -1,6 +1,7 @@
 const fs = require("fs-extra");
 const path = require("path");
 const chalk = require("chalk");
+const minimatch = require("minimatch");
 const pathExists = require("path-exists");
 const pathResolve = require("resolve-path");
 
@@ -18,11 +19,24 @@ module.exports = function babelDevTranspiler(root, options) {
     const outDir = options.outDir;
     const sourceDir = options.sourceDir;
 
-    let Istanbul, instrumenter;
+    let Istanbul, instrumenter, instrumentationExcludes;
 
     if (coverage) {
+        const coverageEnv = coverageSettings.env;
+        const coverageEnvSettings = coverageSettings[coverageEnv] || {};
+        const instrumentationSettings = coverageEnvSettings.instrumentation || {};
+
+        instrumentationExcludes = instrumentationSettings.excludes || [];
+        const suite = process.env.COVERAGE_SUITE;
+
+        if (suite && instrumentationSettings.onSuiteExcludeCoverage) {
+            instrumentationExcludes = instrumentationExcludes.concat(
+                instrumentationSettings.onSuiteExcludeCoverage(suite)
+            );
+        }
+
         Istanbul = require("istanbul");
-        instrumenter = new Istanbul.Instrumenter(coverageSettings);
+        instrumenter = new Istanbul.Instrumenter(instrumentationSettings);
     }
 
     /* istanbul ignore next */
@@ -30,7 +44,7 @@ module.exports = function babelDevTranspiler(root, options) {
         return code + "\n//# sourceMappingURL=" + path.basename(loc);
     }
 
-    function* _babelDevTranspiler(modulePath, moduleSourcePath, moduleBinPath) {
+    function* _babelDevTranspiler(modulePath, moduleSourcePath, moduleBinPath, relativePath) {
         const babel = require("babel-core");
 
         const dataOptions = Object.assign({}, babelOptions, {
@@ -76,12 +90,16 @@ module.exports = function babelDevTranspiler(root, options) {
 
                     let instrumentedCodePromise;
 
-                    if (coverage && instrumenter) {
+                    if (
+                        coverage &&
+                        instrumenter &&
+                        !instrumentationExcludes.some(minimatch.bind(null, relativePath))
+                    ) {
                         instrumentedCodePromise = new Promise(
                             function instrumenterPromise(resolveInstrumenter, rejectInstrumenter) {
                                 instrumenter.instrument(
                                     data.code,
-                                    modulePath,
+                                    relativePath,
                                     function instrumentOutput(instrumentError, instrumentedCode) {
                                         if (instrumentError) {
                                             return rejectInstrumenter(instrumentError);
@@ -179,7 +197,7 @@ module.exports = function babelDevTranspiler(root, options) {
             const moduleBinPath = pathResolve(root, relativePath.replace(outDir, binDir));
 
             if (pathExists.sync(moduleSourcePath)) {
-                yield _babelDevTranspiler(modulePath, moduleSourcePath, moduleBinPath);
+                yield _babelDevTranspiler(modulePath, moduleSourcePath, moduleBinPath, relativePath);
             }
         }
 

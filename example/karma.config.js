@@ -19,7 +19,8 @@ const staticUrl = url.format({
 
 // Karma configuration
 module.exports = function (karmaConfig) {
-    const unitTestReportDir = coverageSettings.reports.unit;
+    const unitReportDir = coverageSettings.unit.reporting.dir;
+    const unitInstrumentation = coverageSettings.unit.instrumentation;
 
     function normalizationBrowserName(browser) {
         return browser.toLowerCase().split(/[ /-]/)[0];
@@ -53,7 +54,7 @@ module.exports = function (karmaConfig) {
         colors: true,
 
         coverageReporter: {
-            dir: unitTestReportDir,
+            dir: unitReportDir,
             includeAllSources: true,
             reporters: [
                 {
@@ -65,6 +66,10 @@ module.exports = function (karmaConfig) {
                     subdir: normalizationBrowserName
                 }
             ]
+        },
+
+        instrumenterOptions: {
+            istanbul: unitInstrumentation
         },
 
         // list of files to exclude

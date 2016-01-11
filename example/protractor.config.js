@@ -18,7 +18,11 @@ const originUrl = url.format({
     port: appServerSettings.port
 });
 
-require("babel/register")({
+if (!global._babelPolyfill) {
+    require("babel/polyfill");
+}
+
+require("babel/register-without-polyfill")({
     resolveModuleSource: function (importPath) {
         if (/^src/.test(importPath)) {
             importPath = path.join(cwd, importPath);
@@ -31,7 +35,7 @@ require("babel/register")({
 });
 
 const timeout = 30000;
-const e2eTestReportDir = coverageSettings.reports.e2e;
+const e2eReportDir = coverageSettings.e2e.reporting.dir;
 
 /* global browser */
 exports.config = {
@@ -121,7 +125,7 @@ exports.config = {
         package: "protractor-istanbul-plugin",
         logAssertions: true,
         failAssertions: true,
-        outputPath: e2eTestReportDir
+        outputPath: e2eReportDir
     }],
 
     rootElement: `#${clientSettings.reactRootElementID}`,

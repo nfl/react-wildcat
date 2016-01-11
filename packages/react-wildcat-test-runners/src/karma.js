@@ -30,7 +30,9 @@ export default async () => {
     try {
         const staticOrigin = staticUrl;
         const shouldStartStaticServer = await checkServerStatus(staticOrigin);
-        const unitTestReportDir = coverageSettings.reports.unit;
+
+        const coverage = generalSettings.coverage;
+        const unitReportDir = coverageSettings.unit.reporting.dir;
 
         let promises = [
             startFileWatcher()
@@ -45,7 +47,9 @@ export default async () => {
             ];
         }
 
-        await cleanDirectory(unitTestReportDir);
+        if (coverage) {
+            await cleanDirectory(unitReportDir);
+        }
 
         if (promises.length) {
             await Promise.all(promises);
@@ -53,10 +57,13 @@ export default async () => {
 
         await yawn(`karma start karma.config.js ${args}`);
 
-        glob.sync(`${unitTestReportDir}/*/index.html`).forEach(pathname => open(pathname));
+        if (coverage) {
+            glob.sync(`${unitReportDir}/*/index.html`).forEach(pathname => open(pathname));
+        }
+
         process.exit();
     } catch (e) {
-        console.error(e);
+        console.error(e.message);
         process.exit(1);
     }
 }();
