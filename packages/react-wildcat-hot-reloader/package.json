@@ -5,8 +5,7 @@
   "main": "src",
   "dependencies": {
     "debug": "^2.2.0",
-    "exenv": "^1.2.0",
-    "ws": "^0.8.1"
+    "exenv": "^1.2.0"
   },
   "jspm": {
     "directories": {

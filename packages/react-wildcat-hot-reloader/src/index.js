@@ -7,18 +7,15 @@ var ExecutionEnvironment = require("exenv");
 var debug = require("debug");
 var d = debug("jspm-hot-reloader");
 
-// WebSocket polyfill for Node
-var NodeWebSocket = require("ws/lib/WebSocket.js");
-
-function HotReloader(socketUrl, customLoader) {
+function HotReloader(customLoader) {
     this.Loader = customLoader || System;
     this.originalImportFn = this.Loader.import;
 
-    return this.init(socketUrl);
+    return this.init();
 }
 
 HotReloader.prototype = {
-    init: function init(socketUrl) {
+    init: function init() {
         var self = this;
 
         self.clientImportedModules = [];
@@ -36,28 +33,6 @@ HotReloader.prototype = {
                 }
             );
         };
-
-        var Socket = (typeof WebSocket !== "undefined") ? WebSocket : NodeWebSocket;
-        var socket = new Socket(socketUrl);
-
-        socket.addEventListener("open", function socketOpen() {
-            console.info(`Listening to socket server at ${socketUrl}.`);
-        });
-
-        socket.addEventListener("error", function socketError() {
-            console.warn(`No socket server found at ${socketUrl}.`);
-        });
-
-        socket.addEventListener("message", function socketMessage(messageEvent) {
-            var message = JSON.parse(messageEvent.data);
-            var moduleName = message.data;
-
-            switch (message.event) {
-                case "filechange":
-                    self.onFileChanged.call(self, moduleName);
-                    break;
-            }
-        });
 
         self.pushImporters(self.Loader.loads);
     },

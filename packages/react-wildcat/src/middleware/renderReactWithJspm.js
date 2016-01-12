@@ -2,6 +2,7 @@ module.exports = function renderReactWithJspm(root, options) {
     "use strict";
 
     const customLoader = require("../utils/customJspmLoader")(root);
+    const hotReloaderWebSocket = require("../utils/hotReloaderWebSocket");
     const __PROD__ = (process.env.NODE_ENV === "production");
 
     const wildcatConfig = options.wildcatConfig;
@@ -27,7 +28,9 @@ module.exports = function renderReactWithJspm(root, options) {
                 const HotReloader = responses[1];
 
                 if (HotReloader) {
-                    new HotReloader(generalSettings.staticUrl.replace(/http/, "ws"), customLoader);
+                    const hotReloader = new HotReloader(customLoader);
+                    const socketUrl = generalSettings.staticUrl.replace(/http/, "ws");
+                    hotReloaderWebSocket(hotReloader, socketUrl);
                 }
 
                 // FIXME: Possibly not needed in jspm 0.17

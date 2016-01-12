@@ -13,6 +13,7 @@ module.exports = function defaultTemplate(cfg) {
     const renderHandler = clientSettings.renderHandler;
     const reactRootElementID = clientSettings.reactRootElementID;
     const staticUrl = generalSettings.staticUrl;
+    const socketUrl = staticUrl.replace("http", "ws");
 
     const __DEV__ = (typeof process !== "undefined") && (process.env.NODE_ENV === "development");
 
@@ -80,7 +81,31 @@ module.exports = function defaultTemplate(cfg) {
                     var HotReloader = responses[2];
 
                     if (HotReloader) {
-                        new HotReloader("${staticUrl.replace("http", "ws")}");
+                        function bootstrapHotReloader(hotReloader, socketUrl) {
+                            var socket = new WebSocket(socketUrl);
+
+                            socket.addEventListener("open", function socketOpen() {
+                                console.info("Listening to socket server at ${socketUrl}.");
+                            });
+
+                            socket.addEventListener("error", function socketError() {
+                                console.warn("No socket server found at ${socketUrl}.");
+                            });
+
+                            socket.addEventListener("message", function socketMessage(messageEvent) {
+                                var message = JSON.parse(messageEvent.data);
+                                var moduleName = message.data;
+
+                                switch (message.event) {
+                                    case "filechange":
+                                        hotReloader.onFileChanged.call(hotReloader, moduleName);
+                                        break;
+                                }
+                            });
+                        }
+
+                        const hotReloader = new HotReloader();
+                        bootstrapHotReloader(hotReloader, "${socketUrl}");
                     }` : ``}
 
                     // Pass options to server
