@@ -1,3 +1,14 @@
+<a name="1.0.0-rc3"></a>
+# [1.0.0-rc3](//compare/1.0.0-rc2...v1.0.0-rc3) (2016-01-12)
+
+
+### Bug Fixes
+
+* **react-wildcat-test-runners:** absolute path to webdriver 2508b90
+* **react-wildcat-test-runners:** transpile module before publishing 520bbad
+
+
+
 <a name="1.0.0-rc2"></a>
 # [1.0.0-rc2](//compare/1.0.0-rc1...v1.0.0-rc2) (2016-01-11)
 
