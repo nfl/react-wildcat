@@ -16,14 +16,23 @@
     "karma": "^0.13.19",
     "karma-cli": "^0.1.1",
     "open": "^0.0.5",
-    "protractor": "^3.0.0",
     "request": "^2.65.0",
     "rimraf": "^2.4.3",
     "yargs": "^3.31.0"
+  },
+  "devDependencies": {
+    "protractor": "^3.0.0"
   },
   "peerDependencies": {
     "istanbul": "*",
     "karma": "<=0.13.19",
     "protractor": "<=3.0.0"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run compile",
+    "clean": "rimraf dist",
+    "compile": "babel src --out-dir dist --optional runtime",
+    "prepublish": "env NODE_ENV=production npm run build",
+    "pretest": "npm run prepublish"
   }
 }
