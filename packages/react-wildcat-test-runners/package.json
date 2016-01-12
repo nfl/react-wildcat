@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "babel": "^5.8.29",
+    "babel-runtime": "^5.8.34",
     "chalk": "^1.1.1",
     "glob": "^6.0.4",
     "istanbul": "nfl/istanbul#feature/source-map-resolve",
@@ -30,8 +31,8 @@
   },
   "scripts": {
     "build": "npm run clean && npm run compile",
-    "clean": "rimraf dist",
-    "compile": "babel src --out-dir dist --optional runtime",
+    "clean": "rimraf lib",
+    "compile": "babel src --out-dir lib --optional runtime",
     "prepublish": "env NODE_ENV=production npm run build",
     "pretest": "npm run prepublish"
   }

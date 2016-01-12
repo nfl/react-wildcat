@@ -9,4 +9,4 @@ var srcPath = path.join(process.cwd(), "src");
 
 process.env.NODE_PATH = [nodeModulesPath, srcPath].join(sep);
 
-require("../dist/karma.js");
+require("../lib/karma.js");

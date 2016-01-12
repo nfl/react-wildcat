@@ -5,6 +5,7 @@ build
 bundles
 coverage
 dist
+lib
 jspm_packages
 node_modules
 npm-debug.log
