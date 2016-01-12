@@ -2,6 +2,7 @@
 **/bundles
 **/dist
 **/jspm_packages
+**/lib
 **/node_modules
 **/reports
 **/system.config.js
