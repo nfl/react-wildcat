@@ -10,6 +10,7 @@ import writeCoverageResults from "./utils/writeCoverageResults.js";
 const cwd = process.cwd();
 
 const wildcatConfig = require(path.join(cwd, "wildcat.config.js"));
+const webdriverBin = path.join(cwd, "node_modules/protractor/bin/webdriver-manager");
 
 const generalSettings = wildcatConfig.generalSettings;
 const coverageSettings = generalSettings.coverageSettings;
@@ -69,7 +70,7 @@ export default async () => {
             await Promise.all(promises);
         }
 
-        await yawn(`webdriver-manager update`);
+        await yawn(`${webdriverBin} update`);
         await yawn(`protractor protractor.config.js ${args}`);
 
         if (coverage) {
