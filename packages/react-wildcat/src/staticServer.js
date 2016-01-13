@@ -64,7 +64,8 @@ function start() {
     const fileServer = serve({
         root: cwd,
         index: false,
-        hidden: false
+        hidden: false,
+        gzip: __PROD__
     });
 
     /* istanbul ignore if */
