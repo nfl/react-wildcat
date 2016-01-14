@@ -86,10 +86,15 @@ exports.wildcatConfig = {
     },
     clientSettings: {
         entry: "public/main.js",
+        hotReload: true,
+        hotReloader: "react-wildcat-hot-reloader",
         reactRootElementID: "content",
         renderHandler: "react-wildcat-handoff/client"
     },
-    serverSettings: {}
+    serverSettings: {
+        hotReload: true,
+        hotReloader: "react-wildcat-hot-reloader"
+    }
 };
 
 exports.Application = React.createClass({

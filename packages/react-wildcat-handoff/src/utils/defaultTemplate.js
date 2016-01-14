@@ -10,12 +10,12 @@ module.exports = function defaultTemplate(cfg) {
     const generalSettings = wildcatConfig.generalSettings;
 
     const entry = clientSettings.entry;
+    const hotReload = clientSettings.hotReload;
+    const hotReloader = clientSettings.hotReloader;
     const renderHandler = clientSettings.renderHandler;
     const reactRootElementID = clientSettings.reactRootElementID;
     const staticUrl = generalSettings.staticUrl;
     const socketUrl = staticUrl.replace("http", "ws");
-
-    const __DEV__ = (typeof process !== "undefined") && (process.env.NODE_ENV === "development");
 
     return `
 <!doctype html>
@@ -39,7 +39,7 @@ module.exports = function defaultTemplate(cfg) {
         <script>
             System.config({
                 baseURL: "${staticUrl}",
-                trace: ${__DEV__}
+                trace: ${hotReload}
             });
         </script>
 
@@ -67,15 +67,15 @@ module.exports = function defaultTemplate(cfg) {
         <script>
             Promise.all([
                 System.import("${entry}"),
-                System.import("${renderHandler}")${__DEV__ ? `,
-                System.import("react-wildcat-hot-reloader")` : ``}
+                System.import("${renderHandler}")${hotReload ? `,
+                System.import("${hotReloader}")` : ``}
             ])
                 .then(function clientEntry(responses) {
                     // First response is a hash of project options
                     var clientOptions = responses[0];
 
                     // Second response is the handoff to the client
-                    var client = responses[1];${__DEV__ ? `
+                    var client = responses[1];${hotReload ? `
 
                     // Third response is our hot reloader
                     var HotReloader = responses[2];

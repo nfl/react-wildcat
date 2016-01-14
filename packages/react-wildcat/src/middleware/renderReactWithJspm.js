@@ -1,11 +1,11 @@
 module.exports = function renderReactWithJspm(root, options) {
     "use strict";
 
-    const customLoader = require("../utils/customJspmLoader")(root);
+    const wildcatConfig = options.wildcatConfig;
+
+    const customLoader = require("../utils/customJspmLoader")(root, wildcatConfig);
     const hotReloaderWebSocket = require("../utils/hotReloaderWebSocket");
     const __PROD__ = (process.env.NODE_ENV === "production");
-
-    const wildcatConfig = options.wildcatConfig;
 
     let isCustomized = false;
 
@@ -15,6 +15,7 @@ module.exports = function renderReactWithJspm(root, options) {
         }
 
         const generalSettings = wildcatConfig.generalSettings;
+        const serverSettings = wildcatConfig.serverSettings;
 
         // store the old normalization function
         const systemNormalize = customLoader.normalize;
@@ -22,15 +23,20 @@ module.exports = function renderReactWithJspm(root, options) {
         // Load remote config
         return Promise.all([
             customLoader.import(generalSettings.jspmConfigFile),
-            __PROD__ ? Promise.resolve() : customLoader.import("react-wildcat-hot-reloader")
+            serverSettings.hotReload ? customLoader.import(serverSettings.hotReloader) : Promise.resolve()
         ])
             .then(function jspmConfigImportHandler(responses) {
                 const HotReloader = responses[1];
 
                 if (HotReloader) {
                     const hotReloader = new HotReloader(customLoader);
-                    const socketUrl = generalSettings.staticUrl.replace(/http/, "ws");
-                    hotReloaderWebSocket(hotReloader, socketUrl);
+
+                    if (typeof serverSettings.hotReloadReporter === "function") {
+                        serverSettings.hotReloadReporter(hotReloader, generalSettings.staticUrl);
+                    } else {
+                        const socketUrl = generalSettings.staticUrl.replace(/http/, "ws");
+                        hotReloaderWebSocket(hotReloader, socketUrl);
+                    }
                 }
 
                 // FIXME: Possibly not needed in jspm 0.17

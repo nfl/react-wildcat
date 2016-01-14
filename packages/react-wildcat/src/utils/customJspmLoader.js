@@ -4,16 +4,15 @@ const jspm = require("jspm");
 const baseURL = require("./baseURI");
 
 let customLoader;
-const __PROD__ = (process.env.NODE_ENV === "production");
 
-module.exports = function customJspmLoader(root) {
+module.exports = function customJspmLoader(root, wildcatConfig) {
     if (!customLoader) {
         jspm.setPackagePath(root);
 
         customLoader = jspm.Loader();
         customLoader.baseURL = baseURL;
 
-        if (!__PROD__) {
+        if (wildcatConfig.serverSettings.hotReload) {
             customLoader.trace = true;
         }
     }

@@ -9,6 +9,8 @@ const defaultServerKey = getDefaultSSLFile("server.key");
 const defaultServerCert = getDefaultSSLFile("server.crt");
 const defaultServerCA = getDefaultSSLFile("server.csr");
 
+const __PROD__ = (process.env.NODE_ENV === "production");
+
 /* istanbul ignore next */
 const wildcatConfig = {
     generalSettings: {
@@ -64,6 +66,9 @@ const wildcatConfig = {
         // Path to the entry config file relative to the project root
         entry: "public/main.js",
 
+        hotReload: !__PROD__,
+        hotReloader: "react-wildcat-hot-reloader",
+
         // Path to the client renderer. This can be a jspm package or a relative path
         renderHandler: "react-wildcat-handoff/client",
 
@@ -80,6 +85,10 @@ const wildcatConfig = {
 
         // Directory to save raw binaries (jpg, gif, fonts, etc)
         binDir: "bin",
+
+        hotReload: !__PROD__,
+        hotReloader: "react-wildcat-hot-reloader",
+        hotReloadReporter: undefined,
 
         // BYO-HTML template
         // htmlTemplate: require("./customHTMLTemplate.js"),

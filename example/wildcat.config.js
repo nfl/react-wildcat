@@ -1,4 +1,5 @@
-var pkg = require("./package.json");
+const pkg = require("./package.json");
+const __PROD__ = (process.env.NODE_ENV === "production");
 
 function getPort(port, defaultPort) {
     if ((typeof port !== "undefined") && !(Number(port))) {
@@ -17,7 +18,7 @@ const excludes = [
 ];
 
 /* istanbul ignore next */
-var wildcatConfig = {
+const wildcatConfig = {
     generalSettings: {
         // Grab the config file from package.json
         jspmConfigFile: pkg.configFile || (pkg.jspm || {}).configFile || "config.js",
@@ -70,6 +71,8 @@ var wildcatConfig = {
         // Path to the entry config file relative to the project root
         entry: "public/main.js",
 
+        hotReload: !__PROD__,
+
         // Path to the client renderer. This can be a jspm package or a relative path
         renderHandler: "react-wildcat-handoff/client",
 
@@ -80,6 +83,8 @@ var wildcatConfig = {
     serverSettings: {
         // Path to the entry config file relative to the project root
         entry: "public/main.js",
+
+        hotReload: !__PROD__,
 
         // Path to the server renderer. This can be a jspm package or a relative path
         renderHandler: "react-wildcat-handoff/server",
