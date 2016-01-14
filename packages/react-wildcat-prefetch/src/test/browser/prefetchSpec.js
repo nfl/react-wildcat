@@ -280,7 +280,7 @@ describe("react-wildcat-prefetch", () => {
         });
     });
 
-    context.only("data hydration", () => {
+    context("data hydration", () => {
         context("hydration", () => {
             beforeEach(() => {
                 document.body.innerHTML = stubs.defaultTemplate({
