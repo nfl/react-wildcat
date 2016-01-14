@@ -70,6 +70,9 @@ HotReloader.prototype = {
     onFileChanged: function onFileChanged(moduleName) {
         var self = this;
 
+        // Refresh current modules
+        self.pushImporters(self.Loader.loads, false, true);
+
         if (ExecutionEnvironment.canUseDOM && moduleName === "index.html") {
             document.location.reload(true);
         } else {
@@ -100,7 +103,7 @@ HotReloader.prototype = {
         }
     },
 
-    pushImporters: function pushImporters(moduleMap, overwriteOlds) {
+    pushImporters: function pushImporters(moduleMap, overwriteOlds, onlyNewRefs) {
         var self = this;
 
         if (!moduleMap) {
@@ -112,6 +115,8 @@ HotReloader.prototype = {
 
             if (!mod.importers) {
                 mod.importers = [];
+            } else if (onlyNewRefs) {
+                return;
             }
 
             mod.deps.forEach(function cacheDependantImporters(dependantName) {
@@ -245,7 +250,7 @@ HotReloader.prototype = {
                     });
                 }
 
-                if (module.importers.length === 0) {
+                if (typeof module.importers === "undefined" || module.importers.length === 0) {
                     toReimport.push(module.name);
                 } else {
                     var deleted = deleteAllImporters(module);
