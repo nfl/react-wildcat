@@ -17,6 +17,14 @@ export const prefetchedDataKey = "stubData";
 export const prefetchedData = {
     "asyncData": {
         "stub": true
+    },
+
+    "firstData": {
+        "first": true
+    },
+
+    "secondData": {
+        "second": true
     }
 };
 

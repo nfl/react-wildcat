@@ -324,6 +324,64 @@ describe("react-wildcat-prefetch", () => {
                 ReactTestUtils.renderIntoDocument(<WrappedPrefetch title={"Test Title"} />);
             });
 
+            it("hydrates multiple React components", (done) => {
+                let renderCount = 1;
+
+                class FirstHydrationTest extends React.Component {
+                    static propTypes = {
+                        firstData: React.PropTypes.object
+                    }
+
+                    static defaultProps = {
+                        firstData: {}
+                    }
+
+                    render() {
+                        expect(this.props.firstData)
+                            .to.eql(stubs.prefetchedData.firstData);
+
+                        if (renderCount > 1) {
+                            done();
+                        }
+
+                        renderCount++;
+                        return <div>{Object.keys(this.props)}</div>;
+                    }
+                }
+
+                class SecondHydrationTest extends React.Component {
+                    static propTypes = {
+                        secondData: React.PropTypes.object
+                    }
+
+                    static defaultProps = {
+                        secondData: {}
+                    }
+
+                    render() {
+                        expect(this.props.secondData)
+                            .to.eql(stubs.prefetchedData.secondData);
+
+                        if (renderCount > 1) {
+                            done();
+                        }
+
+                        renderCount++;
+                        return <div>{Object.keys(this.props)}</div>;
+                    }
+                }
+
+                const FirstWrappedPrefetch = Prefetch(stubs.fetchPromise, "firstData")(FirstHydrationTest);
+                const SecondWrappedPrefetch = Prefetch(stubs.fetchPromise, "secondData")(SecondHydrationTest);
+
+                ReactTestUtils.renderIntoDocument(
+                    <div>
+                        <FirstWrappedPrefetch title={"Test Title"} />
+                        <SecondWrappedPrefetch title={"Test Title"} />
+                    </div>
+                );
+            });
+
             context("setting a custom key", () => {
                 beforeEach(() => {
                     document.body.innerHTML = stubs.defaultTemplate({
@@ -454,7 +512,7 @@ describe("react-wildcat-prefetch", () => {
                             expect(this.props.asyncData)
                                 .to.be.undefined;
 
-                            renderCount += 1;
+                            renderCount++;
                         } else {
                             expect(this.props.asyncData)
                                 .to.eql(stubs.prefetchedData.asyncData);
@@ -468,6 +526,82 @@ describe("react-wildcat-prefetch", () => {
 
                 const WrappedPrefetch = Prefetch(stubs.fetchPromise)(RehydrationTest);
                 ReactTestUtils.renderIntoDocument(<WrappedPrefetch title={"Test Title"} />);
+            });
+
+            it("rehydrates multiple React components", (done) => {
+                let firstRenderCount = 1;
+                let secondRenderCount = 1;
+                let totalRenderCount = 1;
+
+                class FirstRehydrationTest extends React.Component {
+                    static propTypes = {
+                        firstData: React.PropTypes.object
+                    }
+
+                    static defaultProps = {
+                        firstData: {}
+                    }
+
+                    render() {
+                        if (firstRenderCount === 1) {
+                            expect(this.props.firstData)
+                                .to.eql({});
+
+                            firstRenderCount++;
+                        } else {
+                            expect(this.props.firstData)
+                                .to.eql(stubs.prefetchedData.firstData);
+
+                            if (totalRenderCount > 1) {
+                                done();
+                            }
+
+                            totalRenderCount++;
+                        }
+
+                        return <div>{Object.keys(this.props)}</div>;
+                    }
+                }
+
+                class SecondRehydrationTest extends React.Component {
+                    static propTypes = {
+                        secondData: React.PropTypes.object
+                    }
+
+                    static defaultProps = {
+                        secondData: {}
+                    }
+
+                    render() {
+                        if (secondRenderCount === 1) {
+                            expect(this.props.secondData)
+                                .to.eql({});
+
+                            secondRenderCount++;
+                        } else {
+                            expect(this.props.secondData)
+                                .to.eql(stubs.prefetchedData.secondData);
+
+                            if (totalRenderCount > 1) {
+                                done();
+                            }
+
+                            totalRenderCount++;
+                        }
+
+                        return <div>{Object.keys(this.props)}</div>;
+                    }
+                }
+
+                const FirstWrappedPrefetch = Prefetch(stubs.fetchPromise, "firstData")(FirstRehydrationTest);
+                const SecondWrappedPrefetch = Prefetch(stubs.fetchPromise, "secondData")(SecondRehydrationTest);
+
+                ReactTestUtils.renderIntoDocument(
+                    <div>
+                        <FirstWrappedPrefetch title={"Test Title"} />
+                        <SecondWrappedPrefetch title={"Test Title"} />
+                    </div>
+                );
             });
         });
     });
