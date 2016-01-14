@@ -1,3 +1,17 @@
+<a name="1.0.0-rc4"></a>
+# [1.0.0-rc4](//compare/1.0.0-rc3...v1.0.0-rc4) (2016-01-14)
+
+
+### Bug Fixes
+
+* **react-wildcat-prefetch:** fix prefetch hydration 0a9f52e
+
+### Performance Improvements
+
+* **react-wildcat:** disable gzip writes in dev mode 1df960c
+
+
+
 <a name="1.0.0-rc3"></a>
 # [1.0.0-rc3](//compare/1.0.0-rc2...v1.0.0-rc3) (2016-01-12)
 
