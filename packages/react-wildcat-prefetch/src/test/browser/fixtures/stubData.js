@@ -29,8 +29,8 @@ export const prefetchedDataCustomKey = {
 export const prefetchUrl = "https://example.com/example.json";
 export const prefetchInvalidUrl = "https://example.com/invalid.json";
 
-export const fetchPromise = () => Promise.resolve(exports.prefetchedData);
-export const fetchPromiseCustomKey = () => Promise.resolve(exports.prefetchedDataCustomKey);
+export const fetchPromise = () => Promise.resolve(prefetchedData);
+export const fetchPromiseCustomKey = () => Promise.resolve(prefetchedDataCustomKey);
 
 export const __INITIAL_DATA__ = "__INITIAL_DATA__";
 export const __REACT_ROOT_ID__ = "__REACT_ROOT_ID__";

@@ -69,13 +69,20 @@ function prefetch(action, options) {
             componentWillMount: function componentWillMount() {
                 /* istanbul ignore else */
                 if (ExecutionEnvironment.canUseDOM) {
-                    var initialData = window[__INITIAL_DATA__] || Prefetch.prefetch[key];
+                    var initialData = window[__INITIAL_DATA__] ? {
+                        ...window[__INITIAL_DATA__]
+                    } : undefined;
+
                     var newState = {};
 
                     if (initialData) {
                         // Delete stored objects
-                        if (window[__INITIAL_DATA__]) {
-                            delete window[__INITIAL_DATA__];
+                        if (window[__INITIAL_DATA__] && window[__INITIAL_DATA__][key]) {
+                            delete window[__INITIAL_DATA__][key];
+
+                            if (!Object.keys(window[__INITIAL_DATA__]).length) {
+                                delete window[__INITIAL_DATA__];
+                            }
                         }
 
                         if (Prefetch.prefetch[key]) {
@@ -84,7 +91,10 @@ function prefetch(action, options) {
 
                         invariantCheck(initialData, key, action, ComposedComponent);
 
-                        newState[key] = initialData[key];
+                        newState[key] = {
+                            ...initialData[key]
+                        };
+
                         return this.setState(newState);
                     }
 
@@ -95,7 +105,7 @@ function prefetch(action, options) {
                             invariantCheck(initialData, key, action, ComposedComponent);
 
                             newState[key] = initialData[key];
-                            this.setState(newState);
+                            return this.setState(newState);
                         }.bind(this));
                 }
             },

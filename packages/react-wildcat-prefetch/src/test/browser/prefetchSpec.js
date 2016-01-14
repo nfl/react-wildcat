@@ -282,7 +282,7 @@ describe("react-wildcat-prefetch", () => {
 
     context("data hydration", () => {
         context("hydration", () => {
-            before(() => {
+            beforeEach(() => {
                 document.body.innerHTML = stubs.defaultTemplate({
                     data: stubs.prefetchedData,
                     head: {
@@ -295,7 +295,9 @@ describe("react-wildcat-prefetch", () => {
                 });
 
                 window[stubs.__REACT_ROOT_ID__] = stubs.wildcatConfig.clientSettings.reactRootElementID;
-                window[stubs.__INITIAL_DATA__] = stubs.prefetchedData;
+                window[stubs.__INITIAL_DATA__] = {
+                    ...stubs.prefetchedData
+                };
             });
 
             it("hydrates React components with server data", (done) => {
@@ -310,7 +312,7 @@ describe("react-wildcat-prefetch", () => {
 
                     render() {
                         expect(this.props.asyncData)
-                            .to.equal(stubs.prefetchedData.asyncData);
+                            .to.eql(stubs.prefetchedData.asyncData);
 
                         done();
 
@@ -336,7 +338,9 @@ describe("react-wildcat-prefetch", () => {
                     });
 
                     window[stubs.__REACT_ROOT_ID__] = stubs.wildcatConfig.clientSettings.reactRootElementID;
-                    window[stubs.__INITIAL_DATA__] = stubs.prefetchedDataCustomKey;
+                    window[stubs.__INITIAL_DATA__] = {
+                        ...stubs.prefetchedDataCustomKey
+                    };
                 });
 
                 it("using a custom key as hash", (done) => {
@@ -351,7 +355,7 @@ describe("react-wildcat-prefetch", () => {
 
                         render() {
                             expect(this.props[stubs.prefetchedDataKey])
-                                .to.equal(stubs.prefetchedDataCustomKey[stubs.prefetchedDataKey]);
+                                .to.eql(stubs.prefetchedDataCustomKey[stubs.prefetchedDataKey]);
 
                             done();
 
@@ -377,7 +381,7 @@ describe("react-wildcat-prefetch", () => {
 
                         render() {
                             expect(this.props[stubs.prefetchedDataKey])
-                                .to.equal(stubs.prefetchedDataCustomKey[stubs.prefetchedDataKey]);
+                                .to.eql(stubs.prefetchedDataCustomKey[stubs.prefetchedDataKey]);
 
                             done();
 
@@ -402,7 +406,7 @@ describe("react-wildcat-prefetch", () => {
 
                     render() {
                         expect(this.props.asyncData)
-                            .to.equal(stubs.prefetchedData.asyncData);
+                            .to.eql(stubs.prefetchedData.asyncData);
 
                         done();
 
@@ -430,7 +434,7 @@ describe("react-wildcat-prefetch", () => {
                     });
             });
 
-            after(() => {
+            afterEach(() => {
                 window[stubs.__INITIAL_DATA__] = null;
                 delete window[stubs.__INITIAL_DATA__];
             });
@@ -453,7 +457,7 @@ describe("react-wildcat-prefetch", () => {
                             renderCount += 1;
                         } else {
                             expect(this.props.asyncData)
-                                .to.equal(stubs.prefetchedData.asyncData);
+                                .to.eql(stubs.prefetchedData.asyncData);
 
                             done();
                         }
