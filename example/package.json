@@ -1,10 +1,10 @@
 {
   "name": "react-wildcat-example",
   "description": "An example Wildcat project.",
-  "version": "1.0.0-rc4",
+  "version": "1.0.0-rc5",
   "dependencies": {
     "babel": "^5.8.29",
-    "react-wildcat": "1.0.0-rc4",
+    "react-wildcat": "1.0.0-rc5",
     "rimraf": "^2.4.3"
   },
   "devDependencies": {
@@ -34,7 +34,7 @@
     "protractor": "^3.0.0",
     "protractor-console-plugin": "^0.1.1",
     "protractor-istanbul-plugin": "^2.0.0",
-    "react-wildcat-test-runners": "1.0.0-rc4",
+    "react-wildcat-test-runners": "1.0.0-rc5",
     "resolve": "^1.1.6",
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0"
@@ -54,17 +54,17 @@
       "react-helmet": "npm:react-helmet@^2.1.1",
       "react-metrics": "npm:react-metrics@^1.0.1",
       "react-router": "npm:react-router@^1.0.3",
-      "react-wildcat-ensure": "npm:react-wildcat-ensure@1.0.0-rc4",
-      "react-wildcat-handoff": "npm:react-wildcat-handoff@1.0.0-rc4",
-      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0-rc4"
+      "react-wildcat-ensure": "npm:react-wildcat-ensure@1.0.0-rc5",
+      "react-wildcat-handoff": "npm:react-wildcat-handoff@1.0.0-rc5",
+      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0-rc5"
     },
     "devDependencies": {
       "react-addons-test-utils": "npm:react-addons-test-utils@^0.14.3",
       "react-test-tree": "npm:react-test-tree@^1.0.0",
       "react-transform-catch-errors": "npm:react-transform-catch-errors@^1.0.1",
       "react-transform-hmr": "npm:react-transform-hmr@^1.0.1",
-      "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@1.0.0-rc4",
-      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@^1.0.0-rc4",
+      "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@1.0.0-rc5",
+      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@^1.0.0-rc5",
       "redbox-react": "npm:redbox-react@^1.1.1"
     }
   },

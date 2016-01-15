@@ -1,3 +1,14 @@
+<a name="1.0.0-rc5"></a>
+# [1.0.0-rc5](//compare/1.0.0-rc4...v1.0.0-rc5) (2016-01-15)
+
+
+### Bug Fixes
+
+* **react-wildcat-hot-reloader:** return the full failedModuleDependencies array 60e4881
+* **react-wildcat-hot-reloader:** update SystemJS module trace on file change 08494ac
+
+
+
 <a name="1.0.0-rc4"></a>
 # [1.0.0-rc4](//compare/1.0.0-rc3...v1.0.0-rc4) (2016-01-14)
 

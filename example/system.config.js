@@ -60,11 +60,11 @@ System.config({
     "react-test-tree": "npm:react-test-tree@1.0.0",
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.1",
     "react-transform-hmr": "npm:react-transform-hmr@1.0.1",
-    "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@1.0.0-rc4",
-    "react-wildcat-ensure": "npm:react-wildcat-ensure@1.0.0-rc4",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@1.0.0-rc4",
-    "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@1.0.0-rc4",
-    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0-rc4",
+    "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@1.0.0-rc5",
+    "react-wildcat-ensure": "npm:react-wildcat-ensure@1.0.0-rc5",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@1.0.0-rc5",
+    "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@1.0.0-rc5",
+    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0-rc5",
     "redbox-react": "npm:redbox-react@1.2.0",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
@@ -249,11 +249,6 @@ System.config({
     "npm:binary-extensions@1.4.0": {
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
-    "npm:bindings@1.2.1": {
-      "fs": "github:jspm/nodelibs-fs@0.1.2",
-      "path": "github:jspm/nodelibs-path@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
     "npm:bl@1.0.0": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "readable-stream": "npm:readable-stream@2.0.5",
@@ -349,10 +344,6 @@ System.config({
       "ieee754": "npm:ieee754@1.1.6",
       "isarray": "npm:isarray@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
-    },
-    "npm:bufferutil@1.2.1": {
-      "bindings": "npm:bindings@1.2.1",
-      "nan": "npm:nan@2.1.0"
     },
     "npm:caniuse-api@1.4.1": {
       "browserslist": "npm:browserslist@1.0.1",
@@ -1037,9 +1028,6 @@ System.config({
     "npm:once@1.3.3": {
       "wrappy": "npm:wrappy@1.0.1"
     },
-    "npm:options@0.0.6": {
-      "fs": "github:jspm/nodelibs-fs@0.1.2"
-    },
     "npm:os-browserify@0.1.2": {
       "os": "github:jspm/nodelibs-os@0.1.0"
     },
@@ -1205,7 +1193,7 @@ System.config({
       "global": "npm:global@4.3.0",
       "react-proxy": "npm:react-proxy@1.1.2"
     },
-    "npm:react-wildcat-handoff@1.0.0-rc4": {
+    "npm:react-wildcat-handoff@1.0.0-rc5": {
       "cookies-js": "npm:cookies-js@1.2.2",
       "debounce": "npm:debounce@1.0.0",
       "exenv": "npm:exenv@1.2.0",
@@ -1213,21 +1201,19 @@ System.config({
       "isomorphic-fetch": "npm:isomorphic-fetch@2.2.0",
       "match-media-mock": "npm:match-media-mock@0.1.0",
       "parse-domain": "npm:parse-domain@0.2.0",
-      "process": "github:jspm/nodelibs-process@0.1.2",
       "radium": "npm:radium@0.15.3",
       "radium-plugin-prefix-all": "npm:radium-plugin-prefix-all@1.0.0",
       "react": "npm:react@0.14.5",
       "react-dom": "npm:react-dom@0.14.5",
       "react-helmet": "npm:react-helmet@2.2.0",
       "react-router": "npm:react-router@1.0.3",
-      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@1.0.0-rc4"
+      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@1.0.0-rc5"
     },
-    "npm:react-wildcat-hot-reloader@1.0.0-rc4": {
+    "npm:react-wildcat-hot-reloader@1.0.0-rc5": {
       "debug": "npm:debug@2.2.0",
-      "exenv": "npm:exenv@1.2.0",
-      "ws": "npm:ws@0.8.1"
+      "exenv": "npm:exenv@1.2.0"
     },
-    "npm:react-wildcat-prefetch@1.0.0-rc4": {
+    "npm:react-wildcat-prefetch@1.0.0-rc5": {
       "exenv": "npm:exenv@1.2.0",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.3",
       "invariant": "npm:invariant@2.2.0",
@@ -1466,18 +1452,11 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:ultron@1.0.2": {
-      "events": "github:jspm/nodelibs-events@0.1.1"
-    },
     "npm:url@0.10.3": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "punycode": "npm:punycode@1.3.2",
       "querystring": "npm:querystring@0.2.0",
       "util": "github:jspm/nodelibs-util@0.1.0"
-    },
-    "npm:utf-8-validate@1.2.1": {
-      "bindings": "npm:bindings@1.2.1",
-      "nan": "npm:nan@2.1.0"
     },
     "npm:util-deprecate@1.0.2": {
       "util": "github:jspm/nodelibs-util@0.1.0"
@@ -1498,23 +1477,6 @@ System.config({
     "npm:warning@2.1.0": {
       "loose-envify": "npm:loose-envify@1.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
-    },
-    "npm:ws@0.8.1": {
-      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "bufferutil": "npm:bufferutil@1.2.1",
-      "crypto": "github:jspm/nodelibs-crypto@0.1.0",
-      "events": "github:jspm/nodelibs-events@0.1.1",
-      "http": "github:jspm/nodelibs-http@1.7.1",
-      "https": "github:jspm/nodelibs-https@0.1.0",
-      "options": "npm:options@0.0.6",
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "stream": "github:jspm/nodelibs-stream@0.1.0",
-      "tls": "github:jspm/nodelibs-tls@0.1.0",
-      "ultron": "npm:ultron@1.0.2",
-      "url": "github:jspm/nodelibs-url@0.1.0",
-      "utf-8-validate": "npm:utf-8-validate@1.2.1",
-      "util": "github:jspm/nodelibs-util@0.1.0",
-      "zlib": "github:jspm/nodelibs-zlib@0.1.0"
     }
   }
 });
