@@ -50,7 +50,7 @@ HotReloader.prototype = {
                         return f.name === failedDependency.value;
                     });
                 });
-            })[0];
+            });
 
         failedModuleDependencies.forEach(function withFailedDependency(failedDependency) {
             var normalizedDependencyName = failedDependency.value;
