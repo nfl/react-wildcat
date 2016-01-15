@@ -126,7 +126,7 @@ describe("react-wildcat-prefetch", () => {
             beforeEach(() => {
                 sinon.stub(window, "fetch");
 
-                var res = new window.Response(JSON.stringify(stubs.prefetchedData), {
+                var res = new window.Response(JSON.stringify(stubs.prefetchedData.asyncData), {
                     status: 200,
                     headers: {
                         "Content-Type": "application/json"
@@ -147,7 +147,7 @@ describe("react-wildcat-prefetch", () => {
                     .then((response) => {
                         expect(response)
                             .to.be.an("object")
-                            .that.equals(stubs.prefetchedData);
+                            .that.equals(stubs.prefetchedData.asyncData);
 
                         done();
                     });
@@ -169,7 +169,7 @@ describe("react-wildcat-prefetch", () => {
                     .then((response) => {
                         expect(response)
                             .to.be.an("object")
-                            .that.has.keys(stubs.prefetchedData);
+                            .that.has.keys(stubs.prefetchedData.asyncData);
 
                         done();
                     });
@@ -223,7 +223,7 @@ describe("react-wildcat-prefetch", () => {
                 .then((response) => {
                     expect(response)
                         .to.be.an("object")
-                        .that.equals(stubs.prefetchedData);
+                        .that.equals(stubs.prefetchedData.asyncData);
 
                     done();
                 });
@@ -646,8 +646,8 @@ describe("react-wildcat-prefetch", () => {
                     }
                 }
 
-                const FirstWrappedPrefetch = Prefetch(stubs.fetchPromise, "firstData")(FirstRehydrationTest);
-                const SecondWrappedPrefetch = Prefetch(stubs.fetchPromise, "secondData")(SecondRehydrationTest);
+                const FirstWrappedPrefetch = Prefetch(stubs.firstFetchPromise, "firstData")(FirstRehydrationTest);
+                const SecondWrappedPrefetch = Prefetch(stubs.secondFetchPromise, "secondData")(SecondRehydrationTest);
 
                 ReactTestUtils.renderIntoDocument(
                     <div>

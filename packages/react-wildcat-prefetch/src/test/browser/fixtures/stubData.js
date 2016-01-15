@@ -39,7 +39,9 @@ export const prefetchedDataCustomKey = {
 export const prefetchUrl = "https://example.com/example.json";
 export const prefetchInvalidUrl = "https://example.com/invalid.json";
 
-export const fetchPromise = () => Promise.resolve(prefetchedData);
+export const fetchPromise = () => Promise.resolve(prefetchedData.asyncData);
+export const firstFetchPromise = () => Promise.resolve(prefetchedData.firstData);
+export const secondFetchPromise = () => Promise.resolve(prefetchedData.secondData);
 export const fetchPromiseCustomKey = () => Promise.resolve(prefetchedDataCustomKey);
 
 export const __INITIAL_DATA__ = "__INITIAL_DATA__";

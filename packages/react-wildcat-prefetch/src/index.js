@@ -92,13 +92,14 @@ function prefetch(action, options) {
                         invariantCheck(initialData, key, action, ComposedComponent);
 
                         newState[key] = initialData[key];
-
                         return this.setState(newState);
                     }
 
                     return _action(this.props)
                         .then(function asyncData(data) {
-                            initialData = data;
+                            initialData = {
+                                [key]: data
+                            };
 
                             invariantCheck(initialData, key, action, ComposedComponent);
 
