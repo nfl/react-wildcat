@@ -324,6 +324,30 @@ describe("react-wildcat-prefetch", () => {
                 ReactTestUtils.renderIntoDocument(<WrappedPrefetch title={"Test Title"} />);
             });
 
+            it("hydrates React components with array data", (done) => {
+                class ArrayHydrationTest extends React.Component {
+                    static propTypes = {
+                        asyncArrayData: React.PropTypes.array
+                    }
+
+                    static defaultProps = {
+                        asyncArrayData: []
+                    }
+
+                    render() {
+                        expect(this.props.asyncArrayData)
+                            .to.eql(stubs.prefetchedData.asyncArrayData);
+
+                        done();
+
+                        return <div>{Object.keys(this.props)}</div>;
+                    }
+                }
+
+                const WrappedPrefetch = Prefetch(stubs.fetchPromise, "asyncArrayData")(ArrayHydrationTest);
+                ReactTestUtils.renderIntoDocument(<WrappedPrefetch title={"Test Title"} />);
+            });
+
             it("hydrates multiple React components", (done) => {
                 let renderCount = 1;
 
@@ -525,6 +549,35 @@ describe("react-wildcat-prefetch", () => {
                 }
 
                 const WrappedPrefetch = Prefetch(stubs.fetchPromise)(RehydrationTest);
+                ReactTestUtils.renderIntoDocument(<WrappedPrefetch title={"Test Title"} />);
+            });
+
+            it("rehydrates React components with array data", (done) => {
+                let renderCount = 1;
+
+                class ArrayRehydrationTest extends React.Component {
+                    static propTypes = {
+                        asyncArrayData: React.PropTypes.array
+                    }
+
+                    render() {
+                        if (renderCount === 1) {
+                            expect(this.props.asyncArrayData)
+                                .to.be.undefined;
+
+                            renderCount++;
+                        } else {
+                            expect(this.props.asyncArrayData)
+                                .to.eql(stubs.prefetchedData.asyncArrayData);
+
+                            done();
+                        }
+
+                        return <div>{Object.keys(this.props)}</div>;
+                    }
+                }
+
+                const WrappedPrefetch = Prefetch(stubs.fetchPromise, "asyncArrayData")(ArrayRehydrationTest);
                 ReactTestUtils.renderIntoDocument(<WrappedPrefetch title={"Test Title"} />);
             });
 

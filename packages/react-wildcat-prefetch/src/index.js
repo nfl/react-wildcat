@@ -91,9 +91,7 @@ function prefetch(action, options) {
 
                         invariantCheck(initialData, key, action, ComposedComponent);
 
-                        newState[key] = {
-                            ...initialData[key]
-                        };
+                        newState[key] = initialData[key];
 
                         return this.setState(newState);
                     }
