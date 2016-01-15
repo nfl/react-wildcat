@@ -42,6 +42,7 @@ export const prefetchInvalidUrl = "https://example.com/invalid.json";
 export const fetchPromise = () => Promise.resolve(prefetchedData.asyncData);
 export const firstFetchPromise = () => Promise.resolve(prefetchedData.firstData);
 export const secondFetchPromise = () => Promise.resolve(prefetchedData.secondData);
+export const arrayFetchPromise = () => Promise.resolve(prefetchedData.asyncArrayData);
 export const fetchPromiseCustomKey = () => Promise.resolve(prefetchedDataCustomKey);
 
 export const __INITIAL_DATA__ = "__INITIAL_DATA__";

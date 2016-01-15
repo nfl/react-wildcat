@@ -577,7 +577,7 @@ describe("react-wildcat-prefetch", () => {
                     }
                 }
 
-                const WrappedPrefetch = Prefetch(stubs.fetchPromise, "asyncArrayData")(ArrayRehydrationTest);
+                const WrappedPrefetch = Prefetch(stubs.arrayFetchPromise, "asyncArrayData")(ArrayRehydrationTest);
                 ReactTestUtils.renderIntoDocument(<WrappedPrefetch title={"Test Title"} />);
             });
 
