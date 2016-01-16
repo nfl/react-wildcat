@@ -34,8 +34,11 @@ module.exports = function babelDevTranspiler(root, options) {
         if (coverageFiles) {
             // Istanbul only supports excluding files,
             // so the value of files must be converted to a negated exclusion
-            const excludedFiles = [`!{${files.trim()}}`];
             // i.e. --cover-files=foo.js,bar.js -> !{foo.js,bar.js}
+            const excludedFiles = [
+                coverageFiles.includes(",") ? `!{${coverageFiles.trim()}}` : `!${coverageFiles.trim()}`
+            ];
+
             instrumentationExcludes = excludedFiles;
         } else if (suite && instrumentationSettings.onSuiteExcludeCoverage) {
             instrumentationExcludes = instrumentationExcludes.concat(
