@@ -28,14 +28,14 @@ module.exports = function babelDevTranspiler(root, options) {
 
         instrumentationExcludes = instrumentationSettings.excludes || [];
 
-        const files = process.env.COVERAGE_FILES;
+        const coverageFiles = process.env.COVERAGE_FILES;
         const suite = process.env.COVERAGE_SUITE;
 
-        if (files) {
+        if (coverageFiles) {
             // Istanbul only supports excluding files,
             // so the value of files must be converted to a negated exclusion
-            // i.e. --files=foo.js,bar.js -> !{foo.js,bar.js}
             const excludedFiles = [`!{${files.trim()}}`];
+            // i.e. --cover-files=foo.js,bar.js -> !{foo.js,bar.js}
             instrumentationExcludes = excludedFiles;
         } else if (suite && instrumentationSettings.onSuiteExcludeCoverage) {
             instrumentationExcludes = instrumentationExcludes.concat(

@@ -4,7 +4,7 @@ const BABEL_ENV = "test";
 const COVERAGE = process.env.COVERAGE;
 const NODE_ENV = "production";
 const COVERAGE_SUITE = argv.suite;
-const COVERAGE_FILES = argv.files;
+const COVERAGE_FILES = argv.coverFiles;
 
 const FLAGS = [
     `BABEL_ENV=${BABEL_ENV}`,
