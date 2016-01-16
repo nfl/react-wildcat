@@ -60,11 +60,11 @@ System.config({
     "react-test-tree": "npm:react-test-tree@1.0.0",
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.1",
     "react-transform-hmr": "npm:react-transform-hmr@1.0.1",
-    "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@1.0.0-rc5",
-    "react-wildcat-ensure": "npm:react-wildcat-ensure@1.0.0-rc5",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@1.0.0-rc5",
-    "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@1.0.0-rc5",
-    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0-rc5",
+    "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@1.0.0-rc6",
+    "react-wildcat-ensure": "npm:react-wildcat-ensure@1.0.0-rc6",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@1.0.0-rc6",
+    "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@1.0.0-rc6",
+    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0-rc6",
     "redbox-react": "npm:redbox-react@1.2.0",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
@@ -1193,7 +1193,7 @@ System.config({
       "global": "npm:global@4.3.0",
       "react-proxy": "npm:react-proxy@1.1.2"
     },
-    "npm:react-wildcat-handoff@1.0.0-rc5": {
+    "npm:react-wildcat-handoff@1.0.0-rc6": {
       "cookies-js": "npm:cookies-js@1.2.2",
       "debounce": "npm:debounce@1.0.0",
       "exenv": "npm:exenv@1.2.0",
@@ -1207,13 +1207,13 @@ System.config({
       "react-dom": "npm:react-dom@0.14.5",
       "react-helmet": "npm:react-helmet@2.2.0",
       "react-router": "npm:react-router@1.0.3",
-      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@1.0.0-rc5"
+      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@1.0.0-rc6"
     },
-    "npm:react-wildcat-hot-reloader@1.0.0-rc5": {
+    "npm:react-wildcat-hot-reloader@1.0.0-rc6": {
       "debug": "npm:debug@2.2.0",
       "exenv": "npm:exenv@1.2.0"
     },
-    "npm:react-wildcat-prefetch@1.0.0-rc5": {
+    "npm:react-wildcat-prefetch@1.0.0-rc6": {
       "exenv": "npm:exenv@1.2.0",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.3",
       "invariant": "npm:invariant@2.2.0",

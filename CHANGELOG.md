@@ -1,3 +1,20 @@
+<a name="1.0.0-rc6"></a>
+# [1.0.0-rc6](//compare/1.0.0-rc5...v1.0.0-rc6) (2016-01-16)
+
+
+### Bug Fixes
+
+* **react-wildcat-prefetch:** array handling 98f6165
+* **react-wildcat-prefetch:** reuse prefetch key when rehydrating data 41b527e
+* **react-wildcat-test-runners:** only add wrapping braces for multiple files 1511e20
+
+### Features
+
+* **react-wildcat-test-runners:** allow coverage to be scoped to specified files b7595a3, closes #42
+* **react-wildcat-test-runners:** allow coverage to be scoped to specified files 4a1450e, closes #42
+
+
+
 <a name="1.0.0-rc5"></a>
 # [1.0.0-rc5](//compare/1.0.0-rc4...v1.0.0-rc5) (2016-01-15)
 
