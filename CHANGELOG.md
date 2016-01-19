@@ -1,3 +1,14 @@
+<a name="1.0.0-rc7"></a>
+# [1.0.0-rc7](//compare/1.0.0-rc6...v1.0.0-rc7) (2016-01-19)
+
+
+### Bug Fixes
+
+* **react-wildcat:** disable gzip in test mode f1d45ce
+* **react-wildcat-hot-reloader:** convert template strings to es5 strings a079224
+
+
+
 <a name="1.0.0-rc6"></a>
 # [1.0.0-rc6](//compare/1.0.0-rc5...v1.0.0-rc6) (2016-01-16)
 
