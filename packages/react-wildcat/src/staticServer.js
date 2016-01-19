@@ -65,7 +65,7 @@ function start() {
         root: cwd,
         index: false,
         hidden: false,
-        gzip: __PROD__
+        gzip: __PROD__ && !__TEST__
     });
 
     /* istanbul ignore if */
