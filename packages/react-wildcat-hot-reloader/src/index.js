@@ -162,7 +162,7 @@ HotReloader.prototype = {
 
                 if (!exportedValue) {
                     if (ExecutionEnvironment.canUseDOM) {
-                        d(`missing exported value on ${name}, reloading whole page because module record is broken`);
+                        d("missing exported value on ", name, " reloading whole page because module record is broken");
                         document.location.reload(true);
                     }
 
@@ -176,7 +176,7 @@ HotReloader.prototype = {
             }
 
             self.Loader.delete(name);
-            d("deleted a module ", name, " because it has dependency on ", from);
+            d("deleted module ", name, " because it has dependency on ", from);
         }
     },
 
@@ -199,7 +199,7 @@ HotReloader.prototype = {
                                     return aModule;
                                 }
 
-                                throw new Error("module was not found in Systemjs moduleRecords");
+                                throw new Error("module `" + moduleName + "` was not found in SystemJS moduleRecords");
                             }
                         );
                     }
@@ -272,8 +272,12 @@ HotReloader.prototype = {
             }
         ).catch(
             function onModuleError(err) {
-                console.warn("moduleRecordNotFound", err);
-                // not found any module for this file, not really an error
+                if (err.message.indexOf("was not found in SystemJS moduleRecords") !== -1) {
+                    // not found any module for this file, not really an error
+                    return;
+                }
+
+                console.error(err);
             }
         );
     },
