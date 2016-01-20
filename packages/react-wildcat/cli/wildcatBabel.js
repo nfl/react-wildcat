@@ -31,7 +31,8 @@ commander
     .option("-d, --out-dir [out]", "Compile an input directory of modules into an output directory")
     .option("-i, --ignore <patterns>", "RegExp pattern to ignore", patterns)
     .option("-D, --copy-files", "When compiling a directory copy over non-compilable files")
-    .option("-M, --binary-to-module", "Convert non-compilable files to importable modules")
+    .option("-B, --binary-to-module", "Convert non-compilable files to importable modules")
+    .option("-M, --manifest [path]", "Use a manifest to specify files to compile.")
     .option("-q, --quiet", "Don't log anything")
     .parse(process.argv);
 
@@ -207,19 +208,25 @@ function handle(filename) {
 }
 
 if (!commander.watch) {
-    let filenames = commander.args.reduce(function fileReducer(globbed, input) {
-        let files = glob.sync(input, {
-            ignore: commander.ignore
-        });
-        if (!files.length) {
-            files = [input];
-        }
-        return globbed.concat(files);
-    }, []);
+    let filenames;
 
-    filenames = filenames.filter(function fileReducerFilter(element, idx) {
-        return filenames.indexOf(element) === idx;
-    });
+    if (commander.manifest) {
+        filenames = fs.readFileSync(commander.manifest, "utf8").trim().split("\n");
+    } else {
+        filenames = commander.args.reduce(function fileReducer(globbed, input) {
+            let files = glob.sync(input, {
+                ignore: commander.ignore
+            });
+            if (!files.length) {
+                files = [input];
+            }
+            return globbed.concat(files);
+        }, []);
+
+        filenames = filenames.filter(function fileReducerFilter(element, idx) {
+            return filenames.indexOf(element) === idx;
+        });
+    }
 
     filenames.forEach(handle);
 }
