@@ -1,3 +1,13 @@
+<a name="1.0.0-rc8"></a>
+# [1.0.0-rc8](//compare/1.0.0-rc7...v1.0.0-rc8) (2016-01-20)
+
+
+### Features
+
+* **react-wildcat:** specify files to compile using a manifest b6c4b18
+
+
+
 <a name="1.0.0-rc7"></a>
 # [1.0.0-rc7](//compare/1.0.0-rc6...v1.0.0-rc7) (2016-01-19)
 
