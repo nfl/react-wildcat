@@ -61,6 +61,8 @@ describe("react-wildcat", () => {
             const exampleNonExistentPath = `/${serverSettings.publicDir}/foo.js`;
             const exampleUnaffectedPath = `/foo.js`;
 
+            const writeDelay = 200;
+
             const babelDevTranspilerInstance = babelDevTranspiler(exampleDir, {
                 babelOptions,
                 binDir: serverSettings.binDir,
@@ -79,17 +81,19 @@ describe("react-wildcat", () => {
                     var result = yield babelDevTranspilerInstance.call({
                         request: {
                             url: exampleApplicationPath
-                        }
+                        },
+                        response: {}
                     }, (next) => next());
 
                     return result;
                 })
-                    .then(() => {
+                    .then(() => setTimeout(() => {
                         expect(pathExists.sync(path.join(exampleDir, exampleApplicationPath)))
                             .to.be.true;
 
                         done();
-                    });
+                    }, writeDelay))
+                    .catch(e => done(e));
             });
 
             it("converts a binary file to an importable module", (done) => {
@@ -100,12 +104,13 @@ describe("react-wildcat", () => {
                     var result = yield babelDevTranspilerInstance.call({
                         request: {
                             url: exampleBinaryPath
-                        }
+                        },
+                        response: {}
                     }, (next) => next());
 
                     return result;
                 })
-                    .then(() => {
+                    .then(() => setTimeout(() => {
                         expect(pathExists.sync(path.join(exampleDir, exampleBinaryPath)))
                             .to.be.true;
 
@@ -116,7 +121,8 @@ describe("react-wildcat", () => {
                             .that.matches(/module\.exports = "(.*)";/);
 
                         done();
-                    });
+                    }, writeDelay))
+                    .catch(e => done(e));
             });
 
             it("skips transpilation if file exists", (done) => {
@@ -127,7 +133,8 @@ describe("react-wildcat", () => {
                     var result = yield babelDevTranspilerInstance.call({
                         request: {
                             url: exampleApplicationPath
-                        }
+                        },
+                        response: {}
                     }, (next) => next());
 
                     return result;
@@ -137,7 +144,8 @@ describe("react-wildcat", () => {
                             .to.be.true;
 
                         done();
-                    });
+                    })
+                    .catch(e => done(e));
             });
 
             it("ignores a request for a non-existent source", (done) => {
@@ -148,14 +156,16 @@ describe("react-wildcat", () => {
                     var result = yield babelDevTranspilerInstance.call({
                         request: {
                             url: exampleNonExistentPath
-                        }
+                        },
+                        response: {}
                     }, (next) => next());
 
                     return result;
                 })
                     .then(() => {
                         done();
-                    });
+                    })
+                    .catch(e => done(e));
             });
 
             it(`ignores a request that does not begin with /${serverSettings.publicDir}`, (done) => {
@@ -166,14 +176,16 @@ describe("react-wildcat", () => {
                     var result = yield babelDevTranspilerInstance.call({
                         request: {
                             url: exampleUnaffectedPath
-                        }
+                        },
+                        response: {}
                     }, (next) => next());
 
                     return result;
                 })
                     .then(() => {
                         done();
-                    });
+                    })
+                    .catch(e => done(e));
             });
         });
     });
