@@ -79,7 +79,6 @@ export default async () => {
 
         process.exit();
     } catch (e) {
-        console.error(e.message);
-        process.exit(1);
+        process.exit(e);
     }
 }();
