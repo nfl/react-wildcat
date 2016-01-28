@@ -13,6 +13,14 @@ exports.requests = {
         url: "/"
     },
 
+    ephemeral: {
+        header: {
+            host: "www-staging.example.com",
+            "user-agent": exports.stubUserAgent
+        },
+        url: "/"
+    },
+
     err: {
         header: {
             host: "err.example.com",
@@ -27,6 +35,14 @@ exports.requests = {
             "user-agent": exports.stubUserAgent
         },
         url: "/this-route-does-not-exist"
+    },
+
+    invalidSubdomain: {
+        header: {
+            host: "wwwstaging.example.com",
+            "user-agent": exports.stubUserAgent
+        },
+        url: "/"
     },
 
     noSubdomain: {
