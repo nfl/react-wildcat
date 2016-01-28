@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "devDependencies": {
     "babel": "^5.8.29",
-    "rimraf": "^2.4.3"
+    "rimraf": "^2.5.1"
   },
   "scripts": {
     "build": "npm run clean && npm run compile",

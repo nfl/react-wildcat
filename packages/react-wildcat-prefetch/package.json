@@ -7,11 +7,11 @@
     "exenv": "^1.2.0",
     "hoist-non-react-statics": "^1.0.3",
     "invariant": "^2.2.0",
-    "react": "^0.14.3"
+    "react": "^0.14.7"
   },
   "devDependencies": {
     "babel": "^5.8.29",
-    "rimraf": "^2.4.3"
+    "rimraf": "^2.5.1"
   },
   "scripts": {
     "build": "npm run clean && npm run compile",
