@@ -36,7 +36,7 @@ function start() {
     const staticServerSettings = serverSettings.staticServer;
     const secureSettings = staticServerSettings.secureSettings;
 
-    const morganOptions = getMorganOptions(generalSettings.logLevel);
+    const morganOptions = getMorganOptions(generalSettings.logLevel, serverSettings);
 
     const __PROD__ = (process.env.NODE_ENV === "production");
     const __TEST__ = (process.env.BABEL_ENV === "test");
