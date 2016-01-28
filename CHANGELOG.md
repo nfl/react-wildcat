@@ -1,3 +1,22 @@
+<a name="1.0.0"></a>
+# [1.0.0](//compare/1.0.0-rc8...v1.0.0) (2016-01-28)
+
+
+### Bug Fixes
+
+* **react-wildcat:** pipe more data to Graylog (if available) 5c3fd20
+* **react-wildcat-test-runners:** exit with proper error code on error 6506b5e
+
+### Features
+
+* **react-wildcat-handoff:** support for ephemeral subdomains eb2c943
+
+### Performance Improvements
+
+* **react-wildcat:** improve initial server response b506899
+
+
+
 <a name="1.0.0-rc8"></a>
 # [1.0.0-rc8](//compare/1.0.0-rc7...v1.0.0-rc8) (2016-01-20)
 
