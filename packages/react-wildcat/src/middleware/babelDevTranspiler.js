@@ -55,8 +55,14 @@ module.exports = function babelDevTranspiler(root, options) {
         return code + "\n//# sourceMappingURL=" + path.basename(loc);
     }
 
-    function* _babelDevTranspiler(modulePath, moduleSourcePath, moduleBinPath, relativePath) {
+    function* _babelDevTranspiler(ctx, pathOptions) {
         const babel = require("babel-core");
+        const res = ctx.response;
+
+        const modulePath = pathOptions.modulePath;
+        const moduleSourcePath = pathOptions.moduleSourcePath;
+        const moduleBinPath = pathOptions.moduleBinPath;
+        const relativePath = pathOptions.relativePath;
 
         const dataOptions = Object.assign({}, babelOptions, {
             sourceFileName: moduleSourcePath,
@@ -127,20 +133,23 @@ module.exports = function babelDevTranspiler(root, options) {
 
                     instrumentedCodePromise
                         .then(function instrumentedCodeResult(code) {
+                            res.type = "application/x-es-module";
+                            res.length = code.length;
+                            res.body = code;
+                            res.status = 200;
+
+                            if (logLevel > 1) {
+                                logger.meta(prettyLog);
+                            }
+
                             fs.createOutputStream(modulePath)
                                 .on("error", function outputStreamError(outputErr) {
                                     /* istanbul ignore next */
                                     logger.error(outputErr);
-                                    /* istanbul ignore next */
-                                    return reject(outputErr);
-                                })
-                                .on("finish", function outputStreamFinish() {
-                                    if (logLevel > 1) {
-                                        logger.meta(prettyLog);
-                                    }
-                                    return resolve(modulePath);
                                 })
                                 .end(code);
+
+                            return resolve(modulePath);
                         })
                         .catch(function instrumentedCodeError(err) {
                             return reject(err);
@@ -150,18 +159,20 @@ module.exports = function babelDevTranspiler(root, options) {
                 const importable = `module.exports = "${origin}${moduleBinPath.replace(`${root}`, "")}";`;
 
                 Promise.all([
-                    new Promise(function importablePromise(resolveImportable, rejectImportable) {
+                    new Promise(function importablePromise(resolveImportable) {
+                        res.type = "application/x-es-module";
+                        res.length = importable.length;
+                        res.body = importable;
+                        res.status = 200;
+
                         fs.createOutputStream(modulePath)
                             .on("error", function importableStreamError(outputErr) {
                                 /* istanbul ignore next */
                                 logger.error(outputErr);
-                                /* istanbul ignore next */
-                                return rejectImportable(outputErr);
-                            })
-                            .on("finish", function importableStreamFinish() {
-                                return resolveImportable(modulePath);
                             })
                             .end(importable);
+
+                        return resolveImportable(modulePath);
                     }),
 
                     new Promise(function binaryPromise(resolveBinary, rejectBinary) {
@@ -208,7 +219,12 @@ module.exports = function babelDevTranspiler(root, options) {
             const moduleBinPath = pathResolve(root, relativePath.replace(outDir, binDir));
 
             if (pathExists.sync(moduleSourcePath)) {
-                yield _babelDevTranspiler(modulePath, moduleSourcePath, moduleBinPath, relativePath);
+                yield _babelDevTranspiler(this, {
+                    modulePath: modulePath,
+                    moduleSourcePath: moduleSourcePath,
+                    moduleBinPath: moduleBinPath,
+                    relativePath: relativePath
+                });
             }
         }
 
