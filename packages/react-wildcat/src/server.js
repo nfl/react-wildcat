@@ -37,7 +37,7 @@ function start() {
     const appServerSettings = serverSettings.appServer;
     const secureSettings = appServerSettings.secureSettings;
 
-    const morganOptions = getMorganOptions(generalSettings.logLevel);
+    const morganOptions = getMorganOptions(generalSettings.logLevel, serverSettings);
 
     const __PROD__ = (process.env.NODE_ENV === "production");
     const __TEST__ = (process.env.BABEL_ENV === "test");
@@ -69,8 +69,8 @@ function start() {
 
             var memwatch = require("memwatch-next");
 
-            memwatch.on("leak", info => console.error("Memory leak detected", info));
-            memwatch.on("stats", stats => console.info("Stats", stats));
+            memwatch.on("leak", info => logger.error("Memory leak detected", info));
+            memwatch.on("stats", stats => logger.info("Stats", stats));
         }
 
         return new Promise(function startPromise(resolve) {
