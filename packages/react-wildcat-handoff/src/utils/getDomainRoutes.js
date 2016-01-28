@@ -25,18 +25,35 @@ function getDomainDataFromHost(host) {
     return url;
 }
 
-function completeGetDomainRoutes(resolveOptions, cb) {
-    var domainRoutes = resolveOptions.domainRoutes;
-    var subdomain = resolveOptions.subdomain;
-    var host = resolveOptions.host;
-
-    var resolveSubdomain = (domainRoutes.domains || domainRoutes)[subdomain];
-
-    if (typeof resolveSubdomain !== "function") {
-        return cb(null, resolveSubdomain);
+function resolveSubdomain(domains, subdomain) {
+    if (domains[subdomain]) {
+        return domains[subdomain];
     }
 
-    return resolveSubdomain(host, cb);
+    var possibleSubdomains = Object.keys(domains);
+
+    var partialSubdomainMatch = possibleSubdomains.filter(function possibleSubdomain(sub) {
+        return subdomain.split("-").some(function domainPart(part) {
+            return part === sub;
+        });
+    })[0];
+
+    return domains[partialSubdomainMatch];
+}
+
+function completeGetDomainRoutes(resolveOptions, cb) {
+    var host = resolveOptions.host;
+    var domainRoutes = resolveOptions.domainRoutes;
+    var subdomain = resolveOptions.subdomain;
+
+    var domainTarget = domainRoutes.domains || domainRoutes;
+    var subdomainResult = resolveSubdomain(domainTarget, subdomain);
+
+    if (typeof subdomainResult !== "function") {
+        return cb(null, subdomainResult);
+    }
+
+    return subdomainResult(host, cb);
 }
 
 module.exports = function getDomainRoutes(domains, header, cb) {
@@ -70,7 +87,7 @@ module.exports = function getDomainRoutes(domains, header, cb) {
         });
     }
 
-    resolveDomain = domains[subdomain];
+    resolveDomain = resolveSubdomain(domains, subdomain);
 
     if (typeof resolveDomain !== "function") {
         return cb(null, resolveDomain);
