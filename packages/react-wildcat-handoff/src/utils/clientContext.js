@@ -11,7 +11,7 @@ var storeClientSize = require("./storeClientSize.js");
  * Client Router is used to handle client routing
  * @return {Promise}
  */
-module.exports = function clientContext(cfg) {
+module.exports = function clientContext(cfg, reactRootElement) {
     var userAgent = ExecutionEnvironment.canUseDOM ? window.navigator.userAgent : null;
 
     var plugins = [
@@ -21,7 +21,11 @@ module.exports = function clientContext(cfg) {
         radium.Plugins.resolveInteractionStyles,
         radium.Plugins.prefix,
         prefixAll,
-        radium.Plugins.checkProps
+        radium.Plugins.checkProps,
+
+        // Flag styles as available
+        // This is a helpful hook for running tests
+        () => reactRootElement.setAttribute("data-styles-available", true)
     ];
 
     /* eslint-disable react/no-multi-comp */
