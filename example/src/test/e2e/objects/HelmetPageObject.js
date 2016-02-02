@@ -6,12 +6,12 @@ const {maxTimeout, originUrl} = browser.params;
 const dom = Symbol("dom");
 
 class HelmetPageObject {
-    static location = `${originUrl}/helmet-example`
+    static location = `${originUrl}/helmet-example`;
 
     _dom = {
         container: $("#helmet"),
         link: $("#helmet-link")
-    }
+    };
 
     get [dom]() {
         return this._dom;

@@ -8,11 +8,11 @@ class Hello extends React.Component {
     static propTypes = {
         count: React.PropTypes.number,
         title: React.PropTypes.string
-    }
+    };
 
     static defaultProps = {
         count: 0
-    }
+    };
 
     static staticMethod() {
         return 42;

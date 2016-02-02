@@ -6,12 +6,12 @@ const {maxTimeout, originUrl} = browser.params;
 const dom = Symbol("dom");
 
 class PrefetchPageObject {
-    static location = `${originUrl}/prefetch-example`
+    static location = `${originUrl}/prefetch-example`;
 
     _dom = {
         container: $("#prefetch"),
         link: $("#prefetch-link")
-    }
+    };
 
     get [dom]() {
         return this._dom;

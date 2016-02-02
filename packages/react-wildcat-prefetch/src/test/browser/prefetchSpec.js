@@ -304,11 +304,11 @@ describe("react-wildcat-prefetch", () => {
                 class WindowHydrationTest extends React.Component {
                     static propTypes = {
                         asyncData: React.PropTypes.object
-                    }
+                    };
 
                     static defaultProps = {
                         asyncData: {}
-                    }
+                    };
 
                     render() {
                         expect(this.props.asyncData)
@@ -328,11 +328,11 @@ describe("react-wildcat-prefetch", () => {
                 class ArrayHydrationTest extends React.Component {
                     static propTypes = {
                         asyncArrayData: React.PropTypes.array
-                    }
+                    };
 
                     static defaultProps = {
                         asyncArrayData: []
-                    }
+                    };
 
                     render() {
                         expect(this.props.asyncArrayData)
@@ -354,11 +354,11 @@ describe("react-wildcat-prefetch", () => {
                 class FirstHydrationTest extends React.Component {
                     static propTypes = {
                         firstData: React.PropTypes.object
-                    }
+                    };
 
                     static defaultProps = {
                         firstData: {}
-                    }
+                    };
 
                     render() {
                         expect(this.props.firstData)
@@ -376,11 +376,11 @@ describe("react-wildcat-prefetch", () => {
                 class SecondHydrationTest extends React.Component {
                     static propTypes = {
                         secondData: React.PropTypes.object
-                    }
+                    };
 
                     static defaultProps = {
                         secondData: {}
-                    }
+                    };
 
                     render() {
                         expect(this.props.secondData)
@@ -429,11 +429,11 @@ describe("react-wildcat-prefetch", () => {
                     class CustomKeyHydrationTest extends React.Component {
                         static propTypes = {
                             [stubs.prefetchedDataKey]: React.PropTypes.object
-                        }
+                        };
 
                         static defaultProps = {
                             [stubs.prefetchedDataKey]: {}
-                        }
+                        };
 
                         render() {
                             expect(this.props[stubs.prefetchedDataKey])
@@ -455,11 +455,11 @@ describe("react-wildcat-prefetch", () => {
                     class CustomKeyHydrationTest extends React.Component {
                         static propTypes = {
                             [stubs.prefetchedDataKey]: React.PropTypes.object
-                        }
+                        };
 
                         static defaultProps = {
                             [stubs.prefetchedDataKey]: {}
-                        }
+                        };
 
                         render() {
                             expect(this.props[stubs.prefetchedDataKey])
@@ -480,11 +480,11 @@ describe("react-wildcat-prefetch", () => {
                 class MemoryHydrationTest extends React.Component {
                     static propTypes = {
                         asyncData: React.PropTypes.object
-                    }
+                    };
 
                     static defaultProps = {
                         asyncData: {}
-                    }
+                    };
 
                     render() {
                         expect(this.props.asyncData)
@@ -529,7 +529,7 @@ describe("react-wildcat-prefetch", () => {
                 class RehydrationTest extends React.Component {
                     static propTypes = {
                         asyncData: React.PropTypes.object
-                    }
+                    };
 
                     render() {
                         if (renderCount === 1) {
@@ -558,7 +558,7 @@ describe("react-wildcat-prefetch", () => {
                 class ArrayRehydrationTest extends React.Component {
                     static propTypes = {
                         asyncArrayData: React.PropTypes.array
-                    }
+                    };
 
                     render() {
                         if (renderCount === 1) {
@@ -589,11 +589,11 @@ describe("react-wildcat-prefetch", () => {
                 class FirstRehydrationTest extends React.Component {
                     static propTypes = {
                         firstData: React.PropTypes.object
-                    }
+                    };
 
                     static defaultProps = {
                         firstData: {}
-                    }
+                    };
 
                     render() {
                         if (firstRenderCount === 1) {
@@ -619,11 +619,11 @@ describe("react-wildcat-prefetch", () => {
                 class SecondRehydrationTest extends React.Component {
                     static propTypes = {
                         secondData: React.PropTypes.object
-                    }
+                    };
 
                     static defaultProps = {
                         secondData: {}
-                    }
+                    };
 
                     render() {
                         if (secondRenderCount === 1) {

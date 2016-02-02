@@ -7,13 +7,13 @@ import {nflCDN} from "application.config.js";
 class PrefetchExample extends React.Component {
     static propTypes = {
         asyncData: React.PropTypes.object.isRequired
-    }
+    };
 
     static defaultProps = {
         asyncData: {
             superBowls: []
         }
-    }
+    };
 
     render() {
         const {asyncData: {superBowls}} = this.props;

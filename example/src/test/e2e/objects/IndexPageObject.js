@@ -6,13 +6,13 @@ const {maxTimeout, originUrl} = browser.params;
 const dom = Symbol("dom");
 
 class IndexPageObject {
-    static location = `${originUrl}/`
+    static location = `${originUrl}/`;
 
     _dom = {
         container: $(`#index`),
         link: $(`#index-link`),
         navigationLinks: $$(`[role="navigation"] a`)
-    }
+    };
 
     get [dom]() {
         return this._dom;

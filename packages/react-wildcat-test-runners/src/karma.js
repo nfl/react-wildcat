@@ -26,7 +26,7 @@ const staticUrl = url.format({
 const args = process.argv.slice(2).join(` `).trim();
 
 /* eslint-disable no-process-exit */
-export default async () => {
+export default (async () => {
     try {
         const staticOrigin = staticUrl;
         const shouldStartStaticServer = await checkServerStatus(staticOrigin);
@@ -65,4 +65,4 @@ export default async () => {
     } catch (e) {
         process.exit(e);
     }
-}();
+})();

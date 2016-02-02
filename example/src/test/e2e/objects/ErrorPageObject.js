@@ -6,12 +6,12 @@ const {originUrl} = browser.params;
 const dom = Symbol("dom");
 
 class ErrorPageObject {
-    static location = `${originUrl}/error-example`
+    static location = `${originUrl}/error-example`;
 
     _dom = {
         container: $("#error"),
         link: $("#error-link")
-    }
+    };
 
     get [dom]() {
         return this._dom;

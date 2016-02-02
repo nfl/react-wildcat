@@ -8,7 +8,7 @@
   "author": "engineers@nfl.com",
   "license": "MIT",
   "devDependencies": {
-    "babel-eslint": "^4.1.6",
+    "babel-eslint": "^4.1.7",
     "chai": "^3.4.0",
     "co": "^4.6.0",
     "codecov.io": "^0.1.6",
