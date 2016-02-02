@@ -6,12 +6,12 @@ const {maxTimeout, originUrl} = browser.params;
 const dom = Symbol("dom");
 
 class FlexboxPageObject {
-    static location = `${originUrl}/flexbox-example`
+    static location = `${originUrl}/flexbox-example`;
 
     _dom = {
         container: $("#flexbox"),
         link: $("#flexbox-link")
-    }
+    };
 
     get [dom]() {
         return this._dom;

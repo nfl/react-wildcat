@@ -1,5 +1,5 @@
 const contextStub = {
-    router: () => {
+    router: (() => {
         const routerStub = sinon.stub();
         routerStub.getRouteAtDepth = sinon.stub();
         routerStub.setRouteComponentAtDepth = sinon.stub();
@@ -8,7 +8,7 @@ const contextStub = {
         routerStub.isActive = sinon.stub();
 
         return routerStub;
-    }(),
+    })(),
     routeDepth: 1
 };
 

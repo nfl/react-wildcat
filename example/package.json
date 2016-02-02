@@ -8,7 +8,7 @@
     "rimraf": "^2.5.1"
   },
   "devDependencies": {
-    "babel-eslint": "^4.1.5",
+    "babel-eslint": "^4.1.7",
     "babel-plugin-react-transform": "^1.1.1",
     "babel-runtime": "^5.8.25",
     "chai": "^3.5.0",

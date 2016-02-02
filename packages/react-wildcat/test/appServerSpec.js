@@ -176,7 +176,7 @@ describe("react-wildcat", () => {
 
                         return config;
                     },
-                    "./utils/logger": () => {
+                    "./utils/logger": (() => {
                         function Logger() {}
 
                         Logger.prototype = {
@@ -187,7 +187,7 @@ describe("react-wildcat", () => {
                         };
 
                         return Logger;
-                    }()
+                    })()
                 });
 
                 staticServer.start()
@@ -463,7 +463,7 @@ describe("react-wildcat", () => {
 
                                 return defaultConfig;
                             },
-                            "./utils/logger": () => {
+                            "./utils/logger": (() => {
                                 function Logger() {}
 
                                 Logger.prototype = {
@@ -474,7 +474,7 @@ describe("react-wildcat", () => {
                                 };
 
                                 return Logger;
-                            }()
+                            })()
                         });
 
                         expect(server)

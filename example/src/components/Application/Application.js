@@ -17,11 +17,11 @@ class Application extends React.Component {
         radiumConfig: React.PropTypes.shape({
             userAgent: React.PropTypes.string
         })
-    }
+    };
 
     static propTypes = {
         children: React.PropTypes.any
-    }
+    };
 
     render() {
         const {radiumConfig} = this.context;
