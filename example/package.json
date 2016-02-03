@@ -1,10 +1,10 @@
 {
   "name": "react-wildcat-example",
   "description": "An example Wildcat project.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": {
     "babel": "^5.8.29",
-    "react-wildcat": "1.0.0",
+    "react-wildcat": "1.0.1",
     "rimraf": "^2.5.1"
   },
   "devDependencies": {
@@ -34,7 +34,7 @@
     "protractor": "^3.0.0",
     "protractor-console-plugin": "^0.1.1",
     "protractor-istanbul-plugin": "^2.0.0",
-    "react-wildcat-test-runners": "1.0.0",
+    "react-wildcat-test-runners": "1.0.1",
     "resolve": "^1.1.7",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0"
@@ -56,7 +56,7 @@
       "react-router": "npm:react-router@^1.0.3",
       "react-wildcat-ensure": "npm:react-wildcat-ensure@1.0.0",
       "react-wildcat-handoff": "npm:react-wildcat-handoff@1.0.0",
-      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0"
+      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.1"
     },
     "devDependencies": {
       "react-addons-test-utils": "npm:react-addons-test-utils@^0.14.3",
