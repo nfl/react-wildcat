@@ -6,6 +6,7 @@ const cluster = require("cluster");
 const koa = require("koa");
 const cors = require("koa-cors");
 const etag = require("koa-etag");
+const proxy = require("koa-proxy");
 const favicon = require("koa-favicon");
 const compress = require("koa-compress");
 const conditional = require("koa-conditional-get");
@@ -36,6 +37,7 @@ function start() {
 
     const appServerSettings = serverSettings.appServer;
     const secureSettings = appServerSettings.secureSettings;
+    const proxySettings = appServerSettings.proxies;
 
     const morganOptions = getMorganOptions(generalSettings.logLevel, serverSettings);
 
@@ -93,14 +95,16 @@ function start() {
             // Handle the pesky favicon
             app.use(favicon(path.join(cwd, "favicon.ico")));
 
-            /* istanbul ignore else */
-            if (!__PROD__ || process.env.DANGEROUSLY_ENABLE_PROXIES_IN_PRODUCTION || __TEST__) {
-                const proxy = require("./middleware/proxy");
+            Object.keys(proxySettings).forEach(function eachProxyRoute(proxyRoute) {
+                const host = proxySettings[proxyRoute];
+                logger.meta(`Proxy: ${proxyRoute} -> ${host}`);
 
-                app.use(proxy(appServerSettings.proxies, {
-                    logger
+                app.use(proxy({
+                    host,
+                    map: (hostPath) => hostPath.replace(proxyRoute, ""),
+                    match: proxyRoute
                 }));
-            }
+            });
 
             app.use(renderReactWithJspm(cwd, {
                 wildcatConfig
