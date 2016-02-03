@@ -99,6 +99,7 @@ function start() {
                 const host = proxySettings[proxyRoute];
                 logger.meta(`Proxy: ${proxyRoute} -> ${host}`);
 
+                /* istanbul ignore next */
                 app.use(proxy({
                     host,
                     map: (hostPath) => hostPath.replace(proxyRoute, ""),

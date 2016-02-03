@@ -30,6 +30,7 @@
     "koa-favicon": "^1.2.0",
     "koa-file-server": "nfl/file-server#feature/optional-gzip",
     "koa-morgan": "^0.4.0",
+    "koa-proxy": "^0.4.1",
     "memwatch-next": "^0.2.10",
     "minimatch": "^3.0.0",
     "node-fetch": "^1.3.3",
