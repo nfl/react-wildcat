@@ -4,11 +4,11 @@
 "use strict";
 
 var ExecutionEnvironment = require("exenv");
-var debug = require("debug");
-var d = debug("jspm-hot-reloader");
 
-function HotReloader(customLoader) {
+function HotReloader(customLoader, logger) {
     this.Loader = customLoader || System;
+    this.logger = logger || console;
+
     this.originalImportFn = this.Loader.import;
 
     return this.init();
@@ -162,7 +162,7 @@ HotReloader.prototype = {
 
                 if (!exportedValue) {
                     if (ExecutionEnvironment.canUseDOM) {
-                        d("missing exported value on ", name, " reloading whole page because module record is broken");
+                        self.logger.info("missing exported value on", name, "reloading whole page because module record is broken");
                         document.location.reload(true);
                     }
 
@@ -176,7 +176,7 @@ HotReloader.prototype = {
             }
 
             self.Loader.delete(name);
-            d("deleted module ", name, " because it has dependency on ", from);
+            self.logger.info("deleted module", name, "because it has dependency on", from);
         }
     },
 
@@ -233,7 +233,7 @@ HotReloader.prototype = {
 
                     return importersToBeDeleted.map(function mapImporters(importer) {
                         if (self.modulesJustDeleted.hasOwnProperty(importer.name)) {
-                            d("already deleted", importer.name);
+                            self.logger.info("already deleted", importer.name);
                             return false;
                         }
 
@@ -262,8 +262,6 @@ HotReloader.prototype = {
                     }
                 }
 
-                d("toReimport", toReimport);
-
                 if (toReimport.length === 0) {
                     toReimport = self.clientImportedModules;
                 }
@@ -277,7 +275,7 @@ HotReloader.prototype = {
                     return;
                 }
 
-                console.error(err);
+                self.logger.error(err);
             }
         );
     },
@@ -300,12 +298,14 @@ HotReloader.prototype = {
 
         return Promise.all(promises).then(
             function onImportPromise() {
+                var deletedModuleNames = Object.keys(self.modulesJustDeleted);
                 self.pushImporters(self.modulesJustDeleted, true);
+
                 self.modulesJustDeleted = {};
                 self.failedReimport = null;
                 self.currentHotReload = null;
 
-                d("all reimported in ", new Date().getTime() - start, "ms");
+                self.logger.info(deletedModuleNames, "reimported in", new Date().getTime() - start, "ms");
             }
         ).catch(
             function onImportError() {
