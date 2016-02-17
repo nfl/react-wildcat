@@ -52,12 +52,6 @@ module.exports = function serverRender(cfg) {
                         })
                 )
                     .then(function serverRenderPromiseResult() {
-                        // FIXME: Remove this workaround when this issue is resolved:
-                        // https://github.com/callemall/material-ui/pull/2007
-                        global.navigator = global.navigator || {
-                            userAgent: request.header["user-agent"]
-                        };
-
                         const reactMarkup = ReactDOM.renderToString(
                             serverContext(request, cookies, renderProps)
                         );
