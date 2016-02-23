@@ -2,7 +2,7 @@
 
 const React = require("react");
 const Router = require("react-router");
-const RoutingContext = Router.RoutingContext;
+const RouterContext = Router.RouterContext;
 
 const radium = require("radium");
 const prefixAll = require("radium-plugin-prefix-all");
@@ -51,7 +51,7 @@ module.exports = function serverContext(request, cookies, renderProps) {
         },
 
         render() {
-            return React.createElement(RoutingContext, Object.assign({}, this.props, renderProps));
+            return React.createElement(RouterContext, Object.assign({}, this.props, renderProps));
         }
     });
 

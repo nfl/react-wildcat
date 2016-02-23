@@ -1,11 +1,10 @@
 require("isomorphic-fetch");
 
-var history = require("history");
 var clientRender = require("./utils/clientRender.js");
 var getDomainRoutes = require("./utils/getDomainRoutes.js");
 
-var createHistory = history.createHistory;
-var createLocation = history.createLocation;
+var createHistory = require("history").createHistory;
+var useRouterHistory = require("react-router").useRouterHistory;
 
 function completeRender(cfg, routes) {
     if (routes) {
@@ -16,8 +15,8 @@ function completeRender(cfg, routes) {
 }
 
 function render(cfg) {
-    var clientHistory = createHistory();
-    var clientLocation = createLocation(location.pathname);
+    var clientHistory = useRouterHistory(createHistory)();
+    var clientLocation = clientHistory.createLocation(location.pathname);
 
     cfg.history = clientHistory;
     cfg.location = clientLocation;
