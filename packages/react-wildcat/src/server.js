@@ -108,6 +108,7 @@ function start() {
             });
 
             app.use(renderReactWithJspm(cwd, {
+                logger,
                 wildcatConfig
             }));
 

@@ -1,6 +1,7 @@
 module.exports = function renderReactWithJspm(root, options) {
     "use strict";
 
+    const logger = options.logger;
     const wildcatConfig = options.wildcatConfig;
 
     const customLoader = require("../utils/customJspmLoader")(root, wildcatConfig);
@@ -29,7 +30,7 @@ module.exports = function renderReactWithJspm(root, options) {
                 const HotReloader = responses[1];
 
                 if (HotReloader) {
-                    const hotReloader = new HotReloader(customLoader);
+                    const hotReloader = new HotReloader(customLoader, logger);
 
                     if (typeof serverSettings.hotReloadReporter === "function") {
                         serverSettings.hotReloadReporter(hotReloader, generalSettings.staticUrl);

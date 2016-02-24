@@ -26,8 +26,8 @@
   },
   "peerDependencies": {
     "istanbul": "*",
-    "karma": "<=0.13.19",
-    "protractor": "<=3.0.0"
+    "karma": "*",
+    "protractor": "*"
   },
   "scripts": {
     "build": "npm run clean && npm run compile",
