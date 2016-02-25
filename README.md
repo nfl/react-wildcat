@@ -7,7 +7,7 @@
 [![codecov.io](https://codecov.io/github/nfl/react-wildcat/coverage.svg?branch=master)](https://codecov.io/github/nfl/react-wildcat?branch=master)
 [![dependency status](https://img.shields.io/david/nfl/react-wildcat.svg?style=flat-square)](https://david-dm.org/nfl/react-wildcat)
 
-A new, opinionated React environment from the National Football League.
+A new, opinionated React environment from the National Football League. [Read more on Wildcat](https://medium.com/nfl-engineers/nfl-react-84e9cd11d384#.rlwui1p4z).
 
 ## Todo
 
