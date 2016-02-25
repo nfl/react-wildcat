@@ -1,6 +1,6 @@
 {
   "name": "react-wildcat-hot-reloader",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Hot reloading support for Wildcat.",
   "main": "src",
   "dependencies": {

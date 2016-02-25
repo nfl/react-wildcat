@@ -4,7 +4,7 @@
   "version": "1.0.1",
   "dependencies": {
     "babel": "^5.8.29",
-    "react-wildcat": "1.0.1",
+    "react-wildcat": "1.0.2",
     "rimraf": "^2.5.1"
   },
   "devDependencies": {
@@ -34,7 +34,7 @@
     "protractor": "^3.0.0",
     "protractor-console-plugin": "^0.1.1",
     "protractor-istanbul-plugin": "^2.0.0",
-    "react-wildcat-test-runners": "1.0.1",
+    "react-wildcat-test-runners": "1.0.2",
     "resolve": "^1.1.7",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0"
@@ -55,7 +55,7 @@
       "react-metrics": "npm:react-metrics@^1.0.1",
       "react-router": "npm:react-router@^1.0.3",
       "react-wildcat-ensure": "npm:react-wildcat-ensure@1.0.0",
-      "react-wildcat-handoff": "npm:react-wildcat-handoff@1.0.0",
+      "react-wildcat-handoff": "npm:react-wildcat-handoff@1.0.2",
       "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.1"
     },
     "devDependencies": {
@@ -64,7 +64,7 @@
       "react-transform-catch-errors": "npm:react-transform-catch-errors@^1.0.1",
       "react-transform-hmr": "npm:react-transform-hmr@^1.0.1",
       "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@1.0.0",
-      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@^1.0.0",
+      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@1.0.2",
       "redbox-react": "npm:redbox-react@^1.1.1"
     }
   },

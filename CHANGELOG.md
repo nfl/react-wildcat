@@ -1,3 +1,13 @@
+<a name="1.0.2"></a>
+## [1.0.2](//compare/1.0.1...v1.0.2) (2016-02-25)
+
+
+### Bug Fixes
+
+* **react-wildcat-hot-reloader:** Use logger to expose more information be39e36
+
+
+
 <a name="1.0.1"></a>
 ## [1.0.1](//compare/1.0.0...v1.0.1) (2016-02-03)
 
