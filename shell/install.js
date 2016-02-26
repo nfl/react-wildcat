@@ -3,7 +3,7 @@ require("shelljs/global");
 
 const fs = require("fs");
 const cwd = process.cwd();
-var path = require("path");
+const path = require("path");
 
 ls("packages/*").forEach((loc) => {
     const name = path.basename(loc);
