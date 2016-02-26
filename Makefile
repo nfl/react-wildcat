@@ -7,7 +7,7 @@ export BABEL_ENV = test
 bootstrap:
 	npm install --silent
 	jspm install --log warn -y
-	./shell/install.sh
+	node ./shell/install.js
 	npm link react-wildcat-prefetch --silent
 
 clean:
@@ -17,7 +17,7 @@ clean:
 install: clean bootstrap install-example test-cov test-example
 
 install-example:
-	./shell/install-example.sh
+	node ./shell/install-example.js
 
 lint:
 	node node_modules/.bin/eslint packages/* --ext .js --cache true
