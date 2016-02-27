@@ -85,7 +85,7 @@ While it is possible to run the environment with an untrusted SSL certificate, f
 Wildcat is designed to run on two servers:
 
 - A Node server which accepts HTTP requests and renders static markup
-- (optional) A static file server which servers static assets (JavaScript files, CSS, images, etc)
+- (optional) A static file server that serves static assets (JavaScript files, CSS, images, etc)
 
 This setup provides several benefits, including:
 
