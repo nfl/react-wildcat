@@ -19,7 +19,7 @@ module.exports = function babelDevTranspiler(root, options) {
     const outDir = options.outDir;
     const sourceDir = options.sourceDir;
 
-    let Istanbul, instrumenter, instrumentationExcludes;
+    let instrumenter, instrumentationExcludes;
 
     if (coverage) {
         const coverageEnv = coverageSettings.env;
@@ -46,7 +46,7 @@ module.exports = function babelDevTranspiler(root, options) {
             );
         }
 
-        Istanbul = require("istanbul");
+        const Istanbul = require("istanbul");
         instrumenter = new Istanbul.Instrumenter(instrumentationSettings);
     }
 

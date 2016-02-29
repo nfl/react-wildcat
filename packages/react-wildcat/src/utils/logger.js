@@ -44,7 +44,7 @@ function graylog(args, method) {
 
 Object.keys(logMethods).forEach((method) => {
     Logger.prototype[method] = function () {
-        const args = Array.prototype.slice.call(arguments);
+        const args = Array.prototype.slice.call(arguments); //eslint-disable-line prefer-rest-params
         args.unshift(`${this.id}  ~>`);
 
         args.forEach((arg, i) => {

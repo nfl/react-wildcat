@@ -68,7 +68,7 @@ module.exports = function defaultTemplate(cfg) {
             Promise.all([
                 System.import("${entry}"),
                 System.import("${renderHandler}")${hotReload ? `,
-                System.import("${hotReloader}")` : ``}
+                System.import("${hotReloader}")` : ""}
             ])
                 .then(function clientEntry(responses) {
                     // First response is a hash of project options
@@ -106,7 +106,7 @@ module.exports = function defaultTemplate(cfg) {
 
                         const hotReloader = new HotReloader();
                         bootstrapHotReloader(hotReloader, "${socketUrl}");
-                    }` : ``}
+                    }` : ""}
 
                     // Pass options to server
                     return client(clientOptions);

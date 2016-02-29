@@ -8,7 +8,6 @@ import * as prefetchExampleRoutes from "../routes.js";
 
 describe("Prefetch Example", () => {
     let prefetchExampleTree;
-    let asyncData;
 
     const prefetchExamplePath = "/prefetch-example";
 
@@ -33,7 +32,7 @@ describe("Prefetch Example", () => {
                 expect(prefetch)
                     .to.respondTo("run");
 
-                asyncData = await prefetch.run();
+                const asyncData = await prefetch.run();
                 expect(asyncData).to.exist;
 
                 PrefetchExample.prefetch = {

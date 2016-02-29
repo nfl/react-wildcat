@@ -9,8 +9,8 @@ class IndexPageObject {
     static location = `${originUrl}/`;
 
     _dom = {
-        container: $(`#index`),
-        link: $(`#index-link`),
+        container: $("#index"),
+        link: $("#index-link"),
         navigationLinks: $$(`[role="navigation"] a`)
     };
 

@@ -20,4 +20,4 @@ export const links = [{
     text: "Error Example"
 }];
 
-export const nflCDN = `https://nflcdns.nfl.com/static/content/public/static`;
+export const nflCDN = "https://nflcdns.nfl.com/static/content/public/static";

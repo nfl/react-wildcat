@@ -7,7 +7,6 @@ import HelmetPageObject from "../objects/HelmetPageObject.js";
 
 describe("Index Page", () => {
     let landingUrl;
-    let appLinks;
 
     const indexPage = new IndexPageObject();
     const flexboxPage = new FlexboxPageObject();
@@ -21,7 +20,7 @@ describe("Index Page", () => {
             landingUrl = await browser.getCurrentUrl();
             expect(landingUrl).to.equal(IndexPageObject.location);
 
-            appLinks = await indexPage.getNavigationLinks();
+            const appLinks = await indexPage.getNavigationLinks();
             expect(appLinks).to.have.length.of(6);
 
             done();
