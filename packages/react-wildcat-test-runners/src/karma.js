@@ -23,7 +23,7 @@ const staticUrl = url.format({
     port: staticServerSettings.port
 });
 
-const args = process.argv.slice(2).join(` `).trim();
+const args = process.argv.slice(2).join(" ").trim();
 
 /* eslint-disable no-process-exit */
 export default (async () => {

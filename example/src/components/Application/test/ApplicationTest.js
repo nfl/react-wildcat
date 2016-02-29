@@ -5,7 +5,7 @@ import {ApplicationComponent as Application} from "../Application.js";
 
 describe("Application", () => {
     let applicationTree;
-    const testChildText = `This text should exist.`;
+    const testChildText = "This text should exist.";
 
     it("should be available", () => {
         expect(Application).to.exist;

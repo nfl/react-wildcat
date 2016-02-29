@@ -18,7 +18,7 @@ describe("Error Example", () => {
 
         it("should throw a render error", () => {
             expect(errorRender)
-                .to.throw(TypeError, `this.props`);
+                .to.throw(TypeError, "this.props");
         });
     });
 

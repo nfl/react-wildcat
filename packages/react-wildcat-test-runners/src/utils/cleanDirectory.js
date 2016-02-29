@@ -7,7 +7,7 @@ import rimraf from "rimraf";
 export default async function cleanDirectory(directory) {
     return new Promise((resolve, reject) => {
         if (!directory) {
-            return reject(new Error(`Directory not specified`));
+            return reject(new Error("Directory not specified"));
         }
 
         rimraf(directory, (err) => {

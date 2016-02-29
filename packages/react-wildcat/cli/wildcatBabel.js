@@ -16,7 +16,7 @@ const resolve = require("resolve");
 const Batch = require("batch");
 
 const Logger = require("../src/utils/logger");
-const logger = new Logger(`👀`);
+const logger = new Logger("👀");
 
 const wildcatConfig = require("../src/utils/getWildcatConfig")(cwd);
 
@@ -147,7 +147,7 @@ function handleFile(src, filename, done) {
         if (commander.binaryToModule) {
             rawDest = path.join("bin", filename);
 
-            const origin = `${wildcatConfig.generalSettings.staticUrl || ``}/`;
+            const origin = `${wildcatConfig.generalSettings.staticUrl || ""}/`;
             const importable = `module.exports = "${origin}${rawDest}";`;
 
             fs.createOutputStream(dest)
@@ -189,7 +189,7 @@ function handle(filename) {
                     });
                 }
 
-                glob(`**`, {
+                glob("**", {
                     cwd: filename,
                     nodir: true,
                     ignore: commander.ignore
@@ -249,5 +249,5 @@ if (commander.watch) {
         });
     });
 
-    logger.ok(`Watching local files for code changes`);
+    logger.ok("Watching local files for code changes");
 }

@@ -21,10 +21,10 @@ const debug = require("debug")("memwatch");
 
 const morgan = require("koa-morgan");
 const getMorganOptions = require("./utils/getMorganOptions");
-require("./utils/customMorganTokens")(morgan, `🏈`);
+require("./utils/customMorganTokens")(morgan, "🏈");
 
 const Logger = require("./utils/logger");
-const logger = new Logger(`🏈`);
+const logger = new Logger("🏈");
 
 const renderReactWithJspm = require("./middleware/renderReactWithJspm");
 
@@ -143,7 +143,7 @@ function start() {
                 /* istanbul ignore else */
                 if (cluster.worker.id === cpuCount) {
                     if (__PROD__) {
-                        logger.ok(`Node server is running on pid`, process.pid);
+                        logger.ok("Node server is running on pid", process.pid);
                     } else {
                         logger.ok(`Node server is running at ${generalSettings.originUrl} on pid`, process.pid);
                     }

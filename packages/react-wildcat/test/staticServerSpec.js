@@ -59,7 +59,7 @@ describe("react-wildcat", () => {
             const exampleApplicationPath = `/${serverSettings.publicDir}/components/Application/Application.js`;
             const exampleBinaryPath = `/${serverSettings.publicDir}/assets/images/primary-background.jpg`;
             const exampleNonExistentPath = `/${serverSettings.publicDir}/foo.js`;
-            const exampleUnaffectedPath = `/foo.js`;
+            const exampleUnaffectedPath = "/foo.js";
 
             const writeDelay = 200;
 

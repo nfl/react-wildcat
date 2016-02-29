@@ -12,6 +12,6 @@ const FLAGS = [
     COVERAGE_SUITE && `COVERAGE_SUITE=${COVERAGE_SUITE}`,
     COVERAGE_FILES && `COVERAGE_FILES=${COVERAGE_FILES}`,
     `NODE_ENV=${NODE_ENV}`
-].filter(e => e).join(` `);
+].filter(e => e).join(" ");
 
 export const testEnv = `env ${FLAGS}`;

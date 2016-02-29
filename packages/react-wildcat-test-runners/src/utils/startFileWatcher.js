@@ -2,7 +2,7 @@ import yawn from "./yawn.js";
 import {argv} from "yargs";
 import {testEnv} from "./envFlags.js";
 
-const WATCHER_AVAILABLE_STRING = `Watching local files for code changes`;
+const WATCHER_AVAILABLE_STRING = "Watching local files for code changes";
 
 /**
  * Starts a local file watcher
@@ -10,16 +10,16 @@ const WATCHER_AVAILABLE_STRING = `Watching local files for code changes`;
  */
 export default async function startFileWatcher() {
     const cmd = [
-        `wildcat-babel`,
-        `--copy-files`,
-        `--binary-to-module`,
-        `--ignore '**/!(*Test).*'`,
-        `--watch`,
-        `src`,
-        `--out-dir public`
+        "wildcat-babel",
+        "--copy-files",
+        "--binary-to-module",
+        "--ignore '**/!(*Test).*'",
+        "--watch",
+        "src",
+        "--out-dir public"
     ];
 
-    return yawn(`${testEnv} ${cmd.join(` `)}`, {
+    return yawn(`${testEnv} ${cmd.join(" ")}`, {
         resolveWhenLineIncludes: WATCHER_AVAILABLE_STRING,
         printStdout: argv.verbose
     });

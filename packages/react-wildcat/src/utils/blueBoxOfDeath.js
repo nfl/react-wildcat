@@ -81,7 +81,7 @@ module.exports = function blueBoxOfDeath(err, request) {
                     <h3>jspm error message:</h3>
                     <pre>${err}</pre>
                 </div>
-            ` : ``}
+            ` : ""}
             <div class="stack">
                 <h3>server request payload:</h3>
                 <pre>${JSON.stringify(request, null, 4)}</pre>

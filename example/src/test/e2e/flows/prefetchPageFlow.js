@@ -6,8 +6,6 @@ import PrefetchPageObject from "../objects/PrefetchPageObject.js";
 import HelmetPageObject from "../objects/HelmetPageObject.js";
 
 describe("Prefetch Page", () => {
-    let appLinks;
-
     const indexPage = new IndexPageObject();
     const flexboxPage = new FlexboxPageObject();
     const prefetchPage = new PrefetchPageObject();
@@ -17,7 +15,7 @@ describe("Prefetch Page", () => {
         try {
             await prefetchPage.getLocation();
 
-            appLinks = await indexPage.getNavigationLinks();
+            const appLinks = await indexPage.getNavigationLinks();
             expect(appLinks).to.have.length.of(6);
 
             done();

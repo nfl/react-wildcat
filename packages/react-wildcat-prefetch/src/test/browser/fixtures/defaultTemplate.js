@@ -97,7 +97,7 @@ module.exports = function defaultTemplate(cfg) {
                                 break;
                         }
                     });
-                })` : ``}
+                })` : ""}
                 .catch(function clientError(err) {
                     console.error(err);
                 });

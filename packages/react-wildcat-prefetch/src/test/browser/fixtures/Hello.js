@@ -1,10 +1,6 @@
 import React from "react";
 
 class Hello extends React.Component {
-    constructor() {
-        super();
-    }
-
     static staticMethod() {
         return 42;
     }

@@ -21,11 +21,11 @@ HotReloader.prototype = {
         self.clientImportedModules = [];
 
         self.Loader.import = function customImport() {
-            var args = arguments;
+            var args = arguments; //eslint-disable-line prefer-rest-params
             self.clientImportedModules.push(args[0]);
 
             return self.originalImportFn.apply(
-                self.Loader, arguments
+                self.Loader, arguments //eslint-disable-line prefer-rest-params
             ).catch(
                 function customImportError(err) {
                     self.lastFailedImport = args;

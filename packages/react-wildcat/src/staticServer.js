@@ -19,10 +19,10 @@ const https = require("https");
 
 const morgan = require("koa-morgan");
 const getMorganOptions = require("./utils/getMorganOptions");
-require("./utils/customMorganTokens")(morgan, `☁️`);
+require("./utils/customMorganTokens")(morgan, "☁️");
 
 const Logger = require("./utils/logger");
-const logger = new Logger(`☁️`);
+const logger = new Logger("☁️");
 
 const babelDevTranspiler = require("./middleware/babelDevTranspiler");
 
@@ -172,7 +172,7 @@ function start() {
                 /* istanbul ignore else */
                 if (cluster.worker.id === cpuCount) {
                     if (__PROD__) {
-                        logger.ok(`Static server is running`);
+                        logger.ok("Static server is running");
                     } else {
                         logger.ok(`Static server is running at ${generalSettings.staticUrl}`);
                     }
