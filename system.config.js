@@ -11,7 +11,7 @@ System.config({
     "cookies-js": "npm:cookies-js@1.2.2",
     "debounce": "npm:debounce@1.0.0",
     "exenv": "npm:exenv@1.2.0",
-    "history": "npm:history@1.17.0",
+    "history": "npm:history@2.0.0",
     "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.3",
     "invariant": "npm:invariant@2.2.0",
     "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
@@ -21,7 +21,7 @@ System.config({
     "react": "npm:react@0.14.7",
     "react-addons-test-utils": "npm:react-addons-test-utils@0.14.7",
     "react-dom": "npm:react-dom@0.14.7",
-    "react-router": "npm:react-router@1.0.3",
+    "react-router": "npm:react-router@2.0.0",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.0",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
@@ -627,7 +627,7 @@ System.config({
       "systemjs-json": "github:systemjs/plugin-json@0.1.0",
       "url": "github:jspm/nodelibs-url@0.1.0"
     },
-    "npm:history@1.17.0": {
+    "npm:history@2.0.0": {
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",
       "deep-equal": "npm:deep-equal@1.0.1",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
@@ -1055,10 +1055,10 @@ System.config({
     "npm:react-dom@0.14.7": {
       "react": "npm:react@0.14.7"
     },
-    "npm:react-router@1.0.3": {
+    "npm:react-router@2.0.0": {
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
-      "history": "npm:history@1.17.0",
+      "history": "npm:history@2.0.0",
       "invariant": "npm:invariant@2.2.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "warning": "npm:warning@2.1.0"

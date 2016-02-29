@@ -1,11 +1,10 @@
 "use strict";
 
-const history = require("history");
 const serverRender = require("./utils/serverRender.js");
 const getDomainRoutes = require("./utils/getDomainRoutes.js");
 
-const createLocation = history.createLocation;
-const createMemoryHistory = history.createMemoryHistory;
+const createMemoryHistory = require("history").createMemoryHistory;
+const useRouterHistory = require("react-router").useRouterHistory;
 
 function completeRender(cfg, routes) {
     if (routes) {
@@ -20,8 +19,8 @@ function render(cfg) {
         const header = request.header;
         const url = request.url;
 
-        const serverHistory = createMemoryHistory();
-        const serverLocation = createLocation(url);
+        const serverHistory = useRouterHistory(createMemoryHistory)();
+        const serverLocation = serverHistory.createLocation(url);
 
         cfg = Object.assign({}, cfg, {
             cookies,
