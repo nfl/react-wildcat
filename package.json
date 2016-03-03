@@ -59,6 +59,7 @@
       "exenv": "^1.2.0",
       "history": "^2.0.0",
       "hoist-non-react-statics": "^1.0.3",
+      "react-router-relay": "^0.9.0",
       "invariant": "^2.2.0",
       "isomorphic-fetch": "^2.2.0",
       "parse-domain": "^0.2.0",

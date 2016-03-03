@@ -1,5 +1,5 @@
 var React = require("react");
-var Router = require("react-router").Router;
+var RelayRouter = require("react-router-relay");
 var debounce = require("debounce");
 var ExecutionEnvironment = require("exenv");
 
@@ -62,7 +62,7 @@ module.exports = function clientContext(cfg) {
 
         render: function render() {
             return (
-                React.createElement(Router, cfg, cfg.routes)
+                React.createElement(RelayRouter, cfg, cfg.routes)
             );
         }
     });
