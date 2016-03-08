@@ -14,7 +14,7 @@
     "codecov.io": "^0.1.6",
     "conventional-changelog": "^0.5.1",
     "cz-conventional-changelog": "^1.1.5",
-    "eslint": "^2.2.0",
+    "eslint": "2.2.0",
     "eslint-config-nfl": "^6.0.1",
     "eslint-import-resolver-jspm": "^1.0.0",
     "eslint-plugin-import": "^0.12.1",
