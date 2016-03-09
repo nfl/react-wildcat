@@ -1,3 +1,18 @@
+<a name="1.1.0"></a>
+# [1.1.0](//compare/1.0.2...v1.1.0) (2016-03-09)
+
+### Features
+
+* **react-wildcat-handoff:** Upgrade to React Router 2.0.0
+
+
+### Bug Fixes
+
+* **example** Freeze eslint cbb4c1b
+* **react-wildcat** ESLint fixes
+
+
+
 <a name="1.0.2"></a>
 ## [1.0.2](//compare/1.0.1...v1.0.2) (2016-02-25)
 

@@ -1,10 +1,10 @@
 {
   "name": "react-wildcat-example",
   "description": "An example Wildcat project.",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "dependencies": {
     "babel": "^5.8.29",
-    "react-wildcat": "1.0.2",
+    "react-wildcat": "1.1.0",
     "rimraf": "^2.5.1"
   },
   "devDependencies": {
@@ -56,8 +56,8 @@
       "react-metrics": "npm:react-metrics@^1.0.1",
       "react-router": "npm:react-router@^2.0.0",
       "react-wildcat-ensure": "npm:react-wildcat-ensure@1.0.0",
-      "react-wildcat-handoff": "npm:react-wildcat-handoff@1.0.2",
-      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.0.1"
+      "react-wildcat-handoff": "npm:react-wildcat-handoff@1.1.0",
+      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.1.0"
     },
     "devDependencies": {
       "react-addons-test-utils": "npm:react-addons-test-utils@^0.14.3",
@@ -65,7 +65,7 @@
       "react-transform-catch-errors": "npm:react-transform-catch-errors@^1.0.1",
       "react-transform-hmr": "npm:react-transform-hmr@^1.0.1",
       "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@1.0.0",
-      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@1.0.2",
+      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@1.1.0",
       "redbox-react": "npm:redbox-react@^1.1.1"
     }
   },

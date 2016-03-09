@@ -38,7 +38,7 @@
     "proxyquire": "^1.7.3",
     "react": "^0.14.3",
     "react-addons-test-utils": "^0.14.3",
-    "react-wildcat-prefetch": "^1.0.0",
+    "react-wildcat-prefetch": "^1.1.0",
     "resolve": "^1.1.6",
     "rimraf": "^2.4.4",
     "semantic-release": "^4.3.5",
@@ -68,7 +68,7 @@
       "react-addons-test-utils": "^0.14.3",
       "react-dom": "^0.14.3",
       "react-router": "^2.0.0",
-      "react-wildcat-prefetch": "1.0.0"
+      "react-wildcat-prefetch": "^1.1.0"
     }
   },
   "scripts": {
