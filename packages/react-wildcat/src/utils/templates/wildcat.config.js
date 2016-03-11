@@ -115,6 +115,16 @@ const wildcatConfig = {
             // App server port
             port: 3000,
 
+            middleware: [
+                // EXAMPLE: sample server-only api route.
+                //
+                // function(app, wildcatConfig) {
+                //     app.use(route.get("/react-wildcat-server-only-example", function* () {
+                //         this.body = "Hello from the server world!";
+                //     }));
+                // }
+            ],
+
             // A key/value of urls to proxy
             // e.g. /static -> http://example.com/static
             proxies: {},
