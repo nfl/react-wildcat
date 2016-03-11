@@ -15,11 +15,12 @@ const CHUNK_SIZE = 50;
 
 module.exports = function handle(commander) {
     const write = require("./write")(commander);
+    const cpus = commander.cpus ? Math.min(availableCpus, commander.cpus) : availableCpus;
 
     function transpileFiles(err, files, src) {
         const numFiles = files.length;
 
-        const processes = Math.min(numFiles, availableCpus);
+        const processes = Math.min(numFiles, cpus);
         const chunkSize = Math.min(Math.ceil(numFiles / processes), CHUNK_SIZE);
 
         let index = 0;

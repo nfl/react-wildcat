@@ -26,7 +26,8 @@ commander
     .option("-i, --ignore <patterns>", "RegExp pattern to ignore", patterns)
     .option("-D, --copy-files", "When compiling a directory copy over non-compilable files")
     .option("-B, --binary-to-module", "Convert non-compilable files to importable modules")
-    .option("-M, --manifest [path]", "Use a manifest to specify files to compile.")
+    .option("-M, --manifest [path]", "Use a manifest to specify files to compile")
+    .option("--cpus <cpus>", "Specify the number of CPUs to use for code transpilation")
     .option("-q, --quiet", "Don't log anything")
     .parse(process.argv);
 
