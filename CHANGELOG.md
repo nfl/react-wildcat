@@ -1,3 +1,14 @@
+<a name="1.1.1"></a>
+## [1.1.1](//compare/1.1.0...v1.1.1) (2016-03-11)
+
+
+### Performance Improvements
+
+* **react-wildcat:** Add --cpus flag to specify amount of CPUs to use 753e759
+* **react-wildcat:** Transpile code over multiple workers 514c1ce
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](//compare/1.0.2...v1.1.0) (2016-03-09)
 
