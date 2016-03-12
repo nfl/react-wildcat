@@ -10,3 +10,7 @@ require("./src/utils/fetch");
 require("./src/utils/baseURI");
 
 require("./src/server").start();
+
+process.on("unhandledRejection", e => {
+    throw e;
+});

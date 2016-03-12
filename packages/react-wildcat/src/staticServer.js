@@ -68,17 +68,17 @@ function start() {
         gzip: __PROD__ && !__TEST__
     });
 
-    /* istanbul ignore if */
-    if (cluster.isMaster) {
-        for (let i = 0, c = cpuCount; i < c; i++) {
-            cluster.fork();
-        }
+    return new Promise(function startPromise(resolve) {
+        /* istanbul ignore if */
+        if (cluster.isMaster) {
+            for (let i = 0, c = cpuCount; i < c; i++) {
+                cluster.fork();
+            }
 
-        cluster.on("exit", function clusterExit(worker, code, signal) {
-            logger.warn(`worker ${worker.process.pid} has died (code: ${code}) (signal: ${signal})`);
-        });
-    } else {
-        return new Promise(function startPromise(resolve) {
+            cluster.on("exit", function clusterExit(worker, code, signal) {
+                logger.warn(`worker ${worker.process.pid} has died (code: ${code}) (signal: ${signal})`);
+            });
+        } else {
             const app = koa();
 
             app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
@@ -183,8 +183,8 @@ function start() {
                     });
                 }
             });
-        });
-    }
+        }
+    });
 }
 
 function close() {
