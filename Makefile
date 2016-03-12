@@ -14,6 +14,12 @@ clean:
 	./shell/clean.sh
 	./shell/clean-example.sh
 
+clean-coverage:
+	./shell/clean-coverage.sh
+
+combine-coverage:
+	./shell/combine-coverage.sh
+
 install: clean bootstrap install-example test-cov test-example
 
 install-example:
@@ -35,8 +41,10 @@ test-example:
 test-browser-cov:
 	./shell/test-browser-cov.sh
 
-test-cov:
-	./shell/test-cov.sh
+test-node-cov:
+	./shell/test-node-cov.sh
+
+test-cov: clean-coverage test-node-cov test-browser-cov combine-coverage
 
 test-travis: bootstrap install-example lint test-cov
 
