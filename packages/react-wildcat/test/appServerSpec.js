@@ -77,8 +77,6 @@ describe("react-wildcat", () => {
             const customEmoji = "🏈";
             const customMorganTokens = require("../src/utils/customMorganTokens.js")(morgan, customEmoji);
 
-            console.log(customMorganTokens);
-
             it("bootstraps morgan logger", () => {
                 expect(customMorganTokens)
                     .to.exist;
