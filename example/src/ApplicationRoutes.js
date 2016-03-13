@@ -1,5 +1,5 @@
 import React from "react";
-import {IndexRoute, Route} from "react-router";
+import {IndexRoute, Redirect, Route} from "react-router";
 
 import Application from "./components/Application/Application.js";
 
@@ -17,6 +17,8 @@ var Routes = (
         <Route {...flexboxExampleRoutes} />
         <Route {...helmetExampleRoutes} />
         <Route {...prefetchExampleRoutes} />
+
+        <Redirect from="/redirect" to="/flexbox-example" />
     </Route>
 );
 
