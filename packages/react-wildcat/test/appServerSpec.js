@@ -15,6 +15,7 @@ const proxyquire = require("proxyquire");
 /* eslint-disable max-nested-callbacks */
 describe("react-wildcat", () => {
     const exampleDir = path.join(cwd, "example");
+    const customEmoji = "🏈";
 
     before(() => {
         process.chdir(exampleDir);
@@ -69,6 +70,171 @@ describe("react-wildcat", () => {
         });
     });
 
+    context("utils", () => {
+        context("customMorganTokens", () => {
+            const chalk = require("chalk");
+            const morgan = require("koa-morgan");
+
+            const customMorganTokens = require("../src/utils/customMorganTokens.js")(morgan, customEmoji);
+
+            it("bootstraps morgan logger", () => {
+                expect(customMorganTokens)
+                    .to.exist;
+            });
+
+            context("id", () => {
+                it("logs custom IDs", () => {
+                    const id = customEmoji;
+
+                    expect(customMorganTokens)
+                        .to.have.property("id");
+
+                    const result = customMorganTokens.id({
+                        id
+                    });
+
+                    expect(result)
+                        .to.be.a("string")
+                        .that.equals(chalk.styles.gray.open + `${id}  ~>` + chalk.styles.gray.close);
+                });
+            });
+
+            context("status", () => {
+                [
+                    {code: 200, color: "cyan"},
+                    {code: 301, color: "magenta"},
+                    {code: 404, color: "red"},
+                    {code: 500, color: "red"}
+                ].forEach(status => {
+                    it(`logs ${status.code} status codes`, () => {
+                        expect(customMorganTokens)
+                            .to.have.property("status");
+
+                        const result = customMorganTokens.status({}, {
+                            statusCode: status.code
+                        });
+
+                        expect(result)
+                            .to.be.a("string")
+                            .that.equals(chalk.styles[status.color].open + status.code + chalk.styles[status.color].close);
+                    });
+                });
+            });
+
+            context("url", () => {
+                ["originalUrl", "url"].forEach(parameter => {
+                    it(`logs requests using req.${parameter}`, () => {
+                        const url = "/flexbox-example";
+
+                        expect(customMorganTokens)
+                            .to.have.property("url");
+
+                        const result = customMorganTokens.url({
+                            [parameter]: url
+                        });
+
+                        expect(result)
+                            .to.be.a("string")
+                            .that.equals(chalk.styles.gray.open + (url) + chalk.styles.gray.close);
+                    });
+                });
+            });
+        });
+
+        context("logger", () => {
+            const wildcatConfig = require("../src/utils/getWildcatConfig")(exampleDir);
+
+            before(() => {
+                ["error", "info", "log", "warn"].forEach(method => {
+                    sinon.stub(console, method);
+                    console[method].returns();
+                });
+            });
+
+            after(() => {
+                ["error", "info", "log", "warn"].forEach(method => {
+                    console[method].restore();
+                });
+            });
+
+            it("bootstraps custom logger", () => {
+                const CustomLogger = proxyquire("../src/utils/logger.js", {});
+
+                expect(CustomLogger)
+                    .to.exist;
+
+                const customLoggerInstance = new CustomLogger(customEmoji);
+
+                expect(customLoggerInstance)
+                    .to.be.an.instanceof(CustomLogger);
+            });
+
+            it("configures Graylog", () => {
+                const CustomLogger = proxyquire("../src/utils/logger.js", {
+                    "./getWildcatConfig": () => {
+                        const config = Object.assign({}, wildcatConfig);
+                        wildcatConfig.serverSettings.graylog = {
+                            fields: {
+                                app: "example",
+                                env: process.env.NODE_ENV || "development",
+                                loggerName: "example"
+                            }
+                        };
+
+                        return config;
+                    }
+                });
+
+                expect(CustomLogger)
+                    .to.exist;
+
+                const customLoggerInstance = new CustomLogger(customEmoji);
+
+                expect(customLoggerInstance)
+                    .to.be.an.instanceof(CustomLogger);
+
+                ["error", "info", "log", "meta", "ok", "warn"].forEach(method => {
+                    expect(customLoggerInstance)
+                        .to.respondTo(method);
+
+                    const loggerResponse = customLoggerInstance[method](`logger test: ${method}`);
+                    expect(loggerResponse)
+                        .to.be.true;
+                });
+            });
+
+            it("gracefully handles missing Graylog configuration", () => {
+                const CustomLogger = proxyquire("../src/utils/logger.js", {
+                    "./getWildcatConfig": () => {
+                        const config = Object.assign({}, wildcatConfig);
+                        wildcatConfig.serverSettings.graylog = {
+                            fields: {}
+                        };
+
+                        return config;
+                    }
+                });
+
+                expect(CustomLogger)
+                    .to.exist;
+
+                const customLoggerInstance = new CustomLogger(customEmoji);
+
+                expect(customLoggerInstance)
+                    .to.be.an.instanceof(CustomLogger);
+
+                ["error", "info", "log", "meta", "ok", "warn"].forEach(method => {
+                    expect(customLoggerInstance)
+                        .to.respondTo(method);
+
+                    const loggerResponse = customLoggerInstance[method](`logger test: ${method}`);
+                    expect(loggerResponse)
+                        .to.be.true;
+                });
+            });
+        });
+    });
+
     context("middleware", () => {
         context("renderReactWithJspm", function () {
             this.timeout(30000);
@@ -79,15 +245,6 @@ describe("react-wildcat", () => {
             let staticServer;
 
             beforeEach((done) => {
-                sinon.stub(console, "log");
-                console.log.returns();
-
-                sinon.stub(console, "info");
-                console.info.returns();
-
-                sinon.stub(console, "warn");
-                console.warn.returns();
-
                 process.env.LOG_LEVEL = 0;
 
                 staticServer = proxyquire("../src/staticServer.js", {
@@ -123,10 +280,6 @@ describe("react-wildcat", () => {
 
             afterEach((done) => {
                 staticServer.close();
-
-                console.log.restore();
-                console.info.restore();
-                console.warn.restore();
 
                 process.env.LOG_LEVEL = currentLogLevel;
                 done();
@@ -164,7 +317,13 @@ describe("react-wildcat", () => {
 
                 const renderTypes = [{
                     name: "renders HTML",
-                    cache: new Map(),
+                    fresh: false,
+                    reply: {
+                        reply: stubResponses["200"]
+                    },
+                    url: "/"
+                }, {
+                    name: "renders HTML on subsequent requests",
                     fresh: false,
                     reply: {
                         reply: stubResponses["200"]
@@ -172,7 +331,6 @@ describe("react-wildcat", () => {
                     url: "/"
                 }, {
                     name: "returns error payload",
-                    cache: new Map(),
                     fresh: false,
                     reply: {
                         reply: stubResponses["404"]
@@ -180,7 +338,6 @@ describe("react-wildcat", () => {
                     url: "/error"
                 }, {
                     name: "redirects the page",
-                    cache: new Map(),
                     fresh: false,
                     reply: {
                         reply: stubResponses["301"]
@@ -189,6 +346,11 @@ describe("react-wildcat", () => {
                 }];
 
                 ["development", "production"].forEach(currentEnv => {
+                    const renderReactWithJspm = require("../src/middleware/renderReactWithJspm")(exampleDir, {
+                        cache: new Map(),
+                        wildcatConfig
+                    });
+
                     context(currentEnv, () => {
                         before(() => {
                             process.env.NODE_ENV = currentEnv;
@@ -197,11 +359,6 @@ describe("react-wildcat", () => {
 
                         renderTypes.forEach((render) => {
                             it(render.name, (done) => {
-                                const renderReactWithJspm = require("../src/middleware/renderReactWithJspm")(exampleDir, {
-                                    cache: render.cache,
-                                    wildcatConfig
-                                });
-
                                 co(function* () {
                                     try {
                                         const result = yield renderReactWithJspm.call({

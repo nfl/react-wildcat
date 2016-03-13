@@ -57,11 +57,15 @@ Object.keys(logMethods).forEach((method) => {
 
         if (console[method]) {
             graylog(args, method);
-            return console[method].apply(console, args);
+            console[method].apply(console, args);
+
+            return true;
         }
 
         graylog(args);
-        return console.log.apply(console, args);
+        console.log.apply(console, args);
+
+        return true;
     };
 });
 
