@@ -2,6 +2,12 @@
 
 set -u
 
+# Remove root node modules
+rm -fr node_modules;
+
+# Remove root jspm packages
+rm -fr jspm_packages;
+
 # Set up links
 for directory in packages/*; do
     if [ -d "${directory}" ]; then

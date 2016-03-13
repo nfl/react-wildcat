@@ -55,27 +55,27 @@ function start() {
 
     const port = Number(appServerSettings.port);
 
-    /* istanbul ignore if */
-    if (cluster.isMaster) {
-        for (let i = 0; i < cpuCount; i++) {
-            cluster.fork();
-        }
+    return new Promise(function startPromise(resolve) {
+        /* istanbul ignore if */
+        if (cluster.isMaster) {
+            for (let i = 0; i < cpuCount; i++) {
+                cluster.fork();
+            }
 
-        cluster.on("exit", function clusterExit(worker, code, signal) {
-            logger.warn(`worker ${worker.process.pid} has died (code: ${code}) (signal: ${signal})`);
-        });
-    } else {
-        /* istanbul ignore next */
-        if (__DEBUG__) {
-            debug("Watching for memory leaks...", process.pid);
+            cluster.on("exit", function clusterExit(worker, code, signal) {
+                logger.warn(`worker ${worker.process.pid} has died (code: ${code}) (signal: ${signal})`);
+            });
+        } else {
+            /* istanbul ignore next */
+            if (__DEBUG__) {
+                debug("Watching for memory leaks...", process.pid);
 
-            var memwatch = require("memwatch-next");
+                var memwatch = require("memwatch-next");
 
-            memwatch.on("leak", info => logger.error("Memory leak detected", info));
-            memwatch.on("stats", stats => logger.info("Stats", stats));
-        }
+                memwatch.on("leak", info => logger.error("Memory leak detected", info));
+                memwatch.on("stats", stats => logger.info("Stats", stats));
+            }
 
-        return new Promise(function startPromise(resolve) {
             const app = koa();
 
             app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
@@ -154,8 +154,8 @@ function start() {
                     });
                 }
             });
-        });
-    }
+        }
+    });
 }
 
 function close() {

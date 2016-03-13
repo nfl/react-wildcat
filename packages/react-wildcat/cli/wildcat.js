@@ -10,9 +10,7 @@ const logger = new Logger("👀");
 const childProcesses = [];
 
 function killAllChildProcesses(signal) {
-    childProcesses.forEach(function (childProcess) {
-        childProcess.kill(signal);
-    });
+    childProcesses.forEach(childProcess => childProcess.kill(signal));
 }
 
 program
@@ -32,16 +30,11 @@ if (program.purgeCache) {
 
     childProcesses.push(server);
 
-    process.on("exit", function () {
-        process.emit("SIGINT");
-    });
+    process.on("exit", () =>process.emit("SIGINT"));
+    process.on("SIGINT", () => killAllChildProcesses("SIGINT"));
 
-    process.on("SIGINT", function () {
-        killAllChildProcesses("SIGINT");
-    });
-
-    process.on("uncaughtException", function (e) {
-        logger.error(e);
+    process.on("uncaughtException", e => {
+        logger.error(e.stack);
         killAllChildProcesses("SIGINT");
         throw e;
     });

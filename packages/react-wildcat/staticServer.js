@@ -7,3 +7,7 @@ require("better-log/install");
 require("./src/utils/fetch");
 
 require("./src/staticServer").start();
+
+process.on("unhandledRejection", e => {
+    throw e;
+});
