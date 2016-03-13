@@ -25,4 +25,6 @@ module.exports = function customMorganTokens(morgan, id) {
     morgan.token("url", function getUrlToken(req) {
         return chalk.styles.gray.open + (req.originalUrl || req.url) + chalk.styles.gray.close;
     });
+
+    return morgan;
 };

@@ -62,8 +62,7 @@ describe("react-wildcat", () => {
             const exampleUnaffectedPath = "/foo.js";
 
             const writeDelay = 200;
-
-            const babelDevTranspilerInstance = babelDevTranspiler(exampleDir, {
+            const babelDevTranspilerOptions = {
                 babelOptions,
                 binDir: serverSettings.binDir,
                 extensions: [".es6", ".js", ".es", ".jsx"],
@@ -71,7 +70,9 @@ describe("react-wildcat", () => {
                 origin: generalSettings.staticUrl,
                 outDir: serverSettings.publicDir,
                 sourceDir: serverSettings.sourceDir
-            });
+            };
+
+            let babelDevTranspilerInstance = babelDevTranspiler(exampleDir, babelDevTranspilerOptions);
 
             it("transpiles a source file", (done) => {
                 expect(pathExists.sync(path.join(exampleDir, "public")))
@@ -186,6 +187,300 @@ describe("react-wildcat", () => {
                         done();
                     })
                     .catch(e => done(e));
+            });
+
+            context("code coverage", () => {
+                beforeEach(() => {
+                    fs.removeSync(path.join(exampleDir, "public"));
+                });
+
+                const exampleFlexboxPath = `/${serverSettings.publicDir}/routes/FlexboxExample/FlexboxExample.js`;
+                const exampleHelmetPath = `/${serverSettings.publicDir}/routes/HelmetExample/HelmetExample.js`;
+
+                const coverageOptions = {
+                    coverage: true,
+                    coverageSettings: {
+                        env: "e2e",
+
+                        e2e: {
+                            instrumentation: {
+                                excludes: [],
+
+                                // Conditionally exclude files from coverage based on suite name.
+                                onSuiteExcludeCoverage(suite) {
+                                    const suites = {
+                                        "exampleFlexbox": [
+                                            `!${exampleFlexboxPath.replace(/^\//, "")}`
+                                        ]
+                                    };
+
+                                    return suites[suite];
+                                }
+                            },
+
+                            reporting: {
+                                dir: "coverage/e2e",
+                                reports: ["lcov", "html"]
+                            }
+                        },
+
+                        unit: {
+                            instrumentation: {
+                                excludes: []
+                            },
+
+                            reporting: {
+                                dir: "coverage/unit",
+                                reports: ["lcov", "html"]
+                            }
+                        }
+                    }
+                };
+
+                it("includes coverage instrumentation", (done) => {
+                    babelDevTranspilerInstance = babelDevTranspiler(
+                        exampleDir,
+                        Object.assign({}, babelDevTranspilerOptions, coverageOptions)
+                    );
+
+                    co(function* () {
+                        const result = yield babelDevTranspilerInstance.call({
+                            request: {
+                                url: exampleApplicationPath
+                            },
+                            response: {}
+                        }, (next) => next());
+
+                        return result;
+                    })
+                        .then(() => setTimeout(() => {
+                            expect(pathExists.sync(path.join(exampleDir, exampleApplicationPath)))
+                                .to.be.true;
+
+                            const applicationFileContents = fs.readFileSync(path.join(exampleDir, exampleApplicationPath), "utf8");
+
+                            expect(applicationFileContents)
+                                .to.be.a("string");
+
+                            expect(applicationFileContents)
+                                .to.be.a("string")
+                                .that.includes("__cov_")
+                                .and.includes(".__coverage__");
+
+                            done();
+                        }, writeDelay))
+                        .catch(e => done(e));
+                });
+
+                it("scopes instrumentation to specified file path", (done) => {
+                    process.env.COVERAGE_FILES = exampleFlexboxPath.replace(/^\//, "");
+
+                    babelDevTranspilerInstance = babelDevTranspiler(
+                        exampleDir,
+                        Object.assign({}, babelDevTranspilerOptions, coverageOptions)
+                    );
+
+                    co(function* () {
+                        // Stub request for exampleHelmetPath
+                        yield babelDevTranspilerInstance.call({
+                            request: {
+                                url: exampleHelmetPath
+                            },
+                            response: {}
+                        }, (next) => next());
+
+                        // Stub request for exampleFlexboxPath
+                        const result = yield babelDevTranspilerInstance.call({
+                            request: {
+                                url: exampleFlexboxPath
+                            },
+                            response: {}
+                        }, (next) => next());
+
+                        return result;
+                    })
+                        .then(() => setTimeout(() => {
+                            expect(pathExists.sync(path.join(exampleDir, exampleFlexboxPath)))
+                                .to.be.true;
+
+                            const helmetFileContents = fs.readFileSync(path.join(exampleDir, exampleHelmetPath), "utf8");
+
+                            expect(helmetFileContents)
+                                .to.be.a("string");
+
+                            expect(helmetFileContents)
+                                .to.not.include("__cov_")
+                                .and.not.include(".__coverage__");
+
+                            const flexboxFileContents = fs.readFileSync(path.join(exampleDir, exampleFlexboxPath), "utf8");
+
+                            expect(flexboxFileContents)
+                                .to.be.a("string");
+
+                            expect(flexboxFileContents)
+                                .to.be.a("string")
+                                .that.includes("__cov_")
+                                .and.includes(".__coverage__");
+
+                            delete process.env.COVERAGE_FILES;
+                            done();
+                        }, writeDelay))
+                        .catch(e => done(e));
+                });
+
+                it("scopes instrumentation to multiple targets", (done) => {
+                    process.env.COVERAGE_FILES = [
+                        exampleFlexboxPath.replace(/^\//, ""),
+                        exampleHelmetPath.replace(/^\//, "")
+                    ].join();
+
+                    babelDevTranspilerInstance = babelDevTranspiler(
+                        exampleDir,
+                        Object.assign({}, babelDevTranspilerOptions, coverageOptions)
+                    );
+
+                    co(function* () {
+                        // Stub request for exampleHelmetPath
+                        yield babelDevTranspilerInstance.call({
+                            request: {
+                                url: exampleHelmetPath
+                            },
+                            response: {}
+                        }, (next) => next());
+
+                        // Stub request for exampleFlexboxPath
+                        const result = yield babelDevTranspilerInstance.call({
+                            request: {
+                                url: exampleFlexboxPath
+                            },
+                            response: {}
+                        }, (next) => next());
+
+                        return result;
+                    })
+                        .then(() => setTimeout(() => {
+                            expect(pathExists.sync(path.join(exampleDir, exampleFlexboxPath)))
+                                .to.be.true;
+
+                            const helmetFileContents = fs.readFileSync(path.join(exampleDir, exampleHelmetPath), "utf8");
+
+                            expect(helmetFileContents)
+                                .to.be.a("string");
+
+                            expect(helmetFileContents)
+                                .that.includes("__cov_")
+                                .and.includes(".__coverage__");
+
+                            const flexboxFileContents = fs.readFileSync(path.join(exampleDir, exampleFlexboxPath), "utf8");
+
+                            expect(flexboxFileContents)
+                                .to.be.a("string");
+
+                            expect(flexboxFileContents)
+                                .to.be.a("string")
+                                .that.includes("__cov_")
+                                .and.includes(".__coverage__");
+
+                            delete process.env.COVERAGE_FILES;
+                            done();
+                        }, writeDelay))
+                        .catch(e => done(e));
+                });
+
+                it("scopes instrumentation to suites", (done) => {
+                    delete process.env.COVERAGE_FILES;
+                    process.env.COVERAGE_SUITE = "exampleFlexbox";
+
+                    babelDevTranspilerInstance = babelDevTranspiler(
+                        exampleDir,
+                        Object.assign({}, babelDevTranspilerOptions, coverageOptions)
+                    );
+
+                    co(function* () {
+                        // Stub request for exampleHelmetPath
+                        yield babelDevTranspilerInstance.call({
+                            request: {
+                                url: exampleHelmetPath
+                            },
+                            response: {}
+                        }, (next) => next());
+
+                        // Stub request for exampleFlexboxPath
+                        const result = yield babelDevTranspilerInstance.call({
+                            request: {
+                                url: exampleFlexboxPath
+                            },
+                            response: {}
+                        }, (next) => next());
+
+                        return result;
+                    })
+                        .then(() => setTimeout(() => {
+                            expect(pathExists.sync(path.join(exampleDir, exampleFlexboxPath)))
+                                .to.be.true;
+
+                            const helmetFileContents = fs.readFileSync(path.join(exampleDir, exampleHelmetPath), "utf8");
+
+                            expect(helmetFileContents)
+                                .to.be.a("string");
+
+                            expect(helmetFileContents)
+                                .to.not.include("__cov_")
+                                .and.not.include(".__coverage__");
+
+                            const flexboxFileContents = fs.readFileSync(path.join(exampleDir, exampleFlexboxPath), "utf8");
+
+                            expect(flexboxFileContents)
+                                .to.be.a("string");
+
+                            expect(flexboxFileContents)
+                                .to.be.a("string")
+                                .that.includes("__cov_")
+                                .and.includes(".__coverage__");
+
+                            delete process.env.COVERAGE_SUITE;
+                            done();
+                        }, writeDelay))
+                        .catch(e => done(e));
+                });
+
+                it("instruments all files when a coverage target is missing", (done) => {
+                    babelDevTranspilerInstance = babelDevTranspiler(
+                        exampleDir,
+                        Object.assign({}, babelDevTranspilerOptions, {
+                            coverage: true,
+                            coverageSettings: {}
+                        })
+                    );
+
+                    co(function* () {
+                        const result = yield babelDevTranspilerInstance.call({
+                            request: {
+                                url: exampleApplicationPath
+                            },
+                            response: {}
+                        }, (next) => next());
+
+                        return result;
+                    })
+                        .then(() => setTimeout(() => {
+                            expect(pathExists.sync(path.join(exampleDir, exampleApplicationPath)))
+                                .to.be.true;
+
+                            const applicationFileContents = fs.readFileSync(path.join(exampleDir, exampleApplicationPath), "utf8");
+
+                            expect(applicationFileContents)
+                                .to.be.a("string");
+
+                            expect(applicationFileContents)
+                                .to.be.a("string")
+                                .that.includes("__cov_")
+                                .and.includes(".__coverage__");
+
+                            done();
+                        }, writeDelay))
+                        .catch(e => done(e));
+                });
             });
         });
     });
