@@ -15,6 +15,7 @@ const proxyquire = require("proxyquire");
 /* eslint-disable max-nested-callbacks */
 describe("react-wildcat", () => {
     const exampleDir = path.join(cwd, "example");
+    const customEmoji = "🏈";
 
     before(() => {
         process.chdir(exampleDir);
@@ -74,7 +75,6 @@ describe("react-wildcat", () => {
             const chalk = require("chalk");
             const morgan = require("koa-morgan");
 
-            const customEmoji = "🏈";
             const customMorganTokens = require("../src/utils/customMorganTokens.js")(morgan, customEmoji);
 
             it("bootstraps morgan logger", () => {
@@ -137,6 +137,99 @@ describe("react-wildcat", () => {
                             .to.be.a("string")
                             .that.equals(chalk.styles.gray.open + (url) + chalk.styles.gray.close);
                     });
+                });
+            });
+        });
+
+        context("logger", () => {
+            const wildcatConfig = require("../src/utils/getWildcatConfig")(exampleDir);
+
+            before(() => {
+                ["error", "info", "log", "warn"].forEach(method => {
+                    sinon.stub(console, method);
+                    console[method].returns();
+                });
+            });
+
+            after(() => {
+                ["error", "info", "log", "warn"].forEach(method => {
+                    console[method].restore();
+                });
+            });
+
+            it("bootstraps custom logger", () => {
+                const CustomLogger = proxyquire("../src/utils/logger.js", {});
+
+                expect(CustomLogger)
+                    .to.exist;
+
+                const customLoggerInstance = new CustomLogger(customEmoji);
+
+                expect(customLoggerInstance)
+                    .to.be.an.instanceof(CustomLogger);
+            });
+
+            it("configures Graylog", () => {
+                const CustomLogger = proxyquire("../src/utils/logger.js", {
+                    "./getWildcatConfig": () => {
+                        const config = Object.assign({}, wildcatConfig);
+                        wildcatConfig.serverSettings.graylog = {
+                            fields: {
+                                app: "example",
+                                env: process.env.NODE_ENV || "development",
+                                loggerName: "example"
+                            }
+                        };
+
+                        return config;
+                    }
+                });
+
+                expect(CustomLogger)
+                    .to.exist;
+
+                const customLoggerInstance = new CustomLogger(customEmoji);
+
+                expect(customLoggerInstance)
+                    .to.be.an.instanceof(CustomLogger);
+
+                ["error", "info", "log", "meta", "ok", "warn"].forEach(method => {
+                    expect(customLoggerInstance)
+                        .to.respondTo(method);
+
+                    const loggerResponse = customLoggerInstance[method](`logger test: ${method}`);
+                    expect(loggerResponse)
+                        .to.be.true;
+                });
+            });
+
+            it("gracefully handles missing Graylog configuration", () => {
+                const CustomLogger = proxyquire("../src/utils/logger.js", {
+                    "./getWildcatConfig": () => {
+                        const config = Object.assign({}, wildcatConfig);
+                        wildcatConfig.serverSettings.graylog = {
+                            fields: {}
+                        };
+
+                        return config;
+                    }
+                });
+
+                expect(CustomLogger)
+                    .to.exist;
+
+                const customLoggerInstance = new CustomLogger(customEmoji);
+
+                expect(customLoggerInstance)
+                    .to.be.an.instanceof(CustomLogger);
+
+                ["error", "info", "log", "meta", "ok", "warn"].forEach(method => {
+                    expect(customLoggerInstance)
+                        .to.respondTo(method);
+
+                    const loggerResponse = customLoggerInstance[method](`logger test: ${method}`);
+                    expect(loggerResponse)
+                        .to.be.true;
                 });
             });
         });
