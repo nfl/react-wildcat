@@ -1,31 +1,29 @@
-/* global cd, exec, ls */
+/* global ls */
 require("shelljs/global");
 
-const fs = require("fs");
-const cwd = process.cwd();
-var path = require("path");
+const cp = require("child_process");
+const packages = ls("packages/*");
 
-ls("packages/*").forEach((loc) => {
-    const pkgPath = path.join(cwd, loc, "package.json");
+const workers = packages.map(loc => new Promise(resolve => {
+    const child = cp.fork(require.resolve("./utils/pretestWorker.js"));
 
-    if (!fs.existsSync(pkgPath)) {
-        return;
-    }
+    child.send({loc});
 
-    const pkg = require(pkgPath);
-
-    if (pkg.scripts) {
-        cd(loc);
-
-        if (pkg.scripts.pretest) {
-            exec(`npm run pretest --silent`);
+    child.on("message", message => {
+        switch (message.action) {
+            case "free":
+                child.send({
+                    action: "disconnect"
+                });
+                break;
         }
+    });
 
-        if (pkg.scripts.posttest) {
-            exec(`npm run posttest --silent`);
-        }
+    return child.on("disconnect", () => resolve());
+}));
 
-        cd(cwd);
-    }
+process.on("unhandledRejection", e => {
+    throw e;
 });
 
+Promise.all(workers);
