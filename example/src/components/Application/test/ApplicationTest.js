@@ -1,4 +1,5 @@
 import React from "react";
+import Radium from "radium";
 import testTree from "react-test-tree";
 
 import {ApplicationComponent as Application} from "../Application.js";
@@ -13,6 +14,7 @@ describe("Application", () => {
 
     context("render", () => {
         before(() => {
+            Radium.TestMode.enable();
             applicationTree = testTree(
                 <Application>
                     <div>{testChildText}</div>
@@ -52,6 +54,7 @@ describe("Application", () => {
         });
 
         after(() => {
+            Radium.TestMode.disable();
             applicationTree.dispose();
         });
     });

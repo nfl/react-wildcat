@@ -4,6 +4,7 @@ var debounce = require("debounce");
 var ExecutionEnvironment = require("exenv");
 
 const radium = require("radium");
+const StyleRoot = require("radium").StyleRoot;
 const prefixAll = require("radium-plugin-prefix-all");
 var storeClientSize = require("./storeClientSize.js");
 
@@ -61,11 +62,17 @@ module.exports = function clientContext(cfg) {
         },
 
         render: function render() {
-            return (
-                React.createElement(Router, cfg, cfg.routes)
+            return React.createElement(
+              StyleRoot,
+              null,
+              React.createElement(Router, cfg, cfg.routes)
             );
         }
     });
 
-    return React.createElement(ClientContext);
+    return React.createElement(
+      StyleRoot,
+      null,
+      React.createElement(ClientContext)
+    );
 };
