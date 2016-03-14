@@ -150,20 +150,21 @@ describe("react-wildcat", () => {
             });
 
             it("transpiles an existing file on file change", (done) => {
-                const exampleApplicationSrcPath = `${serverSettings.sourceDir}/components/Application/Application.js`;
+                const exampleBinarySrcPath = `${serverSettings.sourceDir}/assets/images/primary-background.jpg`;
+                console.log(exampleBinarySrcPath);
 
-                expect(pathExists.sync(path.join(exampleDir, exampleApplicationPath)))
+                expect(pathExists.sync(path.join(exampleDir, exampleBinaryPath)))
                     .to.be.true;
 
-                expect(pathExists.sync(path.join(exampleDir, exampleApplicationSrcPath)))
+                expect(pathExists.sync(path.join(exampleDir, exampleBinarySrcPath)))
                     .to.be.true;
 
-                fs.createReadStream(exampleApplicationSrcPath)
+                fs.createReadStream(exampleBinarySrcPath)
                     .pipe(
-                        fs.createOutputStream(exampleApplicationSrcPath)
+                        fs.createOutputStream(exampleBinarySrcPath)
                             .on("finish", function streamFinish() {
                                 setTimeout(() => {
-                                    expect(pathExists.sync(path.join(exampleDir, exampleApplicationPath)))
+                                    expect(pathExists.sync(path.join(exampleDir, exampleBinaryPath)))
                                         .to.be.true;
 
                                     done();

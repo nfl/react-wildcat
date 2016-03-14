@@ -19,6 +19,8 @@ module.exports = function connectToWebSocketServer(root, options) {
         server: server
     });
 
+    console.log("startWebSocketServer", root, watchOptions);
+
     chokidar.watch(root, watchOptions).on("change", function fileWatcher(filename) {
         const modulePath = filename.replace(`${root}/`, "");
 
@@ -26,7 +28,7 @@ module.exports = function connectToWebSocketServer(root, options) {
             send("filechange", modulePath, client);
         });
 
-        console.log(filename, cache[filename]);
+        console.log(filename, cache[filename], cache);
 
         if (cache[filename]) {
             wss.clients.forEach(function sendCacheFlush(client) {
