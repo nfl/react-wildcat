@@ -61,7 +61,7 @@ describe("react-wildcat", () => {
             const exampleNonExistentPath = `/${serverSettings.publicDir}/foo.js`;
             const exampleUnaffectedPath = "/foo.js";
 
-            const writeDelay = 200;
+            const writeDelay = process.env.TRAVIS ? 3000 : 200;
             const babelDevTranspilerOptions = {
                 babelOptions,
                 binDir: serverSettings.binDir,
