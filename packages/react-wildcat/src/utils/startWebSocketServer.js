@@ -26,6 +26,8 @@ module.exports = function connectToWebSocketServer(root, options) {
             send("filechange", modulePath, client);
         });
 
+        console.log(filename, cache[filename]);
+
         if (cache[filename]) {
             wss.clients.forEach(function sendCacheFlush(client) {
                 send("cacheflush", filename, client);
