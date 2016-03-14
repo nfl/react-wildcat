@@ -1,8 +1,5 @@
 "use strict";
 
-/* global exec */
-require("shelljs/global");
-
 const fs = require("fs-extra");
 const cp = require("child_process");
 const co = require("co");
@@ -153,14 +150,26 @@ describe("react-wildcat", () => {
             });
 
             it("transpiles an existing file on file change", (done) => {
-                exec(`touch ${serverSettings.sourceDir}/components/Application/Application.js`);
+                const exampleApplicationSrcPath = `${serverSettings.sourceDir}/components/Application/Application.js`;
 
-                setTimeout(() => {
-                    expect(pathExists.sync(path.join(exampleDir, exampleApplicationPath)))
-                        .to.be.true;
+                expect(pathExists.sync(path.join(exampleDir, exampleApplicationPath)))
+                    .to.be.true;
 
-                    done();
-                }, writeDelay);
+                expect(pathExists.sync(path.join(exampleDir, exampleApplicationSrcPath)))
+                    .to.be.true;
+
+                fs.createReadStream(exampleApplicationSrcPath)
+                    .pipe(
+                        fs.createOutputStream(exampleApplicationSrcPath)
+                            .on("finish", function streamFinish() {
+                                setTimeout(() => {
+                                    expect(pathExists.sync(path.join(exampleDir, exampleApplicationPath)))
+                                        .to.be.true;
+
+                                    done();
+                                }, writeDelay);
+                            })
+                    );
             });
 
             it("ignores a request for a non-existent source", (done) => {

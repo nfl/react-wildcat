@@ -286,67 +286,36 @@ describe("react-wildcat", () => {
             });
 
             context("with asynchronous entry path", () => {
-                const stubResponses = {
-                    "200": {
-                        type: "text/html",
-                        status: 200,
-                        redirect: false
-                    },
-
-                    "301": {
-                        redirect: true,
-                        redirectLocation: {
-                            pathname: "/redirect",
-                            search: ""
-                        }
-                    },
-
-                    "304": {
-                        type: "text/html",
-                        status: 200,
-                        redirect: false,
-                        html: "<div>cached HTML stub</div>"
-                    },
-
-                    "404": {
-                        type: "text/json",
-                        status: 404,
-                        redirect: false
-                    }
-                };
-
                 const renderTypes = [{
                     name: "renders HTML",
+                    expectation: `<title data-react-helmet="true">Index Example</title>`,
                     fresh: false,
-                    reply: {
-                        reply: stubResponses["200"]
-                    },
                     url: "/"
                 }, {
                     name: "renders HTML on subsequent requests",
+                    expectation: `<title data-react-helmet="true">Index Example</title>`,
                     fresh: false,
-                    reply: {
-                        reply: stubResponses["200"]
-                    },
                     url: "/"
                 }, {
                     name: "returns error payload",
+                    expectation: "Not found",
                     fresh: false,
-                    reply: {
-                        reply: stubResponses["404"]
-                    },
                     url: "/error"
                 }, {
                     name: "redirects the page",
+                    expectation: "",
                     fresh: false,
-                    reply: {
-                        reply: stubResponses["301"]
-                    },
                     url: "/redirect"
+                }, {
+                    name: "handles server errors",
+                    error: true,
+                    expectation: "Fetch error (404 Not Found) loading",
+                    fresh: false,
+                    url: "/"
                 }];
 
                 ["development", "production"].forEach(currentEnv => {
-                    const renderReactWithJspm = require("../src/middleware/renderReactWithJspm")(exampleDir, {
+                    let renderReactWithJspm = require("../src/middleware/renderReactWithJspm")(exampleDir, {
                         cache: new Map(),
                         wildcatConfig
                     });
@@ -359,33 +328,40 @@ describe("react-wildcat", () => {
 
                         renderTypes.forEach((render) => {
                             it(render.name, (done) => {
-                                co(function* () {
-                                    try {
-                                        const result = yield renderReactWithJspm.call({
-                                            cookies: {
-                                                get: () => "clientSize"
-                                            },
-                                            request: {
-                                                header: {
-                                                    host: wildcatConfig.generalSettings.originUrl,
-                                                    "user-agent": "Mozilla/5.0"
-                                                },
-                                                fresh: render.fresh,
-                                                url: render.url
-                                            },
-                                            redirect: () => "",
-                                            response: {
-                                                get: () => Date.now(),
-                                                status: null,
-                                                type: null,
-                                                lastModified: null
+                                if (render.error) {
+                                    renderReactWithJspm = require("../src/middleware/renderReactWithJspm")(exampleDir, {
+                                        cache: new Map(),
+                                        wildcatConfig: Object.assign({}, wildcatConfig, {
+                                            serverSettings: {
+                                                entry: "stubEntry.js",
+                                                hotReloader: false,
+                                                renderHandler: "stubRenderHandler.js"
                                             }
-                                        });
+                                        })
+                                    });
+                                }
 
-                                        return result;
-                                    } catch (e) {
-                                        return Promise.reject(e);
-                                    }
+                                co(function* () {
+                                    return yield renderReactWithJspm.call({
+                                        cookies: {
+                                            get: () => "clientSize"
+                                        },
+                                        request: {
+                                            header: {
+                                                host: wildcatConfig.generalSettings.originUrl,
+                                                "user-agent": "Mozilla/5.0"
+                                            },
+                                            fresh: render.fresh,
+                                            url: render.url
+                                        },
+                                        redirect: () => "",
+                                        response: {
+                                            get: () => Date.now(),
+                                            status: null,
+                                            type: "text/html",
+                                            lastModified: null
+                                        }
+                                    });
                                 })
                                     .then((result) => {
                                         expect(result)
