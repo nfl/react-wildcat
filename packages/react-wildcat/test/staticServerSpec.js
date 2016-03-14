@@ -61,7 +61,7 @@ describe("react-wildcat", () => {
             const exampleNonExistentPath = `/${serverSettings.publicDir}/foo.js`;
             const exampleUnaffectedPath = "/foo.js";
 
-            const writeDelay = process.env.TRAVIS ? 3000 : 200;
+            const writeDelay = 200;
             const babelDevTranspilerOptions = {
                 babelOptions,
                 binDir: serverSettings.binDir,
@@ -150,21 +150,20 @@ describe("react-wildcat", () => {
             });
 
             it("transpiles an existing file on file change", (done) => {
-                const exampleBinarySrcPath = `${serverSettings.sourceDir}/assets/images/primary-background.jpg`;
-                console.log(exampleBinarySrcPath);
+                const exampleApplicationSrcPath = `${serverSettings.sourceDir}/components/Application/Application.js`;
 
-                expect(pathExists.sync(path.join(exampleDir, exampleBinaryPath)))
+                expect(pathExists.sync(path.join(exampleDir, exampleApplicationPath)))
                     .to.be.true;
 
-                expect(pathExists.sync(path.join(exampleDir, exampleBinarySrcPath)))
+                expect(pathExists.sync(path.join(exampleDir, exampleApplicationSrcPath)))
                     .to.be.true;
 
-                fs.createReadStream(exampleBinarySrcPath)
+                fs.createReadStream(exampleApplicationSrcPath)
                     .pipe(
-                        fs.createOutputStream(exampleBinarySrcPath)
+                        fs.createOutputStream(exampleApplicationSrcPath)
                             .on("finish", function streamFinish() {
                                 setTimeout(() => {
-                                    expect(pathExists.sync(path.join(exampleDir, exampleBinaryPath)))
+                                    expect(pathExists.sync(path.join(exampleDir, exampleApplicationPath)))
                                         .to.be.true;
 
                                     done();
