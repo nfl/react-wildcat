@@ -12,14 +12,14 @@
     "babel": "^5.8.29",
     "babel-runtime": "^5.8.34",
     "chalk": "^1.1.1",
-    "glob": "^6.0.4",
+    "glob": "^7.0.3",
     "istanbul": "nfl/istanbul#feature/source-map-resolve",
     "karma": "^0.13.19",
     "karma-cli": "^0.1.2",
     "open": "^0.0.5",
     "request": "^2.69.0",
     "rimraf": "^2.5.1",
-    "yargs": "^3.32.0"
+    "yargs": "^4.2.0"
   },
   "devDependencies": {
     "protractor": "^3.0.0"
