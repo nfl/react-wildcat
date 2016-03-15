@@ -16,7 +16,7 @@
     "chai-as-promised": "^5.2.0",
     "concurrently": "^2.0.0",
     "eslint": "^2.4.0",
-    "eslint-config-nfl": "^6.0.3",
+    "eslint-config-nfl": "^6.1.0",
     "eslint-import-resolver-jspm": "^1.1.0",
     "eslint-plugin-import": "^1.0.4",
     "eslint-plugin-mocha": "^2.0.0",
