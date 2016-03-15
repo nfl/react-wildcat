@@ -1243,6 +1243,7 @@ System.config({
       "exenv": "npm:exenv@1.2.0",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.5",
       "invariant": "npm:invariant@2.2.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
       "react": "npm:react@0.14.7"
     },
     "npm:react@0.14.7": {
