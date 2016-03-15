@@ -1,6 +1,6 @@
 {
   "name": "react-wildcat-test-runners",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Test runners for Wildcat.",
   "bin": {
     "wildcat-protractor-runner": "./cli/protractor.js",
@@ -22,7 +22,7 @@
     "yargs": "^4.2.0"
   },
   "devDependencies": {
-    "protractor": "^3.0.0"
+    "protractor": "^3.1.1"
   },
   "peerDependencies": {
     "istanbul": "*",

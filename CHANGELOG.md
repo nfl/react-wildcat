@@ -1,3 +1,18 @@
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/nfl/react-wildcat/compare/1.1.1...v1.2.0) (2016-03-15)
+
+
+### Bug Fixes
+
+* **example:** Add redirect example ([e7a406c](https://github.com/nfl/react-wildcat/commit/e7a406c))
+* **react-wildcat:** Catch/throw unhandled Promise rejections ([5fd2843](https://github.com/nfl/react-wildcat/commit/5fd2843)), closes [#70](https://github.com/nfl/react-wildcat/issues/70)
+
+### Features
+
+* **react-wildcat:** Enable config for server-only middleware. ([ea8da44](https://github.com/nfl/react-wildcat/commit/ea8da44))
+
+
+
 <a name="1.1.1"></a>
 ## [1.1.1](//compare/1.1.0...v1.1.1) (2016-03-11)
 
