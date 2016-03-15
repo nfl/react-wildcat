@@ -29,7 +29,9 @@ npm install react-wildcat-prefetch
 @prefetch("https://example.com/data.json")
 
 // Or pass in a function
-function getData() { /** **/ }
+function getData() {
+    return Promise.resolve(/* some data */);
+}
 @prefetch(getData)
 
 // By default the key name is `asyncData`, but you
