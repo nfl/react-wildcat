@@ -2,16 +2,10 @@
   "name": "react-wildcat-hot-reloader",
   "version": "1.1.0",
   "description": "Hot reloading support for Wildcat.",
-  "main": "src",
+  "main": "src/index.js",
   "dependencies": {
     "debug": "^2.2.0",
     "exenv": "^1.2.0"
-  },
-  "jspm": {
-    "directories": {
-      "lib": "src"
-    },
-    "main": false
   },
   "author": "engineers@nfl.com",
   "license": "MIT"

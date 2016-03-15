@@ -5,11 +5,10 @@
 
 var ExecutionEnvironment = require("exenv");
 
-function HotReloader(customLoader, logger) {
-    this.Loader = customLoader || System;
-    this.logger = logger || console;
-
-    this.originalImportFn = this.Loader.import;
+function HotReloader(options) {
+    options = options || {};
+    this.Loader = options.customLoader || System;
+    this.logger = options.logger || console;
 
     return this.init();
 }
@@ -19,6 +18,15 @@ HotReloader.prototype = {
         var self = this;
 
         self.clientImportedModules = [];
+
+        self.customizeSystemImport();
+        self.pushImporters(self.Loader.loads);
+    },
+
+    customizeSystemImport: function customizeSystemImport() {
+        var self = this;
+
+        self.originalImportFn = self.Loader.import;
 
         self.Loader.import = function customImport() {
             var args = arguments; //eslint-disable-line prefer-rest-params
@@ -33,8 +41,6 @@ HotReloader.prototype = {
                 }
             );
         };
-
-        self.pushImporters(self.Loader.loads);
     },
 
     clearFailedImportAttempt: function clearFailedImportAttempt(moduleToClear) {

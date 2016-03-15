@@ -17,6 +17,8 @@ module.exports = function defaultTemplate(cfg) {
     const staticUrl = generalSettings.staticUrl;
     const socketUrl = staticUrl.replace("http", "ws");
 
+    const __DEV__ = (typeof process !== "undefined") && (process.env.NODE_ENV === "development");
+
     return `
 <!doctype html>
 <html>
@@ -43,7 +45,7 @@ module.exports = function defaultTemplate(cfg) {
             });
         </script>
 
-        <script src="//npmcdn.com/dexie@1.3.3/dist/dexie.min.js"></script>
+        ${__DEV__ ? `<script src="//npmcdn.com/dexie@1.3.3/dist/dexie.min.js"></script>
         <script>
             (function () {
                 var db = new Dexie("jspm");
@@ -77,18 +79,16 @@ module.exports = function defaultTemplate(cfg) {
                     if (!filter || filter(load)) {
                         return db.files.where("url").equals(file.url).first().then(function (cached) {
                             if (!cached || cached.hash !== file.hash) {
-                                // console.log(file.url + " not in cache");
-
                                 return originalFunction.apply(loader, [load]).then(function (translated) {
                                     file.format = load.metadata.format;
                                     file.contents = translated;
-                                    return db.files.add(file).then(function () {
+
+                                    return db.files.put(file).then(function () {
                                         return translated;
                                     }).catch(log);
                                 });
                             }
 
-                            // console.log(file.url + " from cache");
                             load.metadata.format = cached.format || undefined;
                             return cached.contents;
                         }).catch(log);
@@ -127,7 +127,7 @@ module.exports = function defaultTemplate(cfg) {
                     return cachedCall(this, load, file, System.originalTranslate);
                 };
             }());
-        </script>
+        </script>` : ``}
 
         <script>
             // FIXME: Possibly not needed in jspm 0.17

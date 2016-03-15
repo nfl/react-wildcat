@@ -1218,6 +1218,7 @@ System.config({
       "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
       "match-media-mock": "npm:match-media-mock@0.1.0",
       "parse-domain": "npm:parse-domain@0.2.1",
+      "process": "github:jspm/nodelibs-process@0.1.2",
       "radium": "npm:radium@0.15.3",
       "radium-plugin-prefix-all": "npm:radium-plugin-prefix-all@1.0.1",
       "react": "npm:react@0.14.7",
