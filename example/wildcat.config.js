@@ -115,6 +115,11 @@ const wildcatConfig = {
             // App server port
             port: getPort(process.env.PORT, 3000),
 
+            middleware: [
+                // EXAMPLE:
+                require("./api/sampleServerOnlyApi")
+            ],
+
             // A key/value of urls to proxy
             // e.g. /static -> http://example.com/static
             proxies: {

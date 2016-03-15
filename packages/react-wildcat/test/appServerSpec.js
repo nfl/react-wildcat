@@ -438,6 +438,121 @@ describe("react-wildcat", () => {
                 });
             });
         });
+
+        context("custom server-only middleware", () => {
+            it(`starts the server and loads custom middleware`, (done) => {
+                var middlewareSetup;
+                const server = proxyquire("../src/server.js", {
+                    "cluster": {
+                        isMaster: false,
+                        worker: {
+                            id: 1
+                        }
+                    },
+                    "./utils/getWildcatConfig": () => {
+                        const defaultConfig = require("../src/utils/getWildcatConfig")();
+                        defaultConfig.serverSettings.appServer.middleware = [
+                            (app, wildcatConfig) => {
+                                middlewareSetup = {
+                                    app,
+                                    wildcatConfig
+                                };
+                            }
+                        ];
+
+                        return defaultConfig;
+                    },
+                    "./utils/logger": (() => {
+                        function Logger() {}
+
+                        Logger.prototype = {
+                            info: () => {},
+                            meta: () => {},
+                            ok: () => {},
+                            warn: () => {}
+                        };
+
+                        return Logger;
+                    })()
+                });
+
+                server.start()
+                    .then(() => {
+                        expect(middlewareSetup)
+                            .to.exist;
+
+                        expect(middlewareSetup.app)
+                            .to.be.an("object");
+
+                        expect(middlewareSetup.app).to.be.instanceof(require('koa'));
+
+                        expect(middlewareSetup.wildcatConfig).to.exist;
+
+                        server.close();
+                        done();
+                    });
+            });
+
+            it(`starts the server and loads incorrectly formed middleware`, (done) => {
+                var loggerErrorMessages = [];
+                const server = proxyquire("../src/server.js", {
+                    "cluster": {
+                        isMaster: false,
+                        worker: {
+                            id: 1
+                        }
+                    },
+                    "./utils/getWildcatConfig": () => {
+                        const defaultConfig = require("../src/utils/getWildcatConfig")();
+                        defaultConfig.serverSettings.appServer.middleware = [
+                            "this is a bad middleware function"
+                        ];
+
+                        return defaultConfig;
+                    },
+                    "./utils/logger": (() => {
+                        function Logger() {}
+
+                        Logger.prototype = {
+                            info: () => {},
+                            meta: () => {},
+                            ok: () => {},
+                            warn: () => {},
+                            error: (msg) => loggerErrorMessages.push(msg)
+                        };
+
+                        return Logger;
+                    })()
+                });
+
+                var doneDone = (err) => {
+                    try {
+                        server.close();
+                    } catch (error) {
+                        console.log("Error shutting down test server");
+                        console.log(error);
+                    }
+
+                    if (err) {
+                        return done(err);
+                    }
+                    return done();
+                };
+
+                server.start()
+                    .then(() => {
+                        try {
+                            expect(loggerErrorMessages.length).to.equal(1);
+
+                            expect(loggerErrorMessages[0]).to.contain("Middleware at serverSettings.appServer.middleware[0] could not be correclty initialized.");
+
+                            doneDone();
+                        } catch (error) {
+                            doneDone(error);
+                        }
+                    }, doneDone);
+            });
+        });
     });
 
     context("app server", () => {

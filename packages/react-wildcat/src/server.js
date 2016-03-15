@@ -107,6 +107,22 @@ function start() {
                 }));
             });
 
+            // Allow custom middleware priority over react/jspm/render from below
+            // otherwise server-only routes will receive 404's.
+            if (appServerSettings.middleware && appServerSettings.middleware.length) {
+                appServerSettings.middleware.forEach(function eachCustomAppMiddleware(middlewareConfigFunction, index) {
+                    if (typeof middlewareConfigFunction === "function") {
+                        middlewareConfigFunction(app, wildcatConfig);
+                    } else {
+                        var errorMsg = `
+Middleware at serverSettings.appServer.middleware[${index}] could not be correclty initialized. Expecting middleware to have the following signature:
+    function(app, wildcatConfig) { /* custom middleware */ }
+    Erroring middleware: ${(middlewareConfigFunction || "").toString()}`;
+                        logger.error(errorMsg, middlewareConfigFunction);
+                    }
+                });
+            }
+
             app.use(renderReactWithJspm(cwd, {
                 logger,
                 wildcatConfig
