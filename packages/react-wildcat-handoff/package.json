@@ -12,11 +12,11 @@
     "match-media-mock": "^0.1.0",
     "parse-domain": "^0.2.0",
     "radium": "^0.15.3",
-    "react-router": "^2.0.0",
     "radium-plugin-prefix-all": "^1.0.1",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-helmet": "^2.3.1",
+    "react-router": "^2.0.1",
     "react-wildcat-hot-reloader": "1.1.0"
   },
   "devDependencies": {
