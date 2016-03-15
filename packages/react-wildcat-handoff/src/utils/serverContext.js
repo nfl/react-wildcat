@@ -52,7 +52,7 @@ module.exports = function serverContext(request, cookies, renderProps) {
         },
 
         render() {
-           return React.createElement(RouterContext, Object.assign({}, this.props, renderProps));
+            return React.createElement(RouterContext, Object.assign({}, this.props, renderProps));
         }
     });
 
