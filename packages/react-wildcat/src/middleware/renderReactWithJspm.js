@@ -112,7 +112,7 @@ module.exports = function renderReactWithJspm(root, options) {
 
                         return {
                             reply: {
-                                error: err.message,
+                                error: err.stack,
                                 status: 500
                             }
                         };
