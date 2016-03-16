@@ -5,6 +5,7 @@ const Router = require("react-router");
 const RouterContext = Router.RouterContext;
 
 const radium = require("radium");
+const StyleRoot = require("radium").StyleRoot;
 const prefixAll = require("radium-plugin-prefix-all");
 const matchMediaMock = require("match-media-mock").create();
 const getClientSize = require("./getClientSize.js");
@@ -51,9 +52,16 @@ module.exports = function serverContext(request, cookies, renderProps) {
         },
 
         render() {
-            return React.createElement(RouterContext, Object.assign({}, this.props, renderProps));
+            return React.createElement(
+              StyleRoot,
+              this.getChildContext(),
+              React.createElement(RouterContext, Object.assign({}, this.props, renderProps))
+            );
         }
     });
 
-    return React.createElement(ServerContext);
+    return React.createElement(
+        StyleRoot,
+        ServerContext.getChildContext().childContextTypes.radiumConfig,
+        React.createElement(ServerContext));
 };

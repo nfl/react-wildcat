@@ -62,13 +62,18 @@
       "invariant": "^2.2.1",
       "isomorphic-fetch": "^2.2.1",
       "parse-domain": "^0.2.1",
-      "radium": "^0.15.3",
+      "radium": "github:nfl/radium@test-mode",
       "radium-plugin-prefix-all": "^1.0.1",
       "react": "^0.14.7",
       "react-addons-test-utils": "^0.14.7",
       "react-dom": "^0.14.7",
       "react-router": "^2.0.1",
       "react-wildcat-prefetch": "^1.1.0"
+    },
+    "overrides": {
+      "github:nfl/radium@test-mode": {
+        "registry": "npm"
+      }
     }
   },
   "scripts": {
