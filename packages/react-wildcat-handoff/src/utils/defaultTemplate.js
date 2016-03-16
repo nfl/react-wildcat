@@ -79,7 +79,7 @@ module.exports = function defaultTemplate(cfg) {
                     if (!filter || filter(load)) {
                         return db.files.where("url").equals(file.url).first().then(function (cached) {
                             if (!cached || cached.hash !== file.hash) {
-                                if (cached.hash !== file.hash) {
+                                if (cached && cached.hash !== file.hash) {
                                     console.info("Updating", file.url, "in client-side cache.");
                                 }
 
