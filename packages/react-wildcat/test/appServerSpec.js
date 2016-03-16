@@ -267,7 +267,8 @@ describe("react-wildcat", () => {
                             info: () => {},
                             meta: () => {},
                             ok: () => {},
-                            warn: () => {}
+                            warn: () => {},
+                            error: () => {}
                         };
 
                         return Logger;
@@ -317,6 +318,9 @@ describe("react-wildcat", () => {
                 ["development", "production"].forEach(currentEnv => {
                     let renderReactWithJspm = require("../src/middleware/renderReactWithJspm")(exampleDir, {
                         cache: new Map(),
+                        logger: {
+                            error: () => {}
+                        },
                         wildcatConfig
                     });
 
@@ -331,6 +335,9 @@ describe("react-wildcat", () => {
                                 if (render.error) {
                                     renderReactWithJspm = require("../src/middleware/renderReactWithJspm")(exampleDir, {
                                         cache: new Map(),
+                                        logger: {
+                                            error: () => {}
+                                        },
                                         wildcatConfig: Object.assign({}, wildcatConfig, {
                                             serverSettings: {
                                                 entry: "stubEntry.js",
@@ -392,6 +399,9 @@ describe("react-wildcat", () => {
                 it("renders HTML", (done) => {
                     const renderReactWithJspm = require("../src/middleware/renderReactWithJspm")(exampleDir, {
                         cache: new Map(),
+                        logger: {
+                            error: () => {}
+                        },
                         wildcatConfig
                     });
 
@@ -469,7 +479,8 @@ describe("react-wildcat", () => {
                             info: () => {},
                             meta: () => {},
                             ok: () => {},
-                            warn: () => {}
+                            warn: () => {},
+                            error: () => {}
                         };
 
                         return Logger;
@@ -645,7 +656,8 @@ describe("react-wildcat", () => {
                                     info: () => {},
                                     meta: () => {},
                                     ok: () => {},
-                                    warn: () => {}
+                                    warn: () => {},
+                                    error: () => {}
                                 };
 
                                 return Logger;
