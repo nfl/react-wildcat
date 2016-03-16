@@ -111,9 +111,7 @@ module.exports = function defaultTemplate(cfg) {
                     // Pass options to server
                     return client(clientOptions);
                 })
-                .catch(function clientError(err) {
-                    console.error(err);
-                });
+                .catch(console.error.bind(console));
         </script>
     </body>
 </html>

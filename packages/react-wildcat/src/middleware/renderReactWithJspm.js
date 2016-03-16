@@ -99,6 +99,8 @@ module.exports = function renderReactWithJspm(root, options) {
                         };
                     })
                     .catch(function serverError(err) {
+                        logger.error(err.stack || err);
+
                         if (!__PROD__) {
                             const blueBoxOfDeath = require("../utils/blueBoxOfDeath");
 
@@ -112,7 +114,7 @@ module.exports = function renderReactWithJspm(root, options) {
 
                         return {
                             reply: {
-                                error: err.message,
+                                error: err.stack || err,
                                 status: 500
                             }
                         };
