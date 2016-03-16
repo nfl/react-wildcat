@@ -63,6 +63,5 @@ module.exports = function serverContext(request, cookies, renderProps) {
     return React.createElement(
         StyleRoot,
         ServerContext.getChildContext().childContextTypes.radiumConfig,
-        React.createElement(ServerContext))
-    );
+        React.createElement(ServerContext));
 };

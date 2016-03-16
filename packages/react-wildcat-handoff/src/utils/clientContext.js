@@ -71,8 +71,8 @@ module.exports = function clientContext(cfg) {
     });
 
     return React.createElement(
-        Router,
-        cfg,
-        React.createElement(StyleRoot, this.getChildContext())
+        ClientContext,
+        null,
+        React.createElement(StyleRoot, ClientContext.getChildContext())
     );
 };
