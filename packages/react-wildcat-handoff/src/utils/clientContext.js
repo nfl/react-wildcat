@@ -62,15 +62,17 @@ module.exports = function clientContext(cfg) {
         },
 
         render: function render() {
-            // return React.createElement(
-            //   StyleRoot,
-            //   null,
-            //   React.createElement(Router, cfg, cfg.routes)
-            // );
-
-            return React.createElement(Router, cfg, cfg.routes);
+            return React.createElement(
+                Router,
+                cfg,
+                React.createElement(StyleRoot, this.getChildContext())
+            );
         }
     });
 
-    return React.createElement(ClientContext);
+    return React.createElement(
+        Router,
+        cfg,
+        React.createElement(StyleRoot, this.getChildContext())
+    );
 };

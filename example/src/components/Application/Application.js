@@ -1,5 +1,5 @@
 import React from "react";
-import {radium, StyleRoot} from "radium";
+import radium from "radium";
 import {Link as RawLink} from "react-router";
 // import {metrics} from "react-metrics";
 // import metricsConfig from "metrics.config.js";
@@ -27,38 +27,36 @@ class Application extends React.Component {
         const {radiumConfig} = this.context;
 
         return (
-            <StyleRoot>
-                <div style={styles.application}>
-                    <div style={styles.container}>
-                        <header testRef="header" role="primary">
-                            <nav role="navigation">
-                                <ul testRefCollection="navigation">
-                                    {links.map((link) => (
-                                        <li key={link.text}>
-                                            <Link
-                                                style={styles.a}
-                                                {...link}
-                                                >
-                                                {link.text}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                    <li>
-                                        <a key={404} href="not-found-route" style={styles.a}>404 Handling</a>
+            <div style={styles.application}>
+                <div style={styles.container}>
+                    <header testRef="header" role="primary">
+                        <nav role="navigation">
+                            <ul testRefCollection="navigation">
+                                {links.map((link) => (
+                                    <li key={link.text}>
+                                        <Link
+                                            style={styles.a}
+                                            {...link}
+                                            >
+                                            {link.text}
+                                        </Link>
                                     </li>
-                                </ul>
-                            </nav>
-                        </header>
-                        <main testRef="main" role="main">
-                            {React.Children.map(this.props.children, (child) => {
-                                return React.cloneElement(child, {
-                                    radiumConfig
-                                });
-                            })}
-                        </main>
-                    </div>
+                                ))}
+                                <li>
+                                    <a key={404} href="not-found-route" style={styles.a}>404 Handling</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </header>
+                    <main testRef="main" role="main">
+                        {React.Children.map(this.props.children, (child) => {
+                            return React.cloneElement(child, {
+                                radiumConfig
+                            });
+                        })}
+                    </main>
                 </div>
-            </StyleRoot>
+            </div>
         );
     }
 }
