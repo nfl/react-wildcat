@@ -14,10 +14,10 @@ module.exports = function defaultTemplate(cfg) {
     const hotReloader = clientSettings.hotReloader;
     const renderHandler = clientSettings.renderHandler;
     const reactRootElementID = clientSettings.reactRootElementID;
+    const indexedDBModuleCache = clientSettings.indexedDBModuleCache;
+
     const staticUrl = generalSettings.staticUrl;
     const socketUrl = staticUrl.replace("http", "ws");
-
-    const __DEV__ = (typeof process !== "undefined") && (process.env.NODE_ENV === "development");
 
     return `
 <!doctype html>
@@ -45,7 +45,7 @@ module.exports = function defaultTemplate(cfg) {
             });
         </script>
 
-        ${__DEV__ ? `<script src="//npmcdn.com/dexie@1.3.3/dist/dexie.min.js"></script>
+        ${indexedDBModuleCache ? `<script src="//npmcdn.com/dexie@1.3.3/dist/dexie.min.js"></script>
         <script>
             (function () {
                 var db = new Dexie("jspm");

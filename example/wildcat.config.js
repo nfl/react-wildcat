@@ -1,4 +1,5 @@
 const pkg = require("./package.json");
+const __DEV__ = (process.env.NODE_ENV === "development");
 const __PROD__ = (process.env.NODE_ENV === "production");
 
 function getPort(port, defaultPort) {
@@ -77,7 +78,10 @@ const wildcatConfig = {
         renderHandler: "react-wildcat-handoff/client",
 
         // The target element id where React will be injected
-        reactRootElementID: "content"
+        reactRootElementID: "content",
+
+        // Enable / disable client-side IndexedDB module caching
+        indexedDBModuleCache: __DEV__
     },
 
     serverSettings: {
