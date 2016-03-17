@@ -76,11 +76,11 @@
     }
   },
   "scripts": {
-    "build": "time npm run compile -- --ignore '**/{shell,e2e,test}/**' && npm run bundle",
+    "build": "npm run compile -- --ignore '**/{shell,e2e,test}/**' && npm run bundle",
     "bundle": "jspm bundle \"public/**/* - [public/**/*]\" bundles/vendor.js --inject",
     "clean": "rimraf bin bundles public",
     "compile": "wildcat-babel --copy-files --binary-to-module src --out-dir public",
-    "compile:unit": "env BABEL_ENV=test NODE_ENV=production time npm run compile -- --ignore '**/!(*Test).*'",
+    "compile:unit": "env BABEL_ENV=test NODE_ENV=production npm run compile -- --ignore '**/!(*Test).*'",
     "dev": "env NODE_ENV=development NODE_TLS_REJECT_UNAUTHORIZED=0 concurrently 'wildcat' 'wildcat-static-server' 'npm run compile -- --watch'",
     "lint": "eslint src/**/*.js",
     "predev": "npm run clean",
