@@ -18,8 +18,8 @@ module.exports = function serverContext(request, cookies, renderProps) {
             // Pass user agent to Radium
             return {
                 headers: {
-                    host: request.headers.host,
-                    userAgent: request.headers["user-agent"] || "*"
+                    host: request.header.host,
+                    userAgent: request.header["user-agent"] || "*"
                 }
             };
         },
