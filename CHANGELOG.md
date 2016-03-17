@@ -1,3 +1,30 @@
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/nfl/react-wildcat/compare/1.2.0...v2.0.0) (2016-03-17)
+
+
+### Bug Fixes
+
+* **example:** Enable react-metrics ([7c3a0a7](https://github.com/nfl/react-wildcat/commit/7c3a0a7))
+* **example:** Remove time command from scripts ([8f213d5](https://github.com/nfl/react-wildcat/commit/8f213d5))
+* **react-wildcat:** Display stack traces if available ([676f8ab](https://github.com/nfl/react-wildcat/commit/676f8ab)), closes [#83](https://github.com/nfl/react-wildcat/issues/83)
+* **react-wildcat:** Display stack traces on both server and client ([e6ac40f](https://github.com/nfl/react-wildcat/commit/e6ac40f))
+* **react-wildcat:** Update ESLint config ([10662e8](https://github.com/nfl/react-wildcat/commit/10662e8))
+* **react-wildcat-handoff:** Cache all modules ([fd2e321](https://github.com/nfl/react-wildcat/commit/fd2e321))
+* **react-wildcat-handoff:** Enable/disable IndexedDB cache through wildcat.config.js ([71eaa6b](https://github.com/nfl/react-wildcat/commit/71eaa6b))
+* **react-wildcat-handoff:** Make sure cached property exists ([adee37f](https://github.com/nfl/react-wildcat/commit/adee37f))
+* **react-wildcat-handoff:** Spelling error ([d03db70](https://github.com/nfl/react-wildcat/commit/d03db70))
+
+### Features
+
+* **example:** Upgrade Radium ([0215481](https://github.com/nfl/react-wildcat/commit/0215481))
+* **react-wildcat-handoff:** Remove baked-in Radium settings ([432a81d](https://github.com/nfl/react-wildcat/commit/432a81d))
+
+### Performance Improvements
+
+* **react-wildcat-handoff:** Add client-side jspm package cache ([01d94ee](https://github.com/nfl/react-wildcat/commit/01d94ee))
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/nfl/react-wildcat/compare/1.1.1...v1.2.0) (2016-03-15)
 

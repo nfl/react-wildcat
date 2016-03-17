@@ -48,7 +48,7 @@ System.config({
 
   map: {
     "babel-runtime": "npm:babel-runtime@5.8.35",
-    "core-js": "npm:core-js@1.2.6",
+    "core-js": "npm:core-js@2.2.0",
     "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
     "radium": "github:nfl/radium@test-mode",
     "react": "npm:react@0.14.7",
@@ -60,11 +60,11 @@ System.config({
     "react-test-tree": "npm:react-test-tree@1.0.0",
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.2",
     "react-transform-hmr": "npm:react-transform-hmr@1.0.4",
-    "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@1.0.0",
-    "react-wildcat-ensure": "npm:react-wildcat-ensure@1.0.0",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@1.2.0",
-    "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@1.1.0",
-    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@1.1.0",
+    "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@2.0.0",
+    "react-wildcat-ensure": "npm:react-wildcat-ensure@2.0.0",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@2.0.0",
+    "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@2.0.0",
+    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@2.0.0",
     "redbox-react": "npm:redbox-react@1.2.2",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
@@ -163,9 +163,6 @@ System.config({
     "npm:babel-runtime@5.8.35": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:balanced-match@0.3.0": {
-      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
-    },
     "npm:bn.js@4.11.0": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
     },
@@ -258,7 +255,7 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
-    "npm:core-js@2.1.5": {
+    "npm:core-js@2.2.0": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
@@ -415,9 +412,6 @@ System.config({
       "loose-envify": "npm:loose-envify@1.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:isarray@1.0.0": {
-      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
-    },
     "npm:isomorphic-fetch@2.2.1": {
       "node-fetch": "npm:node-fetch@1.3.3",
       "whatwg-fetch": "npm:whatwg-fetch@0.9.0"
@@ -539,9 +533,9 @@ System.config({
     },
     "npm:react-metrics@1.1.0": {
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",
-      "core-js": "npm:core-js@2.1.5",
+      "core-js": "npm:core-js@2.2.0",
       "deep-equal": "npm:deep-equal@1.0.1",
-      "eventemitter3": "npm:eventemitter3@1.1.1",
+      "eventemitter3": "npm:eventemitter3@1.2.0",
       "fbjs": "npm:fbjs@0.7.2",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.5",
@@ -574,7 +568,7 @@ System.config({
       "global": "npm:global@4.3.0",
       "react-proxy": "npm:react-proxy@1.1.8"
     },
-    "npm:react-wildcat-handoff@1.2.0": {
+    "npm:react-wildcat-handoff@2.0.0": {
       "cookies-js": "npm:cookies-js@1.2.2",
       "exenv": "npm:exenv@1.2.0",
       "history": "npm:history@2.0.1",
@@ -584,17 +578,16 @@ System.config({
       "react-dom": "npm:react-dom@0.14.7",
       "react-helmet": "npm:react-helmet@2.3.1",
       "react-router": "npm:react-router@2.0.1",
-      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@1.1.0"
+      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@2.0.0"
     },
-    "npm:react-wildcat-hot-reloader@1.1.0": {
+    "npm:react-wildcat-hot-reloader@2.0.0": {
       "debug": "npm:debug@2.2.0",
       "exenv": "npm:exenv@1.2.0"
     },
-    "npm:react-wildcat-prefetch@1.1.0": {
+    "npm:react-wildcat-prefetch@2.0.0": {
       "exenv": "npm:exenv@1.2.0",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.5",
       "invariant": "npm:invariant@2.2.0",
-      "process": "github:jspm/nodelibs-process@0.1.2",
       "react": "npm:react@0.14.7"
     },
     "npm:react@0.14.7": {

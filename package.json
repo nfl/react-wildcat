@@ -41,7 +41,7 @@
     "proxyquire": "^1.7.3",
     "react": "^0.14.7",
     "react-addons-test-utils": "^0.14.7",
-    "react-wildcat-prefetch": "^1.1.0",
+    "react-wildcat-prefetch": "^2.0.0",
     "resolve": "^1.1.7",
     "rimraf": "^2.5.1",
     "semantic-release": "^4.3.5",
@@ -55,7 +55,6 @@
     "configFile": "system.config.js",
     "devDependencies": {
       "cookies-js": "^1.2.2",
-      "debounce": "^1.0.0",
       "exenv": "^1.2.0",
       "history": "^2.0.1",
       "hoist-non-react-statics": "^1.0.5",
@@ -67,7 +66,7 @@
       "react-dom": "^0.14.7",
       "react-helmet": "^2.3.1",
       "react-router": "^2.0.1",
-      "react-wildcat-prefetch": "^1.1.0"
+      "react-wildcat-prefetch": "^2.0.0"
     }
   },
   "scripts": {
