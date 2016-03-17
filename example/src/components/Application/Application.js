@@ -1,8 +1,8 @@
 import React from "react";
 import radium from "radium";
 import {Link as RawLink} from "react-router";
-// import {metrics} from "react-metrics";
-// import metricsConfig from "metrics.config.js";
+import {metrics} from "react-metrics";
+import metricsConfig from "metrics.config.js";
 
 import {links} from "application.config.js";
 import styles from "./styles/applicationStyles.js";
@@ -62,6 +62,4 @@ class Application extends React.Component {
 }
 
 export {Application as ApplicationComponent};
-// FIXME: react-metrics throws an invariant error on import
-// export default metrics(metricsConfig)(Application);
-export default Application;
+export default metrics(metricsConfig)(Application);
