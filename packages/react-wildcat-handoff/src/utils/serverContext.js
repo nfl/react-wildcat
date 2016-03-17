@@ -5,12 +5,11 @@ const Router = require("react-router");
 const RouterContext = Router.RouterContext;
 
 module.exports = function serverContext(request, cookies, renderProps) {
-    const userAgent = request.header["user-agent"];
-
     /* eslint-disable react/no-multi-comp */
     const ServerContext = React.createClass({
         childContextTypes: {
-            radiumConfig: React.PropTypes.shape({
+            headers: React.PropTypes.shape({
+                host: React.PropTypes.string,
                 userAgent: React.PropTypes.string
             })
         },
@@ -18,8 +17,9 @@ module.exports = function serverContext(request, cookies, renderProps) {
         getChildContext() {
             // Pass user agent to Radium
             return {
-                radiumConfig: {
-                    userAgent
+                headers: {
+                    host: request.headers.host,
+                    userAgent: request.headers["user-agent"] || "*"
                 }
             };
         },

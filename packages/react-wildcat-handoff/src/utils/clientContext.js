@@ -7,12 +7,11 @@ var ExecutionEnvironment = require("exenv");
  * @return {Promise}
  */
 module.exports = function clientContext(cfg) {
-    var userAgent = ExecutionEnvironment.canUseDOM ? window.navigator.userAgent : null;
-
     /* eslint-disable react/no-multi-comp */
     var ClientContext = React.createClass({
         childContextTypes: {
-            radiumConfig: React.PropTypes.shape({
+            headers: React.PropTypes.shape({
+                host: React.PropTypes.string,
                 userAgent: React.PropTypes.string
             })
         },
@@ -20,8 +19,9 @@ module.exports = function clientContext(cfg) {
         getChildContext: function getChildContext() {
             // Pass user agent to Radium
             return {
-                radiumConfig: {
-                    userAgent: userAgent
+                headers: {
+                    host: ExecutionEnvironment.canUseDOM ? window.location.host : null,
+                    userAgent: ExecutionEnvironment.canUseDOM ? window.navigator.userAgent : null
                 }
             };
         },

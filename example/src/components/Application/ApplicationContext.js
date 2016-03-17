@@ -6,7 +6,8 @@ import Application from "./Application.js";
 
 class ApplicationContext extends React.Component {
     static contextTypes = {
-        radiumConfig: React.PropTypes.shape({
+        headers: React.PropTypes.shape({
+            host: React.PropTypes.string,
             userAgent: React.PropTypes.string
         })
     };
@@ -16,11 +17,11 @@ class ApplicationContext extends React.Component {
     };
 
     render() {
-        const {radiumConfig} = this.context;
+        const {headers} = this.context;
 
         return (
             <StyleRoot radiumConfig={{
-                ...radiumConfig,
+                userAgent: headers.userAgent,
 
                 plugins: [
                     radium.Plugins.mergeStyleArray,
