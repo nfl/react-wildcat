@@ -30,7 +30,10 @@ module.exports = function renderReactWithJspm(root, options) {
                 const HotReloader = responses[1];
 
                 if (HotReloader) {
-                    const hotReloader = new HotReloader(customLoader, logger);
+                    const hotReloader = new HotReloader({
+                        customLoader,
+                        logger
+                    });
 
                     if (typeof serverSettings.hotReloadReporter === "function") {
                         serverSettings.hotReloadReporter(hotReloader, generalSettings.staticUrl);
