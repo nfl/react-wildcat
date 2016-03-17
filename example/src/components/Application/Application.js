@@ -13,19 +13,11 @@ const Link = radium(RawLink);
 
 @radium
 class Application extends React.Component {
-    static contextTypes = {
-        radiumConfig: React.PropTypes.shape({
-            userAgent: React.PropTypes.string
-        })
-    };
-
     static propTypes = {
         children: React.PropTypes.any
     };
 
     render() {
-        const {radiumConfig} = this.context;
-
         return (
             <div style={styles.application}>
                 <div style={styles.container}>
@@ -49,11 +41,7 @@ class Application extends React.Component {
                         </nav>
                     </header>
                     <main testRef="main" role="main">
-                        {React.Children.map(this.props.children, (child) => {
-                            return React.cloneElement(child, {
-                                radiumConfig
-                            });
-                        })}
+                        {this.props.children}
                     </main>
                 </div>
             </div>
