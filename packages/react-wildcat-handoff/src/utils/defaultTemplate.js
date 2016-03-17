@@ -75,33 +75,27 @@ module.exports = function defaultTemplate(cfg) {
                     return hash.toString();
                 }
 
-                var cachedCall = function (loader, load, file, originalFunction, filter) {
-                    if (!filter || filter(load)) {
-                        return db.files.where("url").equals(file.url).first().then(function (cached) {
-                            if (!cached || cached.hash !== file.hash) {
-                                if (cached && cached.hash !== file.hash) {
-                                    console.info("Updating", file.url, "in client-side cache.");
-                                }
-
-                                return originalFunction.apply(loader, [load]).then(function (translated) {
-                                    file.format = load.metadata.format;
-                                    file.contents = translated;
-
-                                    return db.files.put(file).then(function () {
-                                        return translated;
-                                    }).catch(log);
-                                });
+                var cachedCall = function (loader, load, file, originalFunction) {
+                    return db.files.where("url").equals(file.url).first().then(function (cached) {
+                        if (System.hot || !cached || cached.hash !== file.hash) {
+                            if (cached && cached.hash !== file.hash) {
+                                console.info("Updating", file.url, "in client-side cache.");
                             }
 
-                            load.metadata.format = cached.format || undefined;
-                            return cached.contents;
-                        }).catch(log);
-                    }
+                            return originalFunction.apply(loader, [load]).then(function (translated) {
+                                file.format = load.metadata.format;
+                                file.contents = translated;
 
-                    return originalFunction.apply(loader, [load]);
+                                return db.files.put(file).then(function () {
+                                    return translated;
+                                }).catch(log);
+                            });
+                        }
+
+                        load.metadata.format = cached.format || undefined;
+                        return cached.contents;
+                    }).catch(log);
                 };
-
-                var onlyScriptDependencies = /\.*\\/jspm_packages\\/\.*\\.[tj]s/;
 
                 // override fetch
                 System.originalFetch = System.fetch;
@@ -111,9 +105,7 @@ module.exports = function defaultTemplate(cfg) {
                         hash: hash(load.address)
                     };
 
-                    return cachedCall(this, load, file, System.originalFetch, function () {
-                        return load.address.search(onlyScriptDependencies) >= 0;
-                    });
+                    return cachedCall(this, load, file, System.originalFetch);
                 };
 
                 // override translate
@@ -201,6 +193,10 @@ module.exports = function defaultTemplate(cfg) {
                     // Pass options to server
                     return client(clientOptions);
                 })
+                ${hotReload? `.then(function hotReloadFlag() {
+                    // Flag hot reloading
+                    System.hot = true;
+                })` : ``}
                 .catch(console.error.bind(console));
         </script>
     </body>
