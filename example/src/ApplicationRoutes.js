@@ -1,7 +1,7 @@
 import React from "react";
 import {IndexRoute, Redirect, Route} from "react-router";
 
-import Application from "./components/Application/Application.js";
+import ApplicationContext from "./components/Application/ApplicationContext.js";
 
 import * as indexExampleRoutes from "./routes/IndexExample/routes.js";
 import * as errorExampleRoutes from "./routes/ErrorExample/routes.js";
@@ -10,7 +10,7 @@ import * as helmetExampleRoutes from "./routes/HelmetExample/routes.js";
 import * as prefetchExampleRoutes from "./routes/PrefetchExample/routes.js";
 
 var Routes = (
-    <Route path="/" component={Application}>
+    <Route path="/" component={ApplicationContext}>
         <IndexRoute {...indexExampleRoutes} />
 
         <Route {...errorExampleRoutes} />

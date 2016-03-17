@@ -50,7 +50,7 @@
       "babel-runtime": "npm:babel-runtime@^5.8.25",
       "core-js": "npm:core-js@^1.2.6",
       "isomorphic-fetch": "npm:isomorphic-fetch@^2.2.1",
-      "radium": "npm:radium@^0.15.3",
+      "radium": "github:nfl/radium@test-mode",
       "react": "npm:react@^0.14.7",
       "react-dom": "npm:react-dom@^0.14.7",
       "react-helmet": "npm:react-helmet@^2.3.1",
@@ -68,6 +68,11 @@
       "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@1.0.0",
       "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@1.1.0",
       "redbox-react": "npm:redbox-react@^1.1.1"
+    },
+    "overrides": {
+      "github:nfl/radium@test-mode": {
+        "registry": "npm"
+      }
     }
   },
   "scripts": {

@@ -62,11 +62,10 @@
       "invariant": "^2.2.1",
       "isomorphic-fetch": "^2.2.1",
       "parse-domain": "^0.2.1",
-      "radium": "^0.15.3",
-      "radium-plugin-prefix-all": "^1.0.1",
       "react": "^0.14.7",
       "react-addons-test-utils": "^0.14.7",
       "react-dom": "^0.14.7",
+      "react-helmet": "^2.3.1",
       "react-router": "^2.0.1",
       "react-wildcat-prefetch": "^1.1.0"
     }

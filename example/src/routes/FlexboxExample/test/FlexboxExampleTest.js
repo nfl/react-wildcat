@@ -1,5 +1,6 @@
 import React from "react";
 import testTree from "react-test-tree";
+import radium from "radium";
 
 import FlexboxExample from "../FlexboxExample.js";
 import * as flexboxExampleRoutes from "../routes.js";
@@ -14,6 +15,8 @@ describe("Flexbox Example", () => {
 
     context("render", () => {
         before(() => {
+            radium.TestMode.enable();
+
             flexboxExampleTree = testTree(
                 <FlexboxExample />
             );
@@ -26,6 +29,7 @@ describe("Flexbox Example", () => {
         });
 
         after(() => {
+            radium.TestMode.disable();
             flexboxExampleTree.dispose();
         });
     });
