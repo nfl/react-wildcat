@@ -62,7 +62,7 @@ System.config({
     "react-transform-hmr": "npm:react-transform-hmr@1.0.4",
     "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@2.0.0",
     "react-wildcat-ensure": "npm:react-wildcat-ensure@2.0.0",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@2.0.0",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@2.0.1",
     "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@2.0.0",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@2.0.0",
     "redbox-react": "npm:redbox-react@1.2.2",
@@ -568,7 +568,7 @@ System.config({
       "global": "npm:global@4.3.0",
       "react-proxy": "npm:react-proxy@1.1.8"
     },
-    "npm:react-wildcat-handoff@2.0.0": {
+    "npm:react-wildcat-handoff@2.0.1": {
       "cookies-js": "npm:cookies-js@1.2.2",
       "exenv": "npm:exenv@1.2.0",
       "history": "npm:history@2.0.1",

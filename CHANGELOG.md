@@ -1,3 +1,13 @@
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/nfl/react-wildcat/compare/2.0.0...v2.0.1) (2016-03-18)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Expire client-side cache on server restart ([e737106](https://github.com/nfl/react-wildcat/commit/e737106))
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/nfl/react-wildcat/compare/1.2.0...v2.0.0) (2016-03-17)
 

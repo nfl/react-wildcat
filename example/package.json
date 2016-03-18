@@ -1,7 +1,7 @@
 {
   "name": "react-wildcat-example",
   "description": "An example Wildcat project.",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "dependencies": {
     "babel": "^5.8.29",
     "koa-route": "^2.4.2",
@@ -36,7 +36,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "mocha": "^2.4.5",
     "phantomjs-prebuilt": "^2.1.5",
-    "protractor": "^3.1.1",
+    "protractor": "3.1.1",
     "protractor-console-plugin": "^0.1.1",
     "protractor-istanbul-plugin": "^2.0.0",
     "react-wildcat-test-runners": "2.0.0",
@@ -57,7 +57,7 @@
       "react-metrics": "npm:react-metrics@^1.1.0",
       "react-router": "npm:react-router@^2.0.1",
       "react-wildcat-ensure": "npm:react-wildcat-ensure@2.0.0",
-      "react-wildcat-handoff": "npm:react-wildcat-handoff@2.0.0",
+      "react-wildcat-handoff": "npm:react-wildcat-handoff@2.0.1",
       "react-wildcat-prefetch": "npm:react-wildcat-prefetch@2.0.0"
     },
     "devDependencies": {
