@@ -1,5 +1,7 @@
 "use strict";
 
+const NOW = Date.now();
+
 module.exports = function defaultTemplate(cfg) {
     const data = cfg.data;
     const head = cfg.head;
@@ -51,12 +53,13 @@ module.exports = function defaultTemplate(cfg) {
                 var db = new Dexie("jspm");
 
                 db.version(1).stores({
-                    files: "&url,format,hash,contents"
+                    files: "&url,format,hash,contents,timestamp"
                 });
 
                 db.open();
 
                 var log = console.error.bind(console);
+                var timestamp = ${NOW};
 
                 function hash(str) {
                     // Source: http://stackoverflow.com/a/7616484/502126
@@ -77,7 +80,7 @@ module.exports = function defaultTemplate(cfg) {
 
                 var cachedCall = function (loader, load, file, originalFunction) {
                     return db.files.where("url").equals(file.url).first().then(function (cached) {
-                        if (System.hot || !cached || cached.hash !== file.hash) {
+                        if (System.hot || !cached || cached.timestamp < timestamp || cached.hash !== file.hash) {
                             if (cached && cached.hash !== file.hash) {
                                 console.info("Updating", file.url, "in client-side cache.");
                             }
@@ -85,6 +88,7 @@ module.exports = function defaultTemplate(cfg) {
                             return originalFunction.apply(loader, [load]).then(function (translated) {
                                 file.format = load.metadata.format;
                                 file.contents = translated;
+                                file.timestamp = Date.now();
 
                                 return db.files.put(file).then(function () {
                                     return translated;
