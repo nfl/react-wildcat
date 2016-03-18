@@ -1,3 +1,13 @@
+<a name="2.0.2"></a>
+## [2.0.2](https://github.com/nfl/react-wildcat/compare/2.0.1...v2.0.2) (2016-03-18)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Add data-react-available hook on callback ([6756600](https://github.com/nfl/react-wildcat/commit/6756600))
+
+
+
 <a name="2.0.1"></a>
 ## [2.0.1](https://github.com/nfl/react-wildcat/compare/2.0.0...v2.0.1) (2016-03-18)
 

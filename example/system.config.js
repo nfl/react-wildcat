@@ -62,7 +62,7 @@ System.config({
     "react-transform-hmr": "npm:react-transform-hmr@1.0.4",
     "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@2.0.0",
     "react-wildcat-ensure": "npm:react-wildcat-ensure@2.0.0",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@2.0.1",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@2.0.2",
     "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@2.0.0",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@2.0.0",
     "redbox-react": "npm:redbox-react@1.2.2",
@@ -383,7 +383,7 @@ System.config({
       "deep-equal": "npm:deep-equal@1.0.1",
       "invariant": "npm:invariant@2.2.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "query-string": "npm:query-string@3.0.1",
+      "query-string": "npm:query-string@3.0.2",
       "warning": "npm:warning@2.1.0"
     },
     "npm:https-browserify@0.0.0": {
@@ -508,7 +508,7 @@ System.config({
     "npm:punycode@1.3.2": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:query-string@3.0.1": {
+    "npm:query-string@3.0.2": {
       "strict-uri-encode": "npm:strict-uri-encode@1.1.0"
     },
     "npm:randombytes@2.0.3": {
@@ -568,7 +568,7 @@ System.config({
       "global": "npm:global@4.3.0",
       "react-proxy": "npm:react-proxy@1.1.8"
     },
-    "npm:react-wildcat-handoff@2.0.1": {
+    "npm:react-wildcat-handoff@2.0.2": {
       "cookies-js": "npm:cookies-js@1.2.2",
       "exenv": "npm:exenv@1.2.0",
       "history": "npm:history@2.0.1",
