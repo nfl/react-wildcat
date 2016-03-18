@@ -15,13 +15,12 @@ module.exports = function clientRender(cfg) {
             var reactRootElementID = window[__REACT_ROOT_ID__];
             var reactRootElement = document.getElementById(reactRootElementID);
 
-            ReactDOM.render(component, reactRootElement);
-
-            // Flag react as available
-            // This is a helpful hook for running tests
-            reactRootElement.setAttribute("data-react-available", true);
-
-            resolve([reactRootElement, component]);
+            ReactDOM.render(component, reactRootElement, function addReactHook() {
+                // Flag react as available
+                // This is a helpful hook for running tests
+                reactRootElement.setAttribute("data-react-available", true);
+                resolve([reactRootElement, component]);
+            });
         });
     });
 };
