@@ -10,6 +10,7 @@ const defaultServerCert = getDefaultSSLFile("server.crt");
 const defaultServerCA = getDefaultSSLFile("server.csr");
 
 const __DEV__ = (process.env.NODE_ENV === "development");
+const __TEST__ = (process.env.NODE_ENV === "test") || (process.env.BABEL_ENV === "test");
 const __PROD__ = (process.env.NODE_ENV === "production");
 
 /* istanbul ignore next */
@@ -90,9 +91,14 @@ const wildcatConfig = {
         // Directory to save raw binaries (jpg, gif, fonts, etc)
         binDir: "bin",
 
+        // Enable the Blue Box of Death to display server errors
+        displayBlueBoxOfDeath: !__PROD__,
+
         hotReload: !__PROD__,
         hotReloader: "react-wildcat-hot-reloader",
         hotReloadReporter: undefined,
+
+        localPackageCache: !__PROD__ || __TEST__,
 
         // BYO-HTML template
         // htmlTemplate: require("./customHTMLTemplate.js"),
