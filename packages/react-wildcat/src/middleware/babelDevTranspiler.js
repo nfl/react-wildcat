@@ -8,6 +8,8 @@ const pathResolve = require("resolve-path");
 module.exports = function babelDevTranspiler(root, options) {
     "use strict";
 
+    const temporaryCache = new Map();
+
     const babelOptions = options.babelOptions;
     const binDir = options.binDir;
     const coverage = options.coverage;
@@ -73,7 +75,11 @@ module.exports = function babelDevTranspiler(root, options) {
         const relOut = chalk.styles.grey.open + modulePath.replace(`${root}`, "") + chalk.styles.grey.close;
         const prettyLog = `${statusCode} CREATE ${relOut}`;
 
-        return new Promise(function transpilerPromise(resolve, reject) {
+        if (temporaryCache.has(modulePath)) {
+            return temporaryCache.get(modulePath);
+        }
+
+        const transpilerPromise = new Promise(function transpilerPromise(resolve, reject) {
             if (extensions.indexOf(path.extname(moduleSourcePath)) !== -1) {
                 babel.transformFile(moduleSourcePath, dataOptions, function transformFile(transformErr, data) {
                     /* istanbul ignore next */
@@ -147,11 +153,16 @@ module.exports = function babelDevTranspiler(root, options) {
                                     /* istanbul ignore next */
                                     logger.error(outputErr);
                                 })
+                                .on("finish", function outputStreamFinish() {
+                                    // Disk write complete, delete the temporary cache
+                                    temporaryCache.delete(modulePath);
+                                    return resolve(modulePath);
+                                })
                                 .end(code);
-
-                            return resolve(modulePath);
                         })
                         .catch(function instrumentedCodeError(err) {
+                            // Disk write complete, delete the temporary cache
+                            temporaryCache.delete(modulePath);
                             return reject(err);
                         });
                 });
@@ -195,13 +206,21 @@ module.exports = function babelDevTranspiler(root, options) {
                     })
                 ])
                     .then(function promiseResolve() {
+                        // Disk write complete, delete the temporary cache
+                        temporaryCache.delete(modulePath);
                         return resolve(moduleBinPath || modulePath);
                     })
                     .catch(function promiseError(err) {
+                        // Disk write complete, delete the temporary cache
+                        temporaryCache.delete(modulePath);
                         return reject(err);
                     });
             }
         });
+
+        // Save the data to a temporary cache, useful to avoid multiple writes to disk
+        temporaryCache.set(modulePath, transpilerPromise);
+        return transpilerPromise;
     }
 
     return function* transpile(next) {
