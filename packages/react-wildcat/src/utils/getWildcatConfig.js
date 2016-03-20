@@ -21,7 +21,7 @@ module.exports = function getWildcatConfig(cwd) {
     const staticServerSettings = wildcatConfig.serverSettings.staticServer;
 
     // Add some convenience aliases
-    wildcatConfig = merge(wildcatConfig, {
+    wildcatConfig = merge({
         generalSettings: {
             originUrl: url.format({
                 protocol: appServerSettings.protocol.replace("http2", "https"),
@@ -34,7 +34,7 @@ module.exports = function getWildcatConfig(cwd) {
                 port: staticServerSettings.port
             })
         }
-    });
+    }, wildcatConfig);
 
     return wildcatConfig;
 };
