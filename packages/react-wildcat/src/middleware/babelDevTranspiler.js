@@ -59,7 +59,6 @@ module.exports = function babelDevTranspiler(root, options) {
 
     function* _babelDevTranspiler(ctx, pathOptions) {
         const babel = require("babel-core");
-        const res = ctx.response;
 
         const modulePath = pathOptions.modulePath;
         const moduleSourcePath = pathOptions.moduleSourcePath;
@@ -139,10 +138,12 @@ module.exports = function babelDevTranspiler(root, options) {
 
                     instrumentedCodePromise
                         .then(function instrumentedCodeResult(code) {
-                            res.type = "application/x-es-module";
-                            res.length = code.length;
-                            res.body = code;
-                            res.status = 200;
+                            const res = {
+                                type: "application/x-es-module",
+                                length: code.length,
+                                body: code,
+                                status: 200
+                            };
 
                             if (logLevel > 1) {
                                 logger.meta(prettyLog);
@@ -156,12 +157,16 @@ module.exports = function babelDevTranspiler(root, options) {
                                 .on("finish", function outputStreamFinish() {
                                     // Disk write complete, delete the temporary cache
                                     temporaryCache.delete(modulePath);
-                                    return resolve(modulePath);
                                 })
                                 .end(code);
+
+                            // Code is available before disk write, update the temporary cache
+                            temporaryCache.set(modulePath, Promise.resolve(res));
+
+                            return resolve(res);
                         })
                         .catch(function instrumentedCodeError(err) {
-                            // Disk write complete, delete the temporary cache
+                            // Disk write error, delete the temporary cache
                             temporaryCache.delete(modulePath);
                             return reject(err);
                         });
@@ -171,10 +176,12 @@ module.exports = function babelDevTranspiler(root, options) {
 
                 Promise.all([
                     new Promise(function importablePromise(resolveImportable) {
-                        res.type = "application/x-es-module";
-                        res.length = importable.length;
-                        res.body = importable;
-                        res.status = 200;
+                        const res = {
+                            type: "application/x-es-module",
+                            length: importable.length,
+                            body: importable,
+                            status: 200
+                        };
 
                         fs.createOutputStream(modulePath)
                             .on("error", function importableStreamError(outputErr) {
@@ -183,7 +190,7 @@ module.exports = function babelDevTranspiler(root, options) {
                             })
                             .end(importable);
 
-                        return resolveImportable(modulePath);
+                        return resolveImportable(res);
                     }),
 
                     new Promise(function binaryPromise(resolveBinary, rejectBinary) {
@@ -200,18 +207,19 @@ module.exports = function babelDevTranspiler(root, options) {
                                         if (logLevel > 1) {
                                             logger.meta(prettyLog);
                                         }
+
                                         return resolveBinary(moduleBinPath || modulePath);
                                     })
                             );
                     })
                 ])
-                    .then(function promiseResolve() {
+                    .then(function promiseResolve(promises) {
                         // Disk write complete, delete the temporary cache
                         temporaryCache.delete(modulePath);
-                        return resolve(moduleBinPath || modulePath);
+                        return resolve(promises[0]);
                     })
                     .catch(function promiseError(err) {
-                        // Disk write complete, delete the temporary cache
+                        // Disk write error, delete the temporary cache
                         temporaryCache.delete(modulePath);
                         return reject(err);
                     });
@@ -225,6 +233,7 @@ module.exports = function babelDevTranspiler(root, options) {
 
     return function* transpile(next) {
         const request = this.request;
+        const res = this.response;
 
         if (!request.url.startsWith(`/${outDir}`)) {
             return yield next;
@@ -238,12 +247,14 @@ module.exports = function babelDevTranspiler(root, options) {
             const moduleBinPath = pathResolve(root, relativePath.replace(outDir, binDir));
 
             if (pathExists.sync(moduleSourcePath)) {
-                yield _babelDevTranspiler(this, {
+                const data = yield _babelDevTranspiler(this, {
                     modulePath: modulePath,
                     moduleSourcePath: moduleSourcePath,
                     moduleBinPath: moduleBinPath,
                     relativePath: relativePath
                 });
+
+                Object.assign(res, data);
             }
         }
 
