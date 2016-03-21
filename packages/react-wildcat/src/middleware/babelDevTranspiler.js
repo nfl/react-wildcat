@@ -52,7 +52,6 @@ module.exports = function babelDevTranspiler(root, options) {
         instrumenter = new Istanbul.Instrumenter(instrumentationSettings);
     }
 
-    /* istanbul ignore next */
     function addSourceMappingUrl(code, loc) {
         return code + "\n//# sourceMappingURL=" + path.basename(loc);
     }
@@ -81,31 +80,29 @@ module.exports = function babelDevTranspiler(root, options) {
         const transpilerPromise = new Promise(function transpilerPromise(resolve, reject) {
             if (extensions.indexOf(path.extname(moduleSourcePath)) !== -1) {
                 babel.transformFile(moduleSourcePath, dataOptions, function transformFile(transformErr, data) {
-                    /* istanbul ignore next */
                     if (transformErr) {
                         logger.error(transformErr);
                         return reject(transformErr);
                     }
 
-                    /* istanbul ignore next */
                     if (data.ignored) {
                         return resolve();
                     }
 
-                    /* istanbul ignore next */
                     const sourceMaps = babelOptions.sourceMaps || ((babelOptions.env || {}).development || {}).sourceMaps;
 
-                    /* istanbul ignore next */
                     if (data.map && sourceMaps && sourceMaps !== "inline") {
                         const mapLoc = modulePath + ".map";
                         data.code = addSourceMappingUrl(data.code, mapLoc);
 
                         fs.createOutputStream(mapLoc)
+                            .on("open", function outputStreamOpen() {
+                                if (logLevel > 1) {
+                                    logger.meta(prettyLog);
+                                }
+                            })
                             .on("error", function outputStreamError(outputErr) {
-                                /* istanbul ignore next */
                                 logger.error(outputErr);
-                                /* istanbul ignore next */
-                                return reject(outputErr);
                             })
                             .end(JSON.stringify(data.map));
                     }
@@ -145,13 +142,15 @@ module.exports = function babelDevTranspiler(root, options) {
                                 status: 200
                             };
 
-                            if (logLevel > 1) {
-                                logger.meta(prettyLog);
-                            }
-
                             fs.createOutputStream(modulePath)
+                                .on("open", function outputStreamOpen() {
+                                    if (logLevel > 1) {
+                                        logger.meta(prettyLog);
+                                    }
+                                })
                                 .on("error", function outputStreamError(outputErr) {
-                                    /* istanbul ignore next */
+                                    // Disk write error, delete the temporary cache
+                                    temporaryCache.delete(modulePath);
                                     logger.error(outputErr);
                                 })
                                 .on("finish", function outputStreamFinish() {
@@ -162,12 +161,13 @@ module.exports = function babelDevTranspiler(root, options) {
 
                             // Code is available before disk write, update the temporary cache
                             temporaryCache.set(modulePath, Promise.resolve(res));
-
                             return resolve(res);
                         })
                         .catch(function instrumentedCodeError(err) {
                             // Disk write error, delete the temporary cache
                             temporaryCache.delete(modulePath);
+
+                            logger.error(err);
                             return reject(err);
                         });
                 });
@@ -175,7 +175,7 @@ module.exports = function babelDevTranspiler(root, options) {
                 const importable = `module.exports = "${origin}${moduleBinPath.replace(`${root}`, "")}";`;
 
                 Promise.all([
-                    new Promise(function importablePromise(resolveImportable) {
+                    new Promise(function importablePromise(resolveImportable, rejectImportable) {
                         const res = {
                             type: "application/x-es-module",
                             length: importable.length,
@@ -185,29 +185,29 @@ module.exports = function babelDevTranspiler(root, options) {
 
                         fs.createOutputStream(modulePath)
                             .on("error", function importableStreamError(outputErr) {
-                                /* istanbul ignore next */
                                 logger.error(outputErr);
+                                return rejectImportable(outputErr);
+                            })
+                            .on("finish", function importableStreamFinish() {
+                                return resolveImportable(res);
                             })
                             .end(importable);
-
-                        return resolveImportable(res);
                     }),
 
                     new Promise(function binaryPromise(resolveBinary, rejectBinary) {
                         fs.createReadStream(moduleSourcePath)
                             .pipe(
                                 fs.createOutputStream(moduleBinPath || modulePath)
-                                    .on("error", function binaryStreamError(outputErr) {
-                                        /* istanbul ignore next */
-                                        logger.error(outputErr);
-                                        /* istanbul ignore next */
-                                        return rejectBinary(outputErr);
-                                    })
-                                    .on("finish", function binaryStreamFinish() {
+                                    .on("open", function binaryStreamOpen() {
                                         if (logLevel > 1) {
                                             logger.meta(prettyLog);
                                         }
-
+                                    })
+                                    .on("error", function binaryStreamError(outputErr) {
+                                        logger.error(outputErr);
+                                        return rejectBinary(outputErr);
+                                    })
+                                    .on("finish", function binaryStreamFinish() {
                                         return resolveBinary(moduleBinPath || modulePath);
                                     })
                             );
