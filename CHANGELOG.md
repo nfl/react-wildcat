@@ -1,3 +1,20 @@
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/nfl/react-wildcat/compare/2.0.2...v2.1.0) (2016-03-21)
+
+
+### Bug Fixes
+
+* **react-wildcat:** Avoid overriding user config ([3c2d502](https://github.com/nfl/react-wildcat/commit/3c2d502))
+
+### Performance Improvements
+
+* **react-wildcat:** Avoid multiple writes to disk when transpiling on the server ([7c723a6](https://github.com/nfl/react-wildcat/commit/7c723a6))
+* **react-wildcat:** Load jspm packages from the local file system in development mode ([1135a6b](https://github.com/nfl/react-wildcat/commit/1135a6b))
+* **react-wildcat:** Send transpiled code as response before writing to disk ([1938fa9](https://github.com/nfl/react-wildcat/commit/1938fa9))
+* **react-wildcat:** Update middleware order ([cd5631d](https://github.com/nfl/react-wildcat/commit/cd5631d))
+
+
+
 <a name="2.0.2"></a>
 ## [2.0.2](https://github.com/nfl/react-wildcat/compare/2.0.1...v2.0.2) (2016-03-18)
 
