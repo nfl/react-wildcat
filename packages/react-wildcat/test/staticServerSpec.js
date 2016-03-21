@@ -49,7 +49,8 @@ describe("react-wildcat", () => {
                 info: () => {},
                 meta: () => {},
                 ok: () => {},
-                warn: () => {}
+                warn: () => {},
+                error: () => {}
             };
 
             const wildcatConfig = require("../src/utils/getWildcatConfig")();
@@ -57,7 +58,11 @@ describe("react-wildcat", () => {
             const serverSettings = wildcatConfig.serverSettings;
 
             const exampleApplicationPath = `/${serverSettings.publicDir}/components/Application/Application.js`;
+            const exampleApplicationSrcPath = `${serverSettings.sourceDir}/components/Application/Application.js`;
+            const exampleIndexPath = `/${serverSettings.publicDir}/routes/IndexExample/IndexExample.js`;
             const exampleBinaryPath = `/${serverSettings.publicDir}/assets/images/primary-background.jpg`;
+            const exampleFlexboxPath = `/${serverSettings.publicDir}/routes/FlexboxExample/FlexboxExample.js`;
+            const exampleHelmetPath = `/${serverSettings.publicDir}/routes/HelmetExample/HelmetExample.js`;
             const exampleNonExistentPath = `/${serverSettings.publicDir}/foo.js`;
             const exampleUnaffectedPath = "/foo.js";
 
@@ -67,9 +72,50 @@ describe("react-wildcat", () => {
                 binDir: serverSettings.binDir,
                 extensions: [".es6", ".js", ".es", ".jsx"],
                 logger: stubLogger,
+                logLevel: 2,
                 origin: generalSettings.staticUrl,
                 outDir: serverSettings.publicDir,
                 sourceDir: serverSettings.sourceDir
+            };
+
+            const coverageOptions = {
+                coverage: true,
+                coverageSettings: {
+                    env: "e2e",
+
+                    e2e: {
+                        instrumentation: {
+                            excludes: [],
+
+                            // Conditionally exclude files from coverage based on suite name.
+                            onSuiteExcludeCoverage(suite) {
+                                const suites = {
+                                    "exampleFlexbox": [
+                                        `!${exampleFlexboxPath.replace(/^\//, "")}`
+                                    ]
+                                };
+
+                                return suites[suite];
+                            }
+                        },
+
+                        reporting: {
+                            dir: "coverage/e2e",
+                            reports: ["lcov", "html"]
+                        }
+                    },
+
+                    unit: {
+                        instrumentation: {
+                            excludes: []
+                        },
+
+                        reporting: {
+                            dir: "coverage/unit",
+                            reports: ["lcov", "html"]
+                        }
+                    }
+                }
             };
 
             let babelDevTranspilerInstance = babelDevTranspiler(exampleDir, babelDevTranspilerOptions);
@@ -90,6 +136,38 @@ describe("react-wildcat", () => {
                 })
                     .then(() => setTimeout(() => {
                         expect(pathExists.sync(path.join(exampleDir, exampleApplicationPath)))
+                            .to.be.true;
+
+                        done();
+                    }, writeDelay))
+                    .catch(e => done(e));
+            });
+
+            it("waits for transpilation on simultaneous requests", (done) => {
+                expect(pathExists.sync(path.join(exampleDir, "public")))
+                    .to.be.true;
+
+                co(function* () {
+                    var result = yield* [
+                        babelDevTranspilerInstance.call({
+                            request: {
+                                url: exampleIndexPath
+                            },
+                            response: {}
+                        }, (next) => next()),
+
+                        babelDevTranspilerInstance.call({
+                            request: {
+                                url: exampleIndexPath
+                            },
+                            response: {}
+                        }, (next) => next())
+                    ];
+
+                    return result;
+                })
+                    .then(() => setTimeout(() => {
+                        expect(pathExists.sync(path.join(exampleDir, exampleIndexPath)))
                             .to.be.true;
 
                         done();
@@ -150,8 +228,6 @@ describe("react-wildcat", () => {
             });
 
             it("transpiles an existing file on file change", (done) => {
-                const exampleApplicationSrcPath = `${serverSettings.sourceDir}/components/Application/Application.js`;
-
                 expect(pathExists.sync(path.join(exampleDir, exampleApplicationPath)))
                     .to.be.true;
 
@@ -212,53 +288,479 @@ describe("react-wildcat", () => {
                     .catch(e => done(e));
             });
 
-            context("code coverage", () => {
+            context("error handling", () => {
                 beforeEach(() => {
                     fs.removeSync(path.join(exampleDir, "public"));
                 });
 
-                const exampleFlexboxPath = `/${serverSettings.publicDir}/routes/FlexboxExample/FlexboxExample.js`;
-                const exampleHelmetPath = `/${serverSettings.publicDir}/routes/HelmetExample/HelmetExample.js`;
+                const stubError = new Error("An error occurred");
+                let stubbedDevTranspiler;
 
-                const coverageOptions = {
-                    coverage: true,
-                    coverageSettings: {
-                        env: "e2e",
-
-                        e2e: {
-                            instrumentation: {
-                                excludes: [],
-
-                                // Conditionally exclude files from coverage based on suite name.
-                                onSuiteExcludeCoverage(suite) {
-                                    const suites = {
-                                        "exampleFlexbox": [
-                                            `!${exampleFlexboxPath.replace(/^\//, "")}`
-                                        ]
-                                    };
-
-                                    return suites[suite];
-                                }
-                            },
-
-                            reporting: {
-                                dir: "coverage/e2e",
-                                reports: ["lcov", "html"]
-                            }
-                        },
-
-                        unit: {
-                            instrumentation: {
-                                excludes: []
-                            },
-
-                            reporting: {
-                                dir: "coverage/unit",
-                                reports: ["lcov", "html"]
+                it("returns a transpilation error", (done) => {
+                    stubbedDevTranspiler = proxyquire("../src/middleware/babelDevTranspiler.js", {
+                        "babel-core": {
+                            transformFile: (modulePath, options, cb) => {
+                                return cb(stubError, {});
                             }
                         }
-                    }
-                };
+                    });
+
+                    babelDevTranspilerInstance = stubbedDevTranspiler(
+                        exampleDir,
+                        Object.assign({}, babelDevTranspilerOptions)
+                    );
+
+                    co(function* () {
+                        const result = yield babelDevTranspilerInstance.call({
+                            request: {
+                                url: exampleApplicationPath
+                            },
+                            response: {}
+                        }, (next) => next());
+
+                        return result;
+                    })
+                        .catch(e => {
+                            expect(e)
+                                .to.be.an.instanceof(Error);
+
+                            expect(e.message)
+                                .to.equal(stubError.message);
+
+                            done();
+                        });
+                });
+
+                it("returns an importable error", (done) => {
+                    stubbedDevTranspiler = proxyquire("../src/middleware/babelDevTranspiler.js", {
+                        "fs-extra": {
+                            createOutputStream: (targetPath) => {
+                                const expectedPath = path.join(exampleDir, exampleBinaryPath);
+
+                                const EventEmitter = require("events");
+                                const emitter = new EventEmitter();
+
+                                emitter.end = () => {
+                                    if (targetPath === expectedPath) {
+                                        return setTimeout(() => emitter.emit("error", stubError), writeDelay);
+                                    }
+
+                                    return setTimeout(() => emitter.emit("finish"), writeDelay);
+                                };
+
+                                return emitter;
+                            },
+                            createReadStream: () => {
+                                const EventEmitter = require("events");
+                                const emitter = new EventEmitter();
+
+                                emitter.pipe = () => {};
+
+                                return emitter;
+                            }
+                        }
+                    });
+
+                    let importableError;
+
+                    babelDevTranspilerInstance = stubbedDevTranspiler(
+                        exampleDir,
+                        Object.assign({}, babelDevTranspilerOptions, {
+                            logger: Object.assign({}, stubLogger, {
+                                error: (err) => (importableError = err)
+                            })
+                        }, coverageOptions)
+                    );
+
+                    co(function* () {
+                        const result = yield babelDevTranspilerInstance.call({
+                            request: {
+                                url: exampleBinaryPath
+                            },
+                            response: {}
+                        }, (next) => next());
+
+                        return result;
+                    })
+                        .then(() => setTimeout(() => {
+                            expect(pathExists.sync(path.join(exampleDir, exampleBinaryPath)))
+                                .to.be.false;
+
+                            expect(importableError)
+                                .to.exist;
+
+                            expect(importableError)
+                                .to.be.an.instanceof(Error);
+
+                            expect(importableError.message)
+                                .to.equal(stubError.message);
+
+                            done();
+                        }, writeDelay))
+                        .catch(e => {
+                            expect(e)
+                                .to.be.an.instanceof(Error);
+
+                            expect(e.message)
+                                .to.equal(stubError.message);
+
+                            done();
+                        });
+                });
+
+                it("returns a binary error", (done) => {
+                    // const exampleBinaryBinPath = path.join(exampleDir, "bin/assets/images/primary-background.jpg");
+                    const exampleBinarySrcPath = path.join(exampleDir, "src/assets/images/primary-background.jpg");
+
+                    stubbedDevTranspiler = proxyquire("../src/middleware/babelDevTranspiler.js", {
+                        "fs-extra": {
+                            createOutputStream: (targetPath) => {
+                                const expectedPath = exampleBinarySrcPath;
+
+                                const EventEmitter = require("events");
+                                const emitter = new EventEmitter();
+
+                                emitter.end = () => {
+                                    if (targetPath === expectedPath) {
+                                        return setTimeout(() => emitter.emit("error", stubError), writeDelay);
+                                    }
+
+                                    return setTimeout(() => emitter.emit("finish"), writeDelay);
+                                };
+
+                                return emitter;
+                            },
+                            createReadStream: (targetPath) => {
+                                const expectedPath = exampleBinarySrcPath;
+
+                                const EventEmitter = require("events");
+                                const emitter = new EventEmitter();
+
+                                emitter.pipe = (stream) => {
+                                    if (targetPath === expectedPath) {
+                                        return setTimeout(() => stream.emit("error", stubError), writeDelay);
+                                    }
+
+                                    return setTimeout(() => stream.emit("finish"), writeDelay);
+                                };
+
+                                return emitter;
+                            }
+                        }
+                    });
+
+                    babelDevTranspilerInstance = stubbedDevTranspiler(
+                        exampleDir,
+                        Object.assign({}, babelDevTranspilerOptions, coverageOptions)
+                    );
+
+                    co(function* () {
+                        const result = yield babelDevTranspilerInstance.call({
+                            request: {
+                                url: exampleBinaryPath
+                            },
+                            response: {}
+                        }, (next) => next());
+
+                        return result;
+                    })
+                        .catch(e => {
+                            expect(e)
+                                .to.be.an.instanceof(Error);
+
+                            expect(e.message)
+                                .to.equal(stubError.message);
+
+                            done();
+                        });
+                });
+
+                it("returns an instrumentation error", (done) => {
+                    stubbedDevTranspiler = proxyquire("../src/middleware/babelDevTranspiler.js", {
+                        "istanbul": {
+                            Instrumenter: (() => {
+                                function InstrumenterStub() {}
+
+                                InstrumenterStub.prototype = {
+                                    instrument: (code, relativePath, cb) => {
+                                        return cb(stubError);
+                                    }
+                                };
+
+                                return InstrumenterStub;
+                            })()
+                        }
+                    });
+
+                    babelDevTranspilerInstance = stubbedDevTranspiler(
+                        exampleDir,
+                        Object.assign({}, babelDevTranspilerOptions, coverageOptions)
+                    );
+
+                    co(function* () {
+                        const result = yield babelDevTranspilerInstance.call({
+                            request: {
+                                url: exampleApplicationPath
+                            },
+                            response: {}
+                        }, (next) => next());
+
+                        return result;
+                    })
+                        .catch(e => {
+                            expect(e)
+                                .to.be.an.instanceof(Error);
+
+                            expect(e.message)
+                                .to.equal(stubError.message);
+
+                            done();
+                        });
+                });
+
+                it("reports a coverage error", (done) => {
+                    stubbedDevTranspiler = proxyquire("../src/middleware/babelDevTranspiler.js", {
+                        "fs-extra": {
+                            createOutputStream: (targetPath) => {
+                                const expectedPath = path.join(exampleDir, exampleApplicationPath);
+
+                                const EventEmitter = require("events");
+                                const emitter = new EventEmitter();
+
+                                emitter.end = () => {
+                                    if (targetPath === expectedPath) {
+                                        return setTimeout(() => emitter.emit("error", stubError), writeDelay);
+                                    }
+
+                                    return setTimeout(() => emitter.emit("finish"), writeDelay);
+                                };
+
+                                return emitter;
+                            },
+                            createReadStream: () => {}
+                        }
+                    });
+
+                    let coverageError;
+
+                    babelDevTranspilerInstance = stubbedDevTranspiler(
+                        exampleDir,
+                        Object.assign({}, babelDevTranspilerOptions, {
+                            logger: Object.assign({}, stubLogger, {
+                                error: (err) => (coverageError = err)
+                            })
+                        }, coverageOptions)
+                    );
+
+                    co(function* () {
+                        const result = yield babelDevTranspilerInstance.call({
+                            request: {
+                                url: exampleApplicationPath
+                            },
+                            response: {}
+                        }, (next) => next());
+
+                        return result;
+                    })
+                        .then(() => setTimeout(() => {
+                            expect(pathExists.sync(path.join(exampleDir, exampleApplicationPath)))
+                                .to.be.false;
+
+                            expect(coverageError)
+                                .to.exist;
+
+                            expect(coverageError)
+                                .to.be.an.instanceof(Error);
+
+                            expect(coverageError.message)
+                                .to.equal(stubError.message);
+
+                            done();
+                        }, writeDelay))
+                        .catch(e => done(e));
+                });
+
+                it("does not transpile when data is ignored", (done) => {
+                    stubbedDevTranspiler = proxyquire("../src/middleware/babelDevTranspiler.js", {
+                        "babel-core": {
+                            transformFile: (modulePath, options, cb) => {
+                                return cb(null, {
+                                    ignored: true
+                                });
+                            }
+                        }
+                    });
+
+                    babelDevTranspilerInstance = stubbedDevTranspiler(
+                        exampleDir,
+                        Object.assign({}, babelDevTranspilerOptions)
+                    );
+
+                    co(function* () {
+                        const result = yield babelDevTranspilerInstance.call({
+                            request: {
+                                url: exampleApplicationPath
+                            },
+                            response: {}
+                        }, (next) => next());
+
+                        return result;
+                    })
+                        .then(() => setTimeout(() => {
+                            expect(pathExists.sync(path.join(exampleDir, exampleApplicationPath)))
+                                .to.be.false;
+
+                            done();
+                        }, writeDelay));
+                });
+
+                const testData = [{
+                    babelOptions: {},
+                    sourceMapShouldExist: false
+                }, {
+                    babelOptions: {
+                        env: {}
+                    },
+                    sourceMapShouldExist: false
+                }, {
+                    babelOptions: {
+                        sourceMaps: false
+                    },
+                    sourceMapShouldExist: false
+                }, {
+                    babelOptions: {
+                        sourceMaps: true
+                    },
+                    sourceMapShouldExist: true
+                }, {
+                    babelOptions: {
+                        env: {
+                            development: {
+                                sourceMaps: true
+                            }
+                        }
+                    },
+                    sourceMapShouldExist: true
+                }];
+
+                testData.forEach((test, idx) => {
+                    it(`saves an external source map when specified #${idx + 1}`, (done) => {
+                        stubbedDevTranspiler = proxyquire("../src/middleware/babelDevTranspiler.js", {
+                            "babel-core": {
+                                transformFile: (modulePath, options, cb) => {
+                                    return cb(null, {
+                                        map: true,
+                                        code: "module.exports = function foo() {return true};"
+                                    });
+                                }
+                            }
+                        });
+
+                        babelDevTranspilerInstance = stubbedDevTranspiler(
+                            exampleDir,
+                            Object.assign({}, babelDevTranspilerOptions, {
+                                babelOptions: test.babelOptions
+                            })
+                        );
+
+                        co(function* () {
+                            const result = yield babelDevTranspilerInstance.call({
+                                request: {
+                                    url: exampleApplicationPath
+                                },
+                                response: {}
+                            }, (next) => next());
+
+                            return result;
+                        })
+                            .then(() => setTimeout(() => {
+                                expect(pathExists.sync(path.join(exampleDir, exampleApplicationPath)))
+                                    .to.be.true;
+
+                                expect(pathExists.sync(path.join(exampleDir, `${exampleApplicationPath}.map`)))
+                                    .to.equal(test.sourceMapShouldExist);
+
+                                done();
+                            }, writeDelay));
+                    });
+                });
+
+                it("reports a source map error", (done) => {
+                    const exampleApplicationMapPath = path.join(exampleDir, `${exampleApplicationPath}.map`);
+
+                    stubbedDevTranspiler = proxyquire("../src/middleware/babelDevTranspiler.js", {
+                        "babel-core": {
+                            transformFile: (modulePath, options, cb) => {
+                                return cb(null, {
+                                    map: true,
+                                    code: "module.exports = function foo() {return true};"
+                                });
+                            }
+                        },
+                        "fs-extra": {
+                            createOutputStream: (targetPath) => {
+                                const EventEmitter = require("events");
+                                const emitter = new EventEmitter();
+
+                                if (targetPath === exampleApplicationMapPath) {
+                                    setTimeout(() => emitter.emit("error", stubError), writeDelay);
+                                }
+
+                                emitter.end = () => {};
+
+                                return emitter;
+                            },
+                            createReadStream: () => {}
+                        }
+                    });
+
+                    let sourceMapError;
+
+                    babelDevTranspilerInstance = stubbedDevTranspiler(
+                        exampleDir,
+                        Object.assign({}, babelDevTranspilerOptions, {
+                            babelOptions: {
+                                sourceMaps: true
+                            },
+                            logger: Object.assign({}, stubLogger, {
+                                error: (err) => (sourceMapError = err)
+                            })
+                        }, coverageOptions)
+                    );
+
+                    co(function* () {
+                        const result = yield babelDevTranspilerInstance.call({
+                            request: {
+                                url: exampleApplicationPath
+                            },
+                            response: {}
+                        }, (next) => next());
+
+                        return result;
+                    })
+                        .then(() => setTimeout(() => {
+                            expect(pathExists.sync(exampleApplicationMapPath))
+                                .to.be.false;
+
+                            expect(sourceMapError)
+                                .to.exist;
+
+                            expect(sourceMapError)
+                                .to.be.an.instanceof(Error);
+
+                            expect(sourceMapError.message)
+                                .to.equal(stubError.message);
+
+                            done();
+                        }, writeDelay))
+                        .catch(e => done(e));
+                });
+            });
+
+            context("code coverage", () => {
+                beforeEach(() => {
+                    fs.removeSync(path.join(exampleDir, "public"));
+                });
 
                 it("includes coverage instrumentation", (done) => {
                     babelDevTranspilerInstance = babelDevTranspiler(

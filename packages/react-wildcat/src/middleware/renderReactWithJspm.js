@@ -4,83 +4,47 @@ module.exports = function renderReactWithJspm(root, options) {
     const logger = options.logger;
     const wildcatConfig = options.wildcatConfig;
 
-    const customLoader = require("../utils/customJspmLoader")(root, wildcatConfig);
-    const hotReloaderWebSocket = require("../utils/hotReloaderWebSocket");
-    const __PROD__ = (process.env.NODE_ENV === "production");
+    const generalSettings = wildcatConfig.generalSettings;
+    const serverSettings = wildcatConfig.serverSettings;
 
-    let isCustomized = false;
+    const customJspmLoader = require("../utils/customJspmLoader");
 
-    function customizeJspmLoader() {
-        if (isCustomized) {
-            return Promise.resolve(customLoader);
-        }
-
-        const generalSettings = wildcatConfig.generalSettings;
-        const serverSettings = wildcatConfig.serverSettings;
-
-        // store the old normalization function
-        const systemNormalize = customLoader.normalize;
+    function pageHandler(request, cookies) {
+        const customizedLoader = customJspmLoader(root, options);
 
         // Load remote config
         return Promise.all([
-            customLoader.import(generalSettings.jspmConfigFile),
-            serverSettings.hotReload ? customLoader.import(serverSettings.hotReloader) : Promise.resolve()
+            customizedLoader.import(generalSettings.jspmConfigFile),
+            serverSettings.hotReload ? customizedLoader.import(serverSettings.hotReloader) : Promise.resolve()
         ])
             .then(function jspmConfigImportHandler(responses) {
                 const HotReloader = responses[1];
 
                 if (HotReloader) {
                     const hotReloader = new HotReloader({
-                        customLoader,
+                        customizedLoader,
                         logger
                     });
 
                     if (typeof serverSettings.hotReloadReporter === "function") {
                         serverSettings.hotReloadReporter(hotReloader, generalSettings.staticUrl);
                     } else {
+                        const hotReloaderWebSocket = require("../utils/hotReloaderWebSocket");
+
                         const socketUrl = generalSettings.staticUrl.replace(/http/, "ws");
                         hotReloaderWebSocket(hotReloader, socketUrl);
                     }
                 }
-
-                // FIXME: Possibly not needed in jspm 0.17
-                // override the normalization function
-                function customNormalize(name, parentName, parentAddress) {
-                    return systemNormalize.call(this, name, parentName, parentAddress).then(
-                        function normalizeCallback(url) {
-                            if ((/\.(?:css|eot|gif|jpe?g|json|otf|png|swf|svg|ttf|woff)\.js$/).test(url)) {
-                                return url.replace(/\.js$/, "");
-                            }
-
-                            return url;
-                        }
-                    );
-                }
-
-                customLoader.config({
-                    normalize: customNormalize
-                });
-
-                isCustomized = true;
-                return customLoader;
-            });
-    }
-
-    function pageHandler(request, cookies) {
-        // Set up jspm to use our custom fetch implementation
-        return customizeJspmLoader(wildcatConfig)
-            .then(function customJspmLoader(loader) {
-                // Store a pristine package array to map packages to page requests
-                const serverSettings = wildcatConfig.serverSettings;
-
+            })
+            .then(function customizedJspmLoader() {
                 // Load the server files from the current file system
                 const entry = serverSettings.entry;
                 const renderHandler = serverSettings.renderHandler;
 
                 return Promise.all([
                     // Entry value can be an async import, a hash of options, or falsy
-                    (typeof entry === "string") ? loader.import(entry) : Promise.resolve(entry),
-                    loader.import(renderHandler)
+                    (typeof entry === "string") ? customizedLoader.import(entry) : Promise.resolve(entry),
+                    customizedLoader.import(renderHandler)
                 ])
                     .then(function serverEntry(responses) {
                         // First response is a hash of project options
@@ -100,28 +64,28 @@ module.exports = function renderReactWithJspm(root, options) {
                             // Return the original reply
                             reply
                         };
-                    })
-                    .catch(function serverError(err) {
-                        logger.error(err.stack || err);
-
-                        if (!__PROD__) {
-                            const blueBoxOfDeath = require("../utils/blueBoxOfDeath");
-
-                            return {
-                                reply: {
-                                    error: blueBoxOfDeath(err, request),
-                                    status: 500
-                                }
-                            };
-                        }
-
-                        return {
-                            reply: {
-                                error: err.stack || err,
-                                status: 500
-                            }
-                        };
                     });
+            })
+            .catch(function serverError(err) {
+                logger.error(err.stack || err);
+
+                if (serverSettings.displayBlueBoxOfDeath) {
+                    const blueBoxOfDeath = require("../utils/blueBoxOfDeath");
+
+                    return {
+                        reply: {
+                            error: blueBoxOfDeath(err, request),
+                            status: 500
+                        }
+                    };
+                }
+
+                return {
+                    reply: {
+                        error: err.stack || err,
+                        status: 500
+                    }
+                };
             });
     }
 

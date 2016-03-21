@@ -4,6 +4,8 @@ const pkg = require("../package.json");
 const cp = require("child_process");
 const path = require("path");
 const program = require("commander");
+const Logger = require("../src/utils/logger");
+const logger = new Logger("☁️");
 
 const childProcesses = [];
 
@@ -33,7 +35,4 @@ process.on("SIGINT", function () {
     killAllChildProcesses("SIGINT");
 });
 
-process.on("uncaughtException", function (e) {
-    killAllChildProcesses("SIGINT");
-    throw e;
-});
+process.on("uncaughtException", e => logger.error(e.stack));

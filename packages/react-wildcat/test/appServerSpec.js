@@ -340,6 +340,7 @@ describe("react-wildcat", () => {
                                         },
                                         wildcatConfig: Object.assign({}, wildcatConfig, {
                                             serverSettings: {
+                                                displayBlueBoxOfDeath: (currentEnv !== "production"),
                                                 entry: "stubEntry.js",
                                                 hotReloader: false,
                                                 renderHandler: "stubRenderHandler.js"

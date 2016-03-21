@@ -8,6 +8,8 @@ const pathResolve = require("resolve-path");
 module.exports = function babelDevTranspiler(root, options) {
     "use strict";
 
+    const temporaryCache = new Map();
+
     const babelOptions = options.babelOptions;
     const binDir = options.binDir;
     const coverage = options.coverage;
@@ -50,14 +52,12 @@ module.exports = function babelDevTranspiler(root, options) {
         instrumenter = new Istanbul.Instrumenter(instrumentationSettings);
     }
 
-    /* istanbul ignore next */
     function addSourceMappingUrl(code, loc) {
         return code + "\n//# sourceMappingURL=" + path.basename(loc);
     }
 
     function* _babelDevTranspiler(ctx, pathOptions) {
         const babel = require("babel-core");
-        const res = ctx.response;
 
         const modulePath = pathOptions.modulePath;
         const moduleSourcePath = pathOptions.moduleSourcePath;
@@ -73,34 +73,36 @@ module.exports = function babelDevTranspiler(root, options) {
         const relOut = chalk.styles.grey.open + modulePath.replace(`${root}`, "") + chalk.styles.grey.close;
         const prettyLog = `${statusCode} CREATE ${relOut}`;
 
-        return new Promise(function transpilerPromise(resolve, reject) {
+        if (temporaryCache.has(modulePath)) {
+            return temporaryCache.get(modulePath);
+        }
+
+        const transpilerPromise = new Promise(function transpilerPromise(resolve, reject) {
             if (extensions.indexOf(path.extname(moduleSourcePath)) !== -1) {
                 babel.transformFile(moduleSourcePath, dataOptions, function transformFile(transformErr, data) {
-                    /* istanbul ignore next */
                     if (transformErr) {
                         logger.error(transformErr);
                         return reject(transformErr);
                     }
 
-                    /* istanbul ignore next */
                     if (data.ignored) {
                         return resolve();
                     }
 
-                    /* istanbul ignore next */
                     const sourceMaps = babelOptions.sourceMaps || ((babelOptions.env || {}).development || {}).sourceMaps;
 
-                    /* istanbul ignore next */
                     if (data.map && sourceMaps && sourceMaps !== "inline") {
                         const mapLoc = modulePath + ".map";
                         data.code = addSourceMappingUrl(data.code, mapLoc);
 
                         fs.createOutputStream(mapLoc)
+                            .on("open", function outputStreamOpen() {
+                                if (logLevel > 1) {
+                                    logger.meta(prettyLog);
+                                }
+                            })
                             .on("error", function outputStreamError(outputErr) {
-                                /* istanbul ignore next */
                                 logger.error(outputErr);
-                                /* istanbul ignore next */
-                                return reject(outputErr);
                             })
                             .end(JSON.stringify(data.map));
                     }
@@ -133,25 +135,39 @@ module.exports = function babelDevTranspiler(root, options) {
 
                     instrumentedCodePromise
                         .then(function instrumentedCodeResult(code) {
-                            res.type = "application/x-es-module";
-                            res.length = code.length;
-                            res.body = code;
-                            res.status = 200;
-
-                            if (logLevel > 1) {
-                                logger.meta(prettyLog);
-                            }
+                            const res = {
+                                type: "application/x-es-module",
+                                length: code.length,
+                                body: code,
+                                status: 200
+                            };
 
                             fs.createOutputStream(modulePath)
+                                .on("open", function outputStreamOpen() {
+                                    if (logLevel > 1) {
+                                        logger.meta(prettyLog);
+                                    }
+                                })
                                 .on("error", function outputStreamError(outputErr) {
-                                    /* istanbul ignore next */
+                                    // Disk write error, delete the temporary cache
+                                    temporaryCache.delete(modulePath);
                                     logger.error(outputErr);
+                                })
+                                .on("finish", function outputStreamFinish() {
+                                    // Disk write complete, delete the temporary cache
+                                    temporaryCache.delete(modulePath);
                                 })
                                 .end(code);
 
-                            return resolve(modulePath);
+                            // Code is available before disk write, update the temporary cache
+                            temporaryCache.set(modulePath, Promise.resolve(res));
+                            return resolve(res);
                         })
                         .catch(function instrumentedCodeError(err) {
+                            // Disk write error, delete the temporary cache
+                            temporaryCache.delete(modulePath);
+
+                            logger.error(err);
                             return reject(err);
                         });
                 });
@@ -159,53 +175,65 @@ module.exports = function babelDevTranspiler(root, options) {
                 const importable = `module.exports = "${origin}${moduleBinPath.replace(`${root}`, "")}";`;
 
                 Promise.all([
-                    new Promise(function importablePromise(resolveImportable) {
-                        res.type = "application/x-es-module";
-                        res.length = importable.length;
-                        res.body = importable;
-                        res.status = 200;
+                    new Promise(function importablePromise(resolveImportable, rejectImportable) {
+                        const res = {
+                            type: "application/x-es-module",
+                            length: importable.length,
+                            body: importable,
+                            status: 200
+                        };
 
                         fs.createOutputStream(modulePath)
                             .on("error", function importableStreamError(outputErr) {
-                                /* istanbul ignore next */
                                 logger.error(outputErr);
+                                return rejectImportable(outputErr);
+                            })
+                            .on("finish", function importableStreamFinish() {
+                                return resolveImportable(res);
                             })
                             .end(importable);
-
-                        return resolveImportable(modulePath);
                     }),
 
                     new Promise(function binaryPromise(resolveBinary, rejectBinary) {
                         fs.createReadStream(moduleSourcePath)
                             .pipe(
                                 fs.createOutputStream(moduleBinPath || modulePath)
-                                    .on("error", function binaryStreamError(outputErr) {
-                                        /* istanbul ignore next */
-                                        logger.error(outputErr);
-                                        /* istanbul ignore next */
-                                        return rejectBinary(outputErr);
-                                    })
-                                    .on("finish", function binaryStreamFinish() {
+                                    .on("open", function binaryStreamOpen() {
                                         if (logLevel > 1) {
                                             logger.meta(prettyLog);
                                         }
+                                    })
+                                    .on("error", function binaryStreamError(outputErr) {
+                                        logger.error(outputErr);
+                                        return rejectBinary(outputErr);
+                                    })
+                                    .on("finish", function binaryStreamFinish() {
                                         return resolveBinary(moduleBinPath || modulePath);
                                     })
                             );
                     })
                 ])
-                    .then(function promiseResolve() {
-                        return resolve(moduleBinPath || modulePath);
+                    .then(function promiseResolve(promises) {
+                        // Disk write complete, delete the temporary cache
+                        temporaryCache.delete(modulePath);
+                        return resolve(promises[0]);
                     })
                     .catch(function promiseError(err) {
+                        // Disk write error, delete the temporary cache
+                        temporaryCache.delete(modulePath);
                         return reject(err);
                     });
             }
         });
+
+        // Save the data to a temporary cache, useful to avoid multiple writes to disk
+        temporaryCache.set(modulePath, transpilerPromise);
+        return transpilerPromise;
     }
 
     return function* transpile(next) {
         const request = this.request;
+        const res = this.response;
 
         if (!request.url.startsWith(`/${outDir}`)) {
             return yield next;
@@ -219,12 +247,14 @@ module.exports = function babelDevTranspiler(root, options) {
             const moduleBinPath = pathResolve(root, relativePath.replace(outDir, binDir));
 
             if (pathExists.sync(moduleSourcePath)) {
-                yield _babelDevTranspiler(this, {
+                const data = yield _babelDevTranspiler(this, {
                     modulePath: modulePath,
                     moduleSourcePath: moduleSourcePath,
                     moduleBinPath: moduleBinPath,
                     relativePath: relativePath
                 });
+
+                Object.assign(res, data);
             }
         }
 

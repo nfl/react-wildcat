@@ -1,21 +1,57 @@
 "use strict";
 
-const jspm = require("jspm");
-const baseURL = require("./baseURI");
+let customizedLoader;
 
-let customLoader;
+function customizeJspmLoader(root, options) {
+    const path = require("path");
 
-module.exports = function customJspmLoader(root, wildcatConfig) {
-    if (!customLoader) {
-        jspm.setPackagePath(root);
+    const pkg = require(path.join(root, "package.json"));
+    const jspm = require("jspm");
+    const baseURL = require("./baseURI");
 
-        customLoader = jspm.Loader();
-        customLoader.baseURL = baseURL;
+    const wildcatConfig = options.wildcatConfig;
+    const serverSettings = wildcatConfig.serverSettings;
 
-        if (wildcatConfig.serverSettings.hotReload) {
-            customLoader.trace = true;
-        }
+    const jspmLoader = jspm.Loader();
+
+    // store the old normalization function
+    const systemNormalize = jspmLoader.normalize;
+    const packagesPath = ((pkg.jspm || {}).directories || {}).packages || "jspm_packages";
+
+    jspm.setPackagePath(root);
+
+    // override the normalization function
+    function customNormalize(name, parentName, parentAddress) {
+        return systemNormalize.call(this, name, parentName, parentAddress).then(
+            function normalizeCallback(url) {
+                // ~~~~~~~~~~~ DO NOT DELETE ~~~~~~~~~~~
+                // Set up jspm to use our custom fetch implementation
+                if (serverSettings.localPackageCache && !url.includes(packagesPath)) {
+                    url = url.replace(jspmLoader.baseURL, `${baseURL}/`);
+                }
+                // ~~~~~~~~~~~ DO NOT DELETE ~~~~~~~~~~~
+
+                // FIXME: Possibly not needed in jspm 0.17
+                if ((/\.(?:css|eot|gif|jpe?g|json|otf|png|swf|svg|ttf|woff)\.js$/).test(url)) {
+                    return url.replace(/\.js$/, "");
+                }
+
+                return url;
+            }
+        );
     }
 
-    return customLoader;
+    // Add custom configuration
+    jspmLoader.config({
+        normalize: customNormalize,
+        trace: !!serverSettings.hotReloader
+    });
+
+    // Make our custom jspm loader available
+    customizedLoader = jspmLoader;
+    return customizedLoader;
+}
+
+module.exports = function customJspmLoader(root, options) {
+    return customizedLoader || customizeJspmLoader(root, options);
 };
