@@ -81,8 +81,6 @@ function start() {
         } else {
             const app = koa();
 
-            app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
-
             // enable cors
             app.use(cors({
                 origin: function origin(ctx) {
@@ -101,6 +99,11 @@ function start() {
                 }
             }));
 
+            // add gzip
+            app.use(compress());
+
+            app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
+
             /* istanbul ignore else */
             if (!__PROD__ || __TEST__) {
                 app.use(babelDevTranspiler(cwd, {
@@ -116,9 +119,6 @@ function start() {
                     sourceDir: serverSettings.sourceDir
                 }));
             }
-
-            // add gzip
-            app.use(compress());
 
             // serve statics
             app.use(fileServer);
