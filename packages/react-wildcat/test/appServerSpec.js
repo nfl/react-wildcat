@@ -17,6 +17,20 @@ describe("react-wildcat", () => {
     const exampleDir = path.join(cwd, "example");
     const customEmoji = "🏈";
 
+    const NullConsoleLogger = (() => {
+        function Logger() {}
+
+        Logger.prototype = {
+            info: () => {},
+            meta: () => {},
+            ok: () => {},
+            warn: () => {},
+            error: () => {}
+        };
+
+        return Logger;
+    })();
+
     before(() => {
         process.chdir(exampleDir);
     });
@@ -260,19 +274,7 @@ describe("react-wildcat", () => {
 
                         return config;
                     },
-                    "./utils/logger": (() => {
-                        function Logger() {}
-
-                        Logger.prototype = {
-                            info: () => {},
-                            meta: () => {},
-                            ok: () => {},
-                            warn: () => {},
-                            error: () => {}
-                        };
-
-                        return Logger;
-                    })()
+                    "./utils/logger": NullConsoleLogger
                 });
 
                 staticServer.start()
@@ -473,19 +475,7 @@ describe("react-wildcat", () => {
 
                         return defaultConfig;
                     },
-                    "./utils/logger": (() => {
-                        function Logger() {}
-
-                        Logger.prototype = {
-                            info: () => {},
-                            meta: () => {},
-                            ok: () => {},
-                            warn: () => {},
-                            error: () => {}
-                        };
-
-                        return Logger;
-                    })()
+                    "./utils/logger": NullConsoleLogger
                 });
 
                 server.start()
@@ -650,19 +640,7 @@ describe("react-wildcat", () => {
 
                                 return defaultConfig;
                             },
-                            "./utils/logger": (() => {
-                                function Logger() {}
-
-                                Logger.prototype = {
-                                    info: () => {},
-                                    meta: () => {},
-                                    ok: () => {},
-                                    warn: () => {},
-                                    error: () => {}
-                                };
-
-                                return Logger;
-                            })()
+                            "./utils/logger": NullConsoleLogger
                         });
 
                         expect(server)
