@@ -329,10 +329,14 @@ describe("react-wildcat", () => {
                     });
 
                     context(currentEnv, () => {
+                        const isCurrentlyProd = (currentEnv === "production");
+
                         before(() => {
                             process.env.NODE_ENV = currentEnv;
                             wildcatConfig.generalSettings.logLevel = 0;
-                            wildcatConfig.serverSettings.localPackageCache = (currentEnv === "production");
+                            wildcatConfig.serverSettings.hotReloader = "react-wildcat-hot-reloader";
+                            wildcatConfig.serverSettings.hotReloadReporter = isCurrentlyProd ? () => {} : false;
+                            wildcatConfig.serverSettings.localPackageCache = isCurrentlyProd;
                         });
 
                         renderTypes.forEach((render) => {
@@ -345,10 +349,11 @@ describe("react-wildcat", () => {
                                         },
                                         wildcatConfig: Object.assign({}, wildcatConfig, {
                                             serverSettings: {
-                                                displayBlueBoxOfDeath: (currentEnv !== "production"),
+                                                displayBlueBoxOfDeath: !isCurrentlyProd,
                                                 entry: "stubEntry.js",
                                                 hotReloader: false,
-                                                localPackageCache: (currentEnv === "production"),
+                                                hotReloadReporter: false,
+                                                localPackageCache: isCurrentlyProd,
                                                 renderHandler: "stubRenderHandler.js"
                                             }
                                         })
