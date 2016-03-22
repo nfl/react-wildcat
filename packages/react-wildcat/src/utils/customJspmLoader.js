@@ -14,6 +14,11 @@ function customizeJspmLoader(root, options) {
 
     const jspmLoader = jspm.Loader();
 
+    /* istanbul ignore else */
+    if (!serverSettings.localPackageCache) {
+        jspmLoader.baseURL = baseURL;
+    }
+
     // store the old normalization function
     const systemNormalize = jspmLoader.normalize;
     const packagesPath = ((pkg.jspm || {}).directories || {}).packages || "jspm_packages";
