@@ -45,11 +45,18 @@ function start() {
     const __TEST__ = (process.env.BABEL_ENV === "test");
     const __DEBUG__ = (process.env.DEBUG);
 
-    let cpuCount = os.cpus().length;
+    let cpuCount = (appServerSettings && appServerSettings.maxClusterCpuCount) || Infinity;
+
+    if (cpuCount === Infinity) {
+        cpuCount = os.cpus().length;
+    }
 
     /* istanbul ignore else */
     if (!__PROD__ || __TEST__) {
         https.globalAgent.options.rejectUnauthorized = false;
+    }
+
+    if (__TEST__ && !wildcatConfig.__ClusterServerTest__) {
         cpuCount = 1;
     }
 
@@ -64,6 +71,10 @@ function start() {
 
             cluster.on("exit", function clusterExit(worker, code, signal) {
                 logger.warn(`worker ${worker.process.pid} has died (code: ${code}) (signal: ${signal})`);
+            });
+
+            resolve({
+                clusterForksCount: cpuCount
             });
         } else {
             /* istanbul ignore next */
@@ -175,7 +186,9 @@ Middleware at serverSettings.appServer.middleware[${index}] could not be correcl
 }
 
 function close() {
-    return server.close();
+    if (server && server.close) {
+        server.close();
+    }
 }
 
 exports.start = start;

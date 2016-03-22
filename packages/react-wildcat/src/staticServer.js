@@ -42,7 +42,12 @@ function start() {
     const __TEST__ = (process.env.BABEL_ENV === "test");
 
     let babelOptions = {};
-    let cpuCount = os.cpus().length;
+
+    let cpuCount = (staticServerSettings && staticServerSettings.maxClusterCpuCount) || Infinity;
+
+    if (cpuCount === Infinity) {
+        cpuCount = os.cpus().length;
+    }
 
     /* istanbul ignore else */
     if (!__PROD__ || __TEST__) {
@@ -54,6 +59,9 @@ function start() {
         }
 
         https.globalAgent.options.rejectUnauthorized = false;
+    }
+
+    if (__TEST__ && !wildcatConfig.__ClusterServerTest__) {
         cpuCount = 1;
     }
 
@@ -77,6 +85,10 @@ function start() {
 
             cluster.on("exit", function clusterExit(worker, code, signal) {
                 logger.warn(`worker ${worker.process.pid} has died (code: ${code}) (signal: ${signal})`);
+            });
+
+            resolve({
+                clusterForksCount: cpuCount
             });
         } else {
             const app = koa();
@@ -188,7 +200,9 @@ function start() {
 }
 
 function close() {
-    return server.close();
+    if (server && server.close) {
+        return server.close();
+    }
 }
 
 exports.start = start;

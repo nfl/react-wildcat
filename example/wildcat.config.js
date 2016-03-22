@@ -119,6 +119,10 @@ const wildcatConfig = {
             // App server port
             port: getPort(process.env.PORT, 3000),
 
+            // number to limit the max number of CPU's
+            // to spin up on a cluster
+            maxClusterCpuCount: Infinity, // Infinity === as many CPU's as the machine has
+
             middleware: [
                 // EXAMPLE:
                 require("./api/sampleServerOnlyApi")
@@ -164,7 +168,11 @@ const wildcatConfig = {
             hostname: "localhost",
 
             // Static server port
-            port: getPort(process.env.STATIC_PORT, 4000)
+            port: getPort(process.env.STATIC_PORT, 4000),
+
+            // number to limit the max number of CPU's
+            // to spin up on a cluster
+            maxClusterCpuCount: Infinity // Infinity === as many CPU's as the machine has
 
             // Only applicable when one of http2/https is true
             // https://github.com/indutny/node-spdy#options

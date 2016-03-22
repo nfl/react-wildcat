@@ -6,17 +6,34 @@ const co = require("co");
 
 const chai = require("chai");
 const expect = chai.expect;
+const sinon = require("sinon");
 
 const cwd = process.cwd();
 const path = require("path");
 const pathExists = require("path-exists");
 // const nexpect = require("nexpect");
+const os = require("os");
 
+const cluster = require("cluster");
 const proxyquire = require("proxyquire");
 
 /* eslint-disable max-nested-callbacks */
 describe("react-wildcat", () => {
     const exampleDir = path.join(cwd, "example");
+
+    const NullConsoleLogger = (() => {
+        function Logger() {}
+
+        Logger.prototype = {
+            info: () => {},
+            meta: () => {},
+            ok: () => {},
+            warn: () => {},
+            error: () => {}
+        };
+
+        return Logger;
+    })();
 
     before(() => {
         process.chdir(exampleDir);
@@ -1006,6 +1023,88 @@ describe("react-wildcat", () => {
                         }, writeDelay))
                         .catch(e => done(e));
                 });
+            });
+        });
+    });
+
+
+    context("cluster", ()=> {
+        context("When attempting to start a cluster of static servers", function () {
+            this.timeout(30000);
+
+            let clusterForkStub;
+            let server;
+            beforeEach(() => {
+                clusterForkStub = sinon.stub(cluster, 'fork');
+            });
+
+            afterEach(() => {
+                clusterForkStub.restore();
+                server && server.close && server.close();
+            });
+
+            it(`maxClusterCpuCount defined as 1 should only start one server`, (done) => {
+                server = proxyquire("../src/staticServer.js", {
+                    "./utils/getWildcatConfig": () => {
+                        const defaultConfig = require("../src/utils/getWildcatConfig")();
+                        defaultConfig.serverSettings.staticServer.maxClusterCpuCount = 1;
+                        return defaultConfig;
+                    },
+                    "./utils/logger": NullConsoleLogger
+                });
+
+                server.start()
+                    .then(result => {
+                        expect(result.clusterForksCount).to.equal(1);
+
+                        sinon.assert.callCount(clusterForkStub, 1);
+
+                        done();
+                    }, done);
+            });
+
+            it(`maxClusterCpuCount=2 should start 2 servers`, (done) => {
+                server = proxyquire("../src/staticServer.js", {
+                    "./utils/getWildcatConfig": () => {
+                        const defaultConfig = require("../src/utils/getWildcatConfig")();
+                        defaultConfig.serverSettings.staticServer.maxClusterCpuCount = 2;
+
+                        defaultConfig.__ClusterServerTest__ = true;
+
+                        return defaultConfig;
+                    },
+                    "./utils/logger": NullConsoleLogger
+                });
+
+                server.start()
+                    .then(result => {
+                        expect(result.clusterForksCount).to.equal(2);
+
+                        sinon.assert.callCount(clusterForkStub, 2);
+                    })
+                    .then(done, done);
+            });
+
+
+            it(`maxClusterCpuCount defined as Infinity should start as many servers as machine CPUs`, (done) => {
+                server = proxyquire("../src/staticServer.js", {
+                    "./utils/getWildcatConfig": () => {
+                        const defaultConfig = require("../src/utils/getWildcatConfig")();
+                        defaultConfig.serverSettings.staticServer.maxClusterCpuCount = Infinity;
+                        defaultConfig.__ClusterServerTest__ = true;
+                        return defaultConfig;
+                    },
+                    "./utils/logger": NullConsoleLogger
+                });
+
+                server.start()
+                    .then(result => {
+                        expect(result.clusterForksCount).to.equal(os.cpus().length);
+
+                        sinon.assert.callCount(clusterForkStub, os.cpus().length);
+
+                        done();
+                    }, done);
             });
         });
     });
