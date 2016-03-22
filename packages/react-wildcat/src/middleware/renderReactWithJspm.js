@@ -9,33 +9,42 @@ module.exports = function renderReactWithJspm(root, options) {
 
     const customJspmLoader = require("../utils/customJspmLoader");
 
-    function pageHandler(request, cookies) {
-        const customizedLoader = customJspmLoader(root, options);
+    let isBootstrapped = false;
+    let hotReloaderInstance;
 
-        // Load remote config
-        return Promise.all([
+    function bootstrapLoader(customizedLoader) {
+        return isBootstrapped ? Promise.resolve() : Promise.all([
             customizedLoader.import(generalSettings.jspmConfigFile),
             serverSettings.hotReload ? customizedLoader.import(serverSettings.hotReloader) : Promise.resolve()
         ])
             .then(function jspmConfigImportHandler(responses) {
                 const HotReloader = responses[1];
 
-                if (HotReloader) {
-                    const hotReloader = new HotReloader({
+                if (HotReloader && !hotReloaderInstance) {
+                    hotReloaderInstance = new HotReloader({
                         customizedLoader,
                         logger
                     });
 
                     if (typeof serverSettings.hotReloadReporter === "function") {
-                        serverSettings.hotReloadReporter(hotReloader, generalSettings.staticUrl);
+                        serverSettings.hotReloadReporter(hotReloaderInstance, generalSettings.staticUrl);
                     } else {
                         const hotReloaderWebSocket = require("../utils/hotReloaderWebSocket");
 
                         const socketUrl = generalSettings.staticUrl.replace(/http/, "ws");
-                        hotReloaderWebSocket(hotReloader, socketUrl);
+                        hotReloaderWebSocket(hotReloaderInstance, socketUrl);
                     }
                 }
-            })
+
+                isBootstrapped = true;
+            });
+    }
+
+    function pageHandler(request, cookies) {
+        const customizedLoader = customJspmLoader(root, options);
+
+        // Load remote config
+        return bootstrapLoader(customizedLoader)
             .then(function customizedJspmLoader() {
                 // Load the server files from the current file system
                 const entry = serverSettings.entry;
