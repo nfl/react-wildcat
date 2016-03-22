@@ -1,3 +1,18 @@
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/nfl/react-wildcat/compare/2.1.1...v2.2.0) (2016-03-22)
+
+
+### Features
+
+* **react-wildcat:** Add config value to control clustering on app server ([2a183dd](https://github.com/nfl/react-wildcat/commit/2a183dd))
+* **react-wildcat:** Add config value to control clustering on static server ([58f5297](https://github.com/nfl/react-wildcat/commit/58f5297))
+
+### Performance Improvements
+
+* **react-wildcat:** Cache the initial server jspm bootstrap ([19809d2](https://github.com/nfl/react-wildcat/commit/19809d2))
+
+
+
 <a name="2.1.1"></a>
 ## [2.1.1](https://github.com/nfl/react-wildcat/compare/2.1.0...v2.1.1) (2016-03-22)
 
