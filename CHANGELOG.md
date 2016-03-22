@@ -1,3 +1,13 @@
+<a name="2.1.1"></a>
+## [2.1.1](https://github.com/nfl/react-wildcat/compare/2.1.0...v2.1.1) (2016-03-22)
+
+
+### Bug Fixes
+
+* **react-wildcat:** Fetch all files remotely if localPackageCache is disabled ([a18ff3e](https://github.com/nfl/react-wildcat/commit/a18ff3e))
+
+
+
 <a name="2.1.0"></a>
 # [2.1.0](https://github.com/nfl/react-wildcat/compare/2.0.2...v2.1.0) (2016-03-21)
 
