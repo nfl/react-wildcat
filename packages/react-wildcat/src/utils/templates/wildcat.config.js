@@ -125,6 +125,10 @@ const wildcatConfig = {
             // App server port
             port: 3000,
 
+            // number to limit the max number of CPU's
+            // to spin up on a cluster
+            maxClusterCpuCount: Infinity, // Infinity === as many CPU's as the machine has
+
             middleware: [
                 // EXAMPLE: sample server-only api route.
                 //
@@ -175,6 +179,10 @@ const wildcatConfig = {
 
             // Static server port
             port: 4000,
+
+            // number to limit the max number of CPU's
+            // to spin up on a cluster
+            maxClusterCpuCount: Infinity, // Infinity === as many CPU's as the machine has
 
             // Only applicable when protocol is one of http2 / https
             // https://github.com/indutny/node-spdy#options
