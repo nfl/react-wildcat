@@ -328,6 +328,7 @@ describe("react-wildcat", () => {
                         before(() => {
                             process.env.NODE_ENV = currentEnv;
                             wildcatConfig.generalSettings.logLevel = 0;
+                            wildcatConfig.serverSettings.localPackageCache = (currentEnv === "production");
                         });
 
                         renderTypes.forEach((render) => {
@@ -343,6 +344,7 @@ describe("react-wildcat", () => {
                                                 displayBlueBoxOfDeath: (currentEnv !== "production"),
                                                 entry: "stubEntry.js",
                                                 hotReloader: false,
+                                                localPackageCache: (currentEnv === "production"),
                                                 renderHandler: "stubRenderHandler.js"
                                             }
                                         })
