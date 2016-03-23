@@ -248,10 +248,10 @@ module.exports = function babelDevTranspiler(root, options) {
 
             if (pathExists.sync(moduleSourcePath)) {
                 const data = yield _babelDevTranspiler(this, {
-                    modulePath: modulePath,
-                    moduleSourcePath: moduleSourcePath,
-                    moduleBinPath: moduleBinPath,
-                    relativePath: relativePath
+                    modulePath,
+                    moduleSourcePath,
+                    moduleBinPath,
+                    relativePath
                 });
 
                 Object.assign(res, data);
