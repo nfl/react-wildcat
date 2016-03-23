@@ -38,13 +38,13 @@ test: lint
 test-example:
 	./shell/test-example.sh
 
-test-browser-cov:
-	./shell/test-browser-cov.sh
+test-browser:
+	./shell/test-browser.sh
 
-test-node-cov:
-	./shell/test-node-cov.sh
+test-node:
+	./shell/test-node.sh
 
-test-cov: clean-coverage test-node-cov test-browser-cov combine-coverage
+test-cov: clean-coverage test-node test-browser combine-coverage
 
 test-travis: bootstrap install-example lint test-cov
 
