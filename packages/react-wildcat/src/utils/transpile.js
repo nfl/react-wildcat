@@ -2,7 +2,8 @@ const fs = require("fs-extra");
 const path = require("path");
 const minimatch = require("minimatch");
 
-const prettyLog = require("./prettyLog");
+const logCreateSuccess = require("./logCreateSuccess");
+const logTransformError = require("./logTransformError");
 
 function addSourceMappingUrl(code, loc) {
     "use strict";
@@ -63,7 +64,7 @@ module.exports = function transpile(options, resolve, reject) {
 
     babel.transformFile(moduleSourcePath, dataOptions, function transformFile(transformErr, data) {
         if (transformErr) {
-            logger.error(transformErr);
+            logger.error(logTransformError(transformErr));
             return reject(transformErr);
         }
 
@@ -80,7 +81,7 @@ module.exports = function transpile(options, resolve, reject) {
             fs.createOutputStream(mapLoc)
                 .on("open", function outputStreamOpen() {
                     if (logLevel > 1) {
-                        logger.meta(prettyLog(modulePath));
+                        logger.meta(logCreateSuccess(modulePath));
                     }
                 })
                 .on("error", function outputStreamError(outputErr) {
@@ -127,7 +128,7 @@ module.exports = function transpile(options, resolve, reject) {
                 fs.createOutputStream(modulePath)
                     .on("open", function outputStreamOpen() {
                         if (logLevel > 1) {
-                            logger.meta(prettyLog(modulePath));
+                            logger.meta(logCreateSuccess(modulePath));
                         }
                     })
                     .on("error", function outputStreamError(outputErr) {

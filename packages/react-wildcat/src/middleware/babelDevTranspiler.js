@@ -3,7 +3,7 @@ const path = require("path");
 const pathExists = require("path-exists");
 const pathResolve = require("resolve-path");
 
-const prettyLog = require("../utils/prettyLog");
+const logCreateSuccess = require("../utils/logCreateSuccess");
 const transpile = require("../utils/transpile");
 
 module.exports = function babelDevTranspiler(root, options) {
@@ -82,7 +82,7 @@ module.exports = function babelDevTranspiler(root, options) {
                                 fs.createOutputStream(moduleBinPath || modulePath)
                                     .on("open", function binaryStreamOpen() {
                                         if (logLevel > 1) {
-                                            logger.meta(prettyLog(modulePath));
+                                            logger.meta(logCreateSuccess(modulePath));
                                         }
                                     })
                                     .on("error", function binaryStreamError(outputErr) {

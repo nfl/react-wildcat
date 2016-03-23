@@ -4,10 +4,8 @@ const fs = require("fs-extra");
 const cwd = process.cwd();
 const pkg = require("../../package.json");
 const path = require("path");
-// const slash = require("slash");
 const resolve = require("resolve");
 const notifier = require("node-notifier");
-// const minimatch = require("minimatch");
 const pathExists = require("path-exists");
 const pathResolve = require("resolve-path");
 
