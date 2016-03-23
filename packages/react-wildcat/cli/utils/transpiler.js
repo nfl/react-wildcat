@@ -38,7 +38,7 @@ if (pathExists.sync(babelRcPath)) {
     babelOptions = JSON.parse(fs.readFileSync(babelRcPath));
 }
 
-module.exports = function transpile(commander) {
+module.exports = function transpiler(commander) {
     const wildcatConfig = require("../../src/utils/getWildcatConfig")(cwd);
     const generalSettings = wildcatConfig.generalSettings;
     const serverSettings = wildcatConfig.serverSettings;

@@ -29,7 +29,7 @@ const util = babel.util;
 
 module.exports = function handleFile(commander) {
     const wildcatConfig = require("../../src/utils/getWildcatConfig")(cwd);
-    const transpile = require("./transpile")(commander);
+    const transpiler = require("./transpiler")(commander);
 
     function log(msg) {
         if (!commander.quiet) {
@@ -43,7 +43,7 @@ module.exports = function handleFile(commander) {
         }
 
         if (util.canCompile(filename, commander.extensions)) {
-            transpile(src, filename, done);
+            transpiler(src, filename, done);
         } else if (commander.copyFiles) {
             let rawDest;
 
