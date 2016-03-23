@@ -8,7 +8,7 @@ const pathExists = require("path-exists");
 const glob = require("glob");
 
 const Logger = require("../../src/utils/logger");
-const logger = new Logger("👀");
+const logger = new Logger("🔰");
 
 const availableCpus = require("os").cpus().length;
 const CHUNK_SIZE = 50;

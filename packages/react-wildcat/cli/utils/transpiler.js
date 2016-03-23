@@ -7,12 +7,14 @@ const path = require("path");
 // const slash = require("slash");
 const resolve = require("resolve");
 const notifier = require("node-notifier");
-const minimatch = require("minimatch");
+// const minimatch = require("minimatch");
 const pathExists = require("path-exists");
 const pathResolve = require("resolve-path");
 
 const Logger = require("../../src/utils/logger");
 const logger = new Logger("🔰");
+
+const transpile = require("../../src/utils/transpile");
 
 // Use project babel if found
 let babel;
@@ -43,47 +45,7 @@ module.exports = function transpiler(commander) {
     const generalSettings = wildcatConfig.generalSettings;
     const serverSettings = wildcatConfig.serverSettings;
     const coverageSettings = generalSettings.coverageSettings;
-    // const logLevel = generalSettings.logLevel;
-
     const coverage = generalSettings.coverage;
-    let instrumenter, instrumentationExcludes;
-
-    if (coverage) {
-        const coverageEnv = coverageSettings.env;
-        const coverageEnvSettings = coverageSettings[coverageEnv] || {};
-        const instrumentationSettings = coverageEnvSettings.instrumentation || {};
-
-        instrumentationExcludes = instrumentationSettings.excludes || [];
-
-        const coverageFiles = process.env.COVERAGE_FILES;
-        const suite = process.env.COVERAGE_SUITE;
-
-        if (coverageFiles) {
-            // Istanbul only supports excluding files,
-            // so the value of files must be converted to a negated exclusion
-            // i.e. --cover-files=foo.js,bar.js -> !{foo.js,bar.js}
-            const excludedFiles = [
-                coverageFiles.includes(",") ? `!{${coverageFiles.trim()}}` : `!${coverageFiles.trim()}`
-            ];
-
-            instrumentationExcludes = excludedFiles;
-        } else if (suite && instrumentationSettings.onSuiteExcludeCoverage) {
-            instrumentationExcludes = instrumentationExcludes.concat(
-                instrumentationSettings.onSuiteExcludeCoverage(suite)
-            );
-        }
-
-        const Istanbul = require("istanbul");
-        instrumenter = new Istanbul.Instrumenter(instrumentationSettings);
-    }
-
-    function logError(err) {
-        return `${err.name}: ${err.message}\n${err.codeFrame}`;
-    }
-
-    function addSourceMappingUrl(code, loc) {
-        return code + "\n//# sourceMappingURL=" + path.basename(loc);
-    }
 
     return function (src, relative, done) {
         // remove extension and then append back on .js
@@ -95,92 +57,44 @@ module.exports = function transpiler(commander) {
         const relativePath = path.join(outDir, relative);
         const modulePath = pathResolve(cwd, relativePath);
         const moduleSourcePath = pathResolve(cwd, relativePath.replace(outDir, sourceDir));
-        // const moduleBinPath = pathResolve(root, relativePath.replace(outDir, binDir));
+
+        const pathOptions = {
+            modulePath,
+            moduleSourcePath,
+            relativePath
+        };
 
         const dataOptions = Object.assign({}, babelOptions, {
             sourceFileName: moduleSourcePath,
             sourceMapTarget: path.basename(moduleSourcePath)
         });
 
-        babel.transformFile(src, dataOptions, function transformData(transformErr, data) {
-            if (transformErr) {
-                logger.error(logError(transformErr));
+        return new Promise((transpileResolve, transpileReject) => {
+            return transpile({
+                babel,
 
+                coverage,
+                coverageSettings,
+
+                babelOptions,
+                dataOptions,
+                pathOptions,
+
+                logger,
+                logLevel: 0
+            }, transpileResolve, transpileReject);
+        })
+            .then(() => done && done())
+            .catch(err => {
                 // Desktop notification
                 notifier.notify({
                     icon: path.resolve(__dirname, "./logo/nfl-engineering-light.png"),
-                    title: `${logger.id} ${transformErr.name} in ${pkg.name}`,
-                    message: transformErr.message,
+                    title: `${logger.id} ${err.name} in ${pkg.name}`,
+                    message: err.message,
                     sound: "Sosumi"
                 });
 
-                return done && done(transformErr);
-            }
-
-            if (data.ignored) {
-                return done && done();
-            }
-
-            const sourceMaps = babelOptions.sourceMaps || ((babelOptions.env || {}).development || {}).sourceMaps;
-
-            if (data.map && sourceMaps && sourceMaps !== "inline") {
-                const mapLoc = modulePath + ".map";
-                data.code = addSourceMappingUrl(data.code, mapLoc);
-
-                fs.createOutputStream(mapLoc)
-                    .on("error", function outputStreamError(outputErr) {
-                        logger.error(outputErr);
-                    })
-                    .end(JSON.stringify(data.map));
-            }
-
-            let instrumentedCodePromise;
-
-            if (
-                coverage &&
-                instrumenter &&
-                !instrumentationExcludes.some(minimatch.bind(null, relativePath))
-            ) {
-                instrumentedCodePromise = new Promise(
-                    function instrumenterPromise(resolveInstrumenter, rejectInstrumenter) {
-                        instrumenter.instrument(
-                            data.code,
-                            relativePath,
-                            function instrumentOutput(instrumentError, instrumentedCode) {
-                                if (instrumentError) {
-                                    return rejectInstrumenter(instrumentError);
-                                }
-
-                                return resolveInstrumenter(instrumentedCode);
-                            }
-                        );
-                    }
-                );
-            } else {
-                instrumentedCodePromise = Promise.resolve(data.code);
-            }
-
-            instrumentedCodePromise
-                .then(function instrumentedCodeResult(code) {
-                    fs.createOutputStream(modulePath)
-                        .on("error", function outputStreamError(outputErr) {
-                            logger.error(outputErr);
-                        })
-                        .end(code);
-
-                    return done && done();
-                })
-                .catch(function instrumentedCodeError(err) {
-                    logger.error(err);
-                    return done && done(err);
-                });
-
-            // fs.createOutputStream(dest)
-            //     .on("finish", function outputStreamFinish() {
-            //         log(src + " -> " + dest);
-            //         return done && done();
-            //     })
-            //     .end(data.code);
-        });
+                done && done(err);
+            });
     };
 };

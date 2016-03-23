@@ -6,7 +6,7 @@ const path = require("path");
 const resolve = require("resolve");
 
 const Logger = require("../../src/utils/logger");
-const logger = new Logger("👀");
+const logger = new Logger("🔰");
 
 // Use project babel if found
 let babel;
