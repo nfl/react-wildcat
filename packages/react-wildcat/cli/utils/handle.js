@@ -14,7 +14,7 @@ const availableCpus = require("os").cpus().length;
 const CHUNK_SIZE = 50;
 
 module.exports = function handle(commander) {
-    const write = require("./write")(commander);
+    const transpile = require("./transpile")(commander);
     const cpus = commander.cpus ? Math.min(availableCpus, commander.cpus) : availableCpus;
 
     function transpileFiles(err, files, src) {
@@ -91,7 +91,7 @@ module.exports = function handle(commander) {
                     }, (err, files) => transpileFiles(err, files, filename));
                 } else {
                     const currentDirectory = filename.replace(`${cwd}/`, "").split("/")[0];
-                    write(filename, filename.replace(`${currentDirectory}/`, ""));
+                    transpile(filename, filename.replace(`${currentDirectory}/`, ""));
                 }
             });
         });

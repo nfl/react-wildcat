@@ -36,7 +36,7 @@ if (pathExists.sync(babelRcPath)) {
     babelOptions = JSON.parse(fs.readFileSync(babelRcPath));
 }
 
-module.exports = function write(commander) {
+module.exports = function transpile(commander) {
     function log(msg) {
         if (!commander.quiet) {
             logger.meta(msg);
