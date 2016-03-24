@@ -8,6 +8,8 @@ module.exports = function (karmaConfig) {
         return browser.toLowerCase().split(/[ /-]/)[0];
     }
 
+    const timeout = process.ev.CI ? 60000 : 10000;
+
     karmaConfig.set({
         // enable / disable watching file and executing tests whenever any file changes
         autoWatch: true,
@@ -27,7 +29,9 @@ module.exports = function (karmaConfig) {
 
         client: {
             mocha: {
-                reporter: "html"
+                reporter: "html",
+                slow: timeout / 2,
+                timeout
             }
         },
 
