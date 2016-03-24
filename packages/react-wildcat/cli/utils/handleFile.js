@@ -42,12 +42,15 @@ module.exports = function handleFile(commander) {
             return done && done();
         }
 
+        const dest = path.join(commander.outDir, filename);
+
         if (util.canCompile(filename, commander.extensions)) {
-            transpiler(src, filename, done);
+            return transpiler(src, filename, (err) => {
+                log(src + " -> " + dest);
+                return done && done(err);
+            });
         } else if (commander.copyFiles) {
             let rawDest;
-
-            const dest = path.join(commander.outDir, filename);
 
             if (commander.binaryToModule) {
                 rawDest = path.join("bin", filename);
@@ -59,7 +62,7 @@ module.exports = function handleFile(commander) {
                     .end(importable);
             }
 
-            fs.createReadStream(src)
+            return fs.createReadStream(src)
                 .pipe(
                     fs.createOutputStream(rawDest || dest)
                         .on("finish", function outputStreamFinish() {

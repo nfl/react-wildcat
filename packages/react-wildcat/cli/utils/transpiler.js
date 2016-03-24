@@ -49,7 +49,7 @@ module.exports = function transpiler(commander) {
         // remove extension and then append back on .js
         relative = relative.replace(/\.(\w*?)$/, "") + ".js";
 
-        const outDir = commander.outDir || serverSettings.outDir;
+        const outDir = commander.outDir || serverSettings.publicDir;
         const sourceDir = commander.sourceDir || serverSettings.sourceDir;
 
         const relativePath = path.join(outDir, relative);
