@@ -23,6 +23,7 @@ commander
     .version(pkg.version)
     .option("-x, --extensions [extensions]", "List of extensions to compile when a directory has been input [.es6,.js,.es,.jsx]")
     .option("-w, --watch", "Recompile files on changes")
+    .option("--bin-dir [bin]", "Compile binary files into a binary directory")
     .option("-d, --out-dir [out]", "Compile an input directory of modules into an output directory")
     .option("-i, --ignore <patterns>", "RegExp pattern to ignore", patterns)
     .option("-D, --copy-files", "When compiling a directory copy over non-compilable files")

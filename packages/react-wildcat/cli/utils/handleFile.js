@@ -1,6 +1,5 @@
 "use strict";
 
-const fs = require("fs-extra");
 const cwd = process.cwd();
 const path = require("path");
 const resolve = require("resolve");
@@ -28,8 +27,11 @@ try {
 const util = babel.util;
 
 module.exports = function handleFile(commander) {
+    "use strict";
+
     const wildcatConfig = require("../../src/utils/getWildcatConfig")(cwd);
     const transpiler = require("./transpiler")(commander);
+    const copyFiles = require("./copyFiles")(commander);
 
     function log(msg) {
         if (!commander.quiet) {
@@ -42,34 +44,20 @@ module.exports = function handleFile(commander) {
             return done && done();
         }
 
-        const dest = path.join(commander.outDir, filename);
+        const serverSettings = wildcatConfig.serverSettings;
+        const outDir = commander.outDir || serverSettings.publicDir;
+        const relativePath = path.join(outDir, filename);
 
         if (util.canCompile(filename, commander.extensions)) {
             return transpiler(src, filename, (err) => {
-                log(src + " -> " + dest);
+                log(src + " -> " + relativePath);
                 return done && done(err);
             });
         } else if (commander.copyFiles) {
-            let rawDest;
-
-            if (commander.binaryToModule) {
-                rawDest = path.join("bin", filename);
-
-                const origin = `${wildcatConfig.generalSettings.staticUrl || ""}/`;
-                const importable = `module.exports = "${origin}${rawDest}";`;
-
-                fs.createOutputStream(dest)
-                    .end(importable);
-            }
-
-            return fs.createReadStream(src)
-                .pipe(
-                    fs.createOutputStream(rawDest || dest)
-                        .on("finish", function outputStreamFinish() {
-                            log(src + " -> " + dest);
-                            return done && done();
-                        })
-                );
+            return copyFiles(src, filename, (err) => {
+                log(src + " -> " + relativePath);
+                return done && done(err);
+            });
         }
     };
 };

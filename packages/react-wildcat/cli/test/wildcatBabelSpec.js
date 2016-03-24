@@ -13,6 +13,13 @@ const pathExists = require("path-exists");
 
 /* eslint-disable max-nested-callbacks */
 describe("cli - wildcatBabel", () => {
+    const wildcatConfig = require("../../src/utils/getWildcatConfig")(cwd);
+    const serverSettings = wildcatConfig.serverSettings;
+
+    const binDir = serverSettings.binDir;
+    const publicDir = serverSettings.publicDir;
+    const sourceDir = serverSettings.sourceDir;
+
     function CommanderStub(options) {
         Object.keys(options).forEach(k => this[k] = options[k]);
 
@@ -23,13 +30,17 @@ describe("cli - wildcatBabel", () => {
         return this;
     }
 
-    function getTranspiledPath(source) {
-        return source.replace("src", "public");
+    function getBinPath(source) {
+        return source.replace(sourceDir, binDir);
+    }
+
+    function getPublicPath(source) {
+        return source.replace(sourceDir, publicDir);
     }
 
     const exampleDir = path.join(cwd, "example");
-    const mainEntrySourcePath = "src/main.js";
-    const mainEntryTranspiledPath = path.join(exampleDir, getTranspiledPath(mainEntrySourcePath));
+    const mainEntrySourcePath = `${sourceDir}/main.js`;
+    const mainEntryTranspiledPath = path.join(exampleDir, getPublicPath(mainEntrySourcePath));
     const writeDelay = 200;
 
     const commanderDefaults = {
@@ -45,18 +56,18 @@ describe("cli - wildcatBabel", () => {
         ],
 
         watch: undefined,
-        outDir: "public",
+        outDir: publicDir,
         ignore: undefined,
         copyFiles: true,
         binaryToModule: true,
         manifest: undefined,
         cpus: undefined,
-        quiet: undefined
+        quiet: true
     };
 
     beforeEach(() => {
         process.chdir(exampleDir);
-        fs.removeSync(path.join(exampleDir, "public"));
+        fs.removeSync(path.join(exampleDir, publicDir));
     });
 
     context("building", () => {
@@ -171,77 +182,73 @@ describe("cli - wildcatBabel", () => {
                 .catch(done);
         });
 
-        it("transpiles multiple files across all available CPUs", (done) => {
-            const ignoredFiles = [
-                "**/{shell,e2e,test}/**"
-            ];
+        [{
+            name: "all available CPUs",
+            cpus: undefined
+        }, {
+            name: "a specified number of CPUs",
+            cpus: Math.floor(require("os").cpus().length / 2)
+        }, {
+            name: "a single CPUs",
+            cpus: 1
+        }].forEach(test => {
+            it(`transpiles multiple files across ${test.name}`, (done) => {
+                const ignoredFiles = [
+                    "**/{shell,e2e,test}/**"
+                ];
 
-            const wildcatBabel = proxyquire("../wildcatBabel.js", {
-                "commander": new CommanderStub(Object.assign({}, commanderDefaults, {
-                    args: [
-                        "src"
-                    ],
+                const wildcatBabel = proxyquire("../wildcatBabel.js", {
+                    "commander": new CommanderStub(Object.assign({}, commanderDefaults, {
+                        args: [
+                            sourceDir
+                        ],
 
-                    ignore: ignoredFiles
-                }))
-            })
-                .then(() => {
-                    expect(wildcatBabel)
-                        .to.exist;
+                        cpus: test.cpus,
+                        ignore: ignoredFiles
+                    }))
+                })
+                    .then(() => {
+                        expect(wildcatBabel)
+                            .to.exist;
 
-                    expect(
-                        glob.sync("public/**/*", {
+                        const binFiles = glob.sync(`${binDir}/**/*`, {
                             nodir: true,
                             ignore: ignoredFiles
-                        })
-                    )
-                        .to.have.length.of(
-                            glob.sync("src/**/*", {
-                                nodir: true,
-                                ignore: ignoredFiles
-                            }).length
-                        );
+                        });
 
-                    done();
-                })
-                .catch(done);
-        });
-
-        it("transpiles multiple files across a specified number of CPUs", (done) => {
-            const ignoredFiles = [
-                "**/{shell,e2e,test}/**"
-            ];
-
-            const wildcatBabel = proxyquire("../wildcatBabel.js", {
-                "commander": new CommanderStub(Object.assign({}, commanderDefaults, {
-                    args: [
-                        "src"
-                    ],
-
-                    cpus: Math.floor(require("os").cpus().length / 2),
-                    ignore: ignoredFiles
-                }))
-            })
-                .then(() => {
-                    expect(wildcatBabel)
-                        .to.exist;
-
-                    expect(
-                        glob.sync("public/**/*", {
+                        const publicFiles = glob.sync(`${publicDir}/**/*`, {
                             nodir: true,
                             ignore: ignoredFiles
-                        })
-                    )
-                        .to.have.length.of(
-                            glob.sync("src/**/*", {
-                                nodir: true,
-                                ignore: ignoredFiles
-                            }).length
-                        );
+                        });
 
-                    done();
-                })
-                .catch(done);
+                        const sourceFiles = glob.sync(`${sourceDir}/**/*`, {
+                            nodir: true,
+                            ignore: ignoredFiles
+                        });
+
+                        expect(binFiles)
+                            .to.have.length.of(
+                                sourceFiles
+                                    .filter(sourceFile => sourceFile.endsWith(".jpg")).length
+                            );
+
+                        expect(binFiles)
+                            .to.eql(
+                                sourceFiles
+                                    .filter(sourceFile => sourceFile.endsWith(".jpg"))
+                                    .map(sourceFile => getBinPath(sourceFile))
+                            );
+
+                        expect(publicFiles)
+                            .to.have.length.of(sourceFiles.length);
+
+                        expect(publicFiles)
+                            .to.eql(sourceFiles.map(sourceFile => getPublicPath(sourceFile)));
+
+                        done();
+                    })
+                    .catch(done);
+            });
         });
 
         it("avoids ignored file patterns", (done) => {
@@ -249,19 +256,19 @@ describe("cli - wildcatBabel", () => {
                 "commander": new CommanderStub(Object.assign({}, commanderDefaults, {
                     args: [
                         mainEntrySourcePath,
-                        "src/components/Application/*.js"
+                        `${sourceDir}/components/Application/*.js`
                     ],
-                    ignore: ["src/*.js"]
+                    ignore: [`${sourceDir}/*.js`]
                 }))
             })
                 .then(() => {
                     expect(wildcatBabel)
                         .to.exist;
 
-                    expect(pathExists.sync(path.join(exampleDir, "public/components/Application/Application.js")))
+                    expect(pathExists.sync(path.join(exampleDir, publicDir, "components/Application/Application.js")))
                         .to.be.true;
 
-                    expect(pathExists.sync(path.join(exampleDir, "public/components/Application/ApplicationContext.js")))
+                    expect(pathExists.sync(path.join(exampleDir, publicDir, "components/Application/ApplicationContext.js")))
                         .to.be.true;
 
                     done();
@@ -340,13 +347,13 @@ describe("cli - wildcatBabel", () => {
             const wildcatBabel = proxyquire("../wildcatBabel.js", {
                 "commander": new CommanderStub(Object.assign({}, commanderDefaults, {
                     args: [
-                        "src"
+                        sourceDir
                     ],
                     watch: true
                 }))
             })
                 .then((watcher) => {
-                    const testFilePath = path.join(exampleDir, "src/test.js");
+                    const testFilePath = path.join(exampleDir, sourceDir, "test.js");
                     const testFileContents = `export default {};`;
 
                     expect(wildcatBabel)
@@ -357,10 +364,10 @@ describe("cli - wildcatBabel", () => {
 
                     watcher.on("add", filename => {
                         setTimeout(() => {
-                            expect(pathExists.sync(getTranspiledPath(filename)))
+                            expect(pathExists.sync(getPublicPath(filename)))
                                 .to.be.true;
 
-                            const transpiledTestFileContents = fs.readFileSync(getTranspiledPath(filename), "utf8");
+                            const transpiledTestFileContents = fs.readFileSync(getPublicPath(filename), "utf8");
 
                             expect(transpiledTestFileContents)
                                 .to.be.a("string");

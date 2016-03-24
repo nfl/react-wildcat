@@ -1,10 +1,9 @@
-const fs = require("fs-extra");
 const path = require("path");
 const pathExists = require("path-exists");
 const pathResolve = require("resolve-path");
 
-const logCreateSuccess = require("../utils/logCreateSuccess");
 const transpile = require("../utils/transpile");
+const createImportableModule = require("../utils/createImportableModule");
 
 module.exports = function babelDevTranspiler(root, options) {
     "use strict";
@@ -27,7 +26,6 @@ module.exports = function babelDevTranspiler(root, options) {
 
         const modulePath = pathOptions.modulePath;
         const moduleSourcePath = pathOptions.moduleSourcePath;
-        const moduleBinPath = pathOptions.moduleBinPath;
 
         if (temporaryCache.has(modulePath)) {
             return temporaryCache.get(modulePath);
@@ -40,7 +38,7 @@ module.exports = function babelDevTranspiler(root, options) {
 
         const transpilerPromise = new Promise(function transpilerPromise(resolve, reject) {
             if (extensions.indexOf(path.extname(moduleSourcePath)) !== -1) {
-                transpile({
+                return transpile({
                     coverage,
                     coverageSettings,
 
@@ -53,59 +51,19 @@ module.exports = function babelDevTranspiler(root, options) {
 
                     temporaryCache
                 }, resolve, reject);
-            } else {
-                const importable = `module.exports = "${origin}${moduleBinPath.replace(`${root}`, "")}";`;
-
-                Promise.all([
-                    new Promise(function importablePromise(resolveImportable, rejectImportable) {
-                        const res = {
-                            type: "application/x-es-module",
-                            length: importable.length,
-                            body: importable,
-                            status: 200
-                        };
-
-                        fs.createOutputStream(modulePath)
-                            .on("error", function importableStreamError(outputErr) {
-                                logger.error(outputErr);
-                                return rejectImportable(outputErr);
-                            })
-                            .on("finish", function importableStreamFinish() {
-                                return resolveImportable(res);
-                            })
-                            .end(importable);
-                    }),
-
-                    new Promise(function binaryPromise(resolveBinary, rejectBinary) {
-                        fs.createReadStream(moduleSourcePath)
-                            .pipe(
-                                fs.createOutputStream(moduleBinPath || modulePath)
-                                    .on("open", function binaryStreamOpen() {
-                                        if (logLevel > 1) {
-                                            logger.meta(logCreateSuccess(modulePath));
-                                        }
-                                    })
-                                    .on("error", function binaryStreamError(outputErr) {
-                                        logger.error(outputErr);
-                                        return rejectBinary(outputErr);
-                                    })
-                                    .on("finish", function binaryStreamFinish() {
-                                        return resolveBinary(moduleBinPath || modulePath);
-                                    })
-                            );
-                    })
-                ])
-                    .then(function promiseResolve(promises) {
-                        // Disk write complete, delete the temporary cache
-                        temporaryCache.delete(modulePath);
-                        return resolve(promises[0]);
-                    })
-                    .catch(function promiseError(err) {
-                        // Disk write error, delete the temporary cache
-                        temporaryCache.delete(modulePath);
-                        return reject(err);
-                    });
             }
+
+            return createImportableModule({
+                origin,
+
+                pathOptions,
+
+                logger,
+                logLevel,
+
+                temporaryCache,
+                binaryToModule: true
+            }, resolve, reject);
         });
 
         // Save the data to a temporary cache, useful to avoid multiple writes to disk
