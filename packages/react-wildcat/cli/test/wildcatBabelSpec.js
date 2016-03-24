@@ -14,6 +14,7 @@ const pathExists = require("path-exists");
 /* eslint-disable max-nested-callbacks */
 describe("cli - wildcatBabel", () => {
     const wildcatConfig = require("../../src/utils/getWildcatConfig")(cwd);
+    const generalSettings = wildcatConfig.generalSettings;
     const serverSettings = wildcatConfig.serverSettings;
 
     const binDir = serverSettings.binDir;
@@ -31,16 +32,21 @@ describe("cli - wildcatBabel", () => {
     }
 
     function getBinPath(source) {
-        return source.replace(sourceDir, binDir);
+        return source
+            .replace(publicDir, binDir)
+            .replace(sourceDir, binDir);
     }
 
     function getPublicPath(source) {
-        return source.replace(sourceDir, publicDir);
+        return source
+            .replace(binDir, publicDir)
+            .replace(sourceDir, publicDir);
     }
 
     const exampleDir = path.join(cwd, "example");
     const mainEntrySourcePath = `${sourceDir}/main.js`;
     const mainEntryTranspiledPath = path.join(exampleDir, getPublicPath(mainEntrySourcePath));
+    const exampleBinaryPath = `/${publicDir}/assets/images/primary-background.jpg`;
     const writeDelay = 200;
 
     const commanderDefaults = {
@@ -62,7 +68,7 @@ describe("cli - wildcatBabel", () => {
         binaryToModule: true,
         manifest: undefined,
         cpus: undefined,
-        quiet: undefined
+        quiet: true
     };
 
     beforeEach(() => {
@@ -238,6 +244,16 @@ describe("cli - wildcatBabel", () => {
                                     .filter(sourceFile => sourceFile.endsWith(".jpg"))
                                     .map(sourceFile => getBinPath(sourceFile))
                             );
+
+                        expect(pathExists.sync(path.join(exampleDir, exampleBinaryPath)))
+                            .to.be.true;
+
+                        const origin = generalSettings.staticUrl;
+                        const binaryFileContents = fs.readFileSync(path.join(exampleDir, exampleBinaryPath), "utf8");
+
+                        expect(binaryFileContents)
+                            .to.be.a("string")
+                            .that.equals(`module.exports = "${origin}${getBinPath(exampleBinaryPath)}";`);
 
                         expect(publicFiles)
                             .to.have.length.of(sourceFiles.length);

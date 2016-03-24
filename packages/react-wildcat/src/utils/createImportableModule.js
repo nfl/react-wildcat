@@ -9,6 +9,8 @@ module.exports = function createImportableModule(options, resolve, reject) {
     "use strict";
 
     const origin = options.origin;
+    const root = options.root;
+
     const logger = options.logger;
     const logLevel = options.logLevel;
 
