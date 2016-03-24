@@ -1,3 +1,18 @@
+<a name="2.3.0"></a>
+# [2.3.0](https://github.com/nfl/react-wildcat/compare/2.2.0...v2.3.0) (2016-03-24)
+
+
+### Bug Fixes
+
+* **wildcat-babel:** Add option to wait for file write event ([185fe7d](https://github.com/nfl/react-wildcat/commit/185fe7d))
+
+### Features
+
+* **react-wildcat:** Add lifecycle hooks ([59c90d2](https://github.com/nfl/react-wildcat/commit/59c90d2))
+* **wildcat-babel:** Add instrumentation support ([596af69](https://github.com/nfl/react-wildcat/commit/596af69))
+
+
+
 <a name="2.2.0"></a>
 # [2.2.0](https://github.com/nfl/react-wildcat/compare/2.1.1...v2.2.0) (2016-03-22)
 
