@@ -1,3 +1,13 @@
+<a name="2.3.1"></a>
+## [2.3.1](https://github.com/nfl/react-wildcat/compare/2.3.0...v2.3.1) (2016-03-24)
+
+
+### Bug Fixes
+
+* **react-wildcat:** Fix exported paths to binary files. ([b4dcd99](https://github.com/nfl/react-wildcat/commit/b4dcd99))
+
+
+
 <a name="2.3.0"></a>
 # [2.3.0](https://github.com/nfl/react-wildcat/compare/2.2.0...v2.3.0) (2016-03-24)
 
