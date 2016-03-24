@@ -8,7 +8,7 @@ module.exports = function (karmaConfig) {
         return browser.toLowerCase().split(/[ /-]/)[0];
     }
 
-    const timeout = process.env.CI ? 60000 : 10000;
+    const timeout = process.env.TIMEOUT || 10000;
 
     karmaConfig.set({
         // enable / disable watching file and executing tests whenever any file changes
