@@ -8,13 +8,13 @@ const pathExists = require("path-exists");
 const glob = require("glob");
 
 const Logger = require("../../src/utils/logger");
-const logger = new Logger("👀");
+const logger = new Logger("🔰");
 
 const availableCpus = require("os").cpus().length;
 const CHUNK_SIZE = 50;
 
 module.exports = function handle(commander) {
-    const write = require("./write")(commander);
+    const transpiler = require("./transpiler")(commander);
     const cpus = commander.cpus ? Math.min(availableCpus, commander.cpus) : availableCpus;
 
     function transpileFiles(err, files, src) {
@@ -41,58 +41,86 @@ module.exports = function handle(commander) {
             );
         }
 
-        return workers.forEach(child => {
-            child.send({
-                commander,
-                files: next(),
-                options,
-                src
-            });
+        return Promise.all(workers.map(child => {
+            return new Promise((workerResolve, workerReject) => {
+                child.send({
+                    commander,
+                    files: next(),
+                    options,
+                    src
+                });
 
-            child.on("message", message => {
-                switch (message.action) {
-                    case "free":
-                        const nextFiles = next();
+                child.on("message", message => {
+                    switch (message.action) {
+                        case "free":
+                            const nextFiles = next();
 
-                        if (!nextFiles.length) {
-                            child.send({
-                                action: "disconnect"
-                            });
-                        } else {
+                            if (!nextFiles.length) {
+                                child.send({
+                                    action: "disconnect"
+                                });
+
+                                return workerResolve();
+                            }
+
                             child.send({
                                 commander,
                                 files: nextFiles,
                                 options,
                                 src
                             });
-                        }
-                        break;
-                }
+                            break;
+                    }
+                });
+
+                child.on("error", workerReject);
             });
-        });
+        }));
     }
 
     return function (filename) {
-        pathExists(filename).then(function existsResult(exists) {
-            if (!exists) {
-                return;
-            }
-
-            fs.stat(filename, function statResult(statErr, stats) {
-                if (statErr) {
-                    return logger.error(statErr);
+        return new Promise((handleResolve, handleReject) => {
+            return pathExists(filename).then(function existsResult(exists) {
+                if (!exists) {
+                    return handleResolve();
                 }
 
-                if (stats.isDirectory(filename)) {
-                    glob("**", {
-                        cwd: filename,
-                        nodir: true,
-                        ignore: commander.ignore
-                    }, (err, files) => transpileFiles(err, files, filename));
-                } else {
-                    const currentDirectory = filename.replace(`${cwd}/`, "").split("/")[0];
-                    write(filename, filename.replace(`${currentDirectory}/`, ""));
-                }
+                fs.stat(filename, function statResult(statErr, stats) {
+                    if (statErr) {
+                        logger.error(statErr);
+                        return handleReject(statErr);
+                    }
+
+                    if (stats.isDirectory(filename)) {
+                        glob("**", {
+                            cwd: filename,
+                            nodir: true,
+                            ignore: commander.ignore
+                        }, (err, files) => {
+                            if (err) {
+                                return handleReject(err);
+                            }
+
+                            return transpileFiles(err, files, filename)
+                                .then(handleResolve)
+                                .catch(handleReject);
+                        });
+                    } else {
+                        const currentDirectory = filename.replace(`${cwd}/`, "").split("/")[0];
+
+                        return transpiler(
+                            filename,
+                            filename.replace(`${currentDirectory}/`, ""),
+                            (transpilerError) => {
+                                if (transpilerError) {
+                                    return handleReject(transpilerError);
+                                }
+
+                                return handleResolve();
+                            }
+                        );
+                    }
+                });
             });
         });
     };

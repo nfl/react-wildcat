@@ -14,6 +14,7 @@ const resolve = require("resolve");
 const Logger = require("../src/utils/logger");
 const logger = new Logger("👀");
 
+/* istanbul ignore next */
 function patterns(val) {
     return val.split(" ");
 }
@@ -22,6 +23,7 @@ commander
     .version(pkg.version)
     .option("-x, --extensions [extensions]", "List of extensions to compile when a directory has been input [.es6,.js,.es,.jsx]")
     .option("-w, --watch", "Recompile files on changes")
+    .option("--bin-dir [bin]", "Compile binary files into a binary directory")
     .option("-d, --out-dir [out]", "Compile an input directory of modules into an output directory")
     .option("-i, --ignore <patterns>", "RegExp pattern to ignore", patterns)
     .option("-D, --copy-files", "When compiling a directory copy over non-compilable files")
@@ -32,7 +34,6 @@ commander
     .parse(process.argv);
 
 const srcPath = commander.args[0];
-const dirname = path.join(cwd, srcPath);
 
 // Use project babel if found
 let babel;
@@ -70,9 +71,11 @@ if (!commander.watch) {
             let files = glob.sync(input, {
                 ignore: commander.ignore
             });
+
             if (!files.length) {
                 files = [input];
             }
+
             return globbed.concat(files);
         }, []);
 
@@ -81,26 +84,37 @@ if (!commander.watch) {
         });
     }
 
-    filenames.forEach(handle);
+    module.exports = Promise.all(
+        filenames.map(filename => handle(filename))
+    );
 }
 
 if (commander.watch) {
-    const watcher = chokidar.watch(srcPath, {
-        ignoreInitial: true,
-        persistent: true
-    });
+    const dirname = path.join(cwd, srcPath);
 
-    ["add", "change"].forEach(function watchEventType(type) {
-        watcher.on(type, function watchEventHandler(filename) {
-            const relative = path.relative(dirname, filename) || filename;
+    module.exports = new Promise((watcherResolve, watcherReject) => {
+        const watcher = chokidar.watch(srcPath, {
+            ignoreInitial: true,
+            persistent: true
+        });
 
-            try {
-                handleFile(filename, relative);
-            } catch (err) {
-                logger.error(err.stack);
-            }
+        ["add", "change"].forEach(function watchEventType(type) {
+            watcher.on(type, function watchEventHandler(filename) {
+                const relative = path.relative(dirname, filename) || filename;
+
+                try {
+                    handleFile(filename, relative);
+                } catch (err) {
+                    logger.error(err.stack);
+                }
+            });
+        });
+
+        watcher.on("error", watcherReject);
+
+        watcher.on("ready", () => {
+            logger.ok("Watching local files for code changes");
+            return watcherResolve(watcher);
         });
     });
-
-    logger.ok("Watching local files for code changes");
 }

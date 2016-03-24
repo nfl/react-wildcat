@@ -38,7 +38,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "mocha": "^2.4.5",
     "phantomjs-prebuilt": "^2.1.5",
-    "proxyquire": "^1.7.3",
+    "proxyquire": "^1.7.4",
     "react": "^0.14.7",
     "react-addons-test-utils": "^0.14.7",
     "react-wildcat-prefetch": "^2.0.0",

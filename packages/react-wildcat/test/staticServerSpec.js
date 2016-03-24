@@ -11,7 +11,6 @@ const sinon = require("sinon");
 const cwd = process.cwd();
 const path = require("path");
 const pathExists = require("path-exists");
-// const nexpect = require("nexpect");
 const os = require("os");
 
 const cluster = require("cluster");
@@ -318,7 +317,8 @@ describe("react-wildcat", () => {
                         "babel-core": {
                             transformFile: (modulePath, options, cb) => {
                                 return cb(stubError, {});
-                            }
+                            },
+                            "@global": true
                         }
                     });
 
@@ -374,7 +374,8 @@ describe("react-wildcat", () => {
                                 emitter.pipe = () => {};
 
                                 return emitter;
-                            }
+                            },
+                            "@global": true
                         }
                     });
 
@@ -462,7 +463,8 @@ describe("react-wildcat", () => {
                                 };
 
                                 return emitter;
-                            }
+                            },
+                            "@global": true
                         }
                     });
 
@@ -505,7 +507,8 @@ describe("react-wildcat", () => {
                                 };
 
                                 return InstrumenterStub;
-                            })()
+                            })(),
+                            "@global": true
                         }
                     });
 
@@ -554,7 +557,8 @@ describe("react-wildcat", () => {
 
                                 return emitter;
                             },
-                            createReadStream: () => {}
+                            createReadStream: () => {},
+                            "@global": true
                         }
                     });
 
@@ -604,7 +608,8 @@ describe("react-wildcat", () => {
                                 return cb(null, {
                                     ignored: true
                                 });
-                            }
+                            },
+                            "@global": true
                         }
                     });
 
@@ -669,7 +674,8 @@ describe("react-wildcat", () => {
                                         map: true,
                                         code: "module.exports = function foo() {return true};"
                                     });
-                                }
+                                },
+                                "@global": true
                             }
                         });
 
@@ -712,7 +718,8 @@ describe("react-wildcat", () => {
                                     map: true,
                                     code: "module.exports = function foo() {return true};"
                                 });
-                            }
+                            },
+                            "@global": true
                         },
                         "fs-extra": {
                             createOutputStream: (targetPath) => {
@@ -727,7 +734,8 @@ describe("react-wildcat", () => {
 
                                 return emitter;
                             },
-                            createReadStream: () => {}
+                            createReadStream: () => {},
+                            "@global": true
                         }
                     });
 

@@ -1,12 +1,11 @@
 "use strict";
 
-const fs = require("fs-extra");
 const cwd = process.cwd();
 const path = require("path");
 const resolve = require("resolve");
 
 const Logger = require("../../src/utils/logger");
-const logger = new Logger("👀");
+const logger = new Logger("🔰");
 
 // Use project babel if found
 let babel;
@@ -28,8 +27,11 @@ try {
 const util = babel.util;
 
 module.exports = function handleFile(commander) {
+    "use strict";
+
     const wildcatConfig = require("../../src/utils/getWildcatConfig")(cwd);
-    const write = require("./write")(commander);
+    const transpiler = require("./transpiler")(commander);
+    const copyFiles = require("./copyFiles")(commander);
 
     function log(msg) {
         if (!commander.quiet) {
@@ -42,31 +44,20 @@ module.exports = function handleFile(commander) {
             return done && done();
         }
 
+        const serverSettings = wildcatConfig.serverSettings;
+        const outDir = commander.outDir || serverSettings.publicDir;
+        const relativePath = path.join(outDir, filename);
+
         if (util.canCompile(filename, commander.extensions)) {
-            write(src, filename, done);
+            return transpiler(src, filename, (err) => {
+                log(src + " -> " + relativePath);
+                return done && done(err);
+            });
         } else if (commander.copyFiles) {
-            let rawDest;
-
-            const dest = path.join(commander.outDir, filename);
-
-            if (commander.binaryToModule) {
-                rawDest = path.join("bin", filename);
-
-                const origin = `${wildcatConfig.generalSettings.staticUrl || ""}/`;
-                const importable = `module.exports = "${origin}${rawDest}";`;
-
-                fs.createOutputStream(dest)
-                    .end(importable);
-            }
-
-            fs.createReadStream(src)
-                .pipe(
-                    fs.createOutputStream(rawDest || dest)
-                        .on("finish", function outputStreamFinish() {
-                            log(src + " -> " + dest);
-                            return done && done();
-                        })
-                );
+            return copyFiles(src, filename, (err) => {
+                log(src + " -> " + relativePath);
+                return done && done(err);
+            });
         }
     };
 };
