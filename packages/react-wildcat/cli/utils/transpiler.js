@@ -79,7 +79,9 @@ module.exports = function transpiler(commander) {
                 pathOptions,
 
                 logger,
-                logLevel: 0
+                logLevel: 0,
+
+                waitForFileWrite: true
             }, transpileResolve, transpileReject);
         })
             .then(() => done && done())

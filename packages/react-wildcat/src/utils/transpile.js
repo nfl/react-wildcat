@@ -31,6 +31,8 @@ module.exports = function transpile(options, resolve, reject) {
     const coverage = options.coverage;
     const coverageSettings = options.coverageSettings;
 
+    const waitForFileWrite = options.waitForFileWrite;
+
     let instrumenter, instrumentationExcludes;
 
     if (coverage) {
@@ -144,6 +146,10 @@ module.exports = function transpile(options, resolve, reject) {
                             // Disk write complete, delete the temporary cache
                             temporaryCache.delete(modulePath);
                         }
+
+                        if (waitForFileWrite) {
+                            return resolve(res);
+                        }
                     })
                     .end(code);
 
@@ -152,7 +158,9 @@ module.exports = function transpile(options, resolve, reject) {
                     temporaryCache.set(modulePath, Promise.resolve(res));
                 }
 
-                return resolve(res);
+                if (!waitForFileWrite) {
+                    return resolve(res);
+                }
             })
             .catch(function instrumentedCodeError(err) {
                 if (temporaryCache) {
