@@ -32,12 +32,17 @@ let server;
 
 function start() {
     const wildcatConfig = require("./utils/getWildcatConfig")(cwd);
+
     const generalSettings = wildcatConfig.generalSettings;
     const serverSettings = wildcatConfig.serverSettings;
 
     const appServerSettings = serverSettings.appServer;
     const secureSettings = appServerSettings.secureSettings;
     const proxySettings = appServerSettings.proxies;
+
+    if (typeof appServerSettings.onBeforeStart === "function") {
+        appServerSettings.onBeforeStart.call(this, wildcatConfig);
+    }
 
     const morganOptions = getMorganOptions(generalSettings.logLevel, serverSettings);
 
@@ -88,6 +93,10 @@ function start() {
             }
 
             const app = koa();
+
+            if (typeof appServerSettings.onStart === "function") {
+                appServerSettings.onStart.call(this, app, wildcatConfig);
+            }
 
             app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
 
@@ -173,6 +182,10 @@ Middleware at serverSettings.appServer.middleware[${index}] could not be correcl
                         logger.ok("Node server is running on pid", process.pid);
                     } else {
                         logger.ok(`Node server is running at ${generalSettings.originUrl} on pid`, process.pid);
+                    }
+
+                    if (typeof appServerSettings.onAfterStart === "function") {
+                        appServerSettings.onAfterStart.call(this, app, wildcatConfig);
                     }
 
                     resolve({
