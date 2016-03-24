@@ -160,7 +160,16 @@ const wildcatConfig = {
                     "http/1.1",
                     "http/1.0"
                 ]
-            }
+            },
+
+            // onBeforeStart lifecycle is triggered before the application is initialized and before the server starts
+            onBeforeStart: undefined,
+
+            // onStart lifecycle is triggered immediately after the application is initialized but before the server starts
+            onStart: undefined,
+
+            // onAfterStart lifecycle is triggered after the application is initialized and after the server starts
+            onAfterStart: undefined
         },
 
         // config options for the static server
@@ -201,7 +210,16 @@ const wildcatConfig = {
                     "http/1.1",
                     "http/1.0"
                 ]
-            }
+            },
+
+            // onBeforeStart lifecycle is triggered before the application is initialized and before the server starts
+            onBeforeStart: undefined,
+
+            // onStart lifecycle is triggered immediately after the application is initialized but before the server starts
+            onStart: undefined,
+
+            // onAfterStart lifecycle is triggered after the application is initialized and after the server starts
+            onAfterStart: undefined
         }
     }
 };

@@ -767,6 +767,63 @@ describe("react-wildcat", () => {
                 });
             });
         });
+
+        context("lifecycle events", () => {
+            const lifecycleTests = [
+                "onBeforeStart",
+                "onStart",
+                "onAfterStart"
+            ];
+
+            lifecycleTests.forEach(lifecycle => {
+                it(lifecycle, (done) => {
+                    const wildcatConfig = require("../src/utils/getWildcatConfig")();
+                    const appServerSettings = wildcatConfig.serverSettings.appServer;
+                    appServerSettings[lifecycle] = sinon.spy();
+
+                    const server = proxyquire("../src/server.js", {
+                        "cluster": {
+                            isMaster: false,
+                            worker: {
+                                id: 1
+                            }
+                        },
+                        "./utils/getWildcatConfig": () => wildcatConfig,
+                        "./utils/logger": NullConsoleLogger
+                    });
+
+                    expect(server)
+                        .to.exist;
+
+                    expect(server)
+                        .to.respondTo("start");
+
+                    expect(server.start)
+                        .to.be.a("function");
+
+                    server.start()
+                        .then((result) => {
+                            expect(result)
+                                .to.exist;
+
+                            expect(result)
+                                .to.be.an("object")
+                                .that.has.property("env")
+                                .that.equals(process.env.NODE_ENV);
+
+                            expect(appServerSettings[lifecycle].calledOnce)
+                                .to.be.true;
+
+                            server.close();
+                            done();
+                        })
+                        .catch(err => {
+                            server.close();
+                            done(err);
+                        });
+                });
+            });
+        });
     });
 
     after(() => {

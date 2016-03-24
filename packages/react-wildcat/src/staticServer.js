@@ -30,11 +30,16 @@ let server;
 
 function start() {
     const wildcatConfig = require("./utils/getWildcatConfig")(cwd);
+
     const generalSettings = wildcatConfig.generalSettings;
     const serverSettings = wildcatConfig.serverSettings;
 
     const staticServerSettings = serverSettings.staticServer;
     const secureSettings = staticServerSettings.secureSettings;
+
+    if (typeof staticServerSettings.onBeforeStart === "function") {
+        staticServerSettings.onBeforeStart.call(this, wildcatConfig);
+    }
 
     const morganOptions = getMorganOptions(generalSettings.logLevel, serverSettings);
 
@@ -92,6 +97,10 @@ function start() {
             });
         } else {
             const app = koa();
+
+            if (typeof staticServerSettings.onStart === "function") {
+                staticServerSettings.onStart.call(this, app, wildcatConfig);
+            }
 
             // enable cors
             app.use(cors({
@@ -187,6 +196,10 @@ function start() {
                         logger.ok("Static server is running");
                     } else {
                         logger.ok(`Static server is running at ${generalSettings.staticUrl}`);
+                    }
+
+                    if (typeof staticServerSettings.onAfterStart === "function") {
+                        staticServerSettings.onAfterStart.call(this, app, wildcatConfig);
                     }
 
                     resolve({
