@@ -14,6 +14,7 @@ module.exports = function copyFiles(commander) {
     const wildcatConfig = require("../../src/utils/getWildcatConfig")(cwd);
 
     const serverSettings = wildcatConfig.serverSettings;
+    const generalSettings = wildcatConfig.generalSettings;
     const outDir = commander.outDir || serverSettings.publicDir;
 
     const binaryToModule = commander.binaryToModule;
@@ -38,7 +39,7 @@ module.exports = function copyFiles(commander) {
             relativePath
         };
 
-        const origin = `${wildcatConfig.generalSettings.staticUrl || ""}/`;
+        const origin = generalSettings.staticUrl;
 
         return new Promise((resolveImportable, rejectImportable) => {
             createImportableModule({
@@ -50,7 +51,9 @@ module.exports = function copyFiles(commander) {
                 logLevel: 0,
 
                 temporaryCache: false,
-                binaryToModule
+                binaryToModule,
+
+                root: cwd
             }, resolveImportable, rejectImportable);
         })
             .then(() => done && done())

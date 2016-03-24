@@ -73,25 +73,35 @@ describe("react-wildcat", () => {
             const generalSettings = wildcatConfig.generalSettings;
             const serverSettings = wildcatConfig.serverSettings;
 
-            const exampleApplicationPath = `/${serverSettings.publicDir}/components/Application/Application.js`;
-            const exampleApplicationSrcPath = `${serverSettings.sourceDir}/components/Application/Application.js`;
-            const exampleIndexPath = `/${serverSettings.publicDir}/routes/IndexExample/IndexExample.js`;
-            const exampleBinaryPath = `/${serverSettings.publicDir}/assets/images/primary-background.jpg`;
-            const exampleFlexboxPath = `/${serverSettings.publicDir}/routes/FlexboxExample/FlexboxExample.js`;
-            const exampleHelmetPath = `/${serverSettings.publicDir}/routes/HelmetExample/HelmetExample.js`;
-            const exampleNonExistentPath = `/${serverSettings.publicDir}/foo.js`;
+            const binDir = serverSettings.binDir;
+            const publicDir = serverSettings.publicDir;
+            const sourceDir = serverSettings.sourceDir;
+
+            function getBinPath(source) {
+                return source
+                    .replace(publicDir, binDir)
+                    .replace(sourceDir, binDir);
+            }
+
+            const exampleApplicationPath = `/${publicDir}/components/Application/Application.js`;
+            const exampleApplicationSrcPath = `${sourceDir}/components/Application/Application.js`;
+            const exampleIndexPath = `/${publicDir}/routes/IndexExample/IndexExample.js`;
+            const exampleBinaryPath = `/${publicDir}/assets/images/primary-background.jpg`;
+            const exampleFlexboxPath = `/${publicDir}/routes/FlexboxExample/FlexboxExample.js`;
+            const exampleHelmetPath = `/${publicDir}/routes/HelmetExample/HelmetExample.js`;
+            const exampleNonExistentPath = `/${publicDir}/foo.js`;
             const exampleUnaffectedPath = "/foo.js";
 
             const writeDelay = 200;
             const babelDevTranspilerOptions = {
                 babelOptions,
-                binDir: serverSettings.binDir,
+                binDir: binDir,
                 extensions: [".es6", ".js", ".es", ".jsx"],
                 logger: stubLogger,
                 logLevel: 2,
                 origin: generalSettings.staticUrl,
-                outDir: serverSettings.publicDir,
-                sourceDir: serverSettings.sourceDir
+                outDir: publicDir,
+                sourceDir: sourceDir
             };
 
             const coverageOptions = {
@@ -209,11 +219,12 @@ describe("react-wildcat", () => {
                         expect(pathExists.sync(path.join(exampleDir, exampleBinaryPath)))
                             .to.be.true;
 
+                        const origin = generalSettings.staticUrl;
                         const binaryFileContents = fs.readFileSync(path.join(exampleDir, exampleBinaryPath), "utf8");
 
                         expect(binaryFileContents)
                             .to.be.a("string")
-                            .that.matches(/module\.exports = "(.*)";/);
+                            .that.equals(`module.exports = "${origin}${getBinPath(exampleBinaryPath)}";`);
 
                         done();
                     }, writeDelay))
@@ -284,7 +295,7 @@ describe("react-wildcat", () => {
                     .catch(e => done(e));
             });
 
-            it(`ignores a request that does not begin with /${serverSettings.publicDir}`, (done) => {
+            it(`ignores a request that does not begin with /${publicDir}`, (done) => {
                 expect(pathExists.sync(path.join(exampleDir, exampleApplicationPath)))
                     .to.be.true;
 

@@ -62,7 +62,9 @@ module.exports = function babelDevTranspiler(root, options) {
                 logLevel,
 
                 temporaryCache,
-                binaryToModule: true
+                binaryToModule: true,
+
+                root
             }, resolve, reject);
         });
 
