@@ -62,7 +62,7 @@ describe("cli - wildcatBabel", () => {
         binaryToModule: true,
         manifest: undefined,
         cpus: undefined,
-        quiet: true
+        quiet: undefined
     };
 
     beforeEach(() => {
