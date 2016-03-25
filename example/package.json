@@ -53,7 +53,7 @@
       "radium": "github:nfl/radium@test-mode",
       "react": "npm:react@^0.14.7",
       "react-dom": "npm:react-dom@^0.14.7",
-      "react-helmet": "npm:react-helmet@^2.3.1",
+      "react-helmet": "npm:react-helmet@^3.0.0",
       "react-metrics": "npm:react-metrics@^1.1.0",
       "react-router": "npm:react-router@^2.0.1",
       "react-wildcat-ensure": "npm:react-wildcat-ensure@2.0.0",
