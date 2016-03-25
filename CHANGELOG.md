@@ -1,3 +1,14 @@
+<a name="2.3.3"></a>
+## [2.3.3](https://github.com/nfl/react-wildcat/compare/2.3.2...v2.3.3) (2016-03-25)
+
+
+### Bug Fixes
+
+* **react-wildcat:** Add more verbose error logging ([829e053](https://github.com/nfl/react-wildcat/commit/829e053))
+* **react-wildcat:** Limit proxy log to one worker ([e63d159](https://github.com/nfl/react-wildcat/commit/e63d159))
+
+
+
 <a name="2.3.2"></a>
 ## [2.3.2](https://github.com/nfl/react-wildcat/compare/2.3.1...v2.3.2) (2016-03-25)
 
