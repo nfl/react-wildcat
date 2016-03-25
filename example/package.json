@@ -1,11 +1,11 @@
 {
   "name": "react-wildcat-example",
   "description": "An example Wildcat project.",
-  "version": "2.3.4",
+  "version": "2.3.5",
   "dependencies": {
     "babel": "^5.8.29",
     "koa-route": "^2.4.2",
-    "react-wildcat": "2.3.4",
+    "react-wildcat": "2.3.5",
     "rimraf": "^2.5.1"
   },
   "devDependencies": {

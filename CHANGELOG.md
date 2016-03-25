@@ -1,3 +1,9 @@
+<a name="2.3.5"></a>
+## [2.3.5](https://github.com/nfl/react-wildcat/compare/2.3.4...v2.3.5) (2016-03-25)
+
+
+
+
 <a name="2.3.4"></a>
 ## [2.3.4](https://github.com/nfl/react-wildcat/compare/2.3.3...v2.3.4) (2016-03-25)
 
