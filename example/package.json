@@ -1,11 +1,11 @@
 {
   "name": "react-wildcat-example",
   "description": "An example Wildcat project.",
-  "version": "2.3.5",
+  "version": "2.4.0",
   "dependencies": {
     "babel": "^5.8.29",
     "koa-route": "^2.4.2",
-    "react-wildcat": "2.3.5",
+    "react-wildcat": "2.4.0",
     "rimraf": "^2.5.1"
   },
   "devDependencies": {
@@ -57,7 +57,7 @@
       "react-metrics": "npm:react-metrics@^1.1.0",
       "react-router": "npm:react-router@^2.0.1",
       "react-wildcat-ensure": "npm:react-wildcat-ensure@2.0.0",
-      "react-wildcat-handoff": "npm:react-wildcat-handoff@2.0.2",
+      "react-wildcat-handoff": "npm:react-wildcat-handoff@2.4.0",
       "react-wildcat-prefetch": "npm:react-wildcat-prefetch@2.0.0"
     },
     "devDependencies": {

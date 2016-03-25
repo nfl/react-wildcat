@@ -1,3 +1,22 @@
+<a name="2.4.0"></a>
+# [2.4.0](https://github.com/nfl/react-wildcat/compare/2.3.0...v2.4.0) (2016-03-26)
+
+
+### Bug Fixes
+
+* **react-wildcat:** Add more lifecycle hooks ([d33a19e](https://github.com/nfl/react-wildcat/commit/d33a19e))
+* **react-wildcat:** Add more verbose error logging ([08f27c9](https://github.com/nfl/react-wildcat/commit/08f27c9))
+* **react-wildcat:** Fix exported paths to binary files. ([b4dcd99](https://github.com/nfl/react-wildcat/commit/b4dcd99))
+* **react-wildcat:** Limit proxy log to one worker ([ac31a77](https://github.com/nfl/react-wildcat/commit/ac31a77))
+
+### Features
+
+* **handoff:** Upgrade React Helmet ([5282310](https://github.com/nfl/react-wildcat/commit/5282310))
+* **react-wildcat:** Update template to include new Helmet data ([675a68e](https://github.com/nfl/react-wildcat/commit/675a68e))
+* **react-wildcat-handoff:** Update template for new Helmet API ([1b55ff0](https://github.com/nfl/react-wildcat/commit/1b55ff0))
+
+
+
 <a name="2.3.5"></a>
 ## [2.3.5](https://github.com/nfl/react-wildcat/compare/2.3.4...v2.3.5) (2016-03-25)
 
