@@ -40,9 +40,13 @@ function start() {
     const secureSettings = appServerSettings.secureSettings;
     const proxySettings = appServerSettings.proxies;
 
-    if (typeof appServerSettings.onBeforeStart === "function") {
-        appServerSettings.onBeforeStart.call(this, wildcatConfig);
-    }
+    const lifecycleHook = (lifecycle) => {
+        if (typeof appServerSettings[lifecycle] === "function") {
+            appServerSettings[lifecycle].call(this, wildcatConfig);
+        }
+    };
+
+    lifecycleHook("onBeforeStart");
 
     const morganOptions = getMorganOptions(generalSettings.logLevel, serverSettings);
 
@@ -70,6 +74,8 @@ function start() {
     return new Promise(function startPromise(resolve) {
         /* istanbul ignore if */
         if (cluster.isMaster) {
+            lifecycleHook("onBeforeClusterFork");
+
             for (let i = 0; i < cpuCount; i++) {
                 cluster.fork();
             }
@@ -82,6 +88,8 @@ function start() {
                 clusterForksCount: cpuCount
             });
         } else {
+            lifecycleHook("onWorkerStart");
+
             /* istanbul ignore next */
             if (__DEBUG__) {
                 debug("Watching for memory leaks...", process.pid);
@@ -94,9 +102,7 @@ function start() {
 
             const app = koa();
 
-            if (typeof appServerSettings.onStart === "function") {
-                appServerSettings.onStart.call(this, app, wildcatConfig);
-            }
+            lifecycleHook("onStart");
 
             app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
 
@@ -184,9 +190,7 @@ Middleware at serverSettings.appServer.middleware[${index}] could not be correcl
                         logger.ok(`Node server is running at ${generalSettings.originUrl} on pid`, process.pid);
                     }
 
-                    if (typeof appServerSettings.onAfterStart === "function") {
-                        appServerSettings.onAfterStart.call(this, app, wildcatConfig);
-                    }
+                    lifecycleHook("onAfterStart");
 
                     resolve({
                         env: process.env.NODE_ENV,

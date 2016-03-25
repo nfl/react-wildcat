@@ -37,9 +37,13 @@ function start() {
     const staticServerSettings = serverSettings.staticServer;
     const secureSettings = staticServerSettings.secureSettings;
 
-    if (typeof staticServerSettings.onBeforeStart === "function") {
-        staticServerSettings.onBeforeStart.call(this, wildcatConfig);
-    }
+    const lifecycleHook = (lifecycle) => {
+        if (typeof staticServerSettings[lifecycle] === "function") {
+            staticServerSettings[lifecycle].call(this, wildcatConfig);
+        }
+    };
+
+    lifecycleHook("onBeforeStart");
 
     const morganOptions = getMorganOptions(generalSettings.logLevel, serverSettings);
 
@@ -84,6 +88,8 @@ function start() {
     return new Promise(function startPromise(resolve) {
         /* istanbul ignore if */
         if (cluster.isMaster) {
+            lifecycleHook("onBeforeClusterFork");
+
             for (let i = 0, c = cpuCount; i < c; i++) {
                 cluster.fork();
             }
@@ -96,11 +102,11 @@ function start() {
                 clusterForksCount: cpuCount
             });
         } else {
+            lifecycleHook("onWorkerStart");
+
             const app = koa();
 
-            if (typeof staticServerSettings.onStart === "function") {
-                staticServerSettings.onStart.call(this, app, wildcatConfig);
-            }
+            lifecycleHook("onStart");
 
             // enable cors
             app.use(cors({
@@ -198,9 +204,7 @@ function start() {
                         logger.ok(`Static server is running at ${generalSettings.staticUrl}`);
                     }
 
-                    if (typeof staticServerSettings.onAfterStart === "function") {
-                        staticServerSettings.onAfterStart.call(this, app, wildcatConfig);
-                    }
+                    lifecycleHook("onAfterStart");
 
                     resolve({
                         env: process.env.NODE_ENV,
