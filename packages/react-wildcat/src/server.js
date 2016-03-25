@@ -123,7 +123,10 @@ function start() {
 
             Object.keys(proxySettings).forEach(function eachProxyRoute(proxyRoute) {
                 const host = proxySettings[proxyRoute];
-                logger.meta(`Proxy: ${proxyRoute} -> ${host}`);
+
+                if (cluster.worker.id === cpuCount) {
+                    logger.meta(`Proxy: ${proxyRoute} -> ${host}`);
+                }
 
                 /* istanbul ignore next */
                 app.use(proxy({

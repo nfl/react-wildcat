@@ -42,6 +42,10 @@ function graylog(args, method) {
     return log[mapLogMethods[method] || "info"](chalk.stripColor(args.join(" ")));
 }
 
+function addColor(arg, color) {
+    return chalk.styles[color].open + arg + chalk.styles[color].close;
+}
+
 Object.keys(logMethods).forEach((method) => {
     Logger.prototype[method] = function () {
         const args = Array.prototype.slice.call(arguments); //eslint-disable-line prefer-rest-params
@@ -51,13 +55,22 @@ Object.keys(logMethods).forEach((method) => {
             const color = logMethods[method];
 
             if (typeof arg === "string" && color) {
-                args[i] = chalk.styles[color].open + arg + chalk.styles[color].close;
+                args[i] = addColor(arg, color);
             }
         });
 
         if (console[method]) {
             graylog(args, method);
             console[method].apply(console, args);
+
+            if (method === "error") {
+                args
+                    .filter(arg => arg instanceof Error && arg.stack)
+                    .forEach(arg => {
+                        console.error(addColor(`${this.id}  ~> Stack Trace:`, logMethods.error));
+                        console.error(addColor(arg.stack, logMethods.error));
+                    });
+            }
 
             return true;
         }

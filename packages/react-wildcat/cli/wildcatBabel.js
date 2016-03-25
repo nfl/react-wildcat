@@ -105,7 +105,7 @@ if (commander.watch) {
                 try {
                     handleFile(filename, relative);
                 } catch (err) {
-                    logger.error(err.stack);
+                    logger.error(err);
                 }
             });
         });

@@ -35,4 +35,4 @@ process.on("SIGINT", function () {
     killAllChildProcesses("SIGINT");
 });
 
-process.on("uncaughtException", e => logger.error(e.stack));
+process.on("uncaughtException", logger.error.bind(logger));
