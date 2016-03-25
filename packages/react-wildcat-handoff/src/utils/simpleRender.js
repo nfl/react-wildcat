@@ -11,9 +11,18 @@ module.exports = function serverRender(cfg) {
     const html = htmlTemplate({
         data: {},
         head: {
-            link: "",
-            meta: "",
-            title: ""
+            htmlAttributes: {
+                toString: () => ""
+            },
+            link: {
+                toString: () => ""
+            },
+            meta: {
+                toString: () => ""
+            },
+            title: {
+                toString: () => ""
+            }
         },
         html: "",
         wildcatConfig

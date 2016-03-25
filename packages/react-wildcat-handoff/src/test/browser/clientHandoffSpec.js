@@ -13,9 +13,18 @@ describe("react-wildcat-handoff/client", () => {
         document.body.innerHTML = defaultTemplate({
             data: {},
             head: {
-                title: "<title></title>",
-                meta: "",
-                link: ""
+                htmlAttributes: {
+                    toString: () => ""
+                },
+                link: {
+                    toString: () => ""
+                },
+                meta: {
+                    toString: () => ""
+                },
+                title: {
+                    toString: () => ""
+                }
             },
             html: "",
             wildcatConfig: stubs.wildcatConfig
