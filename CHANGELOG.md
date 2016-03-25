@@ -1,3 +1,13 @@
+<a name="2.3.2"></a>
+## [2.3.2](https://github.com/nfl/react-wildcat/compare/2.3.1...v2.3.2) (2016-03-25)
+
+
+### Bug Fixes
+
+* **react-wildcat:** Add more lifecycle hooks ([0214df8](https://github.com/nfl/react-wildcat/commit/0214df8))
+
+
+
 <a name="2.3.1"></a>
 ## [2.3.1](https://github.com/nfl/react-wildcat/compare/2.3.0...v2.3.1) (2016-03-24)
 
