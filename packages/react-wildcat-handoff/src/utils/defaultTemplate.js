@@ -21,14 +21,16 @@ module.exports = function defaultTemplate(cfg) {
     const staticUrl = generalSettings.staticUrl;
     const socketUrl = staticUrl.replace("http", "ws");
 
+    const helmetTags = Object.keys(head)
+        .filter(meta => meta !== "htmlAttributes")
+        .map(meta => head[meta].toString().trim());
+
     return `
 <!doctype html>
-<html>
+<html ${head.htmlAttributes.toString()}>
     <head>
         <meta charset="utf-8" />
-        ${head.title.toString()}
-        ${head.meta.toString()}
-        ${head.link.toString()}
+        ${helmetTags.join(``)}
     </head>
     <body>
         <div id="${reactRootElementID}">${html}</div>
