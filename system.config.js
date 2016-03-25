@@ -18,7 +18,7 @@ System.config({
     "react": "npm:react@0.14.7",
     "react-addons-test-utils": "npm:react-addons-test-utils@0.14.7",
     "react-dom": "npm:react-dom@0.14.7",
-    "react-helmet": "npm:react-helmet@2.3.1",
+    "react-helmet": "npm:react-helmet@3.0.0",
     "react-router": "npm:react-router@2.0.1",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@2.0.0",
     "github:jspm/nodelibs-assert@0.1.0": {
@@ -200,7 +200,7 @@ System.config({
     "npm:react-dom@0.14.7": {
       "react": "npm:react@0.14.7"
     },
-    "npm:react-helmet@2.3.1": {
+    "npm:react-helmet@3.0.0": {
       "core-js": "npm:core-js@2.2.0",
       "deep-equal": "npm:deep-equal@1.0.1",
       "invariant": "npm:invariant@2.2.0",

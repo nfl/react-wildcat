@@ -20,9 +20,12 @@ class HelmetExample extends React.Component {
             {"rel": "apple-touch-icon", "sizes": "72x72", "href": "http://mysite.com/img/apple-touch-icon-72x72.png"},
             {"rel": "apple-touch-icon", "sizes": "114x114", "href": "http://mysite.com/img/apple-touch-icon-114x114.png"}
         ];
+
+        const htmlAttributes = {"lang": "en-US"};
+
         return (
             <div id="helmet">
-                <Helmet title="Helmet Example" meta={meta} link={link} />
+                <Helmet htmlAttributes={htmlAttributes} title="Helmet Example" meta={meta} link={link} />
                 <Helmet title="Nested Example"
                     meta={[
                         {"name": "description", "content": "Nested Example"}
