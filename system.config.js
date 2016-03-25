@@ -201,9 +201,9 @@ System.config({
       "react": "npm:react@0.14.7"
     },
     "npm:react-helmet@3.0.0": {
-      "core-js": "npm:core-js@2.2.0",
       "deep-equal": "npm:deep-equal@1.0.1",
       "invariant": "npm:invariant@2.2.0",
+      "object-assign": "npm:object-assign@4.0.1",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "react-side-effect": "npm:react-side-effect@1.0.2",
       "shallowequal": "npm:shallowequal@0.2.2",
