@@ -79,7 +79,10 @@ module.exports = function blueBoxOfDeath(err, request) {
             ${err ? `
                 <div class="stack">
                     <h3>jspm error message:</h3>
-                    <pre>${err.stack || err}</pre>
+                    <pre>${err}</pre>
+
+                    <h3>jspm error stack trace:</h3>
+                    <pre>${err.stack}</pre>
                 </div>
             ` : ""}
             <div class="stack">

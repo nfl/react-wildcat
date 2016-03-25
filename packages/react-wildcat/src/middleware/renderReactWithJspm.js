@@ -76,7 +76,7 @@ module.exports = function renderReactWithJspm(root, options) {
                     });
             })
             .catch(function serverError(err) {
-                logger.error(err.stack || err);
+                logger.error(err);
 
                 if (serverSettings.displayBlueBoxOfDeath) {
                     const blueBoxOfDeath = require("../utils/blueBoxOfDeath");

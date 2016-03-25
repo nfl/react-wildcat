@@ -33,5 +33,5 @@ if (program.purgeCache) {
     process.on("exit", () =>process.emit("SIGINT"));
     process.on("SIGINT", () => killAllChildProcesses("SIGINT"));
 
-    process.on("uncaughtException", e => logger.error(e.stack));
+    process.on("uncaughtException", logger.error.bind(logger));
 }
