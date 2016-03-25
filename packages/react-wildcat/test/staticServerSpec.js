@@ -1251,6 +1251,7 @@ describe("react-wildcat", () => {
         context("lifecycle events", () => {
             const lifecycleTests = [
                 "onBeforeStart",
+                "onWorkerStart",
                 "onStart",
                 "onAfterStart"
             ];
