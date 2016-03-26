@@ -438,7 +438,6 @@ describe("react-wildcat", () => {
                 });
 
                 it("returns a binary error", (done) => {
-                    // const exampleBinaryBinPath = path.join(exampleDir, "bin/assets/images/primary-background.jpg");
                     const exampleBinarySrcPath = path.join(exampleDir, "src/assets/images/primary-background.jpg");
 
                     stubbedDevTranspiler = proxyquire("../src/middleware/babelDevTranspiler.js", {

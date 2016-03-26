@@ -1,6 +1,5 @@
 "use strict";
 
-const path = require("path");
 const Batch = require("batch");
 const batch = new Batch();
 
@@ -9,16 +8,17 @@ batch.concurrency(20);
 const finish = () => process.disconnect();
 
 const run = (message) => {
-    const handleFile = require("./handleFile")(message.commander);
-
+    const commander = message.commander;
+    const wildcatOptions = message.wildcatOptions;
     const files = message.files;
-    const currentDirectory = message.src;
+
+    const handleFile = require("./handleFile")(commander, Object.assign({}, wildcatOptions, {
+        babel: false
+    }));
 
     function batchFile(currentFile) {
-        const src = path.join(currentDirectory, currentFile);
-
         batch.push(function batchJob(done) {
-            handleFile(src, currentFile, done);
+            handleFile(currentFile, done);
         });
     }
 

@@ -1,63 +1,74 @@
 "use strict";
 
-const cwd = process.cwd();
-const path = require("path");
 const resolve = require("resolve");
 
-const Logger = require("../../src/utils/logger");
-const logger = new Logger("🔰");
-
 // Use project babel if found
-let babel;
+let projectBabel;
 
-try {
-    const babelPath = resolve.sync("babel", {
-        basedir: cwd
-    });
-
-    babel = require(babelPath);
-} catch (e) {
-    if (e.message.indexOf("Cannot find module") === -1) {
-        throw e;
+function findBabel(root) {
+    if (projectBabel) {
+        return projectBabel;
     }
 
-    babel = require("babel");
+    try {
+        const babelPath = resolve.sync("babel", {
+            basedir: root
+        });
+
+        projectBabel = require(babelPath);
+    } catch (e) {
+        if (!e.message.startsWith("Cannot find module")) {
+            throw e;
+        }
+
+        projectBabel = require("babel");
+    }
+
+    return projectBabel;
 }
 
-const util = babel.util;
-
-module.exports = function handleFile(commander) {
+module.exports = function handleFile(commander, wildcatOptions) {
     "use strict";
 
-    const wildcatConfig = require("../../src/utils/getWildcatConfig")(cwd);
-    const transpiler = require("./transpiler")(commander);
-    const copyFiles = require("./copyFiles")(commander);
+    const root = wildcatOptions.root;
+    const logger = wildcatOptions.logger;
+
+    const outDir = wildcatOptions.outDir;
+    const sourceDir = wildcatOptions.sourceDir;
+
+    const transpiler = require("./transpiler")(commander, wildcatOptions);
+    const copyFiles = require("./copyFiles")(commander, wildcatOptions);
+
+    // Worker processes strip functions out of objects
+    // So here I'm making sure Babel is defined. If not, I need to find it again.
+    const babel = wildcatOptions.babel || findBabel(root);
+    const util = babel.util;
 
     function log(msg) {
+        "use strict";
+
         if (!commander.quiet) {
             logger.meta(msg);
         }
     }
 
-    return function (src, filename, done) {
-        if (util.shouldIgnore(src, [])) {
-            return done && done();
-        }
+    return function (filename, done) {
+        "use strict";
 
-        const serverSettings = wildcatConfig.serverSettings;
-        const outDir = commander.outDir || serverSettings.publicDir;
-        const relativePath = path.join(outDir, filename);
+        const transpiledFilename = filename.replace(sourceDir, outDir);
 
         if (util.canCompile(filename, commander.extensions)) {
-            return transpiler(src, filename, (err) => {
-                log(src + " -> " + relativePath);
+            return transpiler(filename, (err) => {
+                log(`${filename} -> ${transpiledFilename}`);
                 return done && done(err);
             });
         } else if (commander.copyFiles) {
-            return copyFiles(src, filename, (err) => {
-                log(src + " -> " + relativePath);
+            return copyFiles(filename, (err) => {
+                log(`${filename} -> ${transpiledFilename}`);
                 return done && done(err);
             });
         }
+
+        return done && done();
     };
 };
