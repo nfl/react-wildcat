@@ -5,8 +5,15 @@ const path = require("path");
 const resolve = require("resolve");
 
 const Logger = require("../../src/utils/logger");
+exports.Logger = Logger;
+
 const logger = new Logger("🔰");
 exports.logger = logger;
+
+function LoggerStub() {
+    return logger;
+}
+exports.LoggerStub = LoggerStub;
 
 const wildcatConfig = require("../../src/utils/getWildcatConfig")(cwd);
 exports.wildcatConfig = wildcatConfig;

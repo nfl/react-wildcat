@@ -2,7 +2,6 @@
 
 const chai = require("chai");
 const expect = chai.expect;
-const sinon = require("sinon");
 const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 
@@ -11,7 +10,7 @@ const resolve = require("resolve");
 const proxyquire = require("proxyquire");
 const pathExists = require("path-exists");
 
-module.exports = (stubs) => {
+module.exports = (stubs, stubLogger) => {
     "use strict";
 
     describe("handleFile", () => {
@@ -74,9 +73,6 @@ module.exports = (stubs) => {
             }));
             const handleFile = require("../../utils/handleFile")(commanderStub, stubs.wildcatOptions);
 
-            const loggerMetaStub = sinon.stub(stubs.logger, "meta");
-            loggerMetaStub.returns();
-
             handleFile(stubs.exampleBinarySourcePath, (err) => {
                 expect(err)
                     .to.not.exist;
@@ -87,12 +83,11 @@ module.exports = (stubs) => {
                 expect(pathExists.sync(stubs.getBinPath(stubs.exampleBinarySourcePath)))
                     .to.be.true;
 
-                expect(loggerMetaStub)
+                expect(stubLogger.meta.lastCall)
                     .to.have.been.calledWith(
                         `${stubs.exampleBinarySourcePath} -> ${stubs.getPublicPath(stubs.exampleBinarySourcePath)}`
                     );
 
-                loggerMetaStub.restore();
                 done();
             });
         });

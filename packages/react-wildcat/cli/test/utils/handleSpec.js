@@ -2,7 +2,6 @@
 
 const chai = require("chai");
 const expect = chai.expect;
-const sinon = require("sinon");
 const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 
@@ -12,7 +11,7 @@ const glob = require("glob");
 const proxyquire = require("proxyquire");
 const pathExists = require("path-exists");
 
-module.exports = (stubs) => {
+module.exports = (stubs, loggerStub) => {
     "use strict";
 
     describe("handle", () => {
@@ -120,9 +119,6 @@ module.exports = (stubs) => {
             expect(pathExists.sync(testEntry))
                 .to.be.false;
 
-            const loggerWarnStub = sinon.stub(stubs.logger, "warn");
-            loggerWarnStub.returns();
-
             handle(testEntry)
                 .then((warning) => {
                     expect(warning)
@@ -135,12 +131,11 @@ module.exports = (stubs) => {
                     expect(pathExists.sync(stubs.getPublicPath(testEntry)))
                         .to.be.false;
 
-                    expect(loggerWarnStub)
+                    expect(loggerStub.warn.lastCall)
                         .to.have.been.calledWith(
                             `File does not exist: ${testEntry}`
                         );
 
-                    loggerWarnStub.restore();
                     done();
                 })
                 .catch(done);
@@ -162,9 +157,6 @@ module.exports = (stubs) => {
                 }
             })(commanderStub, stubs.wildcatOptions);
 
-            const loggerErrorStub = sinon.stub(stubs.logger, "error");
-            loggerErrorStub.returns();
-
             handle(testEntry)
                 .catch((err) => {
                     expect(err)
@@ -176,12 +168,11 @@ module.exports = (stubs) => {
                     expect(err)
                         .to.eql(stubs.errorStub);
 
-                    expect(loggerErrorStub)
+                    expect(loggerStub.error.lastCall)
                         .to.have.been.calledWith(
                             stubs.errorStub
                         );
 
-                    loggerErrorStub.restore();
                     done();
                 });
         });

@@ -2,7 +2,6 @@
 
 const chai = require("chai");
 const expect = chai.expect;
-const sinon = require("sinon");
 const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 
@@ -11,7 +10,7 @@ const fs = require("fs-extra");
 const proxyquire = require("proxyquire");
 const pathExists = require("path-exists");
 
-module.exports = (stubs) => {
+module.exports = (stubs, loggerStub) => {
     "use strict";
 
     describe("transpiler", () => {
@@ -121,9 +120,6 @@ module.exports = (stubs) => {
 
             fs.outputFileSync(stubs.failureTestFile, testData, "utf8");
 
-            const loggerErrorStub = sinon.stub(stubs.logger, "error");
-            loggerErrorStub.returns();
-
             transpiler(stubs.failureTestFile, (err) => {
                 expect(err)
                     .to.exist;
@@ -134,12 +130,11 @@ module.exports = (stubs) => {
                 expect(err.message)
                     .to.equal(`${stubs.failureTestFile}: Line 2: "x" is read-only`);
 
-                expect(loggerErrorStub.firstCall.args[0])
+                expect(loggerStub.error.lastCall.args[0])
                     .to.include(
                         `SyntaxError: ${stubs.failureTestFile}: Line 2: "x" is read-only`
                     );
 
-                loggerErrorStub.restore();
                 fs.removeSync(stubs.failureTestFile);
                 done();
             });

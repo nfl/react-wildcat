@@ -2,6 +2,7 @@
 
 const chai = require("chai");
 const expect = chai.expect;
+const sinon = require("sinon");
 const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 
@@ -16,6 +17,15 @@ const pathExists = require("path-exists");
 
 describe("cli - wildcatBabel", () => {
     const stubs = require("./fixtures");
+    const loggerStub = {};
+    const loggerStubMethods = [
+        "error",
+        "info",
+        "log",
+        "meta",
+        "ok",
+        "warn"
+    ];
 
     beforeEach(() => {
         process.chdir(stubs.exampleDir);
@@ -28,12 +38,26 @@ describe("cli - wildcatBabel", () => {
         ].forEach(fs.removeSync);
     });
 
+    before(() => {
+        loggerStubMethods.forEach(method => {
+            loggerStub[method] = sinon.stub(stubs.logger, method);
+            loggerStub[method].returns();
+        });
+    });
+
+    after(() => {
+        loggerStubMethods.forEach(method => {
+            loggerStub[method].restore();
+        });
+    });
+
     context("wildcat-babel --watch", () => {
         it("starts the file watcher", (done) => {
             const wildcatBabel = proxyquire("../wildcatBabel.js", {
                 "commander": new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults, {
                     watch: true
-                }))
+                })),
+                "../src/utils/logger": stubs.LoggerStub
             })
                 .then((watcher) => {
                     expect(wildcatBabel)
@@ -58,7 +82,8 @@ describe("cli - wildcatBabel", () => {
                         stubs.sourceDir
                     ],
                     watch: true
-                }))
+                })),
+                "../src/utils/logger": stubs.LoggerStub
             })
                 .then((watcher) => {
                     const testFilePath = path.join(stubs.exampleDir, stubs.sourceDir, "test.js");
@@ -99,7 +124,8 @@ describe("cli - wildcatBabel", () => {
     context("wildcat-babel", () => {
         it("transpiles a file with default parameters", (done) => {
             const wildcatBabel = proxyquire("../wildcatBabel.js", {
-                "commander": new stubs.CommanderStub(stubs.commanderDefaults)
+                "commander": new stubs.CommanderStub(stubs.commanderDefaults),
+                "../src/utils/logger": stubs.LoggerStub
             })
                 .then(() => {
                     expect(wildcatBabel)
@@ -119,7 +145,8 @@ describe("cli - wildcatBabel", () => {
                     args: [
                         stubs.sourceDir
                     ]
-                }))
+                })),
+                "../src/utils/logger": stubs.LoggerStub
             })
                 .then(() => {
                     expect(wildcatBabel)
@@ -137,7 +164,8 @@ describe("cli - wildcatBabel", () => {
             const wildcatBabel = proxyquire("../wildcatBabel.js", {
                 "commander": new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults, {
                     extensions: undefined
-                }))
+                })),
+                "../src/utils/logger": stubs.LoggerStub
             })
                 .then(() => {
                     expect(wildcatBabel)
@@ -155,7 +183,8 @@ describe("cli - wildcatBabel", () => {
             const wildcatBabel = proxyquire("../wildcatBabel.js", {
                 "commander": new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults, {
                     outDir: undefined
-                }))
+                })),
+                "../src/utils/logger": stubs.LoggerStub
             })
                 .then(() => {
                     expect(wildcatBabel)
@@ -177,7 +206,8 @@ describe("cli - wildcatBabel", () => {
                     args: [],
 
                     manifest: "manifest.txt"
-                }))
+                })),
+                "../src/utils/logger": stubs.LoggerStub
             })
                 .then(() => {
                     expect(wildcatBabel)
@@ -215,7 +245,8 @@ describe("cli - wildcatBabel", () => {
 
                         cpus: test.cpus,
                         ignore: ignoredFiles
-                    }))
+                    })),
+                    "../src/utils/logger": stubs.LoggerStub
                 })
                     .then(() => {
                         expect(wildcatBabel)
@@ -280,7 +311,8 @@ describe("cli - wildcatBabel", () => {
                 })),
                 "resolve": {
                     sync: () => resolve.sync("noop")
-                }
+                },
+                "../src/utils/logger": stubs.LoggerStub
             })
                 .then(() => {
                     expect(wildcatBabel)
@@ -306,7 +338,8 @@ describe("cli - wildcatBabel", () => {
                         sync: () => {
                             throw stubs.errorStub;
                         }
-                    }
+                    },
+                    "../src/utils/logger": stubs.LoggerStub
                 });
             } catch (err) {
                 expect(err)
@@ -324,9 +357,9 @@ describe("cli - wildcatBabel", () => {
     });
 
     context("utils", () => {
-        require("./utils/copyFilesSpec")(stubs);
-        require("./utils/handleSpec")(stubs);
-        require("./utils/handleFileSpec")(stubs);
-        require("./utils/transpilerSpec")(stubs);
+        require("./utils/copyFilesSpec")(stubs, loggerStub);
+        require("./utils/handleSpec")(stubs, loggerStub);
+        require("./utils/handleFileSpec")(stubs, loggerStub);
+        require("./utils/transpilerSpec")(stubs, loggerStub);
     });
 });
