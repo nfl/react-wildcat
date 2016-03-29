@@ -15,9 +15,9 @@ System.config({
     "invariant": "npm:invariant@2.2.1",
     "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
     "parse-domain": "npm:parse-domain@0.2.1",
-    "react": "npm:react@0.14.7",
-    "react-addons-test-utils": "npm:react-addons-test-utils@0.14.7",
-    "react-dom": "npm:react-dom@0.14.7",
+    "react": "npm:react@0.14.8",
+    "react-addons-test-utils": "npm:react-addons-test-utils@0.14.8",
+    "react-dom": "npm:react-dom@0.14.8",
     "react-helmet": "npm:react-helmet@3.0.0",
     "react-router": "npm:react-router@2.0.1",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@2.0.0",
@@ -194,11 +194,11 @@ System.config({
     "npm:query-string@3.0.1": {
       "strict-uri-encode": "npm:strict-uri-encode@1.1.0"
     },
-    "npm:react-addons-test-utils@0.14.7": {
-      "react": "npm:react@0.14.7"
+    "npm:react-addons-test-utils@0.14.8": {
+      "react": "npm:react@0.14.8"
     },
-    "npm:react-dom@0.14.7": {
-      "react": "npm:react@0.14.7"
+    "npm:react-dom@0.14.8": {
+      "react": "npm:react@0.14.8"
     },
     "npm:react-helmet@3.0.0": {
       "deep-equal": "npm:deep-equal@1.0.1",
@@ -222,9 +222,9 @@ System.config({
       "exenv": "npm:exenv@1.2.0",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.5",
       "invariant": "npm:invariant@2.2.1",
-      "react": "npm:react@0.14.7"
+      "react": "npm:react@0.14.8"
     },
-    "npm:react@0.14.7": {
+    "npm:react@0.14.8": {
       "fbjs": "npm:fbjs@0.6.1",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },

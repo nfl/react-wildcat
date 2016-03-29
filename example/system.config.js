@@ -51,9 +51,9 @@ System.config({
     "core-js": "npm:core-js@2.2.0",
     "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
     "radium": "npm:radium@0.17.0",
-    "react": "npm:react@0.14.7",
-    "react-addons-test-utils": "npm:react-addons-test-utils@0.14.7",
-    "react-dom": "npm:react-dom@0.14.7",
+    "react": "npm:react@0.14.8",
+    "react-addons-test-utils": "npm:react-addons-test-utils@0.14.8",
+    "react-dom": "npm:react-dom@0.14.8",
     "react-helmet": "npm:react-helmet@3.0.0",
     "react-metrics": "npm:react-metrics@1.1.0",
     "react-router": "npm:react-router@2.0.1",
@@ -506,11 +506,11 @@ System.config({
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:react-addons-test-utils@0.14.7": {
-      "react": "npm:react@0.14.7"
+    "npm:react-addons-test-utils@0.14.8": {
+      "react": "npm:react@0.14.8"
     },
-    "npm:react-dom@0.14.7": {
-      "react": "npm:react@0.14.7"
+    "npm:react-dom@0.14.8": {
+      "react": "npm:react@0.14.8"
     },
     "npm:react-helmet@3.0.0": {
       "deep-equal": "npm:deep-equal@1.0.1",
@@ -551,8 +551,8 @@ System.config({
       "inherits": "npm:inherits@2.0.1",
       "lodash": "npm:lodash@3.10.1",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "react": "npm:react@0.14.7",
-      "react-dom": "npm:react-dom@0.14.7"
+      "react": "npm:react@0.14.8",
+      "react-dom": "npm:react-dom@0.14.8"
     },
     "npm:react-transform-hmr@1.0.4": {
       "global": "npm:global@4.3.0",
@@ -564,8 +564,8 @@ System.config({
       "history": "npm:history@2.0.1",
       "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
       "parse-domain": "npm:parse-domain@0.2.1",
-      "react": "npm:react@0.14.7",
-      "react-dom": "npm:react-dom@0.14.7",
+      "react": "npm:react@0.14.8",
+      "react-dom": "npm:react-dom@0.14.8",
       "react-helmet": "npm:react-helmet@3.0.0",
       "react-router": "npm:react-router@2.0.1",
       "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@2.0.0"
@@ -578,9 +578,9 @@ System.config({
       "exenv": "npm:exenv@1.2.0",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.5",
       "invariant": "npm:invariant@2.2.0",
-      "react": "npm:react@0.14.7"
+      "react": "npm:react@0.14.8"
     },
-    "npm:react@0.14.7": {
+    "npm:react@0.14.8": {
       "fbjs": "npm:fbjs@0.6.1",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
@@ -608,7 +608,7 @@ System.config({
     "npm:redbox-react@1.2.2": {
       "error-stack-parser": "npm:error-stack-parser@1.3.3",
       "object-assign": "npm:object-assign@4.0.1",
-      "react": "npm:react@0.14.7"
+      "react": "npm:react@0.14.8"
     },
     "npm:rimraf@2.5.2": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
