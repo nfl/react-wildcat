@@ -2,7 +2,7 @@
 
 const pathResolve = require("resolve-path");
 
-module.exports = function copyFiles(commander, wildcatOptions) {
+module.exports = function prepImportableModule(commander, wildcatOptions) {
     "use strict";
 
     const createImportableModule = require("../../src/utils/createImportableModule");

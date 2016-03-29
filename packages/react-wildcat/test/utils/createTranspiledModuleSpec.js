@@ -13,7 +13,7 @@ const pathExists = require("path-exists");
 module.exports = (stubs) => {
     "use strict";
 
-    describe("transpile", () => {
+    describe("createTranspiledModule", () => {
         // Conditionally exclude files from coverage based on suite name.
         const onSuiteExcludeCoverage = function onSuiteExcludeCoverageStub(suite) {
             return `!**/${suite}/**`;
@@ -100,9 +100,9 @@ module.exports = (stubs) => {
             ]
         }].forEach(test => {
             it(test.name, (done) => {
-                const transpile = require("../../src/utils/transpile");
+                const createTranspiledModule = require("../../src/utils/createTranspiledModule");
 
-                new Promise((resolve, reject) => transpile(test.transpileOptions, resolve, reject))
+                new Promise((resolve, reject) => createTranspiledModule(test.transpileOptions, resolve, reject))
                     .then((response) => {
                         setTimeout(() => {
                             expect(response)
@@ -216,9 +216,9 @@ module.exports = (stubs) => {
                 Object.keys(test.env)
                     .forEach(v => process.env[v] = test.env[v]);
 
-                const transpile = proxyquire("../../src/utils/transpile", {});
+                const createTranspiledModule = proxyquire("../../src/utils/createTranspiledModule", {});
 
-                new Promise((resolve, reject) => transpile(test.transpileOptions, resolve, reject))
+                new Promise((resolve, reject) => createTranspiledModule(test.transpileOptions, resolve, reject))
                     .then((response) => {
                         Object.keys(cachedEnv).forEach(v => delete process.env[v]);
 
@@ -278,13 +278,13 @@ module.exports = (stubs) => {
         });
 
         it("returns a transpile error", (done) => {
-            const transpile = proxyquire("../../src/utils/transpile", {
+            const createTranspiledModule = proxyquire("../../src/utils/createTranspiledModule", {
                 "babel-core": {
                     transformFile: (src, options, cb) => cb(stubs.errorStub)
                 }
             });
 
-            new Promise((resolve, reject) => transpile(Object.assign({}, stubs.transpileModuleDefaults, {
+            new Promise((resolve, reject) => createTranspiledModule(Object.assign({}, stubs.transpileModuleDefaults, {
                 babel: undefined
             }), resolve, reject))
                 .then(response => console.log("response", response))
@@ -315,7 +315,7 @@ module.exports = (stubs) => {
             })
         }].forEach(test => {
             it(test.name, (done) => {
-                const transpile = proxyquire("../../src/utils/transpile", {
+                const createTranspiledModule = proxyquire("../../src/utils/createTranspiledModule", {
                     "istanbul": {
                         Instrumenter: (() => {
                             function InstrumenterStub() {}
@@ -331,7 +331,7 @@ module.exports = (stubs) => {
                     }
                 });
 
-                new Promise((resolve, reject) => transpile(test.transpileOptions, resolve, reject))
+                new Promise((resolve, reject) => createTranspiledModule(test.transpileOptions, resolve, reject))
                     .catch(err => {
                         expect(err)
                             .to.exist;
@@ -360,7 +360,7 @@ module.exports = (stubs) => {
             })
         }].forEach(test => {
             it(test.name, (done) => {
-                const transpile = proxyquire("../../src/utils/transpile", {
+                const createTranspiledModule = proxyquire("../../src/utils/createTranspiledModule", {
                     "fs-extra": {
                         createOutputStream: (targetPath) => {
                             const expectedPath = path.join(stubs.exampleDir, stubs.mainEntryTranspiledPath);
@@ -382,7 +382,7 @@ module.exports = (stubs) => {
                     }
                 });
 
-                new Promise((resolve, reject) => transpile(test.transpileOptions, resolve, reject))
+                new Promise((resolve, reject) => createTranspiledModule(test.transpileOptions, resolve, reject))
                     .then(() => setTimeout(() => {
                         expect(loggerStub.error.lastCall)
                             .to.have.been.calledWith(stubs.errorStub);
@@ -394,7 +394,7 @@ module.exports = (stubs) => {
         });
 
         it("does not transpile when data is ignored", (done) => {
-            const transpile = proxyquire("../../src/utils/transpile", {
+            const createTranspiledModule = proxyquire("../../src/utils/createTranspiledModule", {
                 "babel-core": {
                     transformFile: (src, options, cb) => cb(null, {
                         ignored: true
@@ -402,7 +402,7 @@ module.exports = (stubs) => {
                 }
             });
 
-            new Promise((resolve, reject) => transpile(Object.assign({}, stubs.transpileModuleDefaults, {
+            new Promise((resolve, reject) => createTranspiledModule(Object.assign({}, stubs.transpileModuleDefaults, {
                 babel: undefined
             }), resolve, reject))
                 .then(response => {
@@ -471,7 +471,7 @@ module.exports = (stubs) => {
             sourceMapShouldExist: true
         }].forEach((test, idx) => {
             it(`saves an external source map when specified #${idx + 1}`, (done) => {
-                const transpile = proxyquire("../../src/utils/transpile", {
+                const createTranspiledModule = proxyquire("../../src/utils/createTranspiledModule", {
                     "babel-core": {
                         transformFile: (modulePath, options, cb) => {
                             return cb(null, {
@@ -482,7 +482,7 @@ module.exports = (stubs) => {
                     }
                 });
 
-                new Promise((resolve, reject) => transpile(Object.assign({}, test.transpileOptions), resolve, reject))
+                new Promise((resolve, reject) => createTranspiledModule(Object.assign({}, test.transpileOptions), resolve, reject))
                     .then(() => setTimeout(() => {
                         expect(pathExists.sync(
                             path.join(stubs.exampleDir, stubs.mainEntryTranspiledPath)
@@ -503,7 +503,7 @@ module.exports = (stubs) => {
         it("reports a source map error", (done) => {
             const mainEntryTranspiledMapPath = path.join(stubs.exampleDir, `${stubs.mainEntryTranspiledPath}.map`);
 
-            const transpile = proxyquire("../../src/utils/transpile", {
+            const createTranspiledModule = proxyquire("../../src/utils/createTranspiledModule", {
                 "babel-core": {
                     transformFile: (modulePath, options, cb) => {
                         return cb(null, {
@@ -529,7 +529,7 @@ module.exports = (stubs) => {
                 }
             });
 
-            new Promise((resolve, reject) => transpile(Object.assign({}, stubs.transpileModuleDefaults, {
+            new Promise((resolve, reject) => createTranspiledModule(Object.assign({}, stubs.transpileModuleDefaults, {
                 babel: undefined,
                 babelOptions: {
                     sourceMaps: true

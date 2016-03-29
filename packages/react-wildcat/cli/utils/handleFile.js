@@ -36,8 +36,8 @@ module.exports = function handleFile(commander, wildcatOptions) {
     const outDir = wildcatOptions.outDir;
     const sourceDir = wildcatOptions.sourceDir;
 
-    const transpiler = require("./transpiler")(commander, wildcatOptions);
-    const copyFiles = require("./copyFiles")(commander, wildcatOptions);
+    const prepTranspiledModule = require("./prepTranspiledModule")(commander, wildcatOptions);
+    const prepImportableModule = require("./prepImportableModule")(commander, wildcatOptions);
 
     // Worker processes strip functions out of objects
     // So here I'm making sure Babel is defined. If not, I need to find it again.
@@ -58,12 +58,12 @@ module.exports = function handleFile(commander, wildcatOptions) {
         const transpiledFilename = filename.replace(sourceDir, outDir);
 
         if (util.canCompile(filename, commander.extensions)) {
-            return transpiler(filename, (err) => {
+            return prepTranspiledModule(filename, (err) => {
                 log(`${filename} -> ${transpiledFilename}`);
                 return done && done(err);
             });
         } else if (commander.copyFiles) {
-            return copyFiles(filename, (err) => {
+            return prepImportableModule(filename, (err) => {
                 log(`${filename} -> ${transpiledFilename}`);
                 return done && done(err);
             });
