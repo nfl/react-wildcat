@@ -32,7 +32,7 @@ module.exports = function babelDevTranspiler(root, options) {
         }
 
         const dataOptions = Object.assign({}, babelOptions, {
-            sourceFileName: moduleSourcePath,
+            sourceFileName: path.join(root, moduleSourcePath),
             sourceMapTarget: path.basename(moduleSourcePath)
         });
 
