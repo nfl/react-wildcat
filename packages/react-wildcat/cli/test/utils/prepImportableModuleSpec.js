@@ -14,7 +14,7 @@ const pathExists = require("path-exists");
 module.exports = (stubs) => {
     "use strict";
 
-    describe("copyFiles", () => {
+    describe("prepImportableModule", () => {
         const ignoredFiles = [
             "**/{shell,e2e,test}/**"
         ];
@@ -50,9 +50,9 @@ module.exports = (stubs) => {
         }].forEach((test) => {
             it(test.name, (done) => {
                 const commanderStub = new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults, test.commanderOptions));
-                const copyFiles = require("../../utils/copyFiles")(commanderStub, stubs.wildcatOptions);
+                const prepImportableModule = require("../../utils/prepImportableModule")(commanderStub, stubs.wildcatOptions);
 
-                copyFiles(stubs.exampleBinarySourcePath)
+                prepImportableModule(stubs.exampleBinarySourcePath)
                     .then(() => {
                         expect(commanderStub)
                             .to.exist;
@@ -76,11 +76,11 @@ module.exports = (stubs) => {
         it("does not return an error on a successful file creation", (done) => {
             const commanderStub = new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults));
 
-            const copyFiles = proxyquire("../../utils/copyFiles", {
+            const prepImportableModule = proxyquire("../../utils/prepImportableModule", {
                 "../../src/utils/createImportableModule": (optiions, importableResolve) => importableResolve()
             })(commanderStub, stubs.wildcatOptions);
 
-            copyFiles(stubs.exampleBinarySourcePath, (err) => {
+            prepImportableModule(stubs.exampleBinarySourcePath, (err) => {
                 expect(err)
                     .to.not.exist;
 
@@ -91,11 +91,11 @@ module.exports = (stubs) => {
         it("returns an error on a failed file creation", (done) => {
             const commanderStub = new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults));
 
-            const copyFiles = proxyquire("../../utils/copyFiles", {
+            const prepImportableModule = proxyquire("../../utils/prepImportableModule", {
                 "../../src/utils/createImportableModule": (optiions, importableResolve, importableReject) => importableReject(stubs.errorStub)
             })(commanderStub, stubs.wildcatOptions);
 
-            copyFiles(stubs.exampleBinarySourcePath, (err) => {
+            prepImportableModule(stubs.exampleBinarySourcePath, (err) => {
                 expect(err)
                     .to.exist;
 

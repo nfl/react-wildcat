@@ -217,7 +217,7 @@ module.exports = (stubs, loggerStub) => {
             }));
 
             const handle = proxyquire("../../utils/handle", {
-                "./transpiler": () => (filename, cb) => cb(stubs.errorStub)
+                "./prepTranspiledModule": () => (filename, cb) => cb(stubs.errorStub)
             })(commanderStub, stubs.wildcatOptions);
 
             handle(testEntry)

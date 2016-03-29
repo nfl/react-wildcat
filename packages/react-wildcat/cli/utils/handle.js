@@ -14,7 +14,7 @@ module.exports = function handle(commander, wildcatOptions) {
 
     const logger = wildcatOptions.logger;
 
-    const transpiler = require("./transpiler")(commander, wildcatOptions);
+    const prepTranspiledModule = require("./prepTranspiledModule")(commander, wildcatOptions);
     const cpus = commander.cpus ? Math.min(availableCpus, commander.cpus) : availableCpus;
 
     function transpileFiles(err, files) {
@@ -105,7 +105,7 @@ module.exports = function handle(commander, wildcatOptions) {
                                 .catch(handleReject);
                         });
                     } else {
-                        return transpiler(
+                        return prepTranspiledModule(
                             filename,
                             (transpilerError) => {
                                 if (transpilerError) {

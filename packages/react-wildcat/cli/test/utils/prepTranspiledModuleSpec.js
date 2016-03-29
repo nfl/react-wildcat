@@ -13,7 +13,7 @@ const pathExists = require("path-exists");
 module.exports = (stubs, loggerStub) => {
     "use strict";
 
-    describe("transpiler", () => {
+    describe("prepTranspiledModule", () => {
         const ignoredFiles = [
             "**/{shell,e2e,test}/**"
         ];
@@ -28,9 +28,9 @@ module.exports = (stubs, loggerStub) => {
 
         it("prepares transpile data to be transpiled", (done) => {
             const commanderStub = new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults));
-            const transpiler = require("../../utils/transpiler")(commanderStub, stubs.wildcatOptions);
+            const prepTranspiledModule = require("../../utils/prepTranspiledModule")(commanderStub, stubs.wildcatOptions);
 
-            transpiler(stubs.mainEntrySourcePath, (err) => {
+            prepTranspiledModule(stubs.mainEntrySourcePath, (err) => {
                 expect(err)
                     .to.not.exist;
 
@@ -43,13 +43,13 @@ module.exports = (stubs, loggerStub) => {
 
         it("gracefully handles a missing .babelrc", (done) => {
             const commanderStub = new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults));
-            const transpiler = proxyquire("../../utils/transpiler", {
+            const prepTranspiledModule = proxyquire("../../utils/prepTranspiledModule", {
                 "path-exists": {
                     sync: () => false
                 }
             })(commanderStub, stubs.wildcatOptions);
 
-            transpiler(stubs.mainEntrySourcePath, (err) => {
+            prepTranspiledModule(stubs.mainEntrySourcePath, (err) => {
                 expect(err)
                     .to.not.exist;
 
@@ -84,9 +84,9 @@ module.exports = (stubs, loggerStub) => {
         }].forEach((test) => {
             it(test.name, (done) => {
                 const commanderStub = new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults, test.commanderOptions));
-                const transpiler = require("../../utils/transpiler")(commanderStub, test.wildcatOptions);
+                const prepTranspiledModule = require("../../utils/prepTranspiledModule")(commanderStub, test.wildcatOptions);
 
-                transpiler(test.entry, (err) => {
+                prepTranspiledModule(test.entry, (err) => {
                     expect(err)
                         .to.not.exist;
 
@@ -108,7 +108,7 @@ module.exports = (stubs, loggerStub) => {
 
         it("reports a transpile error", (done) => {
             const commanderStub = new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults));
-            const transpiler = proxyquire("../../utils/transpiler", {
+            const prepTranspiledModule = proxyquire("../../utils/prepTranspiledModule", {
                 "node-notifier": {
                     notify: () => {}
                 }
@@ -120,7 +120,7 @@ module.exports = (stubs, loggerStub) => {
 
             fs.outputFileSync(stubs.failureTestFile, testData, "utf8");
 
-            transpiler(stubs.failureTestFile, (err) => {
+            prepTranspiledModule(stubs.failureTestFile, (err) => {
                 expect(err)
                     .to.exist;
 
