@@ -61,18 +61,18 @@ module.exports = (stubs, loggerStub) => {
         });
 
         [{
-            name: "transpiles a file",
+            name: "transpiles a source file",
             entry: stubs.mainEntrySourcePath,
-            output: stubs.mainEntryTranspiledPath,
+            outputPath: stubs.mainEntryTranspiledPath,
             outputContents: [
                 `var _routesConfigJs = require("./routes.config.js");`
             ],
             commanderOptions: testOptions,
             wildcatOptions: stubs.wildcatOptions
         }, {
-            name: "transpiles a file with code coverage instrumentation",
+            name: "transpiles a source file with code coverage instrumentation",
             entry: stubs.mainEntrySourcePath,
-            output: stubs.mainEntryTranspiledPath,
+            outputPath: stubs.mainEntryTranspiledPath,
             outputContents: [
                 `__cov_`,
                 `__coverage__`
@@ -90,10 +90,10 @@ module.exports = (stubs, loggerStub) => {
                     expect(err)
                         .to.not.exist;
 
-                    expect(pathExists.sync(test.output))
+                    expect(pathExists.sync(test.outputPath))
                         .to.be.true;
 
-                    const fileContents = fs.readFileSync(test.output, "utf8");
+                    const fileContents = fs.readFileSync(test.outputPath, "utf8");
 
                     test.outputContents.forEach(contents => {
                         expect(fileContents)

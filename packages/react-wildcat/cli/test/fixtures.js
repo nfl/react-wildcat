@@ -153,3 +153,13 @@ const commanderDefaults = {
     quiet: true
 };
 exports.commanderDefaults = commanderDefaults;
+
+const logMethods = {
+    "error": "error",
+    "info": "info",
+    "log": "log",
+    "meta": "log",
+    "ok": "log",
+    "warn": "warn"
+};
+exports.logMethods = logMethods;

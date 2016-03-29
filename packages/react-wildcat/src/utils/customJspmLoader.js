@@ -7,14 +7,13 @@ function customizeJspmLoader(root, options) {
 
     const pkg = require(path.join(root, "package.json"));
     const jspm = require("jspm");
-    const baseURL = require("./baseURI");
+    const baseURL = require("../polyfills/baseURI");
 
     const wildcatConfig = options.wildcatConfig;
     const serverSettings = wildcatConfig.serverSettings;
 
     const jspmLoader = jspm.Loader();
 
-    /* istanbul ignore else */
     if (!serverSettings.localPackageCache) {
         jspmLoader.baseURL = baseURL;
     }

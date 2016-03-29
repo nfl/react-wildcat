@@ -54,7 +54,7 @@ module.exports = function transpile(options, resolve, reject) {
             ];
 
             instrumentationExcludes = excludedFiles;
-        } else if (suite && instrumentationSettings.onSuiteExcludeCoverage) {
+        } else if (suite && typeof instrumentationSettings.onSuiteExcludeCoverage === "function") {
             instrumentationExcludes = instrumentationExcludes.concat(
                 instrumentationSettings.onSuiteExcludeCoverage(suite)
             );

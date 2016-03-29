@@ -18,14 +18,6 @@ const pathExists = require("path-exists");
 describe("cli - wildcatBabel", () => {
     const stubs = require("./fixtures");
     const loggerStub = {};
-    const loggerStubMethods = [
-        "error",
-        "info",
-        "log",
-        "meta",
-        "ok",
-        "warn"
-    ];
 
     beforeEach(() => {
         process.chdir(stubs.exampleDir);
@@ -39,14 +31,14 @@ describe("cli - wildcatBabel", () => {
     });
 
     before(() => {
-        loggerStubMethods.forEach(method => {
+        Object.keys(stubs.logMethods).forEach(method => {
             loggerStub[method] = sinon.stub(stubs.logger, method);
             loggerStub[method].returns();
         });
     });
 
     after(() => {
-        loggerStubMethods.forEach(method => {
+        Object.keys(stubs.logMethods).forEach(method => {
             loggerStub[method].restore();
         });
     });

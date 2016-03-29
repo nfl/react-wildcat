@@ -1,15 +1,19 @@
 // WebSocket polyfill for Node
 const WebSocket = require("ws/lib/WebSocket.js");
 
-module.exports = function hotReloaderWebSocket(hotReloader, socketUrl) {
+module.exports = function hotReloaderWebSocket(hotReloader, socketUrl, logger) {
     var socket = new WebSocket(socketUrl);
 
     socket.addEventListener("open", function socketOpen() {
-        console.info(`Listening to socket server at ${socketUrl}.`);
+        logger.info(`Listening to socket server at ${socketUrl}.`);
     });
 
-    socket.addEventListener("error", function socketError() {
-        console.warn(`No socket server found at ${socketUrl}.`);
+    socket.addEventListener("error", function socketError(err) {
+        if (err.code === "EADDRNOTAVAIL") {
+            return logger.warn(`No socket server found at ${socketUrl}.`);
+        }
+
+        return logger.error(err);
     });
 
     socket.addEventListener("message", function socketMessage(messageEvent) {
@@ -22,4 +26,6 @@ module.exports = function hotReloaderWebSocket(hotReloader, socketUrl) {
                 break;
         }
     });
+
+    return socket;
 };

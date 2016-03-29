@@ -42,22 +42,22 @@ function graylog(args, method) {
     return log[mapLogMethods[method] || "info"](chalk.stripColor(args.join(" ")));
 }
 
-function addColor(arg, color) {
+function addColor(arg, method) {
+    const color = logMethods[method];
+
+    if (typeof arg !== "string" || !color) {
+        return arg;
+    }
+
     return chalk.styles[color].open + arg + chalk.styles[color].close;
 }
 
 Object.keys(logMethods).forEach((method) => {
     Logger.prototype[method] = function () {
-        const args = Array.prototype.slice.call(arguments); //eslint-disable-line prefer-rest-params
+        let args = Array.prototype.slice.call(arguments); //eslint-disable-line prefer-rest-params
+
         args.unshift(`${this.id}  ~>`);
-
-        args.forEach((arg, i) => {
-            const color = logMethods[method];
-
-            if (typeof arg === "string" && color) {
-                args[i] = addColor(arg, color);
-            }
-        });
+        args = args.map(arg => addColor(arg, method));
 
         if (console[method]) {
             graylog(args, method);
@@ -67,8 +67,8 @@ Object.keys(logMethods).forEach((method) => {
                 args
                     .filter(arg => arg instanceof Error && arg.stack)
                     .forEach(arg => {
-                        console.error(addColor(`${this.id}  ~> Stack Trace:`, logMethods.error));
-                        console.error(addColor(arg.stack, logMethods.error));
+                        console.error(addColor(`${this.id}  ~> Stack Trace:`, method));
+                        console.error(addColor(arg.stack, method));
                     });
             }
 

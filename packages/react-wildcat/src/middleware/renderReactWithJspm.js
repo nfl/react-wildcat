@@ -27,12 +27,12 @@ module.exports = function renderReactWithJspm(root, options) {
                     });
 
                     if (typeof serverSettings.hotReloadReporter === "function") {
-                        serverSettings.hotReloadReporter(hotReloaderInstance, generalSettings.staticUrl);
+                        serverSettings.hotReloadReporter(hotReloaderInstance, generalSettings.staticUrl, logger);
                     } else {
                         const hotReloaderWebSocket = require("../utils/hotReloaderWebSocket");
 
                         const socketUrl = generalSettings.staticUrl.replace(/http/, "ws");
-                        hotReloaderWebSocket(hotReloaderInstance, socketUrl);
+                        hotReloaderWebSocket(hotReloaderInstance, socketUrl, logger);
                     }
                 }
 
@@ -91,7 +91,7 @@ module.exports = function renderReactWithJspm(root, options) {
 
                 return {
                     reply: {
-                        error: err.stack || err,
+                        error: err.stack,
                         status: 500
                     }
                 };
@@ -111,13 +111,7 @@ module.exports = function renderReactWithJspm(root, options) {
         const data = yield pageHandler(request, cookies);
         reply = data.reply;
 
-        if (reply.type) {
-            response.type = reply.type;
-        }
-
-        if (reply.status) {
-            this.status = reply.status;
-        }
+        this.status = reply.status;
 
         if (reply.redirect === true) {
             const redirectLocation = reply.redirectLocation;

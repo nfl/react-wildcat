@@ -17,7 +17,6 @@ const path = require("path");
 const http = require("http");
 const http2 = require("spdy");
 const https = require("https");
-const debug = require("debug")("memwatch");
 
 const morgan = require("koa-morgan");
 const getMorganOptions = require("./utils/getMorganOptions");
@@ -52,7 +51,6 @@ function start() {
 
     const __PROD__ = (process.env.NODE_ENV === "production");
     const __TEST__ = (process.env.BABEL_ENV === "test");
-    const __DEBUG__ = (process.env.DEBUG);
 
     let cpuCount = (appServerSettings && appServerSettings.maxClusterCpuCount) || Infinity;
 
@@ -60,7 +58,6 @@ function start() {
         cpuCount = os.cpus().length;
     }
 
-    /* istanbul ignore else */
     if (!__PROD__ || __TEST__) {
         https.globalAgent.options.rejectUnauthorized = false;
     }
@@ -90,16 +87,6 @@ function start() {
         } else {
             lifecycleHook("onWorkerStart");
 
-            /* istanbul ignore next */
-            if (__DEBUG__) {
-                debug("Watching for memory leaks...", process.pid);
-
-                var memwatch = require("memwatch-next");
-
-                memwatch.on("leak", info => logger.error("Memory leak detected", info));
-                memwatch.on("stats", stats => logger.info("Stats", stats));
-            }
-
             const app = koa();
 
             lifecycleHook("onStart");
@@ -128,7 +115,6 @@ function start() {
                     logger.meta(`Proxy: ${proxyRoute} -> ${host}`);
                 }
 
-                /* istanbul ignore next */
                 app.use(proxy({
                     host,
                     map: (hostPath) => hostPath.replace(proxyRoute, ""),

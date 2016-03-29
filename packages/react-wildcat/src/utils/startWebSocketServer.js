@@ -10,28 +10,34 @@ function send(eventName, response, client) {
     }));
 }
 
-module.exports = function connectToWebSocketServer(root, options) {
+module.exports = function startWebSocketServer(root, options) {
     const cache = options.cache;
     const server = options.server;
     const watchOptions = options.watchOptions;
 
     const wss = new WebSocketServer({
-        server: server
+        server
     });
 
-    chokidar.watch(root, watchOptions).on("change", function fileWatcher(filename) {
-        const modulePath = filename.replace(`${root}/`, "");
+    const watcher = chokidar.watch(root, watchOptions)
+        .on("change", function fileWatcher(filename) {
+            const modulePath = filename.replace(`${root}/`, "");
 
-        wss.clients.forEach(function sendFileChange(client) {
-            send("filechange", modulePath, client);
-        });
-
-        if (cache[filename]) {
-            wss.clients.forEach(function sendCacheFlush(client) {
-                send("cacheflush", filename, client);
+            wss.clients.forEach(function sendFileChange(client) {
+                send("filechange", modulePath, client);
             });
 
-            delete cache[filename];
-        }
-    });
+            if (cache[filename]) {
+                wss.clients.forEach(function sendCacheFlush(client) {
+                    send("cacheflush", filename, client);
+                });
+
+                delete cache[filename];
+            }
+        });
+
+    return {
+        watcher,
+        server: wss
+    };
 };

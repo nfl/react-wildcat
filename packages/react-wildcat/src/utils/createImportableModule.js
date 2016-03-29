@@ -48,7 +48,7 @@ module.exports = function createImportableModule(options, resolve, reject) {
         new Promise(function binaryPromise(resolveBinary, rejectBinary) {
             fs.createReadStream(path.join(root, moduleSourcePath))
                 .pipe(
-                    fs.createOutputStream(moduleBinPath || modulePath)
+                    fs.createOutputStream(moduleBinPath)
                         .on("open", function binaryStreamOpen() {
                             if (logLevel > 1) {
                                 logger.meta(logCreateSuccess(modulePath));
@@ -59,7 +59,7 @@ module.exports = function createImportableModule(options, resolve, reject) {
                             return rejectBinary(outputErr);
                         })
                         .on("finish", function binaryStreamFinish() {
-                            return resolveBinary(moduleBinPath || modulePath);
+                            return resolveBinary(moduleBinPath);
                         })
                 );
         })

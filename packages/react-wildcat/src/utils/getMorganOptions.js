@@ -1,10 +1,9 @@
 const chalk = require("chalk");
 
-/* istanbul ignore next */
 module.exports = function getMorganOptions(logLevel, serverSettings) {
     "use strict";
 
-    var skip = null;
+    let skip = null;
     let logger, env;
 
     if (serverSettings && serverSettings.graylog) {
@@ -28,9 +27,11 @@ module.exports = function getMorganOptions(logLevel, serverSettings) {
             break;
     }
 
-    var graylogData;
+    let graylogData;
 
-    var graylog = (req, res) => {
+    const graylog = (req, res) => {
+        "use strict";
+
         if (logger && env) {
             graylogData = {
                 "HTTP_host": req.headers.host,
@@ -47,6 +48,8 @@ module.exports = function getMorganOptions(logLevel, serverSettings) {
         skip: graylog,
         stream: {
             write: (data) => {
+                "use strict";
+
                 if (logger && env) {
                     logger.debug(chalk.stripColor(data), graylogData);
                 }
