@@ -9,7 +9,7 @@ module.exports = function hotReloaderWebSocket(hotReloader, socketUrl, logger) {
     });
 
     socket.addEventListener("error", function socketError(err) {
-        if (err.code === "EADDRNOTAVAIL") {
+        if (err.code === "EADDRNOTAVAIL" || err.code === "ECONNREFUSED") {
             return logger.warn(`No socket server found at ${socketUrl}.`);
         }
 
