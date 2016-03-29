@@ -7,7 +7,7 @@ const notifier = require("node-notifier");
 const pathExists = require("path-exists");
 const pathResolve = require("resolve-path");
 
-const transpile = require("../../src/utils/transpile");
+const createTranspiledModule = require("../../src/utils/createTranspiledModule");
 
 function findBabelOptions(root) {
     "use strict";
@@ -57,7 +57,7 @@ module.exports = function transpiler(commander, wildcatOptions) {
         });
 
         return new Promise((transpileResolve, transpileReject) => {
-            return transpile({
+            return createTranspiledModule({
                 babel,
 
                 coverage,

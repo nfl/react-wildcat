@@ -2,7 +2,7 @@ const path = require("path");
 const pathExists = require("path-exists");
 const pathResolve = require("resolve-path");
 
-const transpile = require("../utils/transpile");
+const createTranspiledModule = require("../utils/createTranspiledModule");
 const createImportableModule = require("../utils/createImportableModule");
 
 module.exports = function babelDevTranspiler(root, options) {
@@ -38,7 +38,7 @@ module.exports = function babelDevTranspiler(root, options) {
 
         const transpilerPromise = new Promise(function transpilerPromise(resolve, reject) {
             if (extensions.indexOf(path.extname(moduleSourcePath)) !== -1) {
-                return transpile({
+                return createTranspiledModule({
                     coverage,
                     coverageSettings,
 

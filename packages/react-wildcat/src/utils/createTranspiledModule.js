@@ -10,7 +10,7 @@ function addSourceMappingUrl(code, loc) {
     return code + "\n//# sourceMappingURL=" + path.basename(loc);
 }
 
-module.exports = function transpile(options, resolve, reject) {
+module.exports = function createTranspiledModule(options, resolve, reject) {
     "use strict";
 
     const babel = options.babel || require("babel-core");

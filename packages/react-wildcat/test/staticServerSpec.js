@@ -29,7 +29,7 @@ describe("staticServer", () => {
     context("utils", () => {
         require("./utils/createImportableModuleSpec")(stubs);
         require("./utils/startWebSocketServerSpec")(stubs);
-        require("./utils/transpileSpec")(stubs);
+        require("./utils/createTranspiledModuleSpec")(stubs);
     });
 
     context("middleware", () => {
