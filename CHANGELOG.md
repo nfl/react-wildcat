@@ -1,3 +1,14 @@
+<a name="2.4.1"></a>
+## [2.4.1](https://github.com/nfl/react-wildcat/compare/2.4.0...v2.4.1) (2016-03-29)
+
+
+### Bug Fixes
+
+* **react-wildcat:** Fallback to console if logger is not defined ([e9fbf93](https://github.com/nfl/react-wildcat/commit/e9fbf93))
+* **react-wildcat:** Fix sourceFileName path ([1a11bc0](https://github.com/nfl/react-wildcat/commit/1a11bc0))
+
+
+
 <a name="2.4.0"></a>
 # [2.4.0](https://github.com/nfl/react-wildcat/compare/2.3.0...v2.4.0) (2016-03-26)
 
