@@ -51,7 +51,7 @@
       "babel-runtime": "npm:babel-runtime@^5.8.25",
       "core-js": "npm:core-js@^2.2.0",
       "isomorphic-fetch": "npm:isomorphic-fetch@^2.2.1",
-      "radium": "github:nfl/radium@test-mode",
+      "radium": "npm:radium@0.17.0",
       "react": "npm:react@^0.14.7",
       "react-dom": "npm:react-dom@^0.14.7",
       "react-helmet": "npm:react-helmet@^3.0.0",
@@ -71,8 +71,14 @@
       "redbox-react": "npm:redbox-react@^1.1.1"
     },
     "overrides": {
-      "github:nfl/radium@test-mode": {
-        "registry": "npm"
+      "npm:radium@0.17.0": {
+        "dependencies": {
+          "array-find": "npm:array-find@1.0.0",
+          "exenv": "npm:exenv@1.2.0",
+          "inline-style-prefixer": "npm:inline-style-prefixer@1.0.3"
+        },
+        "main": "dist/radium.js",
+        "registry": "jspm"
       }
     }
   },

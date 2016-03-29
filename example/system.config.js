@@ -50,7 +50,7 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.8.35",
     "core-js": "npm:core-js@2.2.0",
     "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
-    "radium": "github:nfl/radium@test-mode",
+    "radium": "npm:radium@0.17.0",
     "react": "npm:react@0.14.7",
     "react-addons-test-utils": "npm:react-addons-test-utils@0.14.7",
     "react-dom": "npm:react-dom@0.14.7",
@@ -134,15 +134,6 @@ System.config({
     },
     "github:jspm/nodelibs-zlib@0.1.0": {
       "browserify-zlib": "npm:browserify-zlib@0.1.4"
-    },
-    "github:nfl/radium@test-mode": {
-      "array-find": "npm:array-find@1.0.0",
-      "exenv": "npm:exenv@1.2.0",
-      "fs": "github:jspm/nodelibs-fs@0.1.2",
-      "inline-style-prefixer": "npm:inline-style-prefixer@0.6.7",
-      "path": "github:jspm/nodelibs-path@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "rimraf": "npm:rimraf@2.5.2"
     },
     "npm:asap@2.0.3": {
       "domain": "github:jspm/nodelibs-domain@0.1.0",
@@ -398,9 +389,9 @@ System.config({
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
-    "npm:inline-style-prefixer@0.6.7": {
+    "npm:inline-style-prefixer@1.0.3": {
       "bowser": "npm:bowser@1.0.0",
-      "process": "github:jspm/nodelibs-process@0.1.2"
+      "inline-style-prefix-all": "npm:inline-style-prefix-all@1.0.4"
     },
     "npm:invariant@2.2.0": {
       "loose-envify": "npm:loose-envify@1.1.0",
@@ -504,6 +495,11 @@ System.config({
     },
     "npm:query-string@3.0.2": {
       "strict-uri-encode": "npm:strict-uri-encode@1.1.0"
+    },
+    "npm:radium@0.17.0": {
+      "array-find": "npm:array-find@1.0.0",
+      "exenv": "npm:exenv@1.2.0",
+      "inline-style-prefixer": "npm:inline-style-prefixer@1.0.3"
     },
     "npm:randombytes@2.0.3": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
