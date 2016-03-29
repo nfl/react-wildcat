@@ -52,7 +52,7 @@ module.exports = function transpiler(commander, wildcatOptions) {
         const babelOptions = findBabelOptions(root);
 
         const dataOptions = Object.assign({}, babelOptions, {
-            sourceFileName: moduleSourcePath,
+            sourceFileName: path.join(root, moduleSourcePath),
             sourceMapTarget: path.basename(moduleSourcePath)
         });
 
