@@ -1,66 +1,55 @@
 "use strict";
 
 const fs = require("fs-extra");
-const cwd = process.cwd();
 const pkg = require("../../package.json");
 const path = require("path");
-const resolve = require("resolve");
 const notifier = require("node-notifier");
 const pathExists = require("path-exists");
 const pathResolve = require("resolve-path");
 
-const Logger = require("../../src/utils/logger");
-const logger = new Logger("🔰");
-
 const transpile = require("../../src/utils/transpile");
 
-// Use project babel if found
-let babel;
+function findBabelOptions(root) {
+    "use strict";
 
-try {
-    const babelPath = resolve.sync("babel", {
-        basedir: cwd
-    });
+    let babelOptions = {};
+    const babelRcPath = path.join(root, ".babelrc");
 
-    babel = require(babelPath);
-} catch (e) {
-    if (e.message.indexOf("Cannot find module") === -1) {
-        throw e;
+    if (pathExists.sync(babelRcPath)) {
+        babelOptions = JSON.parse(fs.readFileSync(babelRcPath));
     }
 
-    babel = require("babel");
+    return babelOptions;
 }
 
-let babelOptions = {};
-const babelRcPath = path.join(cwd, ".babelrc");
+module.exports = function transpiler(commander, wildcatOptions) {
+    "use strict";
 
-if (pathExists.sync(babelRcPath)) {
-    babelOptions = JSON.parse(fs.readFileSync(babelRcPath));
-}
+    const babel = wildcatOptions.babel;
 
-module.exports = function transpiler(commander) {
-    const wildcatConfig = require("../../src/utils/getWildcatConfig")(cwd);
-    const generalSettings = wildcatConfig.generalSettings;
-    const serverSettings = wildcatConfig.serverSettings;
-    const coverageSettings = generalSettings.coverageSettings;
-    const coverage = generalSettings.coverage;
+    const root = wildcatOptions.root;
+    const logger = wildcatOptions.logger;
 
-    return function (src, relative, done) {
-        // remove extension and then append back on .js
-        relative = relative.replace(/\.(\w*?)$/, "") + ".js";
+    const outDir = wildcatOptions.outDir;
+    const sourceDir = wildcatOptions.sourceDir;
 
-        const outDir = commander.outDir || serverSettings.publicDir;
-        const sourceDir = commander.sourceDir || serverSettings.sourceDir;
+    const coverage = wildcatOptions.coverage;
+    const coverageSettings = wildcatOptions.coverageSettings;
 
-        const relativePath = path.join(outDir, relative);
-        const modulePath = pathResolve(cwd, relativePath);
-        const moduleSourcePath = pathResolve(cwd, relativePath.replace(outDir, sourceDir));
+    return function (filename, done) {
+        "use strict";
+
+        const relativePath = filename.replace(sourceDir, outDir);
+        const modulePath = pathResolve(root, relativePath);
+        const moduleSourcePath = filename;
 
         const pathOptions = {
             modulePath,
             moduleSourcePath,
             relativePath
         };
+
+        const babelOptions = findBabelOptions(root);
 
         const dataOptions = Object.assign({}, babelOptions, {
             sourceFileName: moduleSourcePath,

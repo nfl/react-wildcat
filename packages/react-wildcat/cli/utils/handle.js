@@ -2,22 +2,22 @@
 
 const fs = require("fs-extra");
 const cp = require("child_process");
-const cwd = process.cwd();
 const pathExists = require("path-exists");
 
 const glob = require("glob");
 
-const Logger = require("../../src/utils/logger");
-const logger = new Logger("🔰");
-
 const availableCpus = require("os").cpus().length;
 const CHUNK_SIZE = 50;
 
-module.exports = function handle(commander) {
-    const transpiler = require("./transpiler")(commander);
+module.exports = function handle(commander, wildcatOptions) {
+    "use strict";
+
+    const logger = wildcatOptions.logger;
+
+    const transpiler = require("./transpiler")(commander, wildcatOptions);
     const cpus = commander.cpus ? Math.min(availableCpus, commander.cpus) : availableCpus;
 
-    function transpileFiles(err, files, src) {
+    function transpileFiles(err, files) {
         const numFiles = files.length;
 
         const processes = Math.min(numFiles, cpus);
@@ -30,10 +30,9 @@ module.exports = function handle(commander) {
             return files.slice(index, index += chunkSize);
         }
 
-        logger.meta(`Transpiling ${numFiles} files using ${processes} workers...`);
+        logger.meta(`Transpiling ${numFiles} files using ${processes} worker${processes > 1 ? `s` : ``}...`);
 
         const workers = [];
-        const options = {};
 
         for (let i = 0; i < processes; i++) {
             workers.push(
@@ -46,8 +45,7 @@ module.exports = function handle(commander) {
                 child.send({
                     commander,
                     files: next(),
-                    options,
-                    src
+                    wildcatOptions
                 });
 
                 child.on("message", message => {
@@ -66,8 +64,7 @@ module.exports = function handle(commander) {
                             child.send({
                                 commander,
                                 files: nextFiles,
-                                options,
-                                src
+                                wildcatOptions
                             });
                             break;
                     }
@@ -82,7 +79,10 @@ module.exports = function handle(commander) {
         return new Promise((handleResolve, handleReject) => {
             return pathExists(filename).then(function existsResult(exists) {
                 if (!exists) {
-                    return handleResolve();
+                    const warning = `File does not exist: ${filename}`;
+
+                    logger.warn(warning);
+                    return handleResolve(warning);
                 }
 
                 fs.stat(filename, function statResult(statErr, stats) {
@@ -92,8 +92,7 @@ module.exports = function handle(commander) {
                     }
 
                     if (stats.isDirectory(filename)) {
-                        glob("**", {
-                            cwd: filename,
+                        glob(`${filename}/**`, {
                             nodir: true,
                             ignore: commander.ignore
                         }, (err, files) => {
@@ -101,16 +100,13 @@ module.exports = function handle(commander) {
                                 return handleReject(err);
                             }
 
-                            return transpileFiles(err, files, filename)
+                            return transpileFiles(err, files)
                                 .then(handleResolve)
                                 .catch(handleReject);
                         });
                     } else {
-                        const currentDirectory = filename.replace(`${cwd}/`, "").split("/")[0];
-
                         return transpiler(
                             filename,
-                            filename.replace(`${currentDirectory}/`, ""),
                             (transpilerError) => {
                                 if (transpilerError) {
                                     return handleReject(transpilerError);

@@ -1,36 +1,29 @@
 "use strict";
 
-const cwd = process.cwd();
-const path = require("path");
 const pathResolve = require("resolve-path");
 
-const Logger = require("../../src/utils/logger");
-const logger = new Logger("🔰");
-
-module.exports = function copyFiles(commander) {
+module.exports = function copyFiles(commander, wildcatOptions) {
     "use strict";
 
     const createImportableModule = require("../../src/utils/createImportableModule");
-    const wildcatConfig = require("../../src/utils/getWildcatConfig")(cwd);
 
-    const serverSettings = wildcatConfig.serverSettings;
-    const generalSettings = wildcatConfig.generalSettings;
-    const outDir = commander.outDir || serverSettings.publicDir;
+    const root = wildcatOptions.root;
+    const origin = wildcatOptions.origin;
+    const logger = wildcatOptions.logger;
+
+    const binDir = wildcatOptions.binDir;
+    const outDir = wildcatOptions.outDir;
+    const sourceDir = wildcatOptions.sourceDir;
 
     const binaryToModule = commander.binaryToModule;
 
-    const binDir = commander.binDir || serverSettings.binDir;
-    let sourceDir = commander.args[0] || serverSettings.sourceDir;
+    return function (filename, done) {
+        "use strict";
 
-    if (path.extname(sourceDir)) {
-        sourceDir = path.dirname(sourceDir);
-    }
-
-    return function (src, filename, done) {
-        const relativePath = path.join(outDir, filename);
-        const modulePath = pathResolve(cwd, relativePath);
-        const moduleSourcePath = pathResolve(cwd, relativePath.replace(outDir, sourceDir));
-        const moduleBinPath = pathResolve(cwd, relativePath.replace(outDir, binDir));
+        const relativePath = filename.replace(sourceDir, outDir);
+        const modulePath = pathResolve(root, relativePath);
+        const moduleSourcePath = relativePath.replace(outDir, sourceDir);
+        const moduleBinPath = relativePath.replace(outDir, binDir);
 
         const pathOptions = {
             moduleBinPath,
@@ -38,8 +31,6 @@ module.exports = function copyFiles(commander) {
             moduleSourcePath,
             relativePath
         };
-
-        const origin = generalSettings.staticUrl;
 
         return new Promise((resolveImportable, rejectImportable) => {
             createImportableModule({
@@ -53,7 +44,7 @@ module.exports = function copyFiles(commander) {
                 temporaryCache: false,
                 binaryToModule,
 
-                root: cwd
+                root
             }, resolveImportable, rejectImportable);
         })
             .then(() => done && done())

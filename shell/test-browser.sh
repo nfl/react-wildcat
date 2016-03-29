@@ -14,4 +14,4 @@ karmaBin=node_modules/karma/bin/karma
 node ./shell/pretest.js
 
 # Run browser test
-node ${karmaBin} start karma.config.js --log-level error --reporters coverage,mocha --ui tdd --timeout ${TIMEOUT}
+node ${karmaBin} start karma.config.js --log-level error --reporters coverage,mocha --ui tdd --timeout ${TIMEOUT} --bail

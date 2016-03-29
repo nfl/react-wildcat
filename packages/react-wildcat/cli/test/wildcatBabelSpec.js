@@ -2,346 +2,54 @@
 
 const chai = require("chai");
 const expect = chai.expect;
+const sinon = require("sinon");
+const sinonChai = require("sinon-chai");
+chai.use(sinonChai);
 
 const fs = require("fs-extra");
-const cwd = process.cwd();
 const path = require("path");
+
+const resolve = require("resolve");
 
 const glob = require("glob");
 const proxyquire = require("proxyquire");
 const pathExists = require("path-exists");
 
-/* eslint-disable max-nested-callbacks */
 describe("cli - wildcatBabel", () => {
-    const wildcatConfig = require("../../src/utils/getWildcatConfig")(cwd);
-    const generalSettings = wildcatConfig.generalSettings;
-    const serverSettings = wildcatConfig.serverSettings;
-
-    const binDir = serverSettings.binDir;
-    const publicDir = serverSettings.publicDir;
-    const sourceDir = serverSettings.sourceDir;
-
-    function CommanderStub(options) {
-        Object.keys(options).forEach(k => this[k] = options[k]);
-
-        this.version = () => this;
-        this.option = () => this;
-        this.parse = () => this;
-
-        return this;
-    }
-
-    function getBinPath(source) {
-        return source
-            .replace(publicDir, binDir)
-            .replace(sourceDir, binDir);
-    }
-
-    function getPublicPath(source) {
-        return source
-            .replace(binDir, publicDir)
-            .replace(sourceDir, publicDir);
-    }
-
-    const exampleDir = path.join(cwd, "example");
-    const mainEntrySourcePath = `${sourceDir}/main.js`;
-    const mainEntryTranspiledPath = path.join(exampleDir, getPublicPath(mainEntrySourcePath));
-    const exampleBinaryPath = `/${publicDir}/assets/images/primary-background.jpg`;
-    const writeDelay = 200;
-
-    const commanderDefaults = {
-        args: [
-            mainEntrySourcePath
-        ],
-
-        extensions: [
-            ".es6",
-            ".js",
-            ".es",
-            ".jsx"
-        ],
-
-        watch: undefined,
-        outDir: publicDir,
-        ignore: undefined,
-        copyFiles: true,
-        binaryToModule: true,
-        manifest: undefined,
-        cpus: undefined,
-        quiet: true
-    };
+    const stubs = require("./fixtures");
+    const loggerStub = {};
 
     beforeEach(() => {
-        process.chdir(exampleDir);
-        fs.removeSync(path.join(exampleDir, publicDir));
+        process.chdir(stubs.exampleDir);
+
+        [
+            stubs.binDir,
+            stubs.publicDir,
+            stubs.manifestTestFile,
+            stubs.failureTestFile
+        ].forEach(fs.removeSync);
     });
 
-    context("building", () => {
-        it("transpiles a file with default parameters", (done) => {
-            const wildcatBabel = proxyquire("../wildcatBabel.js", {
-                "commander": new CommanderStub(commanderDefaults)
-            })
-                .then(() => {
-                    expect(wildcatBabel)
-                        .to.exist;
-
-                    expect(pathExists.sync(mainEntryTranspiledPath))
-                        .to.be.true;
-
-                    done();
-                })
-                .catch(done);
-        });
-
-        it("transpiles a file with no default extensions", (done) => {
-            const wildcatBabel = proxyquire("../wildcatBabel.js", {
-                "commander": new CommanderStub(Object.assign({}, commanderDefaults, {
-                    extensions: undefined
-                }))
-            })
-                .then(() => {
-                    expect(wildcatBabel)
-                        .to.exist;
-
-                    expect(pathExists.sync(mainEntryTranspiledPath))
-                        .to.be.true;
-
-                    done();
-                })
-                .catch(done);
-        });
-
-        it("transpiles a file with no default outDir", (done) => {
-            const wildcatBabel = proxyquire("../wildcatBabel.js", {
-                "commander": new CommanderStub(Object.assign({}, commanderDefaults, {
-                    outDir: undefined
-                }))
-            })
-                .then(() => {
-                    expect(wildcatBabel)
-                        .to.exist;
-
-                    expect(pathExists.sync(mainEntryTranspiledPath))
-                        .to.be.true;
-
-                    done();
-                })
-                .catch(done);
-        });
-
-        it("transpiles a file with code coverage instrumentation", (done) => {
-            const wildcatStub = (c) => {
-                const defaultConfig = require("../../src/utils/getWildcatConfig")(c);
-                defaultConfig.generalSettings.coverage = "e2e";
-
-                return defaultConfig;
-            };
-
-            wildcatStub["@global"] = true;
-
-            const wildcatBabel = proxyquire("../wildcatBabel.js", {
-                "commander": new CommanderStub(commanderDefaults),
-                "../../src/utils/getWildcatConfig": wildcatStub
-            })
-                .then(() => {
-                    expect(wildcatBabel)
-                        .to.exist;
-
-                    expect(pathExists.sync(mainEntryTranspiledPath))
-                        .to.be.true;
-
-                    const mainFileContents = fs.readFileSync(mainEntryTranspiledPath, "utf8");
-
-                    expect(mainFileContents)
-                        .to.be.a("string");
-
-                    expect(mainFileContents)
-                        .to.be.a("string")
-                        .that.includes("__cov_")
-                        .and.includes(".__coverage__");
-
-                    done();
-                })
-                .catch(done);
-        });
-
-        it("transpiles files using a manifest file", (done) => {
-            fs.outputFileSync("manifest.txt", mainEntrySourcePath, "utf8");
-
-            const wildcatBabel = proxyquire("../wildcatBabel.js", {
-                "commander": new CommanderStub(Object.assign({}, commanderDefaults, {
-                    args: [],
-
-                    manifest: "manifest.txt"
-                }))
-            })
-                .then(() => {
-                    expect(wildcatBabel)
-                        .to.exist;
-
-                    expect(pathExists.sync(mainEntryTranspiledPath))
-                        .to.be.true;
-
-                    fs.removeSync(path.join(exampleDir, "manifest.txt"));
-                    done();
-                })
-                .catch(done);
-        });
-
-        [{
-            name: "all available CPUs",
-            cpus: undefined
-        }, {
-            name: "a specified number of CPUs",
-            cpus: Math.floor(require("os").cpus().length / 2)
-        }, {
-            name: "a single CPUs",
-            cpus: 1
-        }].forEach(test => {
-            it(`transpiles multiple files across ${test.name}`, (done) => {
-                const ignoredFiles = [
-                    "**/{shell,e2e,test}/**"
-                ];
-
-                const wildcatBabel = proxyquire("../wildcatBabel.js", {
-                    "commander": new CommanderStub(Object.assign({}, commanderDefaults, {
-                        args: [
-                            sourceDir
-                        ],
-
-                        cpus: test.cpus,
-                        ignore: ignoredFiles
-                    }))
-                })
-                    .then(() => {
-                        expect(wildcatBabel)
-                            .to.exist;
-
-                        const binFiles = glob.sync(`${binDir}/**/*`, {
-                            nodir: true,
-                            ignore: ignoredFiles
-                        });
-
-                        const publicFiles = glob.sync(`${publicDir}/**/*`, {
-                            nodir: true,
-                            ignore: ignoredFiles
-                        });
-
-                        const sourceFiles = glob.sync(`${sourceDir}/**/*`, {
-                            nodir: true,
-                            ignore: ignoredFiles
-                        });
-
-                        expect(binFiles)
-                            .to.have.length.of(
-                                sourceFiles
-                                    .filter(sourceFile => sourceFile.endsWith(".jpg")).length
-                            );
-
-                        expect(binFiles)
-                            .to.eql(
-                                sourceFiles
-                                    .filter(sourceFile => sourceFile.endsWith(".jpg"))
-                                    .map(sourceFile => getBinPath(sourceFile))
-                            );
-
-                        expect(pathExists.sync(path.join(exampleDir, exampleBinaryPath)))
-                            .to.be.true;
-
-                        const origin = generalSettings.staticUrl;
-                        const binaryFileContents = fs.readFileSync(path.join(exampleDir, exampleBinaryPath), "utf8");
-
-                        expect(binaryFileContents)
-                            .to.be.a("string")
-                            .that.equals(`module.exports = "${origin}${getBinPath(exampleBinaryPath)}";`);
-
-                        expect(publicFiles)
-                            .to.have.length.of(sourceFiles.length);
-
-                        expect(publicFiles)
-                            .to.eql(sourceFiles.map(sourceFile => getPublicPath(sourceFile)));
-
-                        done();
-                    })
-                    .catch(done);
-            });
-        });
-
-        it("avoids ignored file patterns", (done) => {
-            const wildcatBabel = proxyquire("../wildcatBabel.js", {
-                "commander": new CommanderStub(Object.assign({}, commanderDefaults, {
-                    args: [
-                        mainEntrySourcePath,
-                        `${sourceDir}/components/Application/*.js`
-                    ],
-                    ignore: [`${sourceDir}/*.js`]
-                }))
-            })
-                .then(() => {
-                    expect(wildcatBabel)
-                        .to.exist;
-
-                    expect(pathExists.sync(path.join(exampleDir, publicDir, "components/Application/Application.js")))
-                        .to.be.true;
-
-                    expect(pathExists.sync(path.join(exampleDir, publicDir, "components/Application/ApplicationContext.js")))
-                        .to.be.true;
-
-                    done();
-                })
-                .catch(done);
-        });
-
-        it("throws an error if Babel is not found", (done) => {
-            try {
-                proxyquire("../wildcatBabel.js", {
-                    "commander": new CommanderStub(commanderDefaults),
-                    "resolve": {
-                        sync: () => "noop"
-                    }
-                });
-            } catch (err) {
-                expect(err)
-                    .to.exist;
-
-                expect(err)
-                    .to.be.an.instanceof(Error);
-
-                expect(err)
-                    .to.have.property("code")
-                    .that.equals("MODULE_NOT_FOUND");
-
-                expect(err.message)
-                    .to.equal("Cannot find module 'babel'");
-
-                done();
-            }
-        });
-
-        it("fails gracefully on non-related errors", (done) => {
-            const wildcatBabel = proxyquire("../wildcatBabel.js", {
-                "babel": null,
-                "commander": new CommanderStub(commanderDefaults)
-            })
-            .then(() => {
-                expect(wildcatBabel)
-                    .to.exist;
-
-                expect(pathExists.sync(mainEntryTranspiledPath))
-                    .to.be.true;
-
-                done();
-            })
-            .catch(done);
+    before(() => {
+        Object.keys(stubs.logMethods).forEach(method => {
+            loggerStub[method] = sinon.stub(stubs.logger, method);
+            loggerStub[method].returns();
         });
     });
 
-    context("watching", () => {
+    after(() => {
+        Object.keys(stubs.logMethods).forEach(method => {
+            loggerStub[method].restore();
+        });
+    });
+
+    context("wildcat-babel --watch", () => {
         it("starts the file watcher", (done) => {
             const wildcatBabel = proxyquire("../wildcatBabel.js", {
-                "commander": new CommanderStub(Object.assign({}, commanderDefaults, {
+                "commander": new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults, {
                     watch: true
-                }))
+                })),
+                "../src/utils/logger": stubs.LoggerStub
             })
                 .then((watcher) => {
                     expect(wildcatBabel)
@@ -356,20 +64,21 @@ describe("cli - wildcatBabel", () => {
                     watcher.close();
                     done();
                 })
-                .catch(e => done(e));
+                .catch(done);
         });
 
         it("watches for new file additions", (done) => {
             const wildcatBabel = proxyquire("../wildcatBabel.js", {
-                "commander": new CommanderStub(Object.assign({}, commanderDefaults, {
+                "commander": new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults, {
                     args: [
-                        sourceDir
+                        stubs.sourceDir
                     ],
                     watch: true
-                }))
+                })),
+                "../src/utils/logger": stubs.LoggerStub
             })
                 .then((watcher) => {
-                    const testFilePath = path.join(exampleDir, sourceDir, "test.js");
+                    const testFilePath = path.join(stubs.exampleDir, stubs.sourceDir, "test.js");
                     const testFileContents = `export default {};`;
 
                     expect(wildcatBabel)
@@ -380,22 +89,21 @@ describe("cli - wildcatBabel", () => {
 
                     watcher.on("add", filename => {
                         setTimeout(() => {
-                            expect(pathExists.sync(getPublicPath(filename)))
+                            expect(pathExists.sync(stubs.getPublicPath(filename)))
                                 .to.be.true;
 
-                            const transpiledTestFileContents = fs.readFileSync(getPublicPath(filename), "utf8");
+                            const transpiledTestFileContents = fs.readFileSync(stubs.getPublicPath(filename), "utf8");
 
                             expect(transpiledTestFileContents)
                                 .to.be.a("string");
 
-                            fs.removeSync(filename);
-
                             expect(watcher)
                                 .to.respondTo("close");
 
+                            fs.removeSync(filename);
                             watcher.close();
                             done();
-                        }, writeDelay);
+                        }, stubs.writeDelay);
                     });
 
                     fs.createOutputStream(testFilePath)
@@ -403,5 +111,247 @@ describe("cli - wildcatBabel", () => {
                 })
                 .catch(e => done(e));
         });
+    });
+
+    context("wildcat-babel", () => {
+        it("transpiles a file with default parameters", (done) => {
+            const wildcatBabel = proxyquire("../wildcatBabel.js", {
+                "commander": new stubs.CommanderStub(stubs.commanderDefaults),
+                "../src/utils/logger": stubs.LoggerStub
+            })
+                .then(() => {
+                    expect(wildcatBabel)
+                        .to.exist;
+
+                    expect(pathExists.sync(stubs.mainEntryTranspiledPath))
+                        .to.be.true;
+
+                    done();
+                })
+                .catch(done);
+        });
+
+        it("transpiles files with a directory as entry path", (done) => {
+            const wildcatBabel = proxyquire("../wildcatBabel.js", {
+                "commander": new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults, {
+                    args: [
+                        stubs.sourceDir
+                    ]
+                })),
+                "../src/utils/logger": stubs.LoggerStub
+            })
+                .then(() => {
+                    expect(wildcatBabel)
+                        .to.exist;
+
+                    expect(pathExists.sync(stubs.mainEntryTranspiledPath))
+                        .to.be.true;
+
+                    done();
+                })
+                .catch(done);
+        });
+
+        it("transpiles a file with no default extensions", (done) => {
+            const wildcatBabel = proxyquire("../wildcatBabel.js", {
+                "commander": new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults, {
+                    extensions: undefined
+                })),
+                "../src/utils/logger": stubs.LoggerStub
+            })
+                .then(() => {
+                    expect(wildcatBabel)
+                        .to.exist;
+
+                    expect(pathExists.sync(stubs.mainEntryTranspiledPath))
+                        .to.be.true;
+
+                    done();
+                })
+                .catch(done);
+        });
+
+        it("transpiles a file with no default outDir", (done) => {
+            const wildcatBabel = proxyquire("../wildcatBabel.js", {
+                "commander": new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults, {
+                    outDir: undefined
+                })),
+                "../src/utils/logger": stubs.LoggerStub
+            })
+                .then(() => {
+                    expect(wildcatBabel)
+                        .to.exist;
+
+                    expect(pathExists.sync(stubs.mainEntryTranspiledPath))
+                        .to.be.true;
+
+                    done();
+                })
+                .catch(done);
+        });
+
+        it("transpiles files using a manifest file", (done) => {
+            fs.outputFileSync(stubs.manifestTestFile, stubs.mainEntrySourcePath, "utf8");
+
+            const wildcatBabel = proxyquire("../wildcatBabel.js", {
+                "commander": new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults, {
+                    args: [],
+
+                    manifest: "manifest.txt"
+                })),
+                "../src/utils/logger": stubs.LoggerStub
+            })
+                .then(() => {
+                    expect(wildcatBabel)
+                        .to.exist;
+
+                    expect(pathExists.sync(stubs.mainEntryTranspiledPath))
+                        .to.be.true;
+
+                    fs.removeSync(path.join(stubs.exampleDir, stubs.manifestTestFile));
+                    done();
+                })
+                .catch(done);
+        });
+
+        [{
+            name: "all available workers",
+            cpus: undefined
+        }, {
+            name: "a specified number of workers",
+            cpus: Math.floor(require("os").cpus().length / 2)
+        }, {
+            name: "a single worker",
+            cpus: 1
+        }].forEach(test => {
+            it(`transpiles multiple files across ${test.name}`, (done) => {
+                const ignoredFiles = [
+                    "**/{shell,e2e,test}/**"
+                ];
+
+                const wildcatBabel = proxyquire("../wildcatBabel.js", {
+                    "commander": new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults, {
+                        args: [
+                            stubs.sourceDir
+                        ],
+
+                        cpus: test.cpus,
+                        ignore: ignoredFiles
+                    })),
+                    "../src/utils/logger": stubs.LoggerStub
+                })
+                    .then(() => {
+                        expect(wildcatBabel)
+                            .to.exist;
+
+                        const binFiles = glob.sync(`${stubs.binDir}/**/*`, {
+                            nodir: true,
+                            ignore: ignoredFiles
+                        });
+
+                        const publicFiles = glob.sync(`${stubs.publicDir}/**/*`, {
+                            nodir: true,
+                            ignore: ignoredFiles
+                        });
+
+                        const sourceFiles = glob.sync(`${stubs.sourceDir}/**/*`, {
+                            nodir: true,
+                            ignore: ignoredFiles
+                        });
+
+                        expect(binFiles)
+                            .to.have.length.of(
+                                sourceFiles
+                                    .filter(sourceFile => sourceFile.endsWith(".jpg")).length
+                            );
+
+                        expect(binFiles)
+                            .to.eql(
+                                sourceFiles
+                                    .filter(sourceFile => sourceFile.endsWith(".jpg"))
+                                    .map(sourceFile => stubs.getBinPath(sourceFile))
+                            );
+
+                        expect(pathExists.sync(path.join(stubs.exampleDir, stubs.exampleBinaryPath)))
+                            .to.be.true;
+
+                        const origin = stubs.generalSettings.staticUrl;
+                        const binaryFileContents = fs.readFileSync(path.join(stubs.exampleDir, stubs.exampleBinaryPath), "utf8");
+
+                        expect(binaryFileContents)
+                            .to.be.a("string")
+                            .that.equals(`module.exports = "${origin}${stubs.getBinPath(stubs.exampleBinaryPath)}";`);
+
+                        expect(publicFiles)
+                            .to.have.length.of(sourceFiles.length);
+
+                        expect(publicFiles)
+                            .to.eql(sourceFiles.map(sourceFile => stubs.getPublicPath(sourceFile)));
+
+                        done();
+                    })
+                    .catch(done);
+            });
+        });
+
+        it("uses react-wildcat/node_modules/babel if project Babel is not found", (done) => {
+            const wildcatBabel = proxyquire("../wildcatBabel", {
+                "commander": new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults, {
+                    args: [
+                        stubs.mainEntrySourcePath
+                    ]
+                })),
+                "resolve": {
+                    sync: () => resolve.sync("noop")
+                },
+                "../src/utils/logger": stubs.LoggerStub
+            })
+                .then(() => {
+                    expect(wildcatBabel)
+                        .to.exist;
+
+                    expect(pathExists.sync(stubs.mainEntryTranspiledPath))
+                        .to.be.true;
+
+                    done();
+                })
+                .catch(done);
+        });
+
+        it("throws an error on other resolve errors", (done) => {
+            try {
+                proxyquire("../wildcatBabel", {
+                    "commander": new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults, {
+                        args: [
+                            stubs.mainEntrySourcePath
+                        ]
+                    })),
+                    "resolve": {
+                        sync: () => {
+                            throw stubs.errorStub;
+                        }
+                    },
+                    "../src/utils/logger": stubs.LoggerStub
+                });
+            } catch (err) {
+                expect(err)
+                    .to.exist;
+
+                expect(err)
+                    .to.be.an.instanceof(Error);
+
+                expect(err)
+                    .to.eql(stubs.errorStub);
+
+                done();
+            }
+        });
+    });
+
+    context("utils", () => {
+        require("./utils/copyFilesSpec")(stubs, loggerStub);
+        require("./utils/handleSpec")(stubs, loggerStub);
+        require("./utils/handleFileSpec")(stubs, loggerStub);
+        require("./utils/transpilerSpec")(stubs, loggerStub);
     });
 });

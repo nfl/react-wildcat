@@ -58,11 +58,9 @@ function start() {
         cpuCount = os.cpus().length;
     }
 
-    /* istanbul ignore else */
     if (!__PROD__ || __TEST__) {
         const babelRcPath = path.join(cwd, ".babelrc");
 
-        /* istanbul ignore else */
         if (pathExists.sync(babelRcPath)) {
             babelOptions = JSON.parse(fs.readFileSync(babelRcPath));
         }
@@ -111,11 +109,11 @@ function start() {
             // enable cors
             app.use(cors({
                 origin: function origin(ctx) {
-                    /* istanbul ignore next */
                     for (let i = 0, j = allowedOrigins.length; i < j; i++) {
                         const allowedOrigin = allowedOrigins[i];
                         const hostname = ctx.header.host.split(":")[0];
 
+                        /* istanbul ignore else */
                         if (hostname.includes(allowedOrigin)) {
                             return "*";
                         }
@@ -131,7 +129,6 @@ function start() {
 
             app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
 
-            /* istanbul ignore else */
             if (!__PROD__ || __TEST__) {
                 app.use(babelDevTranspiler(cwd, {
                     babelOptions,
@@ -182,7 +179,7 @@ function start() {
 
                 startWebSocketServer(cwd, {
                     cache: fileServer.cache,
-                    server: server,
+                    server,
                     watchOptions: {
                         awaitWriteFinish: {
                             pollInterval: 100,

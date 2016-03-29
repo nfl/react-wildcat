@@ -87,8 +87,8 @@ module.exports = function babelDevTranspiler(root, options) {
         const modulePath = pathResolve(root, relativePath);
 
         if (!pathExists.sync(modulePath)) {
-            const moduleSourcePath = pathResolve(root, relativePath.replace(outDir, sourceDir));
-            const moduleBinPath = pathResolve(root, relativePath.replace(outDir, binDir));
+            const moduleSourcePath = relativePath.replace(outDir, sourceDir);
+            const moduleBinPath = relativePath.replace(outDir, binDir);
 
             if (pathExists.sync(moduleSourcePath)) {
                 const data = yield _babelDevTranspiler(this, {

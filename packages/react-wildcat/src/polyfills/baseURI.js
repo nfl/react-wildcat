@@ -5,7 +5,7 @@
 
 /* istanbul ignore else */
 if (!global.baseURI) {
-    const wildcatConfig = require("./getWildcatConfig")();
+    const wildcatConfig = require("../utils/getWildcatConfig")();
     global.baseURI = wildcatConfig.generalSettings.staticUrl;
 }
 

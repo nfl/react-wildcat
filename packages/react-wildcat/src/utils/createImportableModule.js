@@ -1,15 +1,16 @@
+const path = require("path");
 const fs = require("fs-extra");
 const logCreateSuccess = require("./logCreateSuccess");
 
 function buildImportableModule(origin, moduleBinPath) {
-    return `module.exports = "${origin}${moduleBinPath}";`;
+    return `module.exports = "${origin}/${moduleBinPath}";`;
 }
 
 module.exports = function createImportableModule(options, resolve, reject) {
     "use strict";
 
-    const origin = options.origin;
     const root = options.root;
+    const origin = options.origin;
 
     const logger = options.logger;
     const logLevel = options.logLevel;
@@ -22,7 +23,7 @@ module.exports = function createImportableModule(options, resolve, reject) {
     const temporaryCache = options.temporaryCache;
     const binaryToModule = options.binaryToModule;
 
-    const importableModule = buildImportableModule(origin, moduleBinPath.replace(`${root}`, ""));
+    const importableModule = buildImportableModule(origin, moduleBinPath);
 
     Promise.all([
         binaryToModule ? new Promise(function importablePromise(resolveImportable, rejectImportable) {
@@ -45,9 +46,9 @@ module.exports = function createImportableModule(options, resolve, reject) {
         }) : Promise.resolve(),
 
         new Promise(function binaryPromise(resolveBinary, rejectBinary) {
-            fs.createReadStream(moduleSourcePath)
+            fs.createReadStream(path.join(root, moduleSourcePath))
                 .pipe(
-                    fs.createOutputStream(moduleBinPath || modulePath)
+                    fs.createOutputStream(moduleBinPath)
                         .on("open", function binaryStreamOpen() {
                             if (logLevel > 1) {
                                 logger.meta(logCreateSuccess(modulePath));
@@ -58,7 +59,7 @@ module.exports = function createImportableModule(options, resolve, reject) {
                             return rejectBinary(outputErr);
                         })
                         .on("finish", function binaryStreamFinish() {
-                            return resolveBinary(moduleBinPath || modulePath);
+                            return resolveBinary(moduleBinPath);
                         })
                 );
         })
