@@ -2,6 +2,7 @@ const fs = require("fs-extra");
 
 const chai = require("chai");
 const expect = chai.expect;
+const sinon = require("sinon");
 const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 
@@ -12,6 +13,14 @@ module.exports = (stubs) => {
     "use strict";
 
     describe("startWebSocketServer", () => {
+        before(() => {
+            sinon.stub(stubs.logger, "info").returns();
+        });
+
+        after(() => {
+            stubs.logger.info.restore();
+        });
+
         it("starts a web socket server", (done) => {
             const startWebSocketServer = require("../../src/utils/startWebSocketServer");
             const webSocketServer = startWebSocketServer(stubs.exampleDir, {

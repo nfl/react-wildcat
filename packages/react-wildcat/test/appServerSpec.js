@@ -66,6 +66,16 @@ describe("appServer", () => {
             ]
         };
 
+        before(() => {
+            sinon.stub(console, "info").returns();
+            sinon.stub(stubs.logger, "info").returns();
+        });
+
+        after(() => {
+            console.info.restore();
+            stubs.logger.info.restore();
+        });
+
         Object.keys(expectations).forEach(currentEnv => {
             context(currentEnv, () => {
                 before(() => {

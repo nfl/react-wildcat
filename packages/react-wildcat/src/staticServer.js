@@ -113,11 +113,13 @@ function start() {
                         const allowedOrigin = allowedOrigins[i];
                         const hostname = ctx.header.host.split(":")[0];
 
+                        /* istanbul ignore else */
                         if (hostname.includes(allowedOrigin)) {
                             return "*";
                         }
                     }
 
+                    /* istanbul ignore next */
                     return false;
                 }
             }));

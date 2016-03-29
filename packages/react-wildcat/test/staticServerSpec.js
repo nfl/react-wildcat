@@ -48,6 +48,16 @@ describe("staticServer", () => {
             ]
         };
 
+        before(() => {
+            sinon.stub(console, "info").returns();
+            sinon.stub(stubs.logger, "info").returns();
+        });
+
+        after(() => {
+            console.info.restore();
+            stubs.logger.info.restore();
+        });
+
         ["development", "production"].forEach(currentEnv => {
             context(currentEnv, () => {
                 before(() => {

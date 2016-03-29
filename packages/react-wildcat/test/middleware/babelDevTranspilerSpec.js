@@ -5,6 +5,9 @@ const co = require("co");
 
 const chai = require("chai");
 const expect = chai.expect;
+const sinon = require("sinon");
+const sinonChai = require("sinon-chai");
+chai.use(sinonChai);
 
 const path = require("path");
 const pathExists = require("path-exists");
@@ -14,7 +17,12 @@ module.exports = (stubs) => {
 
     describe("babelDevTranspiler", () => {
         before(() => {
+            sinon.stub(stubs.logger, "meta").returns();
             fs.removeSync(path.join(stubs.exampleDir, "public"));
+        });
+
+        after(() => {
+            stubs.logger.meta.restore();
         });
 
         const babelDevTranspiler = require("../../src/middleware/babelDevTranspiler");

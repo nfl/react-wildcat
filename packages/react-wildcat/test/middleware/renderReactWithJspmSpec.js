@@ -26,6 +26,8 @@ module.exports = (stubs) => {
                 loggerStub[method].returns();
             });
 
+            sinon.stub(console, "info").returns();
+
             staticServer = proxyquire("../../src/staticServer", {
                 "cluster": {
                     isMaster: false,
@@ -54,6 +56,8 @@ module.exports = (stubs) => {
                 loggerStub[method].restore();
             });
 
+            console.info.restore();
+            staticServer.close();
             done();
         });
 
@@ -62,7 +66,6 @@ module.exports = (stubs) => {
         });
 
         afterEach(() => {
-            staticServer.close();
             console.warn.restore();
         });
 
