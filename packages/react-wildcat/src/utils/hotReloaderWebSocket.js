@@ -2,6 +2,7 @@
 const WebSocket = require("ws/lib/WebSocket.js");
 
 module.exports = function hotReloaderWebSocket(hotReloader, socketUrl, logger) {
+    logger = logger || console;
     var socket = new WebSocket(socketUrl);
 
     socket.addEventListener("open", function socketOpen() {
