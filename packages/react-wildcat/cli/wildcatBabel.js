@@ -3,7 +3,9 @@
 
 const fs = require("fs-extra");
 const cwd = process.cwd();
-const pkg = require("../package.json");
+const path = require("path");
+
+const pkg = require(path.resolve(__dirname, "../package.json"));
 
 const glob = require("glob");
 const commander = require("commander");

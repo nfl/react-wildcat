@@ -1,11 +1,12 @@
 "use strict";
 
 const fs = require("fs-extra");
-const pkg = require("../../package.json");
 const path = require("path");
 const notifier = require("node-notifier");
 const pathExists = require("path-exists");
 const pathResolve = require("resolve-path");
+
+const pkg = require(path.resolve(__dirname, "../../package.json"));
 
 function findBabelOptions(root) {
     "use strict";
