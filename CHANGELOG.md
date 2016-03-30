@@ -1,3 +1,13 @@
+<a name="2.4.2"></a>
+## [2.4.2](https://github.com/nfl/react-wildcat/compare/2.4.1...v2.4.2) (2016-03-30)
+
+
+### Bug Fixes
+
+* **react-wildcat:** Absolute paths to package.json ([7a4e7d5](https://github.com/nfl/react-wildcat/commit/7a4e7d5))
+
+
+
 <a name="2.4.1"></a>
 ## [2.4.1](https://github.com/nfl/react-wildcat/compare/2.4.0...v2.4.1) (2016-03-29)
 
