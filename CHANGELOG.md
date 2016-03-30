@@ -1,3 +1,13 @@
+<a name="2.4.3"></a>
+## [2.4.3](https://github.com/nfl/react-wildcat/compare/2.4.2...v2.4.3) (2016-03-30)
+
+
+### Bug Fixes
+
+* **react-wildcat:** More absolute paths to modules ([401095f](https://github.com/nfl/react-wildcat/commit/401095f))
+
+
+
 <a name="2.4.2"></a>
 ## [2.4.2](https://github.com/nfl/react-wildcat/compare/2.4.1...v2.4.2) (2016-03-30)
 
