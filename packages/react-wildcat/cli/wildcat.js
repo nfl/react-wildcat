@@ -3,7 +3,8 @@
 const cp = require("child_process");
 const path = require("path");
 const program = require("commander");
-const Logger = require("../src/utils/logger");
+
+const Logger = require(path.resolve(__dirname, "../src/utils/logger"));
 const logger = new Logger("👀");
 
 const pkg = require(path.resolve(__dirname, "../package.json"));

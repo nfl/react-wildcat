@@ -5,15 +5,15 @@ const fs = require("fs-extra");
 const cwd = process.cwd();
 const path = require("path");
 
-const pkg = require(path.resolve(__dirname, "../package.json"));
-
 const glob = require("glob");
 const commander = require("commander");
 const chokidar = require("chokidar");
 const resolve = require("resolve");
 
-const Logger = require("../src/utils/logger");
+const Logger = require(path.resolve(__dirname, "../src/utils/logger"));
 const logger = new Logger("🔰");
+
+const pkg = require(path.resolve(__dirname, "../package.json"));
 
 /* istanbul ignore next */
 function patterns(val) {
