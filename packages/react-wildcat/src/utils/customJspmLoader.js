@@ -7,7 +7,7 @@ function customizeJspmLoader(root, options) {
 
     const pkg = require(path.join(root, "package.json"));
     const jspm = require("jspm");
-    const baseURL = require("../polyfills/baseURI");
+    const remoteURL = require("../polyfills/baseURI");
 
     const wildcatConfig = options.wildcatConfig;
     const serverSettings = wildcatConfig.serverSettings;
@@ -15,7 +15,7 @@ function customizeJspmLoader(root, options) {
     const jspmLoader = jspm.Loader();
 
     if (!serverSettings.localPackageCache) {
-        jspmLoader.baseURL = baseURL;
+        jspmLoader.baseURL = remoteURL;
     }
 
     // store the old normalization function
@@ -31,7 +31,7 @@ function customizeJspmLoader(root, options) {
                 // ~~~~~~~~~~~ DO NOT DELETE ~~~~~~~~~~~
                 // Set up jspm to use our custom fetch implementation
                 if (serverSettings.localPackageCache && !url.includes(packagesPath)) {
-                    url = url.replace(jspmLoader.baseURL, `${baseURL}/`);
+                    url = url.replace(jspmLoader.baseURL, `${remoteURL}/`);
                 }
                 // ~~~~~~~~~~~ DO NOT DELETE ~~~~~~~~~~~
 
