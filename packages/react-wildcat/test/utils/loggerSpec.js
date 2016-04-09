@@ -5,7 +5,7 @@ const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 
 const chalk = require("chalk");
-const proxyquire = require("proxyquire");
+const proxyquire = require("proxyquire").noPreserveCache();
 
 module.exports = (stubs) => {
     "use strict";
@@ -14,7 +14,7 @@ module.exports = (stubs) => {
         const wildcatConfig = require("../../src/utils/getWildcatConfig")(stubs.exampleDir);
 
         it("bootstraps custom logger", () => {
-            const CustomLogger = require("../../src/utils/logger.js");
+            const CustomLogger = proxyquire("../../src/utils/logger.js", {});
 
             expect(CustomLogger)
                 .to.exist;
@@ -28,25 +28,26 @@ module.exports = (stubs) => {
         Object.keys(stubs.logMethods).forEach(method => {
             it(`responds to logger.${method}`, () => {
                 const testLog = `test log`;
-                const consoleStub = sinon.stub(console, stubs.logMethods[method]);
 
-                const CustomLogger = require("../../src/utils/logger.js");
+                const consoleStub = sinon.stub(console, stubs.logMethods[method]).returns();
+
+                const CustomLogger = proxyquire("../../src/utils/logger.js", {});
                 const customLogger = new CustomLogger(stubs.customEmoji);
 
                 customLogger[method](testLog);
 
-                expect(consoleStub.lastCall)
+                expect(consoleStub)
                     .to.have.been.calledWith(
                         stubs.addColor(`${customLogger.id}  ~>`, method),
                         stubs.addColor(testLog, method)
                     );
 
-                consoleStub.restore();
+                console[stubs.logMethods[method]].restore();
             });
         });
 
         it("logger.error outputs an Error stack trace", () => {
-            const CustomLogger = require("../../src/utils/logger.js");
+            const CustomLogger = proxyquire("../../src/utils/logger.js", {});
 
             const getErrorColor = (str) => {
                 return chalk.styles.red.open + str + chalk.styles.red.close;
@@ -61,9 +62,7 @@ module.exports = (stubs) => {
                 .to.exist;
 
             const customLoggerInstance = new CustomLogger(stubs.customEmoji);
-            const consoleErrorStub = sinon.stub(console, "error");
-
-            consoleErrorStub.returns();
+            const consoleErrorStub = sinon.stub(console, "error").returns();
 
             customLoggerInstance.error(errorStub);
 
@@ -81,7 +80,7 @@ module.exports = (stubs) => {
                     errorIdStub("Stack Trace:")
                 );
 
-            consoleErrorStub.restore();
+            console.error.restore();
         });
 
         context("Graylog", () => {
@@ -119,7 +118,7 @@ module.exports = (stubs) => {
                             expect(customLogger)
                                 .to.be.an.instanceof(CustomLogger);
 
-                            const consoleStub = sinon.stub(console, stubs.logMethods[method]);
+                            const consoleStub = sinon.stub(console, stubs.logMethods[method]).returns();
 
                             expect(customLogger)
                                 .to.respondTo(method);
@@ -135,7 +134,7 @@ module.exports = (stubs) => {
                                     stubs.addColor(testLog, method)
                                 );
 
-                            consoleStub.restore();
+                            console[stubs.logMethods[method]].restore();
                         });
                     });
                 });

@@ -349,9 +349,9 @@ describe("cli - wildcatBabel", () => {
     });
 
     context("utils", () => {
-        require("./utils/handleSpec")(stubs, loggerStub);
-        require("./utils/handleFileSpec")(stubs, loggerStub);
-        require("./utils/prepImportableModuleSpec")(stubs, loggerStub);
-        require("./utils/prepTranspiledModuleSpec")(stubs, loggerStub);
+        require("./utils/handleSpec.js")(stubs, loggerStub);
+        require("./utils/handleFileSpec.js")(stubs, loggerStub);
+        require("./utils/prepImportableModuleSpec.js")(stubs, loggerStub);
+        require("./utils/prepTranspiledModuleSpec.js")(stubs, loggerStub);
     });
 });

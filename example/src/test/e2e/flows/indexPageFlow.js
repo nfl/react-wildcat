@@ -1,4 +1,4 @@
-import {expect} from "chai";
+import {expect} from "chai/index.js";
 
 import IndexPageObject from "../objects/IndexPageObject.js";
 import FlexboxPageObject from "../objects/FlexboxPageObject.js";

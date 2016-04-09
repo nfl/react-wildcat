@@ -29,24 +29,24 @@ describe("appServer", () => {
     });
 
     context("polyfills", () => {
-        require("./polyfills/fetchSpec")();
-        require("./polyfills/baseURISpec")();
+        require("./polyfills/fetchSpec.js")();
+        require("./polyfills/baseURISpec.js")();
     });
 
     context("utils", () => {
-        require("./utils/blueBoxOfDeathSpec")(stubs);
-        require("./utils/customJspmLoaderSpec")(stubs);
-        require("./utils/customMorganTokensSpec")(stubs);
-        require("./utils/getMorganOptionsSpec")(stubs);
-        require("./utils/getWildcatConfigSpec")(stubs);
-        require("./utils/hotReloaderWebSocketSpec")(stubs);
-        require("./utils/logCreateSuccessSpec")(stubs);
-        require("./utils/loggerSpec")(stubs);
-        require("./utils/logTransformErrorSpec")(stubs);
+        require("./utils/blueBoxOfDeathSpec.js")(stubs);
+        require("./utils/customJspmLoaderSpec.js")(stubs);
+        require("./utils/customMorganTokensSpec.js")(stubs);
+        require("./utils/getMorganOptionsSpec.js")(stubs);
+        require("./utils/getWildcatConfigSpec.js")(stubs);
+        require("./utils/hotReloaderWebSocketSpec.js")(stubs);
+        require("./utils/logCreateSuccessSpec.js")(stubs);
+        require("./utils/loggerSpec.js")(stubs);
+        require("./utils/logTransformErrorSpec.js")(stubs);
     });
 
     context("middleware", () => {
-        require("./middleware/renderReactWithJspmSpec")(stubs);
+        require("./middleware/renderReactWithJspmSpec.js")(stubs);
     });
 
     context("app server", () => {
