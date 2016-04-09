@@ -78,7 +78,7 @@ const wildcatConfig = {
         reactRootElementID: "content",
 
         // Enable / disable client-side IndexedDB module caching
-        indexedDBModuleCache: __DEV__
+        indexedDBModuleCache: __DEV__ && !__TEST__
     },
 
     serverSettings: {
