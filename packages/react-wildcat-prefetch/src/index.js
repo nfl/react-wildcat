@@ -44,6 +44,10 @@ function invariantCheck(exists, key, action, ComposedComponent) {
     );
 }
 
+function getDisplayName(Comp) {
+    return Comp.displayName || Comp.name || "Component";
+}
+
 /**
  *
  * @param {React.Component} Component
@@ -132,6 +136,7 @@ function prefetch(action, options) {
         };
 
         Prefetch.WrappedComponent = ComposedComponent;
+        Prefetch.displayName = "Prefetch(" + getDisplayName(ComposedComponent) + ")";
 
         return hoistStatics(Prefetch, ComposedComponent);
     };
