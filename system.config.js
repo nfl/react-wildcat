@@ -18,9 +18,9 @@ System.config({
     "react": "npm:react@0.14.8",
     "react-addons-test-utils": "npm:react-addons-test-utils@0.14.8",
     "react-dom": "npm:react-dom@0.14.8",
-    "react-helmet": "npm:react-helmet@3.0.0",
+    "react-helmet": "npm:react-helmet@3.0.1",
     "react-router": "npm:react-router@2.0.1",
-    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@2.0.0",
+    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@2.4.1",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },
@@ -88,7 +88,7 @@ System.config({
       "isarray": "npm:isarray@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:core-js@2.2.0": {
+    "npm:core-js@1.2.6": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
@@ -105,12 +105,12 @@ System.config({
       "iconv-lite": "npm:iconv-lite@0.4.13"
     },
     "npm:fbjs@0.1.0-alpha.10": {
-      "core-js": "npm:core-js@2.2.0",
+      "core-js": "npm:core-js@1.2.6",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "promise": "npm:promise@7.1.1",
-      "whatwg-fetch": "npm:whatwg-fetch@0.11.0"
+      "whatwg-fetch": "npm:whatwg-fetch@0.9.0"
     },
     "npm:fbjs@0.6.1": {
       "process": "github:jspm/nodelibs-process@0.1.2"
@@ -119,7 +119,7 @@ System.config({
       "deep-equal": "npm:deep-equal@1.0.1",
       "invariant": "npm:invariant@2.2.1",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "query-string": "npm:query-string@3.0.1",
+      "query-string": "npm:query-string@3.0.3",
       "warning": "npm:warning@2.1.0"
     },
     "npm:https-browserify@0.0.0": {
@@ -144,8 +144,8 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:isomorphic-fetch@2.2.1": {
-      "node-fetch": "npm:node-fetch@1.3.3",
-      "whatwg-fetch": "npm:whatwg-fetch@0.11.0"
+      "node-fetch": "npm:node-fetch@1.5.0",
+      "whatwg-fetch": "npm:whatwg-fetch@0.9.0"
     },
     "npm:lodash.keys@3.1.2": {
       "lodash._getnative": "npm:lodash._getnative@3.9.1",
@@ -153,18 +153,20 @@ System.config({
       "lodash.isarray": "npm:lodash.isarray@3.0.4"
     },
     "npm:loose-envify@1.1.0": {
-      "js-tokens": "npm:js-tokens@1.0.2",
+      "js-tokens": "npm:js-tokens@1.0.3",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "stream": "github:jspm/nodelibs-stream@0.1.0",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
-    "npm:node-fetch@1.3.3": {
+    "npm:node-fetch@1.5.0": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "encoding": "npm:encoding@0.1.12",
       "http": "github:jspm/nodelibs-http@1.7.1",
       "https": "github:jspm/nodelibs-https@0.1.0",
+      "is-stream": "npm:is-stream@1.0.1",
       "stream": "github:jspm/nodelibs-stream@0.1.0",
       "url": "github:jspm/nodelibs-url@0.1.0",
+      "util": "github:jspm/nodelibs-util@0.1.0",
       "zlib": "github:jspm/nodelibs-zlib@0.1.0"
     },
     "npm:pako@0.2.8": {
@@ -191,7 +193,7 @@ System.config({
     "npm:punycode@1.3.2": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:query-string@3.0.1": {
+    "npm:query-string@3.0.3": {
       "strict-uri-encode": "npm:strict-uri-encode@1.1.0"
     },
     "npm:react-addons-test-utils@0.14.8": {
@@ -200,7 +202,7 @@ System.config({
     "npm:react-dom@0.14.8": {
       "react": "npm:react@0.14.8"
     },
-    "npm:react-helmet@3.0.0": {
+    "npm:react-helmet@3.0.1": {
       "deep-equal": "npm:deep-equal@1.0.1",
       "invariant": "npm:invariant@2.2.0",
       "object-assign": "npm:object-assign@4.0.1",
@@ -218,7 +220,7 @@ System.config({
     "npm:react-side-effect@1.0.2": {
       "fbjs": "npm:fbjs@0.1.0-alpha.10"
     },
-    "npm:react-wildcat-prefetch@2.0.0": {
+    "npm:react-wildcat-prefetch@2.4.1": {
       "exenv": "npm:exenv@1.2.0",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.5",
       "invariant": "npm:invariant@2.2.1",

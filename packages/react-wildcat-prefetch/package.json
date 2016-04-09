@@ -5,13 +5,13 @@
   "main": "dist/index.js",
   "dependencies": {
     "exenv": "^1.2.0",
-    "hoist-non-react-statics": "^1.0.3",
-    "invariant": "^2.2.0",
+    "hoist-non-react-statics": "^1.0.5",
+    "invariant": "^2.2.1",
     "react": "^0.14.8"
   },
   "devDependencies": {
     "babel": "^5.8.29",
-    "rimraf": "^2.5.1"
+    "rimraf": "^2.5.2"
   },
   "scripts": {
     "build": "npm run clean && npm run compile",
