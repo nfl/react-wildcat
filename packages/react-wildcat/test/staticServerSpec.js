@@ -27,13 +27,13 @@ describe("staticServer", () => {
     });
 
     context("utils", () => {
-        require("./utils/createImportableModuleSpec")(stubs);
-        require("./utils/startWebSocketServerSpec")(stubs);
-        require("./utils/createTranspiledModuleSpec")(stubs);
+        require("./utils/createImportableModuleSpec.js")(stubs);
+        require("./utils/startWebSocketServerSpec.js")(stubs);
+        require("./utils/createTranspiledModuleSpec.js")(stubs);
     });
 
     context("middleware", () => {
-        require("./middleware/babelDevTranspilerSpec")(stubs);
+        require("./middleware/babelDevTranspilerSpec.js")(stubs);
     });
 
     context("static server", () => {
