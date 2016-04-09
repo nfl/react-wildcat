@@ -18,7 +18,6 @@ exec(`jspm install --log warn -y`);
 cd(cwd);
 
 ls("packages/*").forEach((loc) => {
-    const name = path.basename(loc);
     const pkgPath = path.join(cwd, loc, "package.json");
 
     if (!fs.existsSync(pkgPath)) {
@@ -30,12 +29,12 @@ ls("packages/*").forEach((loc) => {
     cd(example);
 
     // Link package to npm
-    exec(`npm link`);
+    exec(`npm link ${pkg.name}`);
 
-    if (name !== "react-wildcat" && name !== "react-wildcat-test-runners") {
+    if (pkg.name !== "react-wildcat" && pkg.name !== "react-wildcat-test-runners") {
         // Link package to jspm
-        console.log(`jspm install --link npm:${name}@${pkg.version} --log warn -y`);
-        exec(`jspm install --link npm:${name}@${pkg.version} --log warn -y`);
+        console.log(`jspm install --link npm:${pkg.name}@${pkg.version} --log warn -y`);
+        exec(`jspm install --link npm:${pkg.name}@${pkg.version} --log warn -y`);
     }
 
     cd(cwd);
