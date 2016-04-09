@@ -71,7 +71,14 @@ module.exports = (stubs, stubLogger) => {
             const commanderStub = new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults, {
                 quiet: undefined
             }));
-            const handleFile = require("../../utils/handleFile")(commanderStub, stubs.wildcatOptions);
+            const handleFile = proxyquire("../../utils/handleFile", {
+                [require.resolve("../../../src/utils/logger")]: (() => {
+                    const StubLogger = stubs.Logger;
+                    StubLogger.prototype = stubLogger;
+
+                    return StubLogger;
+                })()
+            })(commanderStub, stubs.wildcatOptions);
 
             handleFile(stubs.exampleBinarySourcePath, (err) => {
                 expect(err)

@@ -1,6 +1,10 @@
 "use strict";
 
+const path = require("path");
 const resolve = require("resolve");
+
+const Logger = require(path.resolve(__dirname, "../../src/utils/logger"));
+const logger = new Logger("🔰");
 
 // Use project babel if found
 let projectBabel;
@@ -31,7 +35,6 @@ module.exports = function handleFile(commander, wildcatOptions) {
     "use strict";
 
     const root = wildcatOptions.root;
-    const logger = wildcatOptions.logger;
 
     const outDir = wildcatOptions.outDir;
     const sourceDir = wildcatOptions.sourceDir;
