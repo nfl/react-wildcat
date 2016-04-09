@@ -83,7 +83,7 @@ module.exports = function createTranspiledModule(options, resolve, reject) {
             fs.createOutputStream(mapLoc)
                 .on("open", function outputStreamOpen() {
                     if (logLevel > 1) {
-                        logger.meta(logCreateSuccess(modulePath));
+                        logger.meta(logCreateSuccess(relativePath));
                     }
                 })
                 .on("error", function outputStreamError(outputErr) {
@@ -130,7 +130,7 @@ module.exports = function createTranspiledModule(options, resolve, reject) {
                 fs.createOutputStream(modulePath)
                     .on("open", function outputStreamOpen() {
                         if (logLevel > 1) {
-                            logger.meta(logCreateSuccess(modulePath));
+                            logger.meta(logCreateSuccess(relativePath));
                         }
                     })
                     .on("error", function outputStreamError(outputErr) {

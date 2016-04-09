@@ -19,6 +19,7 @@ module.exports = function createImportableModule(options, resolve, reject) {
     const modulePath = pathOptions.modulePath;
     const moduleSourcePath = pathOptions.moduleSourcePath;
     const moduleBinPath = pathOptions.moduleBinPath;
+    const relativePath = pathOptions.relativePath;
 
     const temporaryCache = options.temporaryCache;
     const binaryToModule = options.binaryToModule;
@@ -51,7 +52,7 @@ module.exports = function createImportableModule(options, resolve, reject) {
                     fs.createOutputStream(moduleBinPath)
                         .on("open", function binaryStreamOpen() {
                             if (logLevel > 1) {
-                                logger.meta(logCreateSuccess(modulePath));
+                                logger.meta(logCreateSuccess(relativePath));
                             }
                         })
                         .on("error", function binaryStreamError(outputErr) {
