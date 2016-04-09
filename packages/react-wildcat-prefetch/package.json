@@ -1,6 +1,6 @@
 {
   "name": "react-wildcat-prefetch",
-  "version": "2.4.1",
+  "version": "2.4.4",
   "description": "A React decorator to prefetch component data.",
   "main": "dist/index.js",
   "dependencies": {

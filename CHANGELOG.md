@@ -1,3 +1,17 @@
+<a name="2.4.4"></a>
+## [2.4.4](https://github.com/nfl/react-wildcat/compare/2.4.3...v2.4.4) (2016-04-09)
+
+
+### Bug Fixes
+
+* **react-wildcat:** Disable indexedDB cache in test mode ([d7a94e7](https://github.com/nfl/react-wildcat/commit/d7a94e7))
+* **react-wildcat:** Use relative path in CREATE log ([cf013a9](https://github.com/nfl/react-wildcat/commit/cf013a9)), closes [#115](https://github.com/nfl/react-wildcat/issues/115)
+* **react-wildcat-prefetch:** Wrap composed component display name to avoid losing its canonical name ([69a30e9](https://github.com/nfl/react-wildcat/commit/69a30e9))
+* **wildcat-babel:** Reimport the logger utility in worker helper ([9ff1c98](https://github.com/nfl/react-wildcat/commit/9ff1c98))
+* **wildcat-babel:** Reimport the logger utility in worker helper ([f1d8bf4](https://github.com/nfl/react-wildcat/commit/f1d8bf4))
+
+
+
 <a name="2.4.3"></a>
 ## [2.4.3](https://github.com/nfl/react-wildcat/compare/2.4.2...v2.4.3) (2016-03-30)
 
