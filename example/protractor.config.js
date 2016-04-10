@@ -116,6 +116,14 @@ exports.config = {
     },
 
     plugins: [{
+        package: "protractor-console",
+        logLevels: [
+            "severe",
+            "warning",
+            "debug",
+            "info"
+        ]
+    }, {
         package: "protractor-istanbul-plugin",
         logAssertions: true,
         failAssertions: true,

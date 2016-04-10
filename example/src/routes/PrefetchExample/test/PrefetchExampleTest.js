@@ -1,22 +1,20 @@
 import "isomorphic-fetch";
 
 import React from "react";
-import testTree from "react-test-tree";
+import {mount} from "enzyme";
 
 import PrefetchExample from "../PrefetchExample.js";
 import * as prefetchExampleRoutes from "../routes.js";
 
 describe("Prefetch Example", () => {
-    let prefetchExampleTree;
-
     const prefetchExamplePath = "/prefetch-example";
 
-    it("should be available", () => {
+    it("is available", () => {
         expect(PrefetchExample).to.exist;
     });
 
     context("prefetch", () => {
-        it("should prefetch data", async (done) => {
+        it("prefetches data", async (done) => {
             try {
                 expect(PrefetchExample)
                     .itself.to.have.property("prefetch");
@@ -53,25 +51,28 @@ describe("Prefetch Example", () => {
                 .itself.to.have.property("WrappedComponent");
 
             expect(PrefetchExample.WrappedComponent).to.exist;
+        });
 
-            prefetchExampleTree = testTree(
+        it("renders correctly", () => {
+            const prefetchExample = mount(
                 <PrefetchExample />
             );
+
+            expect(prefetchExample).to.exist;
         });
 
-        it("should render correctly", () => {
-            expect(prefetchExampleTree).to.exist;
-            expect(prefetchExampleTree.isMounted()).to.be.true;
-            expect(prefetchExampleTree).to.respondTo("get");
-        });
+        it("renders #prefetch element", () => {
+            const prefetchExample = mount(
+                <PrefetchExample />
+            );
 
-        after(() => {
-            prefetchExampleTree.dispose();
+            expect(prefetchExample.find(`#prefetch`))
+                .to.have.length.of(1);
         });
     });
 
     context("routes", () => {
-        it("should have a defined path", () => {
+        it("has a defined path", () => {
             expect(prefetchExampleRoutes).to.exist;
             expect(prefetchExampleRoutes)
                 .to.have.property("path")
@@ -79,7 +80,7 @@ describe("Prefetch Example", () => {
                 .that.equals(prefetchExamplePath);
         });
 
-        it("should asynchronously fetch component", (done) => {
+        it("asynchronously fetches component", (done) => {
             expect(prefetchExampleRoutes).to.exist;
             expect(prefetchExampleRoutes).to.respondTo("getComponent");
 

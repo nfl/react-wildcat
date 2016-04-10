@@ -1,41 +1,46 @@
 import React from "react";
-import testTree from "react-test-tree";
-import radium from "radium";
+import {shallow} from "enzyme";
+import {TestMode} from "radium";
 
 import FlexboxExample from "../FlexboxExample.js";
 import * as flexboxExampleRoutes from "../routes.js";
 
 describe("Flexbox Example", () => {
-    let flexboxExampleTree;
     const flexboxExamplePath = "/flexbox-example";
 
-    it("should be available", () => {
+    it("is available", () => {
         expect(FlexboxExample).to.exist;
     });
 
     context("render", () => {
         before(() => {
-            radium.TestMode.enable();
-
-            flexboxExampleTree = testTree(
-                <FlexboxExample />
-            );
+            TestMode.enable();
         });
 
-        it("should render correctly", () => {
-            expect(flexboxExampleTree).to.exist;
-            expect(flexboxExampleTree.isMounted()).to.be.true;
-            expect(flexboxExampleTree).to.respondTo("get");
+        it("renders correctly", () => {
+            const flexboxExample = shallow(
+                <FlexboxExample />
+            );
+
+            expect(flexboxExample).to.exist;
+        });
+
+        it("renders #flexbox element", () => {
+            const flexboxExample = shallow(
+                <FlexboxExample />
+            );
+
+            expect(flexboxExample.find(`#flexbox`))
+                .to.have.length.of(1);
         });
 
         after(() => {
-            radium.TestMode.disable();
-            flexboxExampleTree.dispose();
+            TestMode.disable();
         });
     });
 
     context("routes", () => {
-        it("should have a defined path", () => {
+        it("has a defined path", () => {
             expect(flexboxExampleRoutes).to.exist;
             expect(flexboxExampleRoutes)
                 .to.have.property("path")
@@ -43,7 +48,7 @@ describe("Flexbox Example", () => {
                 .that.equals(flexboxExamplePath);
         });
 
-        it("should asynchronously fetch component", (done) => {
+        it("asynchronously fetches component", (done) => {
             expect(flexboxExampleRoutes).to.exist;
             expect(flexboxExampleRoutes).to.respondTo("getComponent");
 

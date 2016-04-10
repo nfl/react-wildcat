@@ -1,62 +1,63 @@
 import React from "react";
-import testTree from "react-test-tree";
-import radium from "radium";
+import {shallow} from "enzyme";
+import {TestMode} from "radium";
 
 import {ApplicationComponent as Application} from "../Application.js";
+import ApplicationContext from "../ApplicationContext.js";
 
 describe("Application", () => {
-    let applicationTree;
     const testChildText = "This text should exist.";
 
-    it("should be available", () => {
+    it("component is available", () => {
         expect(Application).to.exist;
     });
 
     context("render", () => {
         before(() => {
-            radium.TestMode.enable();
+            TestMode.enable();
+        });
 
-            applicationTree = testTree(
+        it("renders <Application />", () => {
+            const application = shallow(
+                <ApplicationContext>
+                    <Application />
+                </ApplicationContext>
+            , {
+                context: {
+                    headers: {
+                        host: window.location.host,
+                        userAgent: window.navigator.userAgent
+                    }
+                }
+            });
+
+            expect(application).to.exist;
+        });
+
+        it("renders a list of links", () => {
+            const application = shallow(
+                <Application />
+            );
+
+            expect(application.find(`nav[role="navigation"]`))
+                .to.have.length.of(1);
+        });
+
+        it("renders children when passed in", () => {
+            const application = shallow(
                 <Application>
                     <div>{testChildText}</div>
                 </Application>
             );
-        });
 
-        it("should render correctly", () => {
-            expect(applicationTree).to.exist;
-            expect(applicationTree.isMounted()).to.be.true;
-            expect(applicationTree).to.respondTo("get");
-        });
-
-        context("refs", () => {
-            it("header", () => {
-                const headerRef = applicationTree.get("header");
-                expect(headerRef).to.exist;
-            });
-
-            it("main", () => {
-                const mainRef = applicationTree.get("main");
-                expect(mainRef).to.exist;
-            });
-
-            it("navigation", () => {
-                const navigationRefCollection = applicationTree.get("navigation");
-                expect(navigationRefCollection).to.exist;
-                expect(navigationRefCollection).to.have.length.of(6);
-            });
-        });
-
-        it("should render children", () => {
-            const mainRef = applicationTree.get("main");
-            expect(mainRef).to.exist;
-
-            expect(mainRef.innerText).to.equal(testChildText);
+            expect(
+                application.contains(<div>{testChildText}</div>)
+            )
+                .to.be.true;
         });
 
         after(() => {
-            radium.TestMode.disable();
-            applicationTree.dispose();
+            TestMode.disable();
         });
     });
 });
