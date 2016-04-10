@@ -61,10 +61,10 @@ System.config({
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.2",
     "react-transform-hmr": "npm:react-transform-hmr@1.0.4",
     "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@2.0.0",
-    "react-wildcat-ensure": "npm:react-wildcat-ensure@2.0.0",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@2.4.1",
+    "react-wildcat-ensure": "npm:react-wildcat-ensure@2.4.4",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@2.4.4",
     "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@2.0.0",
-    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@2.4.1",
+    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@2.4.4",
     "redbox-react": "npm:redbox-react@1.2.3",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
@@ -669,6 +669,10 @@ System.config({
       "loose-envify": "npm:loose-envify@1.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
+    "npm:invariant@2.2.1": {
+      "loose-envify": "npm:loose-envify@1.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
     "npm:is-my-json-valid@2.13.1": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "generate-function": "npm:generate-function@2.0.0",
@@ -942,7 +946,7 @@ System.config({
       "global": "npm:global@4.3.0",
       "react-proxy": "npm:react-proxy@1.1.8"
     },
-    "npm:react-wildcat-handoff@2.4.1": {
+    "npm:react-wildcat-handoff@2.4.4": {
       "cookies-js": "npm:cookies-js@1.2.2",
       "exenv": "npm:exenv@1.2.0",
       "history": "npm:history@2.0.1",
@@ -958,10 +962,10 @@ System.config({
       "debug": "npm:debug@2.2.0",
       "exenv": "npm:exenv@1.2.0"
     },
-    "npm:react-wildcat-prefetch@2.4.1": {
+    "npm:react-wildcat-prefetch@2.4.4": {
       "exenv": "npm:exenv@1.2.0",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.5",
-      "invariant": "npm:invariant@2.2.0",
+      "invariant": "npm:invariant@2.2.1",
       "react": "npm:react@15.0.1"
     },
     "npm:react@15.0.1": {
