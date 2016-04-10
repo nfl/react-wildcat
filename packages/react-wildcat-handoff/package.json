@@ -9,8 +9,8 @@
     "history": "^2.0.1",
     "isomorphic-fetch": "^2.2.1",
     "parse-domain": "^0.2.1",
-    "react": "^0.14.8",
-    "react-dom": "^0.14.8",
+    "react": "15.0.1",
+    "react-dom": "15.0.1",
     "react-helmet": "^3.0.1",
     "react-router": "^2.0.1",
     "react-wildcat-hot-reloader": "2.0.0"
