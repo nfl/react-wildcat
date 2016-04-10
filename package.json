@@ -52,22 +52,21 @@
     "whatwg-fetch": "^0.11.0"
   },
   "jspm": {
-    "registry": "npm",
     "configFile": "system.config.js",
     "devDependencies": {
-      "cookies-js": "^1.2.2",
-      "exenv": "^1.2.0",
-      "history": "^2.0.1",
-      "hoist-non-react-statics": "^1.0.5",
-      "invariant": "^2.2.1",
-      "isomorphic-fetch": "^2.2.1",
-      "parse-domain": "^0.2.1",
-      "react": "^0.14.8",
-      "react-addons-test-utils": "^0.14.8",
-      "react-dom": "^0.14.8",
-      "react-helmet": "^3.0.1",
-      "react-router": "^2.0.1",
-      "react-wildcat-prefetch": "^2.4.1"
+      "cookies-js": "npm:cookies-js@^1.2.2",
+      "exenv": "npm:exenv@^1.2.0",
+      "history": "npm:history@^2.0.1",
+      "hoist-non-react-statics": "npm:hoist-non-react-statics@^1.0.5",
+      "invariant": "npm:invariant@^2.2.1",
+      "isomorphic-fetch": "npm:isomorphic-fetch@^2.2.1",
+      "parse-domain": "npm:parse-domain@^0.2.1",
+      "react": "npm:react@^0.14.8",
+      "react-addons-test-utils": "npm:react-addons-test-utils@^0.14.8",
+      "react-dom": "npm:react-dom@^0.14.8",
+      "react-helmet": "npm:react-helmet@^3.0.1",
+      "react-router": "npm:react-router@^2.0.1",
+      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@^2.4.1"
     }
   },
   "scripts": {
