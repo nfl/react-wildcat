@@ -26,7 +26,6 @@
     "koa-conditional-get": "^1.0.3",
     "koa-cors": "0.0.16",
     "koa-etag": "^2.1.1",
-    "koa-favicon": "^1.2.1",
     "koa-file-server": "nfl/file-server#feature/optional-gzip",
     "koa-morgan": "^0.4.0",
     "koa-proxy": "^0.5.0",

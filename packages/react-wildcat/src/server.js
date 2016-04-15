@@ -7,12 +7,10 @@ const koa = require("koa");
 const cors = require("koa-cors");
 const etag = require("koa-etag");
 const proxy = require("koa-proxy");
-const favicon = require("koa-favicon");
 const compress = require("koa-compress");
 const conditional = require("koa-conditional-get");
 
 const cwd = process.cwd();
-const path = require("path");
 
 const http = require("http");
 const http2 = require("spdy");
@@ -104,9 +102,6 @@ function start() {
 
             // add gzip
             app.use(compress());
-
-            // Handle the pesky favicon
-            app.use(favicon(path.join(cwd, "favicon.ico")));
 
             Object.keys(proxySettings).forEach(function eachProxyRoute(proxyRoute) {
                 const host = proxySettings[proxyRoute];

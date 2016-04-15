@@ -13,7 +13,7 @@ module.exports = function blueBoxOfDeath(err, request) {
 <html>
     <head>
         <title>‼️💩️️ Runtime Error️</title>
-        <meta name="viewport" content="width=device-width; initial-scale=1.0;">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
             .bbod, .bbod * {
                 margin: 0;
