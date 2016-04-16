@@ -1,6 +1,6 @@
 {
   "name": "react-wildcat-handoff",
-  "version": "2.4.4",
+  "version": "3.0.0",
   "description": "Default client/server rendering for react-wildcat",
   "main": "src",
   "dependencies": {
@@ -13,7 +13,7 @@
     "react-dom": "15.0.1",
     "react-helmet": "^3.0.1",
     "react-router": "^2.0.1",
-    "react-wildcat-hot-reloader": "2.0.0"
+    "react-wildcat-hot-reloader": "3.0.0"
   },
   "devDependencies": {
     "babel": "^5.8.29",

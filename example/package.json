@@ -1,12 +1,12 @@
 {
   "name": "react-wildcat-example",
   "description": "An example Wildcat project.",
-  "version": "2.4.4",
+  "version": "3.0.0",
   "dependencies": {
     "babel": "^5.8.29",
     "koa-favicon": "^1.2.1",
     "koa-route": "^2.4.2",
-    "react-wildcat": "2.4.4",
+    "react-wildcat": "3.0.0",
     "rimraf": "^2.5.2"
   },
   "devDependencies": {
@@ -41,7 +41,7 @@
     "protractor": "3.1.1",
     "protractor-console": "^2.0.0",
     "protractor-istanbul-plugin": "^2.0.0",
-    "react-wildcat-test-runners": "2.4.4",
+    "react-wildcat-test-runners": "3.0.0",
     "resolve": "^1.1.7",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0"
@@ -56,11 +56,11 @@
       "react": "npm:react@15.0.1",
       "react-dom": "npm:react-dom@15.0.1",
       "react-helmet": "npm:react-helmet@^3.0.1",
-      "react-metrics": "npm:react-metrics@^1.1.0",
+      "react-metrics": "npm:react-metrics@^1.2.1",
       "react-router": "npm:react-router@^2.0.1",
-      "react-wildcat-ensure": "npm:react-wildcat-ensure@2.4.4",
-      "react-wildcat-handoff": "npm:react-wildcat-handoff@2.4.4",
-      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@2.4.4"
+      "react-wildcat-ensure": "npm:react-wildcat-ensure@3.0.0",
+      "react-wildcat-handoff": "npm:react-wildcat-handoff@3.0.0",
+      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@3.0.0"
     },
     "devDependencies": {
       "enzyme": "npm:enzyme@^2.2.0",
@@ -68,7 +68,7 @@
       "react-transform-catch-errors": "npm:react-transform-catch-errors@^1.0.1",
       "react-transform-hmr": "npm:react-transform-hmr@^1.0.1",
       "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@2.0.0",
-      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@2.0.0",
+      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@3.0.0",
       "redbox-react": "npm:redbox-react@^1.2.3"
     },
     "overrides": {

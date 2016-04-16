@@ -1,3 +1,14 @@
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/nfl/react-wildcat/compare/2.4.4...v3.0.0) (2016-04-16)
+
+
+### Features
+
+* **example:** Add koa-favicon to example project ([b7fe3d5](https://github.com/nfl/react-wildcat/commit/b7fe3d5))
+* **react-wildcat:** Upgrade React ([85d665b](https://github.com/nfl/react-wildcat/commit/85d665b))
+
+
+
 <a name="2.4.4"></a>
 ## [2.4.4](https://github.com/nfl/react-wildcat/compare/2.4.3...v2.4.4) (2016-04-09)
 
