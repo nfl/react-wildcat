@@ -13,6 +13,10 @@ function getAction(action, ComposedComponent) {
             return action;
 
         case "string":
+            if (ComposedComponent.hasOwnProperty(action)) {
+                return ComposedComponent[action];
+            }
+
             return function asyncAction() {
                 return new Promise(function asyncPromise(resolve) {
                     return fetch(action)
