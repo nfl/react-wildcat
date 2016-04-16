@@ -68,7 +68,10 @@ module.exports = function serverRender(cfg) {
                             data: initialData,
                             head: head,
                             html: reactMarkup,
-                            wildcatConfig
+                            wildcatConfig,
+                            request,
+                            cookies,
+                            renderProps
                         });
 
                         result = Object.assign({}, result, {
