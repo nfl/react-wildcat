@@ -5,6 +5,7 @@ import hoistStatics from "hoist-non-react-statics";
 
 const __INITIAL_DATA__ = "__INITIAL_DATA__";
 const __DEFAULT_KEY__ = "asyncData";
+const __DEFAULT_STATIC_METHOD__ = "fetchData";
 
 function getAction(action, ComposedComponent) {
     switch (typeof action) {
@@ -67,6 +68,7 @@ function prefetch(action, options) {
     key = options.key || (typeof options === "string" ? options : __DEFAULT_KEY__);
 
     return function wrap(ComposedComponent) {
+        action = action || ComposedComponent[__DEFAULT_STATIC_METHOD__];
         var _action = getAction(action, ComposedComponent);
 
         var Prefetch = React.createClass({
