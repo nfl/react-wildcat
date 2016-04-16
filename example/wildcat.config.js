@@ -125,7 +125,8 @@ const wildcatConfig = {
 
             middleware: [
                 // EXAMPLE:
-                require("./api/sampleServerOnlyApi")
+                require("./api/sampleServerOnlyApi"),
+                require("./api/serveFavicon")
             ],
 
             // A key/value of urls to proxy
