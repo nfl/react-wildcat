@@ -51,3 +51,6 @@ test-travis: bootstrap install-example lint test-cov
 update-dependencies:
 	./shell/update-dependencies.sh
 	./shell/update-dependencies-example.sh
+
+upgrade-react:
+	node ./shell/upgrade-react.js

@@ -1,37 +1,37 @@
 import React from "react";
-import testTree from "react-test-tree";
+import {shallow} from "enzyme";
 
 import HelmetExample from "../HelmetExample.js";
 import * as helmetExampleRoutes from "../routes.js";
 
 describe("Helmet Example", () => {
-    let helmetExampleTree;
     const helmetExamplePath = "/helmet-example";
 
-    it("should be available", () => {
+    it("is available", () => {
         expect(HelmetExample).to.exist;
     });
 
     context("render", () => {
-        before(() => {
-            helmetExampleTree = testTree(
+        it("renders correctly", () => {
+            const helmetExample = shallow(
                 <HelmetExample />
             );
+
+            expect(helmetExample).to.exist;
         });
 
-        it("should render correctly", () => {
-            expect(helmetExampleTree).to.exist;
-            expect(helmetExampleTree.isMounted()).to.be.true;
-            expect(helmetExampleTree).to.respondTo("get");
-        });
+        it("renders #helmet element", () => {
+            const helmetExample = shallow(
+                <HelmetExample />
+            );
 
-        after(() => {
-            helmetExampleTree.dispose();
+            expect(helmetExample.find(`#helmet`))
+                .to.have.length.of(1);
         });
     });
 
     context("routes", () => {
-        it("should have a defined path", () => {
+        it("has a defined path", () => {
             expect(helmetExampleRoutes).to.exist;
             expect(helmetExampleRoutes)
                 .to.have.property("path")
@@ -39,7 +39,7 @@ describe("Helmet Example", () => {
                 .that.equals(helmetExamplePath);
         });
 
-        it("should asynchronously fetch component", (done) => {
+        it("asynchronously fetches component", (done) => {
             expect(helmetExampleRoutes).to.exist;
             expect(helmetExampleRoutes).to.respondTo("getComponent");
 

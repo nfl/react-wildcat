@@ -1,36 +1,35 @@
 import React from "react";
-import testTree from "react-test-tree";
+import {shallow} from "enzyme";
 
 import IndexExample from "../IndexExample.js";
 import * as indexExampleRoutes from "../routes.js";
 
 describe("Index Example", () => {
-    let indexExampleTree;
-
-    it("should be available", () => {
+    it("is available", () => {
         expect(IndexExample).to.exist;
     });
 
     context("render", () => {
-        before(() => {
-            indexExampleTree = testTree(
+        it("renders correctly", () => {
+            const indexExample = shallow(
                 <IndexExample />
             );
+
+            expect(indexExample).to.exist;
         });
 
-        it("should render correctly", () => {
-            expect(indexExampleTree).to.exist;
-            expect(indexExampleTree.isMounted()).to.be.true;
-            expect(indexExampleTree).to.respondTo("get");
-        });
+        it("renders #index element", () => {
+            const indexExample = shallow(
+                <IndexExample />
+            );
 
-        after(() => {
-            indexExampleTree.dispose();
+            expect(indexExample.find(`#index`))
+                .to.have.length.of(1);
         });
     });
 
     context("routes", () => {
-        it("should not have a defined path", () => {
+        it("has a defined path", () => {
             expect(indexExampleRoutes).to.exist;
 
             // Index routes should not have a path
@@ -38,7 +37,7 @@ describe("Index Example", () => {
                 .to.not.have.property("path");
         });
 
-        it("should asynchronously fetch component", (done) => {
+        it("asynchronously fetches component", (done) => {
             expect(indexExampleRoutes).to.exist;
             expect(indexExampleRoutes).to.respondTo("getComponent");
 

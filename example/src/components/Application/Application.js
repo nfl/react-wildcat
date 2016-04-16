@@ -11,19 +11,18 @@ import styles from "./styles/applicationStyles.js";
 // See: https://github.com/FormidableLabs/radium/tree/master/docs/faq#why-doesnt-radium-work-on-somecomponent
 const Link = radium(RawLink);
 
-@radium
 class Application extends React.Component {
     static propTypes = {
-        children: React.PropTypes.any
+        children: React.PropTypes.node
     };
 
     render() {
         return (
             <div style={styles.application}>
                 <div style={styles.container}>
-                    <header testRef="header" role="primary">
+                    <header role="primary">
                         <nav role="navigation">
-                            <ul testRefCollection="navigation">
+                            <ul>
                                 {links.map((link) => (
                                     <li key={link.text}>
                                         <Link
@@ -40,7 +39,7 @@ class Application extends React.Component {
                             </ul>
                         </nav>
                     </header>
-                    <main testRef="main" role="main">
+                    <main role="main">
                         {this.props.children}
                     </main>
                 </div>
@@ -50,4 +49,6 @@ class Application extends React.Component {
 }
 
 export {Application as ApplicationComponent};
-export default metrics(metricsConfig)(Application);
+export default metrics(metricsConfig)(
+    radium(Application)
+);

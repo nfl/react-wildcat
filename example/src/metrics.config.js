@@ -1,5 +1,5 @@
 const GoogleAnalytics = function GoogleAnalyticsStub(config) {
-    return console.info("Stub Google Analytics API", config);
+    return console.log("Stub Google Analytics API", config);
 };
 
 const metricsConfig = {

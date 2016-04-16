@@ -39,6 +39,7 @@
     "mocha": "^2.4.5",
     "phantomjs-prebuilt": "^2.1.7",
     "protractor": "3.1.1",
+    "protractor-console": "^2.0.0",
     "protractor-istanbul-plugin": "^2.0.0",
     "react-wildcat-test-runners": "2.4.4",
     "resolve": "^1.1.7",
@@ -52,8 +53,8 @@
       "core-js": "npm:core-js@^2.2.2",
       "isomorphic-fetch": "npm:isomorphic-fetch@^2.2.1",
       "radium": "npm:radium@^0.17.1",
-      "react": "npm:react@^0.14.8",
-      "react-dom": "npm:react-dom@^0.14.8",
+      "react": "npm:react@15.0.1",
+      "react-dom": "npm:react-dom@15.0.1",
       "react-helmet": "npm:react-helmet@^3.0.1",
       "react-metrics": "npm:react-metrics@^1.1.0",
       "react-router": "npm:react-router@^2.0.1",
@@ -62,8 +63,8 @@
       "react-wildcat-prefetch": "npm:react-wildcat-prefetch@2.4.4"
     },
     "devDependencies": {
-      "react-addons-test-utils": "npm:react-addons-test-utils@^0.14.8",
-      "react-test-tree": "npm:react-test-tree@^1.0.0",
+      "enzyme": "npm:enzyme@^2.2.0",
+      "react-addons-test-utils": "npm:react-addons-test-utils@15.0.1",
       "react-transform-catch-errors": "npm:react-transform-catch-errors@^1.0.1",
       "react-transform-hmr": "npm:react-transform-hmr@^1.0.1",
       "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@2.0.0",
@@ -71,6 +72,13 @@
       "redbox-react": "npm:redbox-react@^1.2.3"
     },
     "overrides": {
+      "npm:enzyme@2.2.0": {
+        "map": {
+          "react/addons": "@empty",
+          "react/lib/ExecutionEnvironment": "@empty",
+          "react/lib/ReactContext": "@empty"
+        }
+      },
       "npm:radium@0.17.1": {
         "dependencies": {
           "array-find": "npm:array-find@1.0.0",

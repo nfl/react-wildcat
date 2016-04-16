@@ -15,9 +15,9 @@ System.config({
     "invariant": "npm:invariant@2.2.1",
     "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
     "parse-domain": "npm:parse-domain@0.2.1",
-    "react": "npm:react@0.14.8",
-    "react-addons-test-utils": "npm:react-addons-test-utils@0.14.8",
-    "react-dom": "npm:react-dom@0.14.8",
+    "react": "npm:react@15.0.1",
+    "react-addons-test-utils": "npm:react-addons-test-utils@15.0.1",
+    "react-dom": "npm:react-dom@15.0.1",
     "react-helmet": "npm:react-helmet@3.0.1",
     "react-router": "npm:react-router@2.0.1",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@2.4.1",
@@ -72,6 +72,12 @@ System.config({
     "npm:assert@1.3.0": {
       "util": "npm:util@0.10.3"
     },
+    "npm:babel-plugin-syntax-flow@6.5.0": {
+      "babel-runtime": "npm:babel-runtime@5.8.38"
+    },
+    "npm:babel-runtime@5.8.38": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
     "npm:browserify-zlib@0.1.4": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -112,8 +118,14 @@ System.config({
       "promise": "npm:promise@7.1.1",
       "whatwg-fetch": "npm:whatwg-fetch@0.9.0"
     },
-    "npm:fbjs@0.6.1": {
-      "process": "github:jspm/nodelibs-process@0.1.2"
+    "npm:fbjs@0.8.0": {
+      "babel-plugin-syntax-flow": "npm:babel-plugin-syntax-flow@6.5.0",
+      "core-js": "npm:core-js@1.2.6",
+      "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
+      "loose-envify": "npm:loose-envify@1.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "promise": "npm:promise@7.1.1",
+      "ua-parser-js": "npm:ua-parser-js@0.7.10"
     },
     "npm:history@2.0.1": {
       "deep-equal": "npm:deep-equal@1.0.1",
@@ -145,7 +157,7 @@ System.config({
     },
     "npm:isomorphic-fetch@2.2.1": {
       "node-fetch": "npm:node-fetch@1.5.0",
-      "whatwg-fetch": "npm:whatwg-fetch@0.9.0"
+      "whatwg-fetch": "npm:whatwg-fetch@0.11.0"
     },
     "npm:lodash.keys@3.1.2": {
       "lodash._getnative": "npm:lodash._getnative@3.9.1",
@@ -196,11 +208,11 @@ System.config({
     "npm:query-string@3.0.3": {
       "strict-uri-encode": "npm:strict-uri-encode@1.1.0"
     },
-    "npm:react-addons-test-utils@0.14.8": {
-      "react": "npm:react@0.14.8"
+    "npm:react-addons-test-utils@15.0.1": {
+      "react": "npm:react@15.0.1"
     },
-    "npm:react-dom@0.14.8": {
-      "react": "npm:react@0.14.8"
+    "npm:react-dom@15.0.1": {
+      "react": "npm:react@15.0.1"
     },
     "npm:react-helmet@3.0.1": {
       "deep-equal": "npm:deep-equal@1.0.1",
@@ -224,10 +236,12 @@ System.config({
       "exenv": "npm:exenv@1.2.0",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.5",
       "invariant": "npm:invariant@2.2.1",
-      "react": "npm:react@0.14.8"
+      "react": "npm:react@15.0.1"
     },
-    "npm:react@0.14.8": {
-      "fbjs": "npm:fbjs@0.6.1",
+    "npm:react@15.0.1": {
+      "fbjs": "npm:fbjs@0.8.0",
+      "loose-envify": "npm:loose-envify@1.1.0",
+      "object-assign": "npm:object-assign@4.0.1",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:readable-stream@1.1.13": {
@@ -261,6 +275,9 @@ System.config({
     },
     "npm:string_decoder@0.10.31": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
+    },
+    "npm:ua-parser-js@0.7.10": {
+      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
     "npm:url@0.10.3": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
