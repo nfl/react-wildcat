@@ -65,13 +65,13 @@ function getDisplayName(Comp) {
  * If action is a function it will execute the function
  * If action is an string it will make a request based on that url
  */
-function prefetch(action, options) {
+function prefetchWrap(action, options) {
     var key;
 
     options = options || {};
     key = options.key || (typeof options === "string" ? options : __DEFAULT_KEY__);
 
-    return function wrap(ComposedComponent) {
+    return function prefetchWrapper(ComposedComponent) {
         action = action || ComposedComponent[__DEFAULT_STATIC_METHOD__];
         var _action = getAction(action, ComposedComponent);
 
@@ -148,4 +148,10 @@ function prefetch(action, options) {
     };
 }
 
-module.exports = prefetch;
+module.exports = function prefetch(target, ...args) {
+    if (typeof target === "function" && typeof target.displayName === "string") {
+        return prefetchWrap()(target, ...args);
+    }
+
+    return prefetchWrap(target, ...args);
+};
