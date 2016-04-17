@@ -16,7 +16,8 @@
   "jspm": {
     "directories": {
       "lib": "dist"
-    }
+    },
+    "main": "index.js"
   },
   "scripts": {
     "build": "npm run clean && npm run compile",
