@@ -20,7 +20,7 @@ System.config({
     "react-dom": "npm:react-dom@15.0.1",
     "react-helmet": "npm:react-helmet@3.0.1",
     "react-router": "npm:react-router@2.0.1",
-    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@2.4.1",
+    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@3.1.0",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },

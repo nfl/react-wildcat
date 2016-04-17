@@ -62,9 +62,9 @@ System.config({
     "react-transform-hmr": "npm:react-transform-hmr@1.0.4",
     "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@2.0.0",
     "react-wildcat-ensure": "npm:react-wildcat-ensure@2.4.4",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@2.4.4",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@3.1.0",
     "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@2.0.0",
-    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@2.4.4",
+    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@3.1.0",
     "redbox-react": "npm:redbox-react@1.2.3",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"

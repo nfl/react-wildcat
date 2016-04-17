@@ -1,3 +1,19 @@
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/nfl/react-wildcat/compare/3.0.0...v3.1.0) (2016-04-17)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Pass request, cookies, and renderProps to html templates ([e08567f](https://github.com/nfl/react-wildcat/commit/e08567f))
+
+### Features
+
+* **react-wildcat-prefetch:** Define static prefetch method as string value ([c6009cb](https://github.com/nfl/react-wildcat/commit/c6009cb))
+* **react-wildcat-prefetch:** Make decorator arguments optional ([5549648](https://github.com/nfl/react-wildcat/commit/5549648))
+* **react-wildcat-prefetch:** Make fetchData the default static prefetch method name ([1d2fd3b](https://github.com/nfl/react-wildcat/commit/1d2fd3b))
+
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/nfl/react-wildcat/compare/2.4.4...v3.0.0) (2016-04-16)
 

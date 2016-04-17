@@ -59,8 +59,8 @@
       "react-metrics": "npm:react-metrics@^1.2.1",
       "react-router": "npm:react-router@^2.0.1",
       "react-wildcat-ensure": "npm:react-wildcat-ensure@3.0.0",
-      "react-wildcat-handoff": "npm:react-wildcat-handoff@3.0.0",
-      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@3.0.0"
+      "react-wildcat-handoff": "npm:react-wildcat-handoff@3.1.0",
+      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@3.1.0"
     },
     "devDependencies": {
       "enzyme": "npm:enzyme@^2.2.0",
