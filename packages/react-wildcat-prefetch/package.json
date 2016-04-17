@@ -13,6 +13,11 @@
     "babel": "^5.8.29",
     "rimraf": "^2.5.2"
   },
+  "jspm": {
+    "directories": {
+      "lib": "dist"
+    }
+  },
   "scripts": {
     "build": "npm run clean && npm run compile",
     "clean": "rimraf dist",

@@ -5,6 +5,7 @@ import hoistStatics from "hoist-non-react-statics";
 
 const __INITIAL_DATA__ = "__INITIAL_DATA__";
 const __DEFAULT_KEY__ = "asyncData";
+const __DEFAULT_STATIC_METHOD__ = "fetchData";
 
 function getAction(action, ComposedComponent) {
     switch (typeof action) {
@@ -12,6 +13,10 @@ function getAction(action, ComposedComponent) {
             return action;
 
         case "string":
+            if (ComposedComponent.hasOwnProperty(action)) {
+                return ComposedComponent[action];
+            }
+
             return function asyncAction() {
                 return new Promise(function asyncPromise(resolve) {
                     return fetch(action)
@@ -60,13 +65,14 @@ function getDisplayName(Comp) {
  * If action is a function it will execute the function
  * If action is an string it will make a request based on that url
  */
-function prefetch(action, options) {
+function prefetchWrap(action, options) {
     var key;
 
     options = options || {};
     key = options.key || (typeof options === "string" ? options : __DEFAULT_KEY__);
 
-    return function wrap(ComposedComponent) {
+    return function prefetchWrapper(ComposedComponent) {
+        action = action || ComposedComponent[__DEFAULT_STATIC_METHOD__];
         var _action = getAction(action, ComposedComponent);
 
         var Prefetch = React.createClass({
@@ -142,4 +148,10 @@ function prefetch(action, options) {
     };
 }
 
-module.exports = prefetch;
+module.exports = function prefetch(target, ...args) {
+    if (typeof target === "function" && typeof target.displayName === "string") {
+        return prefetchWrap()(target, ...args);
+    }
+
+    return prefetchWrap(target, ...args);
+};

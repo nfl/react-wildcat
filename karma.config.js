@@ -29,6 +29,7 @@ module.exports = function (karmaConfig) {
 
         client: {
             mocha: {
+                bail: true,
                 reporter: "html",
                 slow: timeout / 2,
                 timeout

@@ -5,6 +5,8 @@ import Prefetch from "../../index.js"; // eslint-disable-line import/default
 import Hello from "./fixtures/Hello.js";
 import HelloES7 from "./fixtures/HelloES7.js";
 import World from "./fixtures/World.js";
+import CustomPrefetchStatic from "./fixtures/CustomPrefetchStatic.js";
+import DefaultPrefetchStatic from "./fixtures/DefaultPrefetchStatic.js";
 
 import * as stubs from "./fixtures/stubData.js";
 
@@ -170,6 +172,50 @@ describe("react-wildcat-prefetch", () => {
                         expect(response)
                             .to.be.an("object")
                             .that.has.keys(stubs.prefetchedData.asyncData);
+
+                        done();
+                    });
+
+                expect(runner)
+                    .to.be.an.instanceof(Promise);
+            });
+
+            it("fetches data from a custom static method", (done) => {
+                WrappedPrefetch = Prefetch("customFetchData")(CustomPrefetchStatic);
+
+                expect(WrappedPrefetch.prefetch)
+                    .to.exist;
+
+                expect(WrappedPrefetch.prefetch)
+                    .to.respondTo("run");
+
+                const runner = WrappedPrefetch.prefetch.run()
+                    .then((response) => {
+                        expect(response)
+                            .to.be.a("number")
+                            .that.equals(stubs.customFetchDataResponse);
+
+                        done();
+                    });
+
+                expect(runner)
+                    .to.be.an.instanceof(Promise);
+            });
+
+            it("fetches data from default static method", (done) => {
+                WrappedPrefetch = Prefetch(DefaultPrefetchStatic);
+
+                expect(WrappedPrefetch.prefetch)
+                    .to.exist;
+
+                expect(WrappedPrefetch.prefetch)
+                    .to.respondTo("run");
+
+                const runner = WrappedPrefetch.prefetch.run()
+                    .then((response) => {
+                        expect(response)
+                            .to.be.a("number")
+                            .that.equals(stubs.customFetchDataResponse);
 
                         done();
                     });
