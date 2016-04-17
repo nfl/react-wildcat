@@ -1,7 +1,7 @@
 {
   "name": "react-wildcat-example",
   "description": "An example Wildcat project.",
-  "version": "3.0.0",
+  "version": "3.1.1",
   "dependencies": {
     "babel": "^5.8.29",
     "koa-favicon": "^1.2.1",
@@ -16,12 +16,12 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
     "concurrently": "^2.0.0",
-    "eslint": "^2.7.0",
+    "eslint": "^2.8.0",
     "eslint-config-nfl": "^7.0.1",
     "eslint-import-resolver-jspm": "^2.1.0",
     "eslint-plugin-import": "^1.4.0",
     "eslint-plugin-jsx-a11y": "^0.6.2",
-    "eslint-plugin-mocha": "^2.0.0",
+    "eslint-plugin-mocha": "^2.2.0",
     "eslint-plugin-react": "^4.3.0",
     "estraverse": "^4.2.0",
     "estraverse-fb": "^1.3.1",
@@ -32,9 +32,9 @@
     "karma-coverage": "^0.5.5",
     "karma-jspm": "https://github.com/nfl/karma-jspm/tarball/b7de8bfe7ea29bac183c8fee23cfceac41ab3729",
     "karma-mocha": "^0.2.2",
-    "karma-mocha-reporter": "^2.0.0",
+    "karma-mocha-reporter": "^2.0.1",
     "karma-phantomjs-launcher": "^1.0.0",
-    "karma-phantomjs-shim": "^1.2.0",
+    "karma-phantomjs-shim": "^1.3.0",
     "karma-sourcemap-loader": "^0.3.7",
     "mocha": "^2.4.5",
     "phantomjs-prebuilt": "^2.1.7",
@@ -57,10 +57,10 @@
       "react-dom": "npm:react-dom@15.0.1",
       "react-helmet": "npm:react-helmet@^3.0.1",
       "react-metrics": "npm:react-metrics@^1.2.1",
-      "react-router": "npm:react-router@^2.0.1",
+      "react-router": "npm:react-router@^2.2.4",
       "react-wildcat-ensure": "npm:react-wildcat-ensure@3.0.0",
       "react-wildcat-handoff": "npm:react-wildcat-handoff@3.1.0",
-      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@3.1.0"
+      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@3.1.1"
     },
     "devDependencies": {
       "enzyme": "npm:enzyme@^2.2.0",

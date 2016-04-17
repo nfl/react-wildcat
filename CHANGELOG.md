@@ -1,10 +1,11 @@
-<a name="3.1.0"></a>
-# [3.1.0](https://github.com/nfl/react-wildcat/compare/3.0.0...v3.1.0) (2016-04-17)
+<a name="3.1.1"></a>
+## [3.1.1](https://github.com/nfl/react-wildcat/compare/3.0.0...v3.1.1) (2016-04-17)
 
 
 ### Bug Fixes
 
 * **react-wildcat-handoff:** Pass request, cookies, and renderProps to html templates ([e08567f](https://github.com/nfl/react-wildcat/commit/e08567f))
+* **react-wildcat-prefetch:** Fix jspm entry point ([0c7f19a](https://github.com/nfl/react-wildcat/commit/0c7f19a))
 
 ### Features
 
