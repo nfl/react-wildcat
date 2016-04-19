@@ -125,6 +125,10 @@ const wildcatConfig = {
             // App server port
             port: 3000,
 
+            // number to limit the min number of CPU's
+            // to spin up on a cluster
+            minClusterCpuCount: 1,
+
             // number to limit the max number of CPU's
             // to spin up on a cluster
             maxClusterCpuCount: Infinity, // Infinity === as many CPU's as the machine has
@@ -188,6 +192,10 @@ const wildcatConfig = {
 
             // Static server port
             port: 4000,
+
+            // number to limit the min number of CPU's
+            // to spin up on a cluster
+            minClusterCpuCount: 1,
 
             // number to limit the max number of CPU's
             // to spin up on a cluster
