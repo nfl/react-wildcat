@@ -66,12 +66,11 @@ function start() {
         }
 
         https.globalAgent.options.rejectUnauthorized = false;
-    }
 
-    if (__TEST__ && !wildcatConfig.__ClusterServerTest__) {
-        cpuCount = 1;
+        if (!wildcatConfig.__ClusterServerTest__) {
+            cpuCount = staticServerSettings.minClusterCpuCount;
+        }
     }
-
     const port = Number(staticServerSettings.port);
 
     const allowedOrigins = (staticServerSettings.corsOrigins).concat([staticServerSettings.host]);

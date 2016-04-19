@@ -58,10 +58,10 @@ function start() {
 
     if (!__PROD__ || __TEST__) {
         https.globalAgent.options.rejectUnauthorized = false;
-    }
 
-    if (__TEST__ && !wildcatConfig.__ClusterServerTest__) {
-        cpuCount = 1;
+        if (!wildcatConfig.__ClusterServerTest__) {
+            cpuCount = appServerSettings.minClusterCpuCount;
+        }
     }
 
     const port = Number(appServerSettings.port);
