@@ -1,3 +1,13 @@
+<a name="3.1.2"></a>
+## [3.1.2](https://github.com/nfl/react-wildcat/compare/3.1.1...v3.1.2) (2016-04-19)
+
+
+### Bug Fixes
+
+* **react-wildcat:** Limit to one worker per server in dev mode ([7ff9682](https://github.com/nfl/react-wildcat/commit/7ff9682))
+
+
+
 <a name="3.1.1"></a>
 ## [3.1.1](https://github.com/nfl/react-wildcat/compare/3.0.0...v3.1.1) (2016-04-17)
 
