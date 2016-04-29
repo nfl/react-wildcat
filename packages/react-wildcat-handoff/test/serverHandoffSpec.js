@@ -136,6 +136,29 @@ describe("react-wildcat-handoff/server", () => {
                     .to.be.an.instanceof(Promise);
             });
 
+            it("returns HTML as statid markup", (done) => {
+                const serverHandoff = server(stubs.routes);
+
+                expect(serverHandoff)
+                    .to.be.a("function")
+                    .that.has.property("name")
+                    .that.equals("serverHandoff");
+
+                const result = serverHandoff(stubs.requests.basic, stubs.cookieParser, stubs.wildcatConfigRenderType)
+                    .then(response => {
+                        expect(response)
+                            .to.be.an("object")
+                            .that.has.property("html")
+                            .that.is.a("string");
+
+                        done();
+                    })
+                    .catch(error => done(error));
+
+                expect(result)
+                    .to.be.an.instanceof(Promise);
+            });
+
             it("adds a WebSocket listener on the client in development mode", (done) => {
                 const existingEnv = process.env.NODE_ENV;
                 process.env.NODE_ENV = "development";
