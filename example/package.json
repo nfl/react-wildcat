@@ -1,7 +1,7 @@
 {
   "name": "react-wildcat-example",
   "description": "An example Wildcat project.",
-  "version": "3.1.2",
+  "version": "3.2.0",
   "dependencies": {
     "babel": "^5.8.29",
     "koa-favicon": "^1.2.1",
@@ -59,7 +59,7 @@
       "react-metrics": "npm:react-metrics@^1.2.1",
       "react-router": "npm:react-router@^2.2.4",
       "react-wildcat-ensure": "npm:react-wildcat-ensure@3.0.0",
-      "react-wildcat-handoff": "npm:react-wildcat-handoff@3.1.0",
+      "react-wildcat-handoff": "npm:react-wildcat-handoff@3.2.0",
       "react-wildcat-prefetch": "npm:react-wildcat-prefetch@3.1.1"
     },
     "devDependencies": {

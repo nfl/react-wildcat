@@ -1,3 +1,13 @@
+<a name="3.2.0"></a>
+# [3.2.0](https://github.com/nfl/react-wildcat/compare/3.1.2...v3.2.0) (2016-04-29)
+
+
+### Features
+
+* **react-wildcat-handoff:** Add configurable server render type([a2416f4](https://github.com/nfl/react-wildcat/commit/a2416f4))
+
+
+
 <a name="3.1.2"></a>
 ## [3.1.2](https://github.com/nfl/react-wildcat/compare/3.1.1...v3.1.2) (2016-04-19)
 
