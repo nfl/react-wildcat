@@ -52,7 +52,17 @@ module.exports = function serverRender(cfg) {
                         })
                 )
                     .then(function serverRenderPromiseResult() {
-                        const reactMarkup = ReactDOM.renderToString(
+                        const renderType = wildcatConfig.serverSettings.renderType;
+
+                        const getRenderType = (typeof renderType === "function") ?
+                            renderType({
+                                wildcatConfig,
+                                request,
+                                cookies,
+                                renderProps
+                            }) : renderType;
+
+                        const reactMarkup = ReactDOM[getRenderType](
                             serverContext(request, cookies, renderProps)
                         );
 

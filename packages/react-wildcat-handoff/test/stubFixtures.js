@@ -109,9 +109,18 @@ exports.wildcatConfig = {
     },
     serverSettings: {
         hotReload: true,
-        hotReloader: "react-wildcat-hot-reloader"
+        hotReloader: "react-wildcat-hot-reloader",
+        renderType: "renderToString"
     }
 };
+
+exports.wildcatConfigRenderType = Object.assign({}, exports.wildcatConfig, {
+    serverSettings: {
+        hotReload: true,
+        hotReloader: "react-wildcat-hot-reloader",
+        renderType: () => "renderToStaticMarkup"
+    }
+});
 
 exports.Application = React.createClass({
     displayName: "Application",

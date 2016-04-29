@@ -113,6 +113,9 @@ const wildcatConfig = {
         // Path to your source JavaScript files
         sourceDir: "src",
 
+        // One of "renderToString" | "renderToStaticMarkup" | a function that returns either of the two strings
+        renderType: "renderToString",
+
         // config options for the app server
         appServer: {
             // One of "http2" | "https" | "http"
