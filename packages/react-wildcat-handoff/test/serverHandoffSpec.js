@@ -136,7 +136,7 @@ describe("react-wildcat-handoff/server", () => {
                     .to.be.an.instanceof(Promise);
             });
 
-            it("returns HTML as statid markup", (done) => {
+            it("returns HTML as static markup", (done) => {
                 const serverHandoff = server(stubs.routes);
 
                 expect(serverHandoff)
