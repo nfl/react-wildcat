@@ -45,7 +45,6 @@
     "react-wildcat-prefetch": "^3.1.1",
     "resolve": "^1.1.7",
     "rimraf": "^2.5.2",
-    "semantic-release": "^4.3.5",
     "shelljs": "^0.6.0",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
@@ -70,8 +69,7 @@
     }
   },
   "scripts": {
-    "changelog": "conventional-changelog -k packages/react-wildcat/package.json -p angular -i CHANGELOG.md -s",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "changelog": "conventional-changelog -k packages/react-wildcat/package.json -p angular -i CHANGELOG.md -s"
   },
   "config": {
     "commitizen": {
