@@ -20,7 +20,7 @@
     "gelf-pro": "^0.6.3",
     "glob": "^7.0.3",
     "istanbul": "nfl/istanbul#feature/source-map-resolve",
-    "jspm": "nfl/jspm-cli#0.16.19/fetch-support",
+    "jspm": "nfl/jspm-cli#0.16.34/fetch-support",
     "koa": "^1.2.0",
     "koa-compress": "^1.0.9",
     "koa-conditional-get": "^1.0.3",
