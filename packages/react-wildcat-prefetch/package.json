@@ -7,10 +7,10 @@
     "exenv": "^1.2.1",
     "hoist-non-react-statics": "^1.0.5",
     "invariant": "^2.2.1",
-    "react": "15.0.1"
+    "react": "15.0.2"
   },
   "devDependencies": {
-    "babel": "^5.8.29",
+    "babel-core": "^6.8.0",
     "rimraf": "^2.5.2"
   },
   "jspm": {

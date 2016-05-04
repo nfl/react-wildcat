@@ -4,7 +4,7 @@
   "description": "An asynchronous System.import helper.",
   "main": "dist/index.js",
   "devDependencies": {
-    "babel": "^5.8.29",
+    "babel-core": "^6.8.0",
     "rimraf": "^2.5.2"
   },
   "scripts": {

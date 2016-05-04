@@ -25,6 +25,11 @@ module.exports = function handle(commander, wildcatOptions) {
 
         let index = 0;
 
+        // Remove babel reference to pass to the web worker
+        const sanitizedWildcatOptions = Object.assign({}, wildcatOptions, {
+            babel: false
+        });
+
         // return the next chunk of work for a free worker
         function next() {
             return files.slice(index, index += chunkSize);
@@ -45,7 +50,7 @@ module.exports = function handle(commander, wildcatOptions) {
                 child.send({
                     commander,
                     files: next(),
-                    wildcatOptions
+                    wildcatOptions: sanitizedWildcatOptions
                 });
 
                 child.on("message", message => {
@@ -64,7 +69,7 @@ module.exports = function handle(commander, wildcatOptions) {
                             child.send({
                                 commander,
                                 files: nextFiles,
-                                wildcatOptions
+                                wildcatOptions: sanitizedWildcatOptions
                             });
                             break;
                     }

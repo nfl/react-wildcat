@@ -15,7 +15,7 @@ function findBabel(root) {
     }
 
     try {
-        const babelPath = resolve.sync("babel", {
+        const babelPath = resolve.sync("babel-core", {
             basedir: root
         });
 
@@ -25,15 +25,13 @@ function findBabel(root) {
             throw e;
         }
 
-        projectBabel = require("babel");
+        projectBabel = require("babel-core");
     }
 
     return projectBabel;
 }
 
 module.exports = function handleFile(commander, wildcatOptions) {
-    "use strict";
-
     const root = wildcatOptions.root;
 
     const outDir = wildcatOptions.outDir;
@@ -48,16 +46,12 @@ module.exports = function handleFile(commander, wildcatOptions) {
     const util = babel.util;
 
     function log(msg) {
-        "use strict";
-
         if (!commander.quiet) {
             logger.meta(msg);
         }
     }
 
     return function (filename, done) {
-        "use strict";
-
         const transpiledFilename = filename.replace(sourceDir, outDir);
 
         if (util.canCompile(filename, commander.extensions)) {

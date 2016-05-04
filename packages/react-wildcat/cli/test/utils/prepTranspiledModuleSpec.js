@@ -65,7 +65,7 @@ module.exports = (stubs, loggerStub) => {
             entry: stubs.mainEntrySourcePath,
             outputPath: stubs.mainEntryTranspiledPath,
             outputContents: [
-                `var _routesConfigJs = require("./routes.config.js");`
+                `var _routesConfig = require("./routes.config.js");`
             ],
             commanderOptions: testOptions,
             wildcatOptions: stubs.wildcatOptions
@@ -127,12 +127,17 @@ module.exports = (stubs, loggerStub) => {
                 expect(err)
                     .to.be.an.instanceof(SyntaxError);
 
+                expect(err.loc)
+                    .to.be.an("object")
+                    .that.has.property("line")
+                    .that.equals(2);
+
                 expect(err.message)
-                    .to.equal(`${stubs.failureTestFile}: Line 2: "x" is read-only`);
+                    .to.equal(`${stubs.failureTestFile}: "x" is read-only`);
 
                 expect(loggerStub.error.lastCall.args[0])
                     .to.include(
-                        `SyntaxError: ${stubs.failureTestFile}: Line 2: "x" is read-only`
+                        `SyntaxError: ${stubs.failureTestFile}: "x" is read-only`
                     );
 
                 fs.removeSync(stubs.failureTestFile);

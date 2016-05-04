@@ -32,7 +32,7 @@ module.exports = (stubs, loggerStub) => {
             entry: stubs.mainEntrySourcePath,
             output: stubs.mainEntryTranspiledPath,
             outputContents: [
-                `var _routesConfigJs = require("./routes.config.js");`
+                `var _routesConfig = require("./routes.config.js");`
             ],
             commanderOptions: testOptions
         }].forEach((test) => {
@@ -78,9 +78,7 @@ module.exports = (stubs, loggerStub) => {
                         const clonedFiles = Array.from({
                             length: 9
                         }, () => files)
-                            .reduce(function (a, b) {
-                                return a.concat(b);
-                            }, []);
+                            .reduce((a, b) => a.concat(b), []);
 
                         return cb(err, clonedFiles);
                     });

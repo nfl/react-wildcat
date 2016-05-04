@@ -19,20 +19,15 @@ program
     .option("-p, --purge-cache <file>", "Purge (remove) the depCache in your SystemJS config.")
     .parse(process.argv);
 
-if (program.purgeCache) {
-    const purge = require("./utils/purgeCache");
-    purge(program.purgeCache);
-} else {
-    const server = cp.spawn("node", [
-        path.resolve(__dirname, "../main")
-    ], {
-        stdio: "inherit"
-    });
+const server = cp.spawn("node", [
+    path.resolve(__dirname, "../main")
+], {
+    stdio: "inherit"
+});
 
-    childProcesses.push(server);
+childProcesses.push(server);
 
-    process.on("exit", () =>process.emit("SIGINT"));
-    process.on("SIGINT", () => killAllChildProcesses("SIGINT"));
+process.on("exit", () => process.emit("SIGINT"));
+process.on("SIGINT", () => killAllChildProcesses("SIGINT"));
 
-    process.on("uncaughtException", logger.error.bind(logger));
-}
+process.on("uncaughtException", logger.error.bind(logger));

@@ -41,7 +41,7 @@ const srcPath = commander.args[0];
 let babel;
 
 try {
-    const babelPath = resolve.sync("babel", {
+    const babelPath = resolve.sync("babel-core", {
         basedir: cwd
     });
 
@@ -51,7 +51,7 @@ try {
         throw e;
     }
 
-    babel = require("babel");
+    babel = require("babel-core");
 }
 
 const util = babel.util;

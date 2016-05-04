@@ -19,10 +19,10 @@ const originUrl = url.format({
 });
 
 if (!global._babelPolyfill) {
-    require("babel/polyfill");
+    require("babel-polyfill");
 }
 
-require("babel/register-without-polyfill")({
+require("babel-register")({
     resolveModuleSource: function (importPath) {
         if (/^src/.test(importPath)) {
             importPath = path.join(cwd, importPath);

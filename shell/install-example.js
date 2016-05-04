@@ -17,8 +17,9 @@ exec(`jspm install --log warn -y`);
 
 cd(cwd);
 
-ls("packages/*").forEach((loc) => {
-    const pkgPath = path.join(cwd, loc, "package.json");
+ls("packages").forEach((loc) => {
+    const pkgDir = path.join(cwd, "packages", loc);
+    const pkgPath = path.join(pkgDir, "package.json");
 
     if (!fs.existsSync(pkgPath)) {
         return;

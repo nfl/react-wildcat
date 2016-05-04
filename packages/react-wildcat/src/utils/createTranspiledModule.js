@@ -7,7 +7,7 @@ const logTransformError = require("./logTransformError");
 
 function addSourceMappingUrl(code, loc) {
     "use strict";
-    return code + "\n//# sourceMappingURL=" + path.basename(loc);
+    return `${code}\n//# sourceMappingURL=${path.basename(loc)}`;
 }
 
 module.exports = function createTranspiledModule(options, resolve, reject) {
@@ -77,7 +77,7 @@ module.exports = function createTranspiledModule(options, resolve, reject) {
         const sourceMaps = babelOptions.sourceMaps || ((babelOptions.env || {}).development || {}).sourceMaps;
 
         if (data.map && sourceMaps && sourceMaps !== "inline") {
-            const mapLoc = modulePath + ".map";
+            const mapLoc = `${modulePath}.map`;
             data.code = addSourceMappingUrl(data.code, mapLoc);
 
             fs.createOutputStream(mapLoc)
