@@ -1,6 +1,6 @@
-import sendIndividualKeys from "./sendIndividualKeys";
-import sleepUntilReactAvailable from "./sleepUntilReactAvailable";
-import sleepUntilUrlChange from "./sleepUntilUrlChange";
+import sendIndividualKeys from "./sendIndividualKeys.js";
+import sleepUntilReactAvailable from "./sleepUntilReactAvailable.js";
+import sleepUntilUrlChange from "./sleepUntilUrlChange.js";
 
 export {
     sendIndividualKeys,

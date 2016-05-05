@@ -25,7 +25,12 @@ class HelmetExample extends React.Component {
 
         return (
             <div id="helmet">
-                <Helmet htmlAttributes={htmlAttributes} title="Helmet Example" meta={meta} link={link} />
+                <Helmet
+                    htmlAttributes={htmlAttributes}
+                    title="Helmet Example"
+                    meta={meta}
+                    link={link}
+                />
                 <Helmet title="Nested Example"
                     meta={[
                         {"name": "description", "content": "Nested Example"}

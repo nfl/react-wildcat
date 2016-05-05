@@ -20,7 +20,7 @@ class Application extends React.Component {
         return (
             <div style={styles.application}>
                 <div style={styles.container}>
-                    <header role="primary">
+                    <header>
                         <nav role="navigation">
                             <ul>
                                 {links.map((link) => (
@@ -28,7 +28,7 @@ class Application extends React.Component {
                                         <Link
                                             style={styles.a}
                                             {...link}
-                                            >
+                                        >
                                             {link.text}
                                         </Link>
                                     </li>
