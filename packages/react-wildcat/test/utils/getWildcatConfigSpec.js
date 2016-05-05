@@ -24,7 +24,7 @@ module.exports = (stubs) => {
             let wildcatConfig;
 
             before(() => {
-                var originalConfig = require(stubs.projectConfigFile);
+                const originalConfig = require(stubs.projectConfigFile);
                 originalConfig.generalSettings.originUrl = "http://mytestorigin.com";
                 originalConfig.generalSettings.staticUrl = "http://myteststatic.com";
 
@@ -53,7 +53,7 @@ module.exports = (stubs) => {
             let wildcatConfig;
 
             before(() => {
-                var originalConfig = require(stubs.projectConfigFile);
+                const originalConfig = require(stubs.projectConfigFile);
                 delete originalConfig.generalSettings.originUrl;
                 delete originalConfig.generalSettings.staticUrl;
 

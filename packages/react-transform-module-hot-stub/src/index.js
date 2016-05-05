@@ -6,7 +6,7 @@
  * @return {Function} A wrapper function that returns a pristine ReactClass
  */
 function moduleHotStub(ref) {
-    var local = (ref.locals || [])[0];
+    const local = (ref.locals || [])[0];
 
     if (local) {
         local.hot = local.hot || {};

@@ -21,6 +21,7 @@ System.config({
     "react-helmet": "npm:react-helmet@3.1.0",
     "react-router": "npm:react-router@2.4.0",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@3.1.1",
+    "sinon": "npm:sinon@1.17.4",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },
@@ -133,6 +134,10 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "promise": "npm:promise@7.1.1",
       "ua-parser-js": "npm:ua-parser-js@0.7.10"
+    },
+    "npm:formatio@1.1.1": {
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "samsam": "npm:samsam@1.1.2"
     },
     "npm:history@2.1.1": {
       "deep-equal": "npm:deep-equal@1.0.1",
@@ -271,6 +276,13 @@ System.config({
     },
     "npm:shallowequal@0.2.2": {
       "lodash.keys": "npm:lodash.keys@3.1.2"
+    },
+    "npm:sinon@1.17.4": {
+      "formatio": "npm:formatio@1.1.1",
+      "lolex": "npm:lolex@1.3.2",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "samsam": "npm:samsam@1.1.2",
+      "util": "npm:util@0.10.3"
     },
     "npm:stream-browserify@1.0.0": {
       "events": "github:jspm/nodelibs-events@0.1.1",

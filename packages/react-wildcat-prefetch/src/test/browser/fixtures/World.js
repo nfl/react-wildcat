@@ -1,3 +1,4 @@
+/* eslint-disable react/prefer-es6-class, react/sort-comp */
 import React from "react";
 
 const World = React.createClass({

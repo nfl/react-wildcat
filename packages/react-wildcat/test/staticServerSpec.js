@@ -224,14 +224,15 @@ describe("staticServer", () => {
             });
         });
 
-        context("cluster", ()=> {
+        context("cluster", () => {
             context("When attempting to start a cluster of static servers", function () {
                 this.timeout(30000);
 
                 let clusterForkStub;
                 let server;
+
                 beforeEach(() => {
-                    clusterForkStub = sinon.stub(cluster, 'fork');
+                    clusterForkStub = sinon.stub(cluster, "fork");
                 });
 
                 afterEach(() => {

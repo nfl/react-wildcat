@@ -33,7 +33,7 @@ export default async function writeCoverageResults(coverageEnvSettings) {
                 collector.add(instrumentation);
             });
 
-            reporter.write(collector, true, function (reporterErr) {
+            reporter.write(collector, true, reporterErr => {
                 if (reporterErr) {
                     return reject(reporterErr);
                 }
@@ -46,6 +46,8 @@ export default async function writeCoverageResults(coverageEnvSettings) {
 
                 return resolve();
             });
+
+            return undefined;
         });
     });
 }

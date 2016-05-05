@@ -2,7 +2,7 @@
 
 const client = require("../../client.js");
 const defaultTemplate = require("../../utils/defaultTemplate.js");
-const stubs = require("../stubFixtures");
+const stubs = require("../stubFixtures.js"); // eslint-disable-line import/no-unresolved
 
 const __REACT_ROOT_ID__ = stubs.__REACT_ROOT_ID__;
 

@@ -73,6 +73,8 @@ module.exports = function handle(commander, wildcatOptions) {
                             });
                             break;
                     }
+
+                    return undefined;
                 });
 
                 child.on("error", workerReject);
@@ -121,7 +123,11 @@ module.exports = function handle(commander, wildcatOptions) {
                             }
                         );
                     }
+
+                    return undefined;
                 });
+
+                return undefined;
             });
         });
     };

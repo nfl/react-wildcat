@@ -146,7 +146,7 @@ function start() {
             // serve statics
             app.use(fileServer);
 
-            var serverType;
+            let serverType;
 
             switch (staticServerSettings.protocol) {
                 case "http2":
@@ -213,9 +213,11 @@ function start() {
 }
 
 function close() {
-    if (server && server.close) {
-        return server.close();
+    if (!server || !server.close) {
+        return undefined;
     }
+
+    return server.close();
 }
 
 exports.start = start;

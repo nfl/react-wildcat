@@ -80,7 +80,7 @@ module.exports = (stubs) => {
             });
 
             socket.addEventListener("message", (messageEvent) => {
-                var message = JSON.parse(messageEvent.data);
+                const message = JSON.parse(messageEvent.data);
 
                 expect(message)
                     .to.be.an("object");

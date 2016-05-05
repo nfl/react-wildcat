@@ -10,7 +10,7 @@ export default async function cleanDirectory(directory) {
             return reject(new Error("Directory not specified"));
         }
 
-        rimraf(directory, (err) => {
+        return rimraf(directory, (err) => {
             if (err) {
                 return reject(err);
             }

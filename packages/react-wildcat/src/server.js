@@ -125,7 +125,7 @@ function start() {
                     if (typeof middlewareConfigFunction === "function") {
                         middlewareConfigFunction(app, wildcatConfig);
                     } else {
-                        var errorMsg = `
+                        const errorMsg = `
 Middleware at serverSettings.appServer.middleware[${index}] could not be correclty initialized. Expecting middleware to have the following signature:
     function(app, wildcatConfig) { /* custom middleware */ }
     Erroring middleware: ${(middlewareConfigFunction || "").toString()}`;
@@ -139,7 +139,7 @@ Middleware at serverSettings.appServer.middleware[${index}] could not be correcl
                 wildcatConfig
             }));
 
-            var serverType;
+            let serverType;
 
             switch (appServerSettings.protocol) {
                 case "http2":

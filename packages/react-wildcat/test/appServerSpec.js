@@ -182,7 +182,8 @@ describe("appServer", () => {
 
         context("server-only middleware", () => {
             it(`starts the server and loads custom middleware`, (done) => {
-                var middlewareSetup;
+                let middlewareSetup;
+
                 const server = proxyquire("../src/server.js", {
                     "cluster": {
                         isMaster: false,
@@ -214,7 +215,7 @@ describe("appServer", () => {
                         expect(middlewareSetup.app)
                             .to.be.an("object");
 
-                        expect(middlewareSetup.app).to.be.instanceof(require('koa'));
+                        expect(middlewareSetup.app).to.be.instanceof(require("koa"));
 
                         expect(middlewareSetup.wildcatConfig).to.exist;
 
@@ -224,7 +225,7 @@ describe("appServer", () => {
             });
 
             it(`starts the server and loads incorrectly formed middleware`, (done) => {
-                var loggerErrorMessages = [];
+                const loggerErrorMessages = [];
                 const server = proxyquire("../src/server.js", {
                     "cluster": {
                         isMaster: false,
@@ -255,7 +256,7 @@ describe("appServer", () => {
                     })()
                 });
 
-                var doneDone = (err) => {
+                const doneDone = (err) => {
                     try {
                         server.close();
                     } catch (error) {
@@ -342,14 +343,15 @@ describe("appServer", () => {
             });
         });
 
-        context("cluster", ()=> {
+        context("cluster", () => {
             context("When attempting to start a cluster of app servers", function () {
                 this.timeout(30000);
 
                 let clusterForkStub;
                 let server;
+
                 beforeEach(() => {
-                    clusterForkStub = sinon.stub(cluster, 'fork');
+                    clusterForkStub = sinon.stub(cluster, "fork");
                 });
 
                 afterEach(() => {

@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+
 const fs = require("fs-extra");
 const path = require("path");
 const minimatch = require("minimatch");

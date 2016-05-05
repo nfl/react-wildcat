@@ -11,9 +11,7 @@ const pkg = require(path.resolve(__dirname, "../package.json"));
 const childProcesses = [];
 
 function killAllChildProcesses(signal) {
-    childProcesses.forEach(function (childProcess) {
-        childProcess.kill(signal);
-    });
+    childProcesses.forEach(childProcess => childProcess.kill(signal));
 }
 
 program
@@ -28,12 +26,8 @@ const server = cp.spawn("node", [
 
 childProcesses.push(server);
 
-process.on("exit", function () {
-    process.emit("SIGINT");
-});
+process.on("exit", () => process.emit("SIGINT"));
 
-process.on("SIGINT", function () {
-    killAllChildProcesses("SIGINT");
-});
+process.on("SIGINT", () => killAllChildProcesses("SIGINT"));
 
 process.on("uncaughtException", logger.error.bind(logger));
