@@ -3,9 +3,6 @@
 const path = require("path");
 const resolve = require("resolve");
 
-const Logger = require(path.resolve(__dirname, "../../src/utils/logger"));
-const logger = new Logger("🔰");
-
 // Use project babel if found
 let projectBabel;
 
@@ -31,19 +28,31 @@ function findBabel(root) {
     return projectBabel;
 }
 
+function getLogger(id) {
+    const Logger = require(path.resolve(__dirname, "../../src/utils/logger"));
+    return new Logger(id || "🔰");
+}
+
 module.exports = function handleFile(commander, wildcatOptions) {
     const root = wildcatOptions.root;
 
     const outDir = wildcatOptions.outDir;
     const sourceDir = wildcatOptions.sourceDir;
 
-    const prepTranspiledModule = require("./prepTranspiledModule")(commander, wildcatOptions);
-    const prepImportableModule = require("./prepImportableModule")(commander, wildcatOptions);
-
     // Worker processes strip functions out of objects
-    // So here I'm making sure Babel is defined. If not, I need to find it again.
-    const babel = wildcatOptions.babel || findBabel(root);
+    // So here I'm making sure helper functions are defined. If not, I need to find them again.
+    const fullWildcatOptions = Object.assign({}, wildcatOptions, {
+        babel: wildcatOptions.babel || findBabel(root),
+        logger: wildcatOptions.logger || getLogger()
+    });
+
+    const prepTranspiledModule = require("./prepTranspiledModule")(commander, fullWildcatOptions);
+    const prepImportableModule = require("./prepImportableModule")(commander, fullWildcatOptions);
+
+    const babel = fullWildcatOptions.babel;
     const util = babel.util;
+
+    const logger = fullWildcatOptions.logger;
 
     function log(msg) {
         if (!commander.quiet) {

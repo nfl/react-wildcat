@@ -27,7 +27,8 @@ module.exports = function handle(commander, wildcatOptions) {
 
         // Remove babel reference to pass to the web worker
         const sanitizedWildcatOptions = Object.assign({}, wildcatOptions, {
-            babel: false
+            babel: null,
+            logger: null
         });
 
         // return the next chunk of work for a free worker
