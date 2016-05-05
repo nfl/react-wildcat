@@ -60,12 +60,13 @@ System.config({
     "react-router": "npm:react-router@2.4.0",
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.2",
     "react-transform-hmr": "npm:react-transform-hmr@1.0.4",
+    "react-transform-jspm-hmr": "npm:react-transform-jspm-hmr@1.0.1",
     "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@3.0.0",
     "react-wildcat-ensure": "npm:react-wildcat-ensure@3.0.0",
     "react-wildcat-handoff": "npm:react-wildcat-handoff@3.2.0",
     "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@3.0.0",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@3.1.1",
-    "redbox-react": "npm:redbox-react@1.2.3",
+    "redbox-react": "npm:redbox-react@1.2.4",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },
@@ -279,7 +280,7 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "pako": "npm:pako@0.2.8",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "readable-stream": "npm:readable-stream@2.0.6",
+      "readable-stream": "npm:readable-stream@2.1.2",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:buffer-xor@1.0.3": {
@@ -686,7 +687,7 @@ System.config({
     },
     "npm:isomorphic-fetch@2.2.1": {
       "node-fetch": "npm:node-fetch@1.5.1",
-      "whatwg-fetch": "npm:whatwg-fetch@0.9.0"
+      "whatwg-fetch": "npm:whatwg-fetch@1.0.0"
     },
     "npm:isstream@0.1.2": {
       "events": "github:jspm/nodelibs-events@0.1.1",
@@ -948,6 +949,10 @@ System.config({
       "global": "npm:global@4.3.0",
       "react-proxy": "npm:react-proxy@1.1.8"
     },
+    "npm:react-transform-jspm-hmr@1.0.1": {
+      "global": "npm:global@4.3.0",
+      "react-proxy": "npm:react-proxy@1.1.8"
+    },
     "npm:react-wildcat-handoff@3.2.0": {
       "cookies-js": "npm:cookies-js@1.2.2",
       "exenv": "npm:exenv@1.2.1",
@@ -997,7 +1002,18 @@ System.config({
       "string_decoder": "npm:string_decoder@0.10.31",
       "util-deprecate": "npm:util-deprecate@1.0.2"
     },
-    "npm:redbox-react@1.2.3": {
+    "npm:readable-stream@2.1.2": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "core-util-is": "npm:core-util-is@1.0.2",
+      "events": "github:jspm/nodelibs-events@0.1.1",
+      "inherits": "npm:inherits@2.0.1",
+      "isarray": "npm:isarray@1.0.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "process-nextick-args": "npm:process-nextick-args@1.0.6",
+      "string_decoder": "npm:string_decoder@0.10.31",
+      "util-deprecate": "npm:util-deprecate@1.0.2"
+    },
+    "npm:redbox-react@1.2.4": {
       "error-stack-parser": "npm:error-stack-parser@1.3.5",
       "object-assign": "npm:object-assign@4.1.0",
       "react": "npm:react@15.0.2"

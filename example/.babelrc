@@ -1,8 +1,26 @@
 {
     "env": {
-        "development": {},
+        "development": {
+            "plugins": [
+                ["react-transform", {
+                    "transforms": [{
+                        "transform": "react-transform-jspm-hmr",
+                        "imports": ["react"],
+                        "locals": ["module"]
+                    }, {
+                        "transform": "react-transform-catch-errors",
+                        "imports": ["react", "redbox-react"]
+                    }]
+                }]
+            ]
+        },
         "production": {
-            "sourceMaps": false
+            "sourceMaps": false,
+            "plugins": [
+                "babel-plugin-transform-react-constant-elements",
+                "babel-plugin-transform-react-remove-prop-types",
+                "babel-plugin-transform-react-pure-class-to-function"
+            ]
         },
         "test": {
             "sourceMaps": "inline"
@@ -10,6 +28,7 @@
     },
     "plugins": [
         "add-module-exports",
+        "closure-elimination",
         "transform-decorators-legacy",
         "transform-inline-environment-variables",
         "transform-runtime"
