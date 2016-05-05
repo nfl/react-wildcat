@@ -16,7 +16,7 @@
     "react-wildcat-hot-reloader": "3.0.0"
   },
   "devDependencies": {
-    "babel-core": "^6.8.0",
+    "babel-cli": "^6.8.0",
     "rimraf": "^2.5.2"
   },
   "jspm": {
