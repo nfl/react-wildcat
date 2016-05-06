@@ -113,7 +113,7 @@
     "depcache": "jspm depcache public/**/*.js",
     "dev": "env NODE_ENV=development NODE_TLS_REJECT_UNAUTHORIZED=0 concurrently 'wildcat' 'wildcat-static-server' 'npm run compile -- --watch'",
     "lint": "eslint src/**/*.js",
-    "predev": "npm run clean",
+    "predev": "npm run clean && jspm unbundle",
     "preprod-static": "npm run clean && env NODE_ENV=production npm run build",
     "pretest:e2e": "npm run clean",
     "pretest:unit": "npm run clean && npm run compile:unit",

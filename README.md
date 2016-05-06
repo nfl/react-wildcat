@@ -42,9 +42,9 @@ Add more documentation. So much to document...
 
 ## Server Requirements
 
-- Node v4.2.1 (install via ([n](https://github.com/tj/n)): `n 4.2.1`)
-- npm v2.x (`npm install -g npm@^2.x`)
-- jspm v0.16.13 (`npm install -g jspm@^0.16.13`)
+- Node v4.x (install via ([n](https://github.com/tj/n)): `n 4.x`)
+- npm v3.x (`npm install -g npm`)
+- jspm v0.16.x (`npm install -g jspm`)
 
 ## Client Requirements
 

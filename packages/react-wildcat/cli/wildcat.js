@@ -16,7 +16,6 @@ function killAllChildProcesses(signal) {
 
 program
     .version(pkg.version)
-    .option("-p, --purge-cache <file>", "Purge (remove) the depCache in your SystemJS config.")
     .parse(process.argv);
 
 const server = cp.spawn("node", [

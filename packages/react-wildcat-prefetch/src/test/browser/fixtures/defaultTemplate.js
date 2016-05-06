@@ -1,5 +1,7 @@
 "use strict";
 
+const NOW = Date.now();
+
 module.exports = function defaultTemplate(cfg) {
     const data = cfg.data;
     const head = cfg.head;
@@ -19,14 +21,16 @@ module.exports = function defaultTemplate(cfg) {
     const staticUrl = generalSettings.staticUrl;
     const socketUrl = staticUrl.replace("http", "ws");
 
+    const helmetTags = Object.keys(head)
+        .filter(meta => meta !== "htmlAttributes")
+        .map(meta => head[meta].toString().trim());
+
     return `
 <!doctype html>
-<html>
+<html ${head.htmlAttributes.toString()}>
     <head>
         <meta charset="utf-8" />
-        ${head.title.toString()}
-        ${head.meta.toString()}
-        ${head.link.toString()}
+        ${helmetTags.join(``)}
     </head>
     <body>
         <div id="${reactRootElementID}">${html}</div>
@@ -51,12 +55,13 @@ module.exports = function defaultTemplate(cfg) {
                 var db = new Dexie("jspm");
 
                 db.version(1).stores({
-                    files: "&url,format,hash,contents"
+                    files: "&url,format,hash,contents,timestamp"
                 });
 
                 db.open();
 
                 var log = console.error.bind(console);
+                var timestamp = ${NOW};
 
                 function hash(str) {
                     // Source: http://stackoverflow.com/a/7616484/502126
@@ -75,33 +80,28 @@ module.exports = function defaultTemplate(cfg) {
                     return hash.toString();
                 }
 
-                var cachedCall = function (loader, load, file, originalFunction, filter) {
-                    if (!filter || filter(load)) {
-                        return db.files.where("url").equals(file.url).first().then(function (cached) {
-                            if (!cached || cached.hash !== file.hash) {
-                                if (cached && cached.hash !== file.hash) {
-                                    console.info("Updating", file.url, "in client-side cache.");
-                                }
-
-                                return originalFunction.apply(loader, [load]).then(function (translated) {
-                                    file.format = load.metadata.format;
-                                    file.contents = translated;
-
-                                    return db.files.put(file).then(function () {
-                                        return translated;
-                                    }).catch(log);
-                                });
+                var cachedCall = function (loader, load, file, originalFunction) {
+                    return db.files.where("url").equals(file.url).first().then(function (cached) {
+                        if (System.hot || !cached || cached.timestamp < timestamp || cached.hash !== file.hash) {
+                            if (cached && cached.hash !== file.hash) {
+                                console.info("Updating", file.url, "in client-side cache.");
                             }
 
-                            load.metadata.format = cached.format || undefined;
-                            return cached.contents;
-                        }).catch(log);
-                    }
+                            return originalFunction.apply(loader, [load]).then(function (translated) {
+                                file.format = load.metadata.format;
+                                file.contents = translated;
+                                file.timestamp = Date.now();
 
-                    return originalFunction.apply(loader, [load]);
+                                return db.files.put(file).then(function () {
+                                    return translated;
+                                }).catch(log);
+                            });
+                        }
+
+                        load.metadata.format = cached.format || undefined;
+                        return cached.contents;
+                    }).catch(log);
                 };
-
-                var onlyScriptDependencies = /\.*\\/jspm_packages\\/\.*\\.[tj]s/;
 
                 // override fetch
                 System.originalFetch = System.fetch;
@@ -111,9 +111,7 @@ module.exports = function defaultTemplate(cfg) {
                         hash: hash(load.address)
                     };
 
-                    return cachedCall(this, load, file, System.originalFetch, function () {
-                        return load.address.search(onlyScriptDependencies) >= 0;
-                    });
+                    return cachedCall(this, load, file, System.originalFetch);
                 };
 
                 // override translate
