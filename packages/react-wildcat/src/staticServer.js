@@ -52,7 +52,7 @@ function start() {
 
     let babelOptions = {};
 
-    let cpuCount = (staticServerSettings && staticServerSettings.maxClusterCpuCount) || Infinity;
+    let cpuCount = staticServerSettings.maxClusterCpuCount;
 
     if (cpuCount === Infinity) {
         cpuCount = os.cpus().length;

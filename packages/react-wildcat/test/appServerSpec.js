@@ -236,7 +236,8 @@ describe("appServer", () => {
                     "./utils/getWildcatConfig": () => {
                         const defaultConfig = require("../src/utils/getWildcatConfig")();
                         defaultConfig.serverSettings.appServer.middleware = [
-                            "this is a bad middleware function"
+                            "this is a bad middleware function",
+                            null
                         ];
 
                         return defaultConfig;
@@ -273,9 +274,14 @@ describe("appServer", () => {
                 server.start()
                     .then(() => {
                         try {
-                            expect(loggerErrorMessages.length).to.equal(1);
+                            expect(loggerErrorMessages.length).to.equal(2);
 
-                            expect(loggerErrorMessages[0]).to.contain("Middleware at serverSettings.appServer.middleware[0] could not be correclty initialized.");
+                            expect(loggerErrorMessages[0])
+                                .to.contain("Middleware at serverSettings.appServer.middleware[0] could not be correclty initialized.")
+                                .and.to.contain("this is a bad middleware function");
+
+                            expect(loggerErrorMessages[1])
+                                .to.contain("Middleware at serverSettings.appServer.middleware[1] could not be correclty initialized.");
 
                             doneDone();
                         } catch (error) {

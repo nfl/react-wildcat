@@ -112,6 +112,31 @@ module.exports = (stubs) => {
             socket.addEventListener("error", done);
         });
 
+        it("uses the native console if no logger is defined", (done) => {
+            const hotReloaderWebSocket = require("../../src/utils/hotReloaderWebSocket");
+
+            sinon.stub(console, "info").returns();
+            const socket = hotReloaderWebSocket({}, socketUrl);
+
+            expect(socket)
+                .to.exist;
+
+            socket.addEventListener("open", () => {
+                setTimeout(() => {
+                    expect(console.info.lastCall)
+                        .to.have.been.calledWith(
+                            `Listening to socket server at ${socketUrl}.`
+                        );
+
+                    socket.close();
+                    console.info.restore();
+                    done();
+                }, stubs.writeDelay);
+            });
+
+            socket.addEventListener("error", done);
+        });
+
         it("warns when an EADDRNOTAVAIL error occurs", (done) => {
             const wrongSocketUrl = `ws://localhost:0000`;
 

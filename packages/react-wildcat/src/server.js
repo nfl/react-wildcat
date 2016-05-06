@@ -50,7 +50,7 @@ function start() {
     const __PROD__ = (process.env.NODE_ENV === "production");
     const __TEST__ = (process.env.BABEL_ENV === "test");
 
-    let cpuCount = (appServerSettings && appServerSettings.maxClusterCpuCount) || Infinity;
+    let cpuCount = appServerSettings.maxClusterCpuCount;
 
     if (cpuCount === Infinity) {
         cpuCount = os.cpus().length;

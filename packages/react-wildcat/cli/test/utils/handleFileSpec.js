@@ -154,6 +154,23 @@ module.exports = (stubs, stubLogger) => {
             });
         });
 
+        it("starts a new Logger if not defined", (done) => {
+            const commanderStub = new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults));
+            const handleFile = require("../../utils/handleFile")(commanderStub, Object.assign({}, stubs.wildcatOptions, {
+                logger: undefined
+            }));
+
+            handleFile(stubs.mainEntrySourcePath, (err) => {
+                expect(err)
+                    .to.not.exist;
+
+                expect(pathExists.sync(stubs.getPublicPath(stubs.mainEntrySourcePath)))
+                    .to.be.true;
+
+                done();
+            });
+        });
+
         it("throws an error on other resolve errors", (done) => {
             try {
                 const commanderStub = new stubs.CommanderStub(Object.assign({}, stubs.commanderDefaults));
