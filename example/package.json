@@ -1,12 +1,12 @@
 {
   "name": "react-wildcat-example",
   "description": "An example Wildcat project.",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "dependencies": {
     "babel": "^5.8.29",
     "koa-favicon": "^1.2.1",
     "koa-route": "^2.4.2",
-    "react-wildcat": "3.1.2",
+    "react-wildcat": "3.2.1",
     "rimraf": "^2.5.2"
   },
   "devDependencies": {
