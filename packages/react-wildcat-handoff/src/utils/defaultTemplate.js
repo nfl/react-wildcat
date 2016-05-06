@@ -29,7 +29,6 @@ module.exports = function defaultTemplate(cfg) {
 <!doctype html>
 <html ${head.htmlAttributes.toString()}>
     <head>
-        <meta charset="utf-8" />
         ${helmetTags.join(``)}
     </head>
     <body>
