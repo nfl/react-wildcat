@@ -137,18 +137,16 @@ module.exports = function defaultTemplate(cfg) {
             // FIXME: Possibly not needed in jspm 0.17
             // store the old normalization function
             var systemNormalize = System.normalize;
+            var exts = "css,eot,gif,jpg,jpeg,json,otf,png,swf,svg,ttf,woff".split(",");
 
             // override the normalization function
             System.normalize = function normalize(name, parentName, parentAddress) {
-                return systemNormalize.call(this, name, parentName, parentAddress).then(
-                    function normalizeCallback(url) {
-                        if ((/\\.(?:css|eot|gif|jpe?g|json|otf|png|swf|svg|ttf|woff)\.js$/).test(url)) {
-                            return url.replace(/\.js$/, "");
-                        }
+                if (exts.some(ext => name.indexOf(ext) !== -1)) {
+                    return systemNormalize.call(this, name, parentName, parentAddress)
+                        .then(name => name.replace(/\.js$/, ""));
+                }
 
-                        return url;
-                    }
-                );
+                return systemNormalize.call(this, name, parentName, parentAddress);
             };
         </script>
 
@@ -156,19 +154,15 @@ module.exports = function defaultTemplate(cfg) {
 
         <script>
             Promise.all([
-                System.import("${entry}"),
                 System.import("${renderHandler}")${hotReload ? `,
                 System.import("${hotReloader}")` : ""}
             ])
                 .then(function clientEntry(responses) {
-                    // First response is a hash of project options
-                    var clientOptions = responses[0];
+                    // First response is the handoff to the client
+                    var client = responses[0];${hotReload ? `
 
-                    // Second response is the handoff to the client
-                    var client = responses[1];${hotReload ? `
-
-                    // Third response is our hot reloader
-                    var HotReloader = responses[2];
+                    // Second response is our hot reloader
+                    var HotReloader = responses[1];
 
                     if (HotReloader) {
                         function bootstrapHotReloader(hotReloader, socketUrl) {
@@ -198,9 +192,16 @@ module.exports = function defaultTemplate(cfg) {
                         bootstrapHotReloader(hotReloader, "${socketUrl}");
                     }` : ""}
 
-                    // Pass options to server
-                    return client(clientOptions);
+                    return System.import("${entry}")
+                        .then(function (clientOptions) {
+                            // Pass options to server
+                            return client(clientOptions);
+                        });
                 })
+                ${hotReload? `.then(function hotReloadFlag() {
+                    // Flag hot reloading
+                    System.hot = true;
+                })` : ``}
                 .catch(console.error.bind(console));
         </script>
     </body>
