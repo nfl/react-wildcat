@@ -106,12 +106,12 @@
     }
   },
   "scripts": {
-    "build": "npm run compile -- --ignore '**/{shell,e2e,test}/**' && npm run bundle && npm run depcache",
-    "bundle": "jspm bundle \"react-wildcat-handoff/client + (public/**/* - [public/**/*])\" bundles/vendor.js --inject --minify --skip-source-maps",
+    "build": "npm run compile -- --ignore '**/{shell,e2e,test}/**' --minify && npm run bundle && npm run depcache",
+    "bundle": "jspm bundle 'react-wildcat-handoff/client + (public/**/* - [public/**/*])' bundles/vendor.js --inject --minify --skip-source-maps",
     "clean": "rimraf bin bundles public",
     "compile": "wildcat-babel --copy-files --binary-to-module src --out-dir public",
     "compile:unit": "env BABEL_ENV=test NODE_ENV=production npm run compile -- --ignore '**/!(*Test).*'",
-    "depcache": "jspm depcache public/**/*.js",
+    "depcache": "jspm depcache 'public/**/*.js'",
     "dev": "env NODE_ENV=development NODE_TLS_REJECT_UNAUTHORIZED=0 concurrently 'wildcat' 'wildcat-static-server' 'npm run compile -- --watch'",
     "lint": "eslint src/**/*.js",
     "predev": "npm run clean && jspm unbundle",
