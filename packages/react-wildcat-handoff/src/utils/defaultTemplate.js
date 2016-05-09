@@ -1,6 +1,7 @@
 "use strict";
 
 const NOW = Date.now();
+const __PROD__ = process.env.NODE_ENV === "production";
 
 module.exports = function defaultTemplate(cfg) {
     const data = cfg.data;
@@ -44,7 +45,8 @@ module.exports = function defaultTemplate(cfg) {
         <script>
             System.config({
                 baseURL: "${staticUrl}",
-                trace: ${hotReload}
+                trace: ${hotReload},
+                production: ${__PROD__}
             });
         </script>
 
@@ -138,7 +140,16 @@ module.exports = function defaultTemplate(cfg) {
 
             // override the normalization function
             System.normalize = function normalize(name, parentName, parentAddress) {
-                if (exts.some(ext => name.indexOf(ext) !== -1)) {
+                if (
+                    // name is not a jspm package
+                    name.indexOf(":") === -1 &&
+
+                    // name includes extension
+                    name.indexOf(".") !== -1 &&
+
+                    // name is one of...
+                    exts.some(ext => name.indexOf(ext) !== -1)
+                ) {
                     return systemNormalize.call(this, name, parentName, parentAddress)
                         .then(name => name.replace(/\.js$/, ""));
                 }
@@ -151,12 +162,16 @@ module.exports = function defaultTemplate(cfg) {
 
         <script>
             Promise.all([
+                System.import("${entry}"),
                 System.import("${renderHandler}")${hotReload ? `,
                 System.import("${hotReloader}")` : ""}
             ])
                 .then(function clientEntry(responses) {
-                    // First response is the handoff to the client
-                    var client = responses[0];${hotReload ? `
+                    // First response is a hash of project options
+                    var clientOptions = responses[0];
+
+                    // Second response is the handoff to the client
+                    var client = responses[1];${hotReload ? `
 
                     // Second response is our hot reloader
                     var HotReloader = responses[1];
@@ -188,12 +203,8 @@ module.exports = function defaultTemplate(cfg) {
                         const hotReloader = new HotReloader();
                         bootstrapHotReloader(hotReloader, "${socketUrl}");
                     }` : ""}
-
-                    return System.import("${entry}")
-                        .then(function (clientOptions) {
-                            // Pass options to server
-                            return client(clientOptions);
-                        });
+                    // Pass options to server
+                    return client(clientOptions);
                 })
                 ${hotReload? `.then(function hotReloadFlag() {
                     // Flag hot reloading
