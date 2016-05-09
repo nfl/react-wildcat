@@ -3,6 +3,7 @@
 const fs = require("fs-extra");
 const path = require("path");
 const minimatch = require("minimatch");
+const UglifyJS = require("uglify-js");
 
 const logCreateSuccess = require("./logCreateSuccess");
 const logTransformError = require("./logTransformError");
@@ -32,6 +33,9 @@ module.exports = function createTranspiledModule(options, resolve, reject) {
 
     const coverage = options.coverage;
     const coverageSettings = options.coverageSettings;
+
+    const minify = options.minify;
+    const minifySettings = options.minifySettings;
 
     const waitForFileWrite = options.waitForFileWrite;
 
@@ -74,6 +78,16 @@ module.exports = function createTranspiledModule(options, resolve, reject) {
 
         if (data.ignored) {
             return resolve();
+        }
+
+        if (minify) {
+            const minifiedResult = UglifyJS.minify(data.code, Object.assign({}, minifySettings, {
+                inSourceMap: data.map ? JSON.parse(data.map) : undefined,
+                fromString: true
+            }));
+
+            data.code = minifiedResult.code;
+            data.map = minifiedResult.map;
         }
 
         const sourceMaps = babelOptions.sourceMaps || ((babelOptions.env || {}).development || {}).sourceMaps;

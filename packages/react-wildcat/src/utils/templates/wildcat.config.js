@@ -99,6 +99,13 @@ const wildcatConfig = {
         hotReloadReporter: undefined,
 
         localPackageCache: !__PROD__ || __TEST__,
+        minifyTranspilerOutput: __PROD__,
+
+        // Only applicable when minifyTranspilerOutput is true
+        minifySettings: {
+            warnings: false,
+            mangle: true
+        },
 
         // BYO-HTML template
         // htmlTemplate: require("./customHTMLTemplate.js"),

@@ -31,6 +31,7 @@ commander
     .option("-D, --copy-files", "When compiling a directory copy over non-compilable files")
     .option("-B, --binary-to-module", "Convert non-compilable files to importable modules")
     .option("-M, --manifest [path]", "Use a manifest to specify files to compile")
+    .option("--minify", "Minify output with UglifyJS")
     .option("--cpus <cpus>", "Specify the number of CPUs to use for code transpilation")
     .option("-q, --quiet", "Don't log anything")
     .parse(process.argv);
@@ -77,7 +78,10 @@ const wildcatOptions = {
 
     binDir: commander.binDir || serverSettings.binDir,
     outDir: commander.outDir || serverSettings.publicDir,
-    sourceDir: commander.sourceDir || serverSettings.sourceDir
+    sourceDir: commander.sourceDir || serverSettings.sourceDir,
+
+    minify: commander.minify || serverSettings.minifyTranspilerOutput,
+    minifySettings: serverSettings.minifySettings
 };
 
 const handleFile = require("./utils/handleFile")(commander, wildcatOptions);

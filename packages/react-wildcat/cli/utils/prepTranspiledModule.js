@@ -37,6 +37,9 @@ module.exports = function prepTranspiledModule(commander, wildcatOptions) {
     const coverage = wildcatOptions.coverage;
     const coverageSettings = wildcatOptions.coverageSettings;
 
+    const minify = wildcatOptions.minify;
+    const minifySettings = wildcatOptions.minifySettings;
+
     return function (filename, done) {
         "use strict";
 
@@ -70,6 +73,9 @@ module.exports = function prepTranspiledModule(commander, wildcatOptions) {
 
                 logger,
                 logLevel: 0,
+
+                minify,
+                minifySettings,
 
                 waitForFileWrite: true
             }, transpileResolve, transpileReject);

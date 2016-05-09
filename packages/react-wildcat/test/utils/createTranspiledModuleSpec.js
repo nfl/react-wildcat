@@ -98,6 +98,16 @@ module.exports = (stubs) => {
             outputContents: [
                 `var _routesConfig = require("./routes.config.js");`
             ]
+        }, {
+            name: "transpiles a source file with minification",
+            transpileOptions: Object.assign({}, stubs.transpileModuleDefaults, {
+                minify: true,
+                minifySettings: {}
+            }),
+            outputPath: path.join(stubs.exampleDir, stubs.mainEntryTranspiledPath),
+            outputContents: [
+                `var _routesConfig=require("./routes.config.js"),`
+            ]
         }].forEach(test => {
             it(test.name, (done) => {
                 const createTranspiledModule = require("../../src/utils/createTranspiledModule");

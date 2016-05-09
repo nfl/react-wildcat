@@ -139,7 +139,9 @@ function start() {
                     logLevel: generalSettings.logLevel,
                     origin: generalSettings.staticUrl,
                     outDir: serverSettings.publicDir,
-                    sourceDir: serverSettings.sourceDir
+                    sourceDir: serverSettings.sourceDir,
+                    minify: serverSettings.minifyTranspilerOutput,
+                    minifySettings: serverSettings.minifySettings
                 }));
             }
 
