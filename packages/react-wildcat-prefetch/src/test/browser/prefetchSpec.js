@@ -333,6 +333,7 @@ describe("react-wildcat-prefetch", () => {
                 document.body.innerHTML = stubs.defaultTemplate({
                     data: stubs.prefetchedData,
                     head: {
+                        htmlAttributes: "",
                         title: "<title></title>",
                         meta: "",
                         link: ""
@@ -458,6 +459,7 @@ describe("react-wildcat-prefetch", () => {
                     document.body.innerHTML = stubs.defaultTemplate({
                         data: stubs.prefetchedData,
                         head: {
+                            htmlAttributes: "",
                             title: "<title></title>",
                             meta: "",
                             link: ""
