@@ -148,10 +148,14 @@ module.exports = function defaultTemplate(cfg) {
                     name.indexOf(".") !== -1 &&
 
                     // name is one of...
-                    exts.some(ext => name.indexOf(ext) !== -1)
+                    exts.some(function (ext) {
+                        return name.indexOf(ext) !== -1;
+                    })
                 ) {
                     return systemNormalize.call(this, name, parentName, parentAddress)
-                        .then(name => name.replace(/\.js$/, ""));
+                        .then(function (name) {
+                            return name.replace(/\.js$/, "");
+                        });
                 }
 
                 return systemNormalize.call(this, name, parentName, parentAddress);
