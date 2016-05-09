@@ -11,9 +11,11 @@ System.config({
     "domains/*": "public/domains/*",
     "metrics/*": "public/metrics/*"
   },
-  globalEvaluationScope: false,
 
   meta: {
+    "bundles/*": {
+      "format": "register"
+    },
     "public/*": {
       "format": "cjs"
     },
