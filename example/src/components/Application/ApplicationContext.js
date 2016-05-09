@@ -3,6 +3,7 @@ import radium, {StyleRoot} from "radium";
 // import prefixAll from "radium-plugin-prefix-all";
 
 import Application from "./Application.js";
+import Timing from "./ApplicationTiming.js";
 
 class ApplicationContext extends React.Component {
     static contextTypes = {
@@ -20,24 +21,26 @@ class ApplicationContext extends React.Component {
         const {headers} = this.context;
 
         return (
-            <StyleRoot radiumConfig={{
-                userAgent: headers.userAgent,
+            <Timing>
+                <StyleRoot radiumConfig={{
+                    userAgent: headers.userAgent,
 
-                plugins: [
-                    radium.Plugins.mergeStyleArray,
-                    radium.Plugins.checkProps,
-                    radium.Plugins.resolveMediaQueries,
-                    radium.Plugins.resolveInteractionStyles,
-                    radium.Plugins.prefix,
-                    // prefixAll,
-                    // customRadiumPlugin
-                    // ...etc
-                    radium.Plugins.checkProps
-                ]
-            }}
-            >
-                <Application {...this.props} />
-            </StyleRoot>
+                    plugins: [
+                        radium.Plugins.mergeStyleArray,
+                        radium.Plugins.checkProps,
+                        radium.Plugins.resolveMediaQueries,
+                        radium.Plugins.resolveInteractionStyles,
+                        radium.Plugins.prefix,
+                        // prefixAll,
+                        // customRadiumPlugin
+                        // ...etc
+                        radium.Plugins.checkProps
+                    ]
+                }}
+                >
+                    <Application {...this.props} />
+                </StyleRoot>
+            </Timing>
         );
     }
 }

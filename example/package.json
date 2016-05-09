@@ -67,6 +67,7 @@
     "dependencies": {
       "babel-runtime": "npm:babel-runtime@^6.6.1",
       "core-js": "npm:core-js@^2.2.2",
+      "exenv": "npm:exenv@^1.2.1",
       "isomorphic-fetch": "npm:isomorphic-fetch@^2.2.1",
       "radium": "npm:radium@^0.17.1",
       "react": "npm:react@15.0.2",

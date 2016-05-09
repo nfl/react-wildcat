@@ -52,6 +52,7 @@ System.config({
     "babel-runtime": "npm:babel-runtime@6.6.1",
     "core-js": "npm:core-js@2.3.0",
     "enzyme": "npm:enzyme@2.2.0",
+    "exenv": "npm:exenv@1.2.1",
     "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
     "radium": "npm:radium@0.17.1",
     "react": "npm:react@15.0.2",
