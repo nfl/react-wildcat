@@ -64,7 +64,6 @@ System.config({
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.2",
     "react-transform-hmr": "npm:react-transform-hmr@1.0.4",
     "react-transform-jspm-hmr": "npm:react-transform-jspm-hmr@1.0.1",
-    "react-transform-module-hot-stub": "npm:react-transform-module-hot-stub@3.0.0",
     "react-wildcat-ensure": "npm:react-wildcat-ensure@3.0.0",
     "react-wildcat-handoff": "npm:react-wildcat-handoff@3.2.0",
     "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@3.0.0",

@@ -10,7 +10,6 @@ cache:
     - jspm_packages
     - example/node_modules
     - example/jspm_packages
-    - packages/react-transform-module-hot-stub/node_modules
     - packages/react-wildcat/node_modules
     - packages/react-wildcat-ensure/node_modules
     - packages/react-wildcat-handoff/node_modules
