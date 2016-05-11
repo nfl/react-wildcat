@@ -64,10 +64,10 @@ System.config({
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.2",
     "react-transform-hmr": "npm:react-transform-hmr@1.0.4",
     "react-transform-jspm-hmr": "npm:react-transform-jspm-hmr@1.0.1",
-    "react-wildcat-ensure": "npm:react-wildcat-ensure@3.0.0",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@3.2.0",
-    "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@3.0.0",
-    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@3.1.1",
+    "react-wildcat-ensure": "npm:react-wildcat-ensure@4.0.0",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@4.0.0",
+    "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@4.0.0",
+    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@4.0.0",
     "redbox-react": "npm:redbox-react@1.2.4",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
@@ -885,7 +885,7 @@ System.config({
     },
     "npm:radium@0.17.1": {
       "array-find": "npm:array-find@1.0.0",
-      "exenv": "npm:exenv@1.2.0",
+      "exenv": "npm:exenv@1.2.1",
       "inline-style-prefixer": "npm:inline-style-prefixer@1.0.3"
     },
     "npm:randombytes@2.0.3": {
@@ -894,9 +894,6 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:react-addons-test-utils@15.0.2": {
-      "react": "npm:react@15.0.2"
-    },
-    "npm:react-dom@15.0.1": {
       "react": "npm:react@15.0.2"
     },
     "npm:react-dom@15.0.2": {
@@ -915,7 +912,7 @@ System.config({
       "deep-equal": "npm:deep-equal@1.0.1",
       "eventemitter3": "npm:eventemitter3@1.2.0",
       "fbjs": "npm:fbjs@0.7.2",
-      "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.5",
+      "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.6",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "querystring": "npm:querystring@0.2.0",
       "rimraf": "npm:rimraf@2.5.2"
@@ -927,7 +924,7 @@ System.config({
     },
     "npm:react-router@2.4.0": {
       "history": "npm:history@2.1.1",
-      "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.5",
+      "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.6",
       "invariant": "npm:invariant@2.2.1",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "react": "npm:react@15.0.2",
@@ -944,34 +941,28 @@ System.config({
       "global": "npm:global@4.3.0",
       "react-proxy": "npm:react-proxy@1.1.8"
     },
-    "npm:react-wildcat-handoff@3.2.0": {
+    "npm:react-wildcat-handoff@4.0.0": {
       "cookies-js": "npm:cookies-js@1.2.2",
       "exenv": "npm:exenv@1.2.1",
       "history": "npm:history@2.1.1",
       "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
       "parse-domain": "npm:parse-domain@0.2.1",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "react": "npm:react@15.0.1",
-      "react-dom": "npm:react-dom@15.0.1",
+      "react": "npm:react@15.0.2",
+      "react-dom": "npm:react-dom@15.0.2",
       "react-helmet": "npm:react-helmet@3.1.0",
       "react-router": "npm:react-router@2.4.0",
-      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@3.0.0"
+      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@4.0.0"
     },
-    "npm:react-wildcat-hot-reloader@3.0.0": {
+    "npm:react-wildcat-hot-reloader@4.0.0": {
       "debug": "npm:debug@2.2.0",
       "exenv": "npm:exenv@1.2.1"
     },
-    "npm:react-wildcat-prefetch@3.1.1": {
+    "npm:react-wildcat-prefetch@4.0.0": {
       "exenv": "npm:exenv@1.2.1",
-      "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.5",
+      "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.6",
       "invariant": "npm:invariant@2.2.1",
-      "react": "npm:react@15.0.1"
-    },
-    "npm:react@15.0.1": {
-      "fbjs": "npm:fbjs@0.8.2",
-      "loose-envify": "npm:loose-envify@1.1.0",
-      "object-assign": "npm:object-assign@4.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2"
+      "react": "npm:react@15.0.2"
     },
     "npm:react@15.0.2": {
       "fbjs": "npm:fbjs@0.8.2",

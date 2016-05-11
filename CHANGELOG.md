@@ -1,3 +1,34 @@
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/nfl/react-wildcat/compare/3.2.0...v4.0.0) (2016-05-11)
+
+
+### Bug Fixes
+
+* Add babel-plugin-react-transform as a dependency([8615b8a](https://github.com/nfl/react-wildcat/commit/8615b8a))
+* Add format type for bundles and remove deprecated setting([5b315a6](https://github.com/nfl/react-wildcat/commit/5b315a6))
+* Remove hard-coded meta([9b89f27](https://github.com/nfl/react-wildcat/commit/9b89f27))
+* Use es5 functions for legacy platforms.([9925ed7](https://github.com/nfl/react-wildcat/commit/9925ed7))
+* **react-wildcat:** Use request.path to handle file requests with query strings([e8a7a85](https://github.com/nfl/react-wildcat/commit/e8a7a85))
+* **react-wildcat-handoff:** Prefetch the static assets server and known includes.([e63847f](https://github.com/nfl/react-wildcat/commit/e63847f))
+* **wildcat-babel:** Re-add references that are lost due to worker process([a5ace39](https://github.com/nfl/react-wildcat/commit/a5ace39))
+
+
+### Features
+
+* Upgrade to Babel 6([d91ff76](https://github.com/nfl/react-wildcat/commit/d91ff76))
+* **example:** Enable hot-reloading in dev mode and production optimizations([a82f235](https://github.com/nfl/react-wildcat/commit/a82f235))
+* **react-wildcat:** Add option to minify transpiler output([871f97c](https://github.com/nfl/react-wildcat/commit/871f97c))
+* **react-wildcat:** Upgrade to jspm 0.16.34([c91dcf4](https://github.com/nfl/react-wildcat/commit/c91dcf4))
+
+
+### Performance Improvements
+
+* **react-wildcat-handoff:** Performance updates in default HTML template([6c2ab79](https://github.com/nfl/react-wildcat/commit/6c2ab79))
+* **react-wildcat-handoff:** Upgrade initial System bootstrap performance([4fa54a3](https://github.com/nfl/react-wildcat/commit/4fa54a3))
+* HTML template performance updates([dd017c7](https://github.com/nfl/react-wildcat/commit/dd017c7))
+
+
+
 <a name="3.2.0"></a>
 # [3.2.0](https://github.com/nfl/react-wildcat/compare/3.1.2...v3.2.0) (2016-04-29)
 
