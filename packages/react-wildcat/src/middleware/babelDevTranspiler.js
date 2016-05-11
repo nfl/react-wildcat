@@ -79,11 +79,11 @@ module.exports = function babelDevTranspiler(root, options) {
         const request = this.request;
         const res = this.response;
 
-        if (!request.url.startsWith(`/${outDir}`)) {
+        if (!request.path.startsWith(`/${outDir}`)) {
             return yield next;
         }
 
-        const relativePath = request.url.slice(1);
+        const relativePath = request.path.slice(1);
         const modulePath = pathResolve(root, relativePath);
 
         if (!pathExists.sync(modulePath)) {
