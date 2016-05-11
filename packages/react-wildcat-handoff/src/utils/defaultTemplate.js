@@ -30,6 +30,10 @@ module.exports = function defaultTemplate(cfg) {
 <!doctype html>
 <html ${head.htmlAttributes.toString()}>
     <head>
+        <link rel="dns-prefetch" href="${staticUrl}" />
+        <link rel="preconnect" href="${staticUrl}" />
+        <link rel="prefetch" href="${staticUrl}/jspm_packages/system.js" />
+        <link rel="prefetch" href="${staticUrl}/system.config.js" />
         ${helmetTags.join(``)}
     </head>
     <body>
