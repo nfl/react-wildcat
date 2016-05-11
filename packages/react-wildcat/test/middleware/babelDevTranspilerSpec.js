@@ -74,7 +74,7 @@ module.exports = (stubs) => {
             co(function* () {
                 const result = yield babelDevTranspilerInstance.call({
                     request: {
-                        url: exampleApplicationPath
+                        path: exampleApplicationPath
                     },
                     response: {}
                 }, (next) => next());
@@ -98,14 +98,14 @@ module.exports = (stubs) => {
                 const result = yield* [
                     babelDevTranspilerInstance.call({
                         request: {
-                            url: exampleIndexPath
+                            path: exampleIndexPath
                         },
                         response: {}
                     }, (next) => next()),
 
                     babelDevTranspilerInstance.call({
                         request: {
-                            url: exampleIndexPath
+                            path: exampleIndexPath
                         },
                         response: {}
                     }, (next) => next())
@@ -129,7 +129,7 @@ module.exports = (stubs) => {
             co(function* () {
                 const result = yield babelDevTranspilerInstance.call({
                     request: {
-                        url: exampleBinaryPath
+                        path: exampleBinaryPath
                     },
                     response: {}
                 }, (next) => next());
@@ -159,7 +159,7 @@ module.exports = (stubs) => {
             co(function* () {
                 const result = yield babelDevTranspilerInstance.call({
                     request: {
-                        url: exampleApplicationPath
+                        path: exampleApplicationPath
                     },
                     response: {}
                 }, (next) => next());
@@ -203,7 +203,7 @@ module.exports = (stubs) => {
             co(function* () {
                 const result = yield babelDevTranspilerInstance.call({
                     request: {
-                        url: exampleNonExistentPath
+                        path: exampleNonExistentPath
                     },
                     response: {}
                 }, (next) => next());
@@ -223,7 +223,7 @@ module.exports = (stubs) => {
             co(function* () {
                 const result = yield babelDevTranspilerInstance.call({
                     request: {
-                        url: exampleUnaffectedPath
+                        path: exampleUnaffectedPath
                     },
                     response: {}
                 }, (next) => next());
