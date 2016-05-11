@@ -136,29 +136,24 @@ module.exports = function defaultTemplate(cfg) {
             // FIXME: Possibly not needed in jspm 0.17
             // store the old normalization function
             var systemNormalize = System.normalize;
-            var exts = "css,eot,gif,jpg,jpeg,json,otf,png,swf,svg,ttf,woff".split(",");
 
             // override the normalization function
             System.normalize = function normalize(name, parentName, parentAddress) {
-                if (
-                    // name is not a jspm package
-                    name.indexOf(":") === -1 &&
+                return systemNormalize.call(this, name, parentName, parentAddress).then(
+                    function normalizeCallback(url) {
+                        if (
+                            // name includes extension
+                            name.indexOf(".") !== -1 &&
 
-                    // name includes extension
-                    name.indexOf(".") !== -1 &&
+                            // name is one of...
+                            (/\\.(?:css|eot|gif|jpe?g|json|otf|png|swf|svg|ttf|woff)\.js$/).test(url)
+                        ) {
+                            return url.replace(/\.js$/, "");
+                        }
 
-                    // name is one of...
-                    exts.some(function (ext) {
-                        return name.indexOf(ext) !== -1;
-                    })
-                ) {
-                    return systemNormalize.call(this, name, parentName, parentAddress)
-                        .then(function (name) {
-                            return name.replace(/\.js$/, "");
-                        });
-                }
-
-                return systemNormalize.call(this, name, parentName, parentAddress);
+                        return url;
+                    }
+                );
             };
         </script>
 
@@ -177,8 +172,8 @@ module.exports = function defaultTemplate(cfg) {
                     // Second response is the handoff to the client
                     var client = responses[1];${hotReload ? `
 
-                    // Second response is our hot reloader
-                    var HotReloader = responses[1];
+                    // Third response is our hot reloader
+                    var HotReloader = responses[2];
 
                     if (HotReloader) {
                         function bootstrapHotReloader(hotReloader, socketUrl) {

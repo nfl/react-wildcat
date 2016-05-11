@@ -1,6 +1,7 @@
 "use strict";
 
 const NOW = Date.now();
+const __PROD__ = process.env.NODE_ENV === "production";
 
 module.exports = function defaultTemplate(cfg) {
     const data = cfg.data;
@@ -44,7 +45,8 @@ module.exports = function defaultTemplate(cfg) {
         <script>
             System.config({
                 baseURL: "${staticUrl}",
-                trace: ${hotReload}
+                trace: ${hotReload},
+                production: ${__PROD__}
             });
         </script>
 
@@ -134,16 +136,24 @@ module.exports = function defaultTemplate(cfg) {
             // FIXME: Possibly not needed in jspm 0.17
             // store the old normalization function
             var systemNormalize = System.normalize;
-            var exts = "css,eot,gif,jpg,jpeg,json,otf,png,swf,svg,ttf,woff".split(",");
 
             // override the normalization function
             System.normalize = function normalize(name, parentName, parentAddress) {
-                if (exts.some(ext => name.indexOf(ext) !== -1)) {
-                    return systemNormalize.call(this, name, parentName, parentAddress)
-                        .then(name => name.replace(/\.js$/, ""));
-                }
+                return systemNormalize.call(this, name, parentName, parentAddress).then(
+                    function normalizeCallback(url) {
+                        if (
+                            // name includes extension
+                            name.indexOf(".") !== -1 &&
 
-                return systemNormalize.call(this, name, parentName, parentAddress);
+                            // name is one of...
+                            (/\\.(?:css|eot|gif|jpe?g|json|otf|png|swf|svg|ttf|woff)\.js$/).test(url)
+                        ) {
+                            return url.replace(/\.js$/, "");
+                        }
+
+                        return url;
+                    }
+                );
             };
         </script>
 
@@ -151,15 +161,19 @@ module.exports = function defaultTemplate(cfg) {
 
         <script>
             Promise.all([
+                System.import("${entry}"),
                 System.import("${renderHandler}")${hotReload ? `,
                 System.import("${hotReloader}")` : ""}
             ])
                 .then(function clientEntry(responses) {
-                    // First response is the handoff to the client
-                    var client = responses[0];${hotReload ? `
+                    // First response is a hash of project options
+                    var clientOptions = responses[0];
 
-                    // Second response is our hot reloader
-                    var HotReloader = responses[1];
+                    // Second response is the handoff to the client
+                    var client = responses[1];${hotReload ? `
+
+                    // Third response is our hot reloader
+                    var HotReloader = responses[2];
 
                     if (HotReloader) {
                         function bootstrapHotReloader(hotReloader, socketUrl) {
@@ -188,12 +202,8 @@ module.exports = function defaultTemplate(cfg) {
                         const hotReloader = new HotReloader();
                         bootstrapHotReloader(hotReloader, "${socketUrl}");
                     }` : ""}
-
-                    return System.import("${entry}")
-                        .then(function (clientOptions) {
-                            // Pass options to server
-                            return client(clientOptions);
-                        });
+                    // Pass options to server
+                    return client(clientOptions);
                 })
                 ${hotReload? `.then(function hotReloadFlag() {
                     // Flag hot reloading
