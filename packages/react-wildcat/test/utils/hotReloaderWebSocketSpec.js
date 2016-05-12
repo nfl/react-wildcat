@@ -80,7 +80,7 @@ module.exports = (stubs) => {
             });
 
             socket.addEventListener("message", (messageEvent) => {
-                var message = JSON.parse(messageEvent.data);
+                const message = JSON.parse(messageEvent.data);
 
                 expect(message)
                     .to.be.an("object");
@@ -105,6 +105,31 @@ module.exports = (stubs) => {
                         );
 
                     socket.close();
+                    done();
+                }, stubs.writeDelay);
+            });
+
+            socket.addEventListener("error", done);
+        });
+
+        it("uses the native console if no logger is defined", (done) => {
+            const hotReloaderWebSocket = require("../../src/utils/hotReloaderWebSocket");
+
+            sinon.stub(console, "info").returns();
+            const socket = hotReloaderWebSocket({}, socketUrl);
+
+            expect(socket)
+                .to.exist;
+
+            socket.addEventListener("open", () => {
+                setTimeout(() => {
+                    expect(console.info.lastCall)
+                        .to.have.been.calledWith(
+                            `Listening to socket server at ${socketUrl}.`
+                        );
+
+                    socket.close();
+                    console.info.restore();
                     done();
                 }, stubs.writeDelay);
             });

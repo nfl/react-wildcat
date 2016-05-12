@@ -29,11 +29,11 @@ HotReloader.prototype = {
         self.originalImportFn = self.Loader.import;
 
         self.Loader.import = function customImport() {
-            var args = arguments; //eslint-disable-line prefer-rest-params
+            var args = arguments;
             self.clientImportedModules.push(args[0]);
 
             return self.originalImportFn.apply(
-                self.Loader, arguments //eslint-disable-line prefer-rest-params
+                self.Loader, arguments
             ).catch(
                 function customImportError(err) {
                     self.lastFailedImport = args;
@@ -107,6 +107,8 @@ HotReloader.prototype = {
                 self.currentHotReload = self.hotReload(moduleName);
             }
         }
+
+        return undefined;
     },
 
     pushImporters: function pushImporters(moduleMap, overwriteOlds, onlyNewRefs) {

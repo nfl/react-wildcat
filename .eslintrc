@@ -1,5 +1,23 @@
 {
     "extends": "eslint-config-nfl",
+    "env": {
+        "node": true,
+        "mocha": true
+    },
+    "rules": {
+        "prefer-arrow-callback": [2, {
+            "allowNamedFunctions": true
+        }]
+    },
+    "globals": {
+        "$": true,
+        "$$": true,
+        "browser": true,
+        "by": true,
+        "element": true,
+        "expect": true,
+        "protractor": true
+    },
     "settings": {
         "import/ignore": [
             "jspm_packages",
@@ -21,7 +39,9 @@
                     "public": "src"
                 }
             },
-            "node": true
+            "node": {
+                "moduleDirectory": "node_modules"
+            }
         }
     }
 }

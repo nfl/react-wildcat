@@ -1,0 +1,16 @@
+{
+    "extends": "eslint-config-nfl",
+    "env": {
+        "browser": true,
+        "node": true,
+        "mocha": true
+    },
+    "rules": {
+        "react/prefer-es6-class": 0,
+        "no-var": 0,
+        "object-shorthand": 0,
+        "prefer-rest-params": 0,
+        "prefer-spread": 0,
+        "prefer-template": 0
+    }
+}

@@ -95,7 +95,7 @@ module.exports = (stubs) => {
                             .to.be.a("string")
                             .that.equals(bodyContents);
 
-                        done();
+                        return done();
                     })
                     .catch(done);
             });

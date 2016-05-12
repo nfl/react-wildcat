@@ -9,7 +9,7 @@ import * as flexboxExampleRoutes from "./routes/FlexboxExample/routes.js";
 import * as helmetExampleRoutes from "./routes/HelmetExample/routes.js";
 import * as prefetchExampleRoutes from "./routes/PrefetchExample/routes.js";
 
-var Routes = (
+const Routes = (
     <Route path="/" component={ApplicationContext}>
         <IndexRoute {...indexExampleRoutes} />
 

@@ -2,36 +2,41 @@
     "env": {
         "development": {
             "plugins": [
-                "react-transform"
-            ],
-            "extra": {
-                "react-transform": {
+                ["react-transform", {
                     "transforms": [{
-                        "transform": "react-transform-module-hot-stub",
-                        "locals": ["module"]
-                    }, {
-                        "transform": "react-transform-hmr",
+                        "transform": "react-transform-jspm-hmr",
                         "imports": ["react"],
                         "locals": ["module"]
                     }, {
                         "transform": "react-transform-catch-errors",
                         "imports": ["react", "redbox-react"]
                     }]
-                }
-            }
+                }]
+            ]
         },
         "production": {
-            "sourceMaps": false
+            "sourceMaps": false,
+            "plugins": [
+                "transform-react-constant-elements",
+                "transform-react-remove-prop-types",
+                "transform-react-pure-class-to-function"
+            ]
         },
         "test": {
             "sourceMaps": "inline"
         }
     },
-    "optional": [
-        "optimisation.modules.system",
-        "runtime",
-        "utility.inlineEnvironmentVariables"
+    "plugins": [
+        "add-module-exports",
+        "closure-elimination",
+        "transform-decorators-legacy",
+        "transform-inline-environment-variables",
+        "transform-runtime"
     ],
-    "sourceMaps": "inline",
-    "stage": 0
+    "presets": [
+        "es2015",
+        "react",
+        "stage-0"
+    ],
+    "sourceMaps": "inline"
 }

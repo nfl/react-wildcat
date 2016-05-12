@@ -12,9 +12,7 @@ const run = (message) => {
     const wildcatOptions = message.wildcatOptions;
     const files = message.files;
 
-    const handleFile = require("./handleFile")(commander, Object.assign({}, wildcatOptions, {
-        babel: false
-    }));
+    const handleFile = require("./handleFile")(commander, wildcatOptions);
 
     function batchFile(currentFile) {
         batch.push(function batchJob(done) {

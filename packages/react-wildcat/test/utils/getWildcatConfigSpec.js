@@ -1,3 +1,4 @@
+const path = require("path");
 const chai = require("chai");
 const expect = chai.expect;
 const sinonChai = require("sinon-chai");
@@ -24,18 +25,8 @@ module.exports = (stubs) => {
             let wildcatConfig;
 
             before(() => {
-                var originalConfig = require(stubs.projectConfigFile);
-                originalConfig.generalSettings.originUrl = "http://mytestorigin.com";
-                originalConfig.generalSettings.staticUrl = "http://myteststatic.com";
-
-                wildcatConfig = proxyquire("../../src/utils/getWildcatConfig.js", {
-                    [`${stubs.exampleDir}/wildcat.config.js`]: () => originalConfig
-                })();
-            });
-
-            after(() => {
-                delete wildcatConfig.generalSettings.originUrl;
-                delete wildcatConfig.generalSettings.staticUrl;
+                const customCwd = path.resolve(__dirname, "../fixtures");
+                wildcatConfig = proxyquire("../../src/utils/getWildcatConfig.js", {})(customCwd);
             });
 
             it(`uses specified originUrl`, () => {
@@ -53,13 +44,7 @@ module.exports = (stubs) => {
             let wildcatConfig;
 
             before(() => {
-                var originalConfig = require(stubs.projectConfigFile);
-                delete originalConfig.generalSettings.originUrl;
-                delete originalConfig.generalSettings.staticUrl;
-
-                wildcatConfig = proxyquire("../../src/utils/getWildcatConfig.js", {
-                    [`${stubs.exampleDir}/wildcat.config.js`]: () => originalConfig
-                })();
+                wildcatConfig = proxyquire("../../src/utils/getWildcatConfig.js", {})();
             });
 
             it(`uses calculated originUrl`, () => {

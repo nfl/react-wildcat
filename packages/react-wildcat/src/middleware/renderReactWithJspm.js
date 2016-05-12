@@ -106,10 +106,8 @@ module.exports = function renderReactWithJspm(root, options) {
         response.status = 200;
         response.type = "text/html";
 
-        var reply;
-
         const data = yield pageHandler(request, cookies);
-        reply = data.reply;
+        const reply = data.reply;
 
         this.status = reply.status;
 

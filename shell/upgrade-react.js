@@ -70,7 +70,8 @@ function upgradeReactJspm(pkg) {
     });
 }
 
-ls("packages/*")
+ls("packages")
+    .map(pkg => path.join("packages", pkg))
     .concat([
         cwd,
         "example"

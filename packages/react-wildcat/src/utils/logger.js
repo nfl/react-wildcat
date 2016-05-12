@@ -37,8 +37,9 @@ function Logger(id) {
 
 function graylog(args, method) {
     if (!log || !env || env === "development") {
-        return;
+        return false;
     }
+
     return log[mapLogMethods[method] || "info"](chalk.stripColor(args.join(" ")));
 }
 
@@ -54,14 +55,14 @@ function addColor(arg, method) {
 
 Object.keys(logMethods).forEach((method) => {
     Logger.prototype[method] = function () {
-        let args = Array.prototype.slice.call(arguments); //eslint-disable-line prefer-rest-params
+        let args = Array.prototype.slice.call(arguments); // eslint-disable-line prefer-rest-params
 
         args.unshift(`${this.id}  ~>`);
         args = args.map(arg => addColor(arg, method));
 
         if (console[method]) {
             graylog(args, method);
-            console[method].apply(console, args);
+            console[method].apply(console, args); // eslint-disable-line prefer-spread
 
             if (method === "error") {
                 args
@@ -76,7 +77,7 @@ Object.keys(logMethods).forEach((method) => {
         }
 
         graylog(args);
-        console.log.apply(console, args);
+        console.log.apply(console, args); // eslint-disable-line prefer-spread
 
         return true;
     };

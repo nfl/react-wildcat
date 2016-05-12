@@ -40,7 +40,7 @@ function findBabel(root) {
     let babel;
 
     try {
-        const babelPath = resolve.sync("babel", {
+        const babelPath = resolve.sync("babel-core", {
             basedir: root
         });
 
@@ -50,7 +50,7 @@ function findBabel(root) {
             throw e;
         }
 
-        babel = require("babel");
+        babel = require("babel-core");
     }
 
     return babel;
@@ -93,6 +93,9 @@ exports.errorStub = errorStub;
 
 const manifestTestFile = "manifest.txt";
 exports.manifestTestFile = manifestTestFile;
+
+const sourceTestFile = `src/test.js`;
+exports.sourceTestFile = sourceTestFile;
 
 const failureTestFile = "src/failureTest.js";
 exports.failureTestFile = failureTestFile;

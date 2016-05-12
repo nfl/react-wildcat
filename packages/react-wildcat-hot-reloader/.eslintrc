@@ -1,0 +1,15 @@
+{
+    "extends": "eslint-config-nfl",
+    "env": {
+        "browser": true,
+        "node": true,
+        "mocha": true
+    },
+    "rules": {
+        "no-var": 0,
+        "object-shorthand": 0,
+        "prefer-rest-params": 0,
+        "prefer-spread": 0,
+        "prefer-template": 0
+    }
+}

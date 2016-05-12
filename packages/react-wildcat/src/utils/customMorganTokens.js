@@ -4,7 +4,7 @@ module.exports = function customMorganTokens(morgan, id) {
     const chalk = require("chalk");
 
     morgan.token("id", function getIdToken() {
-        return chalk.styles.gray.open + `${id}  ~>` + chalk.styles.gray.close;
+        return `${chalk.styles.gray.open}${id}  ~>${chalk.styles.gray.close}`;
     });
 
     morgan.token("status", function getStatusToken(req, res) {

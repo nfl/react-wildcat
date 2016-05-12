@@ -3,7 +3,7 @@ const WebSocket = require("ws/lib/WebSocket.js");
 
 module.exports = function hotReloaderWebSocket(hotReloader, socketUrl, logger) {
     logger = logger || console;
-    var socket = new WebSocket(socketUrl);
+    const socket = new WebSocket(socketUrl);
 
     socket.addEventListener("open", function socketOpen() {
         logger.info(`Listening to socket server at ${socketUrl}.`);
@@ -18,8 +18,8 @@ module.exports = function hotReloaderWebSocket(hotReloader, socketUrl, logger) {
     });
 
     socket.addEventListener("message", function socketMessage(messageEvent) {
-        var message = JSON.parse(messageEvent.data);
-        var moduleName = message.data;
+        const message = JSON.parse(messageEvent.data);
+        const moduleName = message.data;
 
         switch (message.event) {
             case "filechange":

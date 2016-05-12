@@ -28,7 +28,7 @@ function getAction(action, ComposedComponent) {
                         })
                         .catch(function asyncPromiseError(error) {
                             return resolve({
-                                error: error
+                                error
                             });
                         });
                 });

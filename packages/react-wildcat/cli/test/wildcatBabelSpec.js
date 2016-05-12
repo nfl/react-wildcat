@@ -10,6 +10,7 @@ const fs = require("fs-extra");
 const path = require("path");
 
 const resolve = require("resolve");
+const chokidar = require("chokidar");
 
 const glob = require("glob");
 const proxyquire = require("proxyquire");
@@ -26,7 +27,8 @@ describe("cli - wildcatBabel", () => {
             stubs.binDir,
             stubs.publicDir,
             stubs.manifestTestFile,
-            stubs.failureTestFile
+            stubs.failureTestFile,
+            stubs.sourceTestFile
         ].forEach(fs.removeSync);
     });
 
@@ -78,7 +80,7 @@ describe("cli - wildcatBabel", () => {
                 "../src/utils/logger": stubs.LoggerStub
             })
                 .then((watcher) => {
-                    const testFilePath = path.join(stubs.exampleDir, stubs.sourceDir, "test.js");
+                    const testFilePath = path.join(stubs.exampleDir, stubs.sourceTestFile);
                     const testFileContents = `export default {};`;
 
                     expect(wildcatBabel)
@@ -87,7 +89,9 @@ describe("cli - wildcatBabel", () => {
                     expect(watcher)
                         .to.exist;
 
-                    watcher.on("add", filename => {
+                    const publicWatcher = chokidar.watch(stubs.publicDir);
+
+                    publicWatcher.on("add", filename => {
                         setTimeout(() => {
                             expect(pathExists.sync(stubs.getPublicPath(filename)))
                                 .to.be.true;
@@ -101,7 +105,10 @@ describe("cli - wildcatBabel", () => {
                                 .to.respondTo("close");
 
                             fs.removeSync(filename);
+
                             watcher.close();
+                            publicWatcher.close();
+
                             done();
                         }, stubs.writeDelay);
                     });
@@ -109,7 +116,7 @@ describe("cli - wildcatBabel", () => {
                     fs.createOutputStream(testFilePath)
                         .end(testFileContents);
                 })
-                .catch(e => done(e));
+                .catch(done);
         });
     });
 

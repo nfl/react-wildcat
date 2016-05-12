@@ -1,6 +1,7 @@
 "use strict";
 
 const NOW = Date.now();
+const __PROD__ = process.env.NODE_ENV === "production";
 
 module.exports = function defaultTemplate(cfg) {
     const data = cfg.data;
@@ -29,7 +30,10 @@ module.exports = function defaultTemplate(cfg) {
 <!doctype html>
 <html ${head.htmlAttributes.toString()}>
     <head>
-        <meta charset="utf-8" />
+        <link rel="dns-prefetch" href="${staticUrl}" />
+        <link rel="preconnect" href="${staticUrl}" />
+        <link rel="prefetch" href="${staticUrl}/jspm_packages/system.js" />
+        <link rel="prefetch" href="${staticUrl}/system.config.js" />
         ${helmetTags.join(``)}
     </head>
     <body>
@@ -45,7 +49,8 @@ module.exports = function defaultTemplate(cfg) {
         <script>
             System.config({
                 baseURL: "${staticUrl}",
-                trace: ${hotReload}
+                trace: ${hotReload},
+                production: ${__PROD__}
             });
         </script>
 
@@ -140,7 +145,13 @@ module.exports = function defaultTemplate(cfg) {
             System.normalize = function normalize(name, parentName, parentAddress) {
                 return systemNormalize.call(this, name, parentName, parentAddress).then(
                     function normalizeCallback(url) {
-                        if ((/\\.(?:css|eot|gif|jpe?g|json|otf|png|swf|svg|ttf|woff)\.js$/).test(url)) {
+                        if (
+                            // name includes extension
+                            name.indexOf(".") !== -1 &&
+
+                            // name is one of...
+                            (/\\.(?:css|eot|gif|jpe?g|json|otf|png|swf|svg|ttf|woff)\.js$/).test(url)
+                        ) {
                             return url.replace(/\.js$/, "");
                         }
 
@@ -195,7 +206,6 @@ module.exports = function defaultTemplate(cfg) {
                         const hotReloader = new HotReloader();
                         bootstrapHotReloader(hotReloader, "${socketUrl}");
                     }` : ""}
-
                     // Pass options to server
                     return client(clientOptions);
                 })

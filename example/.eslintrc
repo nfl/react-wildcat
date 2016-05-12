@@ -1,5 +1,18 @@
 {
     "extends": "eslint-config-nfl",
+    "env": {
+        "browser": true,
+        "mocha": true
+    },
+    "globals": {
+        "$": true,
+        "$$": true,
+        "browser": true,
+        "by": true,
+        "element": true,
+        "expect": true,
+        "protractor": true
+    },
     "settings": {
         "import/ignore": [
             "jspm_packages",
@@ -16,12 +29,16 @@
         },
         "import/resolver": {
             "jspm": {
+                "extensions": [],
                 "moduleDirectory": "jspm_packages",
                 "pathsOverride": {
                     "public": "src"
                 }
             },
-            "node": true
+            "node": {
+                "extensions": [],
+                "moduleDirectory": "node_modules"
+            }
         }
     }
 }

@@ -36,7 +36,7 @@ export default async function yawn(command, options = {
                     process.stdout.write(string);
                 }
 
-                string.split("\n").forEach(line => {
+                string.split("\n").forEach(line => { // eslint-disable-line consistent-return
                     if (!foundMatch && line.trim().includes(resolveWhenLineIncludes)) {
                         foundMatch = true;
 
@@ -44,6 +44,8 @@ export default async function yawn(command, options = {
                         return resolve();
                     }
                 });
+
+                return undefined;
             });
         } else {
             child.on("exit", (code) => {

@@ -50,7 +50,7 @@ module.exports = (stubs) => {
             transpileOptions: stubs.transpileModuleDefaults,
             outputPath: path.join(stubs.exampleDir, stubs.mainEntryTranspiledPath),
             outputContents: [
-                `var _routesConfigJs = require("./routes.config.js");`
+                `var _routesConfig = require("./routes.config.js");`
             ]
         }, {
             name: "transpiles a source file with code coverage instrumentation",
@@ -69,7 +69,7 @@ module.exports = (stubs) => {
             }),
             outputPath: path.join(stubs.exampleDir, stubs.mainEntryTranspiledPath),
             outputContents: [
-                `var _routesConfigJs = require("./routes.config.js");`
+                `var _routesConfig = require("./routes.config.js");`
             ]
         }, {
             name: "does not log output if logLevel is under 1",
@@ -78,7 +78,7 @@ module.exports = (stubs) => {
             }),
             outputPath: path.join(stubs.exampleDir, stubs.mainEntryTranspiledPath),
             outputContents: [
-                `var _routesConfigJs = require("./routes.config.js");`
+                `var _routesConfig = require("./routes.config.js");`
             ]
         }, {
             name: "does not save Promise to a cache if temporaryCache setting is falsy",
@@ -87,7 +87,7 @@ module.exports = (stubs) => {
             }),
             outputPath: path.join(stubs.exampleDir, stubs.mainEntryTranspiledPath),
             outputContents: [
-                `var _routesConfigJs = require("./routes.config.js");`
+                `var _routesConfig = require("./routes.config.js");`
             ]
         }, {
             name: "waits for the transpiled file to write to disk",
@@ -96,7 +96,17 @@ module.exports = (stubs) => {
             }),
             outputPath: path.join(stubs.exampleDir, stubs.mainEntryTranspiledPath),
             outputContents: [
-                `var _routesConfigJs = require("./routes.config.js");`
+                `var _routesConfig = require("./routes.config.js");`
+            ]
+        }, {
+            name: "transpiles a source file with minification",
+            transpileOptions: Object.assign({}, stubs.transpileModuleDefaults, {
+                minify: true,
+                minifySettings: {}
+            }),
+            outputPath: path.join(stubs.exampleDir, stubs.mainEntryTranspiledPath),
+            outputContents: [
+                `var _routesConfig=require("./routes.config.js"),`
             ]
         }].forEach(test => {
             it(test.name, (done) => {

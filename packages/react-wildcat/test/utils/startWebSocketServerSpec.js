@@ -114,8 +114,8 @@ module.exports = (stubs) => {
                     socket.addEventListener("error", done);
 
                     socket.addEventListener("message", (messageEvent) => {
-                        var message = JSON.parse(messageEvent.data);
-                        var moduleName = message.data;
+                        const message = JSON.parse(messageEvent.data);
+                        const moduleName = message.data;
 
                         socket.close();
 

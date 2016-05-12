@@ -5,9 +5,10 @@ const fs = require("fs");
 const cwd = process.cwd();
 const path = require("path");
 
-ls("packages/*").forEach((loc) => {
+ls("packages").forEach((loc) => {
     const name = path.basename(loc);
-    const pkgPath = path.join(cwd, loc, "package.json");
+    const pkgDir = path.join(cwd, "packages", loc);
+    const pkgPath = path.join(pkgDir, "package.json");
 
     if (!fs.existsSync(pkgPath)) {
         return;
@@ -15,7 +16,7 @@ ls("packages/*").forEach((loc) => {
 
     const pkg = require(pkgPath);
 
-    cd(loc);
+    cd(pkgDir);
     exec(`npm link`);
 
     if (name !== "react-wildcat" && name !== "react-wildcat-test-runners") {

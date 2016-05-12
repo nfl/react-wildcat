@@ -19,11 +19,11 @@ const originUrl = url.format({
 });
 
 if (!global._babelPolyfill) {
-    require("babel/polyfill");
+    require("babel-polyfill");
 }
 
-require("babel/register-without-polyfill")({
-    resolveModuleSource: function (importPath) {
+require("babel-register")({
+    resolveModuleSource(importPath) {
         if (/^src/.test(importPath)) {
             importPath = path.join(cwd, importPath);
         }
@@ -53,56 +53,35 @@ exports.config = {
 
     framework: "mocha",
 
-    getMultiCapabilities: function () {
-        var browser = this.browser;
-
-        if (browser) {
-            var matchingCapabilities = this.multiCapabilities.filter(function (capabilities) {
-                return capabilities.browserName === browser;
-            })[0];
-
-            if (matchingCapabilities) {
-                return matchingCapabilities;
-            }
-
-            return this.capabilities;
-        }
-
-        return this.multiCapabilities;
-    },
-
     // How long to wait for a page to load.
     getPageTimeout: timeout,
 
     mochaOpts: {
         bail: true,
         slow: timeout / 2,
-        timeout: timeout,
+        timeout,
         reporter: "spec"
     },
 
     multiCapabilities: [{
         acceptSslCerts: true,
         browserName: "chrome"
-    }/*, {
-        acceptSslCerts: true,
-        browserName: "firefox"
-    }*/],
+    }],
 
-    onPrepare: function () {
-        var chai = require("chai");
-        var chaiAsPromised = require("chai-as-promised");
+    onPrepare() {
+        const chai = require("chai/index.js");
+        const chaiAsPromised = require("chai-as-promised");
 
         chai.config.includeStack = true;
         chai.use(chaiAsPromised);
 
-        var browserWidth = 1024;
+        const browserWidth = 1024;
 
         // Some insane height to make the browser 100% high
-        var browserHeight = 9999;
+        const browserHeight = 9999;
 
         // Move right to view tests in the background
-        var browserOffset = 800;
+        const browserOffset = 800;
 
         browser.driver.manage().window().setSize(browserWidth, browserHeight);
         browser.driver.manage().window().setPosition(browserOffset, 0);

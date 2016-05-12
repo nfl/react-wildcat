@@ -52,7 +52,7 @@ function start() {
 
     let babelOptions = {};
 
-    let cpuCount = (staticServerSettings && staticServerSettings.maxClusterCpuCount) || Infinity;
+    let cpuCount = staticServerSettings.maxClusterCpuCount;
 
     if (cpuCount === Infinity) {
         cpuCount = os.cpus().length;
@@ -139,14 +139,16 @@ function start() {
                     logLevel: generalSettings.logLevel,
                     origin: generalSettings.staticUrl,
                     outDir: serverSettings.publicDir,
-                    sourceDir: serverSettings.sourceDir
+                    sourceDir: serverSettings.sourceDir,
+                    minify: serverSettings.minifyTranspilerOutput,
+                    minifySettings: serverSettings.minifySettings
                 }));
             }
 
             // serve statics
             app.use(fileServer);
 
-            var serverType;
+            let serverType;
 
             switch (staticServerSettings.protocol) {
                 case "http2":
@@ -213,9 +215,11 @@ function start() {
 }
 
 function close() {
-    if (server && server.close) {
-        return server.close();
+    if (!server || !server.close) {
+        return undefined;
     }
+
+    return server.close();
 }
 
 exports.start = start;

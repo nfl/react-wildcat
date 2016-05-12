@@ -182,7 +182,8 @@ describe("appServer", () => {
 
         context("server-only middleware", () => {
             it(`starts the server and loads custom middleware`, (done) => {
-                var middlewareSetup;
+                let middlewareSetup;
+
                 const server = proxyquire("../src/server.js", {
                     "cluster": {
                         isMaster: false,
@@ -214,7 +215,7 @@ describe("appServer", () => {
                         expect(middlewareSetup.app)
                             .to.be.an("object");
 
-                        expect(middlewareSetup.app).to.be.instanceof(require('koa'));
+                        expect(middlewareSetup.app).to.be.instanceof(require("koa"));
 
                         expect(middlewareSetup.wildcatConfig).to.exist;
 
@@ -224,7 +225,7 @@ describe("appServer", () => {
             });
 
             it(`starts the server and loads incorrectly formed middleware`, (done) => {
-                var loggerErrorMessages = [];
+                const loggerErrorMessages = [];
                 const server = proxyquire("../src/server.js", {
                     "cluster": {
                         isMaster: false,
@@ -235,7 +236,8 @@ describe("appServer", () => {
                     "./utils/getWildcatConfig": () => {
                         const defaultConfig = require("../src/utils/getWildcatConfig")();
                         defaultConfig.serverSettings.appServer.middleware = [
-                            "this is a bad middleware function"
+                            "this is a bad middleware function",
+                            null
                         ];
 
                         return defaultConfig;
@@ -255,7 +257,7 @@ describe("appServer", () => {
                     })()
                 });
 
-                var doneDone = (err) => {
+                const doneDone = (err) => {
                     try {
                         server.close();
                     } catch (error) {
@@ -272,9 +274,14 @@ describe("appServer", () => {
                 server.start()
                     .then(() => {
                         try {
-                            expect(loggerErrorMessages.length).to.equal(1);
+                            expect(loggerErrorMessages.length).to.equal(2);
 
-                            expect(loggerErrorMessages[0]).to.contain("Middleware at serverSettings.appServer.middleware[0] could not be correclty initialized.");
+                            expect(loggerErrorMessages[0])
+                                .to.contain("Middleware at serverSettings.appServer.middleware[0] could not be correclty initialized.")
+                                .and.to.contain("this is a bad middleware function");
+
+                            expect(loggerErrorMessages[1])
+                                .to.contain("Middleware at serverSettings.appServer.middleware[1] could not be correclty initialized.");
 
                             doneDone();
                         } catch (error) {
@@ -342,14 +349,15 @@ describe("appServer", () => {
             });
         });
 
-        context("cluster", ()=> {
+        context("cluster", () => {
             context("When attempting to start a cluster of app servers", function () {
                 this.timeout(30000);
 
                 let clusterForkStub;
                 let server;
+
                 beforeEach(() => {
-                    clusterForkStub = sinon.stub(cluster, 'fork');
+                    clusterForkStub = sinon.stub(cluster, "fork");
                 });
 
                 afterEach(() => {

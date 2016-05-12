@@ -33,13 +33,18 @@ module.exports = (stubs) => {
             .that.equals("babelDevTranspiler");
 
         const babelOptions = {
-            "optional": [
-                "optimisation.modules.system",
-                "runtime",
-                "utility.inlineEnvironmentVariables"
+            "plugins": [
+                "add-module-exports",
+                "transform-decorators-legacy",
+                "transform-inline-environment-variables",
+                "transform-runtime"
             ],
-            "sourceMaps": true,
-            "stage": 0
+            "presets": [
+                "es2015",
+                "react",
+                "stage-0"
+            ],
+            "sourceMaps": true
         };
 
         const exampleApplicationPath = `/${stubs.publicDir}/components/Application/Application.js`;
@@ -67,9 +72,9 @@ module.exports = (stubs) => {
                 .to.be.false;
 
             co(function* () {
-                var result = yield babelDevTranspilerInstance.call({
+                const result = yield babelDevTranspilerInstance.call({
                     request: {
-                        url: exampleApplicationPath
+                        path: exampleApplicationPath
                     },
                     response: {}
                 }, (next) => next());
@@ -90,17 +95,17 @@ module.exports = (stubs) => {
                 .to.be.true;
 
             co(function* () {
-                var result = yield* [
+                const result = yield* [
                     babelDevTranspilerInstance.call({
                         request: {
-                            url: exampleIndexPath
+                            path: exampleIndexPath
                         },
                         response: {}
                     }, (next) => next()),
 
                     babelDevTranspilerInstance.call({
                         request: {
-                            url: exampleIndexPath
+                            path: exampleIndexPath
                         },
                         response: {}
                     }, (next) => next())
@@ -122,9 +127,9 @@ module.exports = (stubs) => {
                 .to.be.true;
 
             co(function* () {
-                var result = yield babelDevTranspilerInstance.call({
+                const result = yield babelDevTranspilerInstance.call({
                     request: {
-                        url: exampleBinaryPath
+                        path: exampleBinaryPath
                     },
                     response: {}
                 }, (next) => next());
@@ -152,9 +157,9 @@ module.exports = (stubs) => {
                 .to.be.true;
 
             co(function* () {
-                var result = yield babelDevTranspilerInstance.call({
+                const result = yield babelDevTranspilerInstance.call({
                     request: {
-                        url: exampleApplicationPath
+                        path: exampleApplicationPath
                     },
                     response: {}
                 }, (next) => next());
@@ -196,9 +201,9 @@ module.exports = (stubs) => {
                 .to.be.true;
 
             co(function* () {
-                var result = yield babelDevTranspilerInstance.call({
+                const result = yield babelDevTranspilerInstance.call({
                     request: {
-                        url: exampleNonExistentPath
+                        path: exampleNonExistentPath
                     },
                     response: {}
                 }, (next) => next());
@@ -216,9 +221,9 @@ module.exports = (stubs) => {
                 .to.be.true;
 
             co(function* () {
-                var result = yield babelDevTranspilerInstance.call({
+                const result = yield babelDevTranspilerInstance.call({
                     request: {
-                        url: exampleUnaffectedPath
+                        path: exampleUnaffectedPath
                     },
                     response: {}
                 }, (next) => next());

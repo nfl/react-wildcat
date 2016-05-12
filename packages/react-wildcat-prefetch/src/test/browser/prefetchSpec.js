@@ -8,6 +8,7 @@ import World from "./fixtures/World.js";
 import CustomPrefetchStatic from "./fixtures/CustomPrefetchStatic.js";
 import DefaultPrefetchStatic from "./fixtures/DefaultPrefetchStatic.js";
 
+import sinon from "sinon";
 import * as stubs from "./fixtures/stubData.js";
 
 /* eslint-disable max-nested-callbacks, react/no-multi-comp */
@@ -15,7 +16,7 @@ describe("react-wildcat-prefetch", () => {
     context("@prefetch", () => {
         context("plain React component", () => {
             it("has two properties", () => {
-                const Component = ReactTestUtils.renderIntoDocument(<Hello title={"Test Title"}/>);
+                const Component = ReactTestUtils.renderIntoDocument(<Hello title={"Test Title"} />);
                 expect(Object.keys(Component.props).length).to.equal(2);
             });
 
@@ -128,7 +129,7 @@ describe("react-wildcat-prefetch", () => {
             beforeEach(() => {
                 sinon.stub(window, "fetch");
 
-                var res = new window.Response(JSON.stringify(stubs.prefetchedData.asyncData), {
+                const res = new window.Response(JSON.stringify(stubs.prefetchedData.asyncData), {
                     status: 200,
                     headers: {
                         "Content-Type": "application/json"
@@ -332,6 +333,7 @@ describe("react-wildcat-prefetch", () => {
                 document.body.innerHTML = stubs.defaultTemplate({
                     data: stubs.prefetchedData,
                     head: {
+                        htmlAttributes: "",
                         title: "<title></title>",
                         meta: "",
                         link: ""
@@ -457,6 +459,7 @@ describe("react-wildcat-prefetch", () => {
                     document.body.innerHTML = stubs.defaultTemplate({
                         data: stubs.prefetchedData,
                         head: {
+                            htmlAttributes: "",
                             title: "<title></title>",
                             meta: "",
                             link: ""

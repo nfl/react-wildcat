@@ -1,11 +1,12 @@
 "use strict";
 
-var realFetch = require("node-fetch");
+const realFetch = require("node-fetch");
 
 module.exports = function fetch(url, options) {
     if (/^\/\//.test(url)) {
-        url = "https:" + url;
+        url = `https:${url}`;
     }
+
     return realFetch.call(this, url, options);
 };
 

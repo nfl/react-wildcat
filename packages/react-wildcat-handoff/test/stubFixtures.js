@@ -1,3 +1,5 @@
+/* eslint-disable react/prefer-es6-class */
+
 const React = require("react");
 const Router = require("react-router");
 const prefetch = require("react-wildcat-prefetch");

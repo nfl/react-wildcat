@@ -1,8 +1,0 @@
-{
-  "name": "react-transform-module-hot-stub",
-  "version": "3.0.0",
-  "description": "A stub to bypass the conditional check in react-transform-hmr",
-  "main": "src/index.js",
-  "author": "engineers@nfl.com",
-  "license": "MIT"
-}

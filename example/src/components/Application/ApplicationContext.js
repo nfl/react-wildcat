@@ -34,7 +34,8 @@ class ApplicationContext extends React.Component {
                     // ...etc
                     radium.Plugins.checkProps
                 ]
-            }}>
+            }}
+            >
                 <Application {...this.props} />
             </StyleRoot>
         );
