@@ -29,6 +29,14 @@
 
 
 
+<a name="3.2.1"></a>
+## [3.2.1](https://github.com/nfl/react-wildcat/compare/3.2.0...v3.2.1) (2016-05-06)
+
+### Bug Fixes
+
+* **react-wildcat:** Publish react-wildcat template change
+
+
 <a name="3.2.0"></a>
 # [3.2.0](https://github.com/nfl/react-wildcat/compare/3.1.2...v3.2.0) (2016-04-29)
 
