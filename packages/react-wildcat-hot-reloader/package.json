@@ -7,6 +7,9 @@
     "debug": "^2.2.0",
     "exenv": "^1.2.1"
   },
+  "jspm": {
+    "format": "cjs"
+  },
   "author": "engineers@nfl.com",
   "license": "MIT"
 }

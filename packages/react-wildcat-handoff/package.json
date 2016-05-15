@@ -2,7 +2,6 @@
   "name": "react-wildcat-handoff",
   "version": "4.0.0",
   "description": "Default client/server rendering for react-wildcat",
-  "main": "src",
   "dependencies": {
     "cookies-js": "^1.2.2",
     "exenv": "^1.2.1",
@@ -17,19 +16,27 @@
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
-    "rimraf": "^2.5.2"
+    "rimraf": "^2.5.2",
+    "webpack": "^2.1.0-beta.7",
+    "webpack-node-externals": "^1.2.0"
   },
   "jspm": {
-    "directories": {
-      "lib": "src"
-    },
+    "format": "cjs",
+    "ignore": [
+      "lib",
+      "test",
+      "src/test",
+      ".eslintrc",
+      ".npmignore",
+      "webpack.config.js"
+    ],
     "main": false
   },
   "scripts": {
     "build": "npm run clean && npm run compile",
-    "clean": "rimraf dist",
-    "clean-test": "rimraf dist/**/server{*,}.js",
-    "compile": "babel src test/stubFixtures.js --out-dir dist",
+    "clean": "rimraf dist lib",
+    "clean-test": "rimraf lib/**/server{*,}.js",
+    "compile": "babel src test/stubFixtures.js --out-dir lib && webpack",
     "pretest": "env NODE_ENV=production npm run build",
     "posttest": "npm run clean-test"
   },

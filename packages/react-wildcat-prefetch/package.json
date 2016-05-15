@@ -2,7 +2,7 @@
   "name": "react-wildcat-prefetch",
   "version": "4.0.0",
   "description": "A React decorator to prefetch component data.",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "dependencies": {
     "exenv": "^1.2.1",
     "hoist-non-react-statics": "^1.0.5",
@@ -14,15 +14,16 @@
     "rimraf": "^2.5.2"
   },
   "jspm": {
+    "format": "cjs",
     "directories": {
-      "lib": "dist"
+      "lib": "lib"
     },
     "main": "index.js"
   },
   "scripts": {
     "build": "npm run clean && npm run compile",
-    "clean": "rimraf dist",
-    "compile": "babel src --out-dir dist",
+    "clean": "rimraf lib",
+    "compile": "babel src --out-dir lib",
     "prepublish": "env NODE_ENV=production npm run build",
     "pretest": "npm run prepublish"
   },
