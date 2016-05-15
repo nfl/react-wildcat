@@ -30,8 +30,7 @@
         "add-module-exports",
         "closure-elimination",
         "transform-decorators-legacy",
-        "transform-inline-environment-variables",
-        "transform-runtime"
+        "transform-inline-environment-variables"
     ],
     "presets": [
         "es2015",

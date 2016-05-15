@@ -12,12 +12,44 @@ System.config({
     "metrics/*": "public/metrics/*"
   },
 
+  packages: {
+    "babel-polyfill": {
+      "main": "dist/polyfill.js"
+    },
+    "history": {
+      "main": "umd/history.js"
+    },
+    "radium": {
+      "main": "dist/radium.js"
+    },
+    "react": {
+      "main": "dist/react.js"
+    },
+    "react-dom": {
+      "main": "dist/react-dom.js"
+    },
+    "react-metrics": {
+      "map": {
+        "./lib/polyfill": "@empty"
+      }
+    },
+    "react-router": {
+      "main": "umd/ReactRouter.js"
+    },
+    "react-wildcat-handoff": {
+      "map": {
+        "./client": "./dist/client.js"
+      }
+    }
+  },
+
   meta: {
     "bundles/*": {
       "format": "register"
     },
     "public/*": {
-      "format": "cjs"
+      "format": "cjs",
+      "cjsDeferDepsExecute": true
     },
     "*.eot.js": {
       "build": false
@@ -49,10 +81,10 @@ System.config({
   },
 
   map: {
-    "babel-runtime": "npm:babel-runtime@6.6.1",
-    "core-js": "npm:core-js@2.4.0",
+    "babel-polyfill": "npm:babel-polyfill@6.8.0",
     "enzyme": "npm:enzyme@2.3.0",
     "exenv": "npm:exenv@1.2.1",
+    "history": "npm:history@2.1.1",
     "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
     "radium": "npm:radium@0.17.1",
     "react": "npm:react@15.0.2",
@@ -69,6 +101,7 @@ System.config({
     "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@4.0.0",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@4.0.0",
     "redbox-react": "npm:redbox-react@1.2.4",
+    "systemjs-plugin-babel": "npm:systemjs-plugin-babel@0.0.10",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },
@@ -209,6 +242,15 @@ System.config({
       "querystring": "github:jspm/nodelibs-querystring@0.1.0",
       "url": "github:jspm/nodelibs-url@0.1.0"
     },
+    "npm:babel-polyfill@6.8.0": {
+      "babel-regenerator-runtime": "npm:babel-regenerator-runtime@6.5.0",
+      "babel-runtime": "npm:babel-runtime@6.6.1",
+      "core-js": "npm:core-js@2.4.0",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:babel-regenerator-runtime@6.5.0": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
     "npm:babel-runtime@6.6.1": {
       "core-js": "npm:core-js@2.4.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
@@ -227,7 +269,8 @@ System.config({
     },
     "npm:brace-expansion@1.1.4": {
       "balanced-match": "npm:balanced-match@0.4.1",
-      "concat-map": "npm:concat-map@0.0.1"
+      "concat-map": "npm:concat-map@0.0.1",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:browserify-aes@1.0.6": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -514,26 +557,10 @@ System.config({
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
-    "npm:fbjs@0.1.0-alpha.10": {
-      "core-js": "npm:core-js@1.2.6",
-      "fs": "github:jspm/nodelibs-fs@0.1.2",
-      "path": "github:jspm/nodelibs-path@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "promise": "npm:promise@7.1.1",
-      "whatwg-fetch": "npm:whatwg-fetch@0.9.0"
-    },
-    "npm:fbjs@0.7.2": {
-      "core-js": "npm:core-js@1.2.6",
-      "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
-      "loose-envify": "npm:loose-envify@1.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "promise": "npm:promise@7.1.1",
-      "ua-parser-js": "npm:ua-parser-js@0.7.10"
-    },
     "npm:fbjs@0.8.2": {
       "core-js": "npm:core-js@1.2.6",
       "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
-      "loose-envify": "npm:loose-envify@1.1.0",
+      "loose-envify": "npm:loose-envify@1.2.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "promise": "npm:promise@7.1.1",
       "ua-parser-js": "npm:ua-parser-js@0.7.10"
@@ -672,7 +699,7 @@ System.config({
       "inline-style-prefix-all": "npm:inline-style-prefix-all@1.1.0"
     },
     "npm:invariant@2.2.1": {
-      "loose-envify": "npm:loose-envify@1.1.0",
+      "loose-envify": "npm:loose-envify@1.2.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:is-my-json-valid@2.13.1": {
@@ -682,6 +709,9 @@ System.config({
       "jsonpointer": "npm:jsonpointer@2.0.0",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "xtend": "npm:xtend@4.0.1"
+    },
+    "npm:isarray@1.0.0": {
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:isomorphic-fetch@2.2.1": {
       "node-fetch": "npm:node-fetch@1.5.2",
@@ -749,7 +779,8 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:loose-envify@1.1.0": {
+    "npm:loose-envify@1.2.0": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
       "js-tokens": "npm:js-tokens@1.0.3",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "stream": "github:jspm/nodelibs-stream@0.1.0",
@@ -859,7 +890,8 @@ System.config({
       "pinkie": "npm:pinkie@2.0.4"
     },
     "npm:process-nextick-args@1.0.7": {
-      "process": "github:jspm/nodelibs-process@0.1.2"
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:process@0.11.3": {
       "assert": "github:jspm/nodelibs-assert@0.1.0"
@@ -911,7 +943,7 @@ System.config({
       "core-js": "npm:core-js@2.4.0",
       "deep-equal": "npm:deep-equal@1.0.1",
       "eventemitter3": "npm:eventemitter3@1.2.0",
-      "fbjs": "npm:fbjs@0.7.2",
+      "fbjs": "npm:fbjs@0.8.2",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.6",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "querystring": "npm:querystring@0.2.0",
@@ -931,7 +963,7 @@ System.config({
       "warning": "npm:warning@2.1.0"
     },
     "npm:react-side-effect@1.0.2": {
-      "fbjs": "npm:fbjs@0.1.0-alpha.10"
+      "fbjs": "npm:fbjs@0.8.2"
     },
     "npm:react-transform-hmr@1.0.4": {
       "global": "npm:global@4.3.0",
@@ -966,7 +998,7 @@ System.config({
     },
     "npm:react@15.0.2": {
       "fbjs": "npm:fbjs@0.8.2",
-      "loose-envify": "npm:loose-envify@1.1.0",
+      "loose-envify": "npm:loose-envify@1.2.0",
       "object-assign": "npm:object-assign@4.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
@@ -1164,13 +1196,16 @@ System.config({
       "indexof": "npm:indexof@0.0.1"
     },
     "npm:warning@2.1.0": {
-      "loose-envify": "npm:loose-envify@1.1.0",
+      "loose-envify": "npm:loose-envify@1.2.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:whatwg-url-compat@0.6.5": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "punycode": "github:jspm/nodelibs-punycode@0.1.0",
       "tr46": "npm:tr46@0.0.3"
+    },
+    "npm:xtend@4.0.1": {
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     }
   }
 });
