@@ -29,9 +29,7 @@ System.config({
       "main": "dist/react-dom.js"
     },
     "react-metrics": {
-      "map": {
-        "./lib/polyfill": "@empty"
-      }
+      "main": "dist/react-metrics.js"
     },
     "react-router": {
       "main": "umd/ReactRouter.js"
@@ -91,7 +89,7 @@ System.config({
     "react-addons-test-utils": "npm:react-addons-test-utils@15.0.2",
     "react-dom": "npm:react-dom@15.0.2",
     "react-helmet": "npm:react-helmet@3.1.0",
-    "react-metrics": "npm:react-metrics@1.2.1",
+    "react-metrics": "npm:react-metrics@2.0.0",
     "react-router": "npm:react-router@2.4.0",
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.2",
     "react-transform-hmr": "npm:react-transform-hmr@1.0.4",
@@ -321,7 +319,7 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "pako": "npm:pako@0.2.8",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "readable-stream": "npm:readable-stream@2.0.6",
+      "readable-stream": "npm:readable-stream@2.1.2",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:buffer-xor@1.0.3": {
@@ -557,6 +555,14 @@ System.config({
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
+    "npm:fbjs@0.7.2": {
+      "core-js": "npm:core-js@1.2.6",
+      "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
+      "loose-envify": "npm:loose-envify@1.2.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "promise": "npm:promise@7.1.1",
+      "ua-parser-js": "npm:ua-parser-js@0.7.10"
+    },
     "npm:fbjs@0.8.2": {
       "core-js": "npm:core-js@1.2.6",
       "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
@@ -715,7 +721,7 @@ System.config({
     },
     "npm:isomorphic-fetch@2.2.1": {
       "node-fetch": "npm:node-fetch@1.5.2",
-      "whatwg-fetch": "npm:whatwg-fetch@0.9.0"
+      "whatwg-fetch": "npm:whatwg-fetch@1.0.0"
     },
     "npm:isstream@0.1.2": {
       "events": "github:jspm/nodelibs-events@0.1.1",
@@ -939,8 +945,7 @@ System.config({
       "shallowequal": "npm:shallowequal@0.2.2",
       "warning": "npm:warning@2.1.0"
     },
-    "npm:react-metrics@1.2.1": {
-      "core-js": "npm:core-js@2.4.0",
+    "npm:react-metrics@2.0.0": {
       "deep-equal": "npm:deep-equal@1.0.1",
       "eventemitter3": "npm:eventemitter3@1.2.0",
       "fbjs": "npm:fbjs@0.8.2",
@@ -1013,6 +1018,17 @@ System.config({
       "string_decoder": "npm:string_decoder@0.10.31"
     },
     "npm:readable-stream@2.0.6": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "core-util-is": "npm:core-util-is@1.0.2",
+      "events": "github:jspm/nodelibs-events@0.1.1",
+      "inherits": "npm:inherits@2.0.1",
+      "isarray": "npm:isarray@1.0.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "process-nextick-args": "npm:process-nextick-args@1.0.7",
+      "string_decoder": "npm:string_decoder@0.10.31",
+      "util-deprecate": "npm:util-deprecate@1.0.2"
+    },
+    "npm:readable-stream@2.1.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "core-util-is": "npm:core-util-is@1.0.2",
       "events": "github:jspm/nodelibs-events@0.1.1",
