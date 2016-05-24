@@ -76,9 +76,9 @@ System.config({
     "history": "npm:history@2.1.1",
     "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
     "radium": "npm:radium@0.17.1",
-    "react": "npm:react@15.0.2",
-    "react-addons-test-utils": "npm:react-addons-test-utils@15.0.2",
-    "react-dom": "npm:react-dom@15.0.2",
+    "react": "npm:react@15.1.0",
+    "react-addons-test-utils": "npm:react-addons-test-utils@15.1.0",
+    "react-dom": "npm:react-dom@15.1.0",
     "react-helmet": "npm:react-helmet@3.1.0",
     "react-metrics": "npm:react-metrics@2.0.0",
     "react-router": "npm:react-router@2.4.0",
@@ -92,7 +92,7 @@ System.config({
     "redbox-react": "npm:redbox-react@1.2.4",
     "systemjs-plugin-babel": "npm:systemjs-plugin-babel@0.0.10",
     "github:jspm/nodelibs-assert@0.1.0": {
-      "assert": "npm:assert@1.3.0"
+      "assert": "npm:assert@1.4.0"
     },
     "github:jspm/nodelibs-buffer@0.1.0": {
       "buffer": "npm:buffer@3.6.0"
@@ -181,7 +181,7 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:asap@2.0.3": {
+    "npm:asap@2.0.4": {
       "domain": "github:jspm/nodelibs-domain@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
@@ -214,7 +214,11 @@ System.config({
       "stream": "github:jspm/nodelibs-stream@0.1.0",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
-    "npm:assert@1.3.0": {
+    "npm:assert@1.4.0": {
+      "assert": "github:jspm/nodelibs-assert@0.1.0",
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "buffer-shims": "npm:buffer-shims@1.0.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
       "util": "npm:util@0.10.3"
     },
     "npm:async@1.5.2": {
@@ -310,8 +314,11 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "pako": "npm:pako@0.2.8",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "readable-stream": "npm:readable-stream@2.1.2",
+      "readable-stream": "npm:readable-stream@2.1.4",
       "util": "github:jspm/nodelibs-util@0.1.0"
+    },
+    "npm:buffer-shims@1.0.0": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0"
     },
     "npm:buffer-xor@1.0.3": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -510,7 +517,7 @@ System.config({
       "object-is": "npm:object-is@1.0.1",
       "object.assign": "npm:object.assign@4.0.3",
       "object.values": "npm:object.values@1.0.3",
-      "react": "npm:react@15.0.2"
+      "react": "npm:react@15.1.0"
     },
     "npm:error-stack-parser@1.3.5": {
       "stackframe": "npm:stackframe@0.3.1"
@@ -545,14 +552,6 @@ System.config({
     "npm:extsprintf@1.0.2": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "util": "github:jspm/nodelibs-util@0.1.0"
-    },
-    "npm:fbjs@0.7.2": {
-      "core-js": "npm:core-js@1.2.6",
-      "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
-      "loose-envify": "npm:loose-envify@1.2.0",
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "promise": "npm:promise@7.1.1",
-      "ua-parser-js": "npm:ua-parser-js@0.7.10"
     },
     "npm:fbjs@0.8.2": {
       "core-js": "npm:core-js@1.2.6",
@@ -894,7 +893,7 @@ System.config({
       "assert": "github:jspm/nodelibs-assert@0.1.0"
     },
     "npm:promise@7.1.1": {
-      "asap": "npm:asap@2.0.3",
+      "asap": "npm:asap@2.0.4",
       "fs": "github:jspm/nodelibs-fs@0.1.2"
     },
     "npm:public-encrypt@4.0.0": {
@@ -922,11 +921,11 @@ System.config({
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:react-addons-test-utils@15.0.2": {
-      "react": "npm:react@15.0.2"
+    "npm:react-addons-test-utils@15.1.0": {
+      "react": "npm:react@15.1.0"
     },
-    "npm:react-dom@15.0.2": {
-      "react": "npm:react@15.0.2"
+    "npm:react-dom@15.1.0": {
+      "react": "npm:react@15.1.0"
     },
     "npm:react-helmet@3.1.0": {
       "deep-equal": "npm:deep-equal@1.0.1",
@@ -955,7 +954,7 @@ System.config({
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.6",
       "invariant": "npm:invariant@2.2.1",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "react": "npm:react@15.0.2",
+      "react": "npm:react@15.1.0",
       "warning": "npm:warning@2.1.0"
     },
     "npm:react-side-effect@1.0.2": {
@@ -976,8 +975,8 @@ System.config({
       "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
       "parse-domain": "npm:parse-domain@0.2.1",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "react": "npm:react@15.0.2",
-      "react-dom": "npm:react-dom@15.0.2",
+      "react": "npm:react@15.1.0",
+      "react-dom": "npm:react-dom@15.1.0",
       "react-helmet": "npm:react-helmet@3.1.0",
       "react-router": "npm:react-router@2.4.0",
       "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@4.0.0"
@@ -990,9 +989,9 @@ System.config({
       "exenv": "npm:exenv@1.2.1",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.6",
       "invariant": "npm:invariant@2.2.1",
-      "react": "npm:react@15.0.2"
+      "react": "npm:react@15.1.0"
     },
-    "npm:react@15.0.2": {
+    "npm:react@15.1.0": {
       "fbjs": "npm:fbjs@0.8.2",
       "loose-envify": "npm:loose-envify@1.2.0",
       "object-assign": "npm:object-assign@4.1.0",
@@ -1019,8 +1018,9 @@ System.config({
       "string_decoder": "npm:string_decoder@0.10.31",
       "util-deprecate": "npm:util-deprecate@1.0.2"
     },
-    "npm:readable-stream@2.1.2": {
+    "npm:readable-stream@2.1.4": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "buffer-shims": "npm:buffer-shims@1.0.0",
       "core-util-is": "npm:core-util-is@1.0.2",
       "events": "github:jspm/nodelibs-events@0.1.1",
       "inherits": "npm:inherits@2.0.1",
@@ -1033,7 +1033,7 @@ System.config({
     "npm:redbox-react@1.2.4": {
       "error-stack-parser": "npm:error-stack-parser@1.3.5",
       "object-assign": "npm:object-assign@4.1.0",
-      "react": "npm:react@15.0.2"
+      "react": "npm:react@15.1.0"
     },
     "npm:request@2.72.0": {
       "aws-sign2": "npm:aws-sign2@0.6.0",
