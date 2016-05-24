@@ -33,7 +33,7 @@ module.exports = function serverRender(cfg) {
                     status: 404
                 };
             } else {
-                const initialData = {};
+                let initialData = null;
 
                 return Promise.all(
                     renderProps.components
@@ -46,6 +46,7 @@ module.exports = function serverRender(cfg) {
 
                             return prefetch.run(renderProps).then(
                                 function renderPropsPrefetchResult(props) {
+                                    initialData = initialData || {};
                                     initialData[key] = prefetch[key] = props;
                                 }
                             );
