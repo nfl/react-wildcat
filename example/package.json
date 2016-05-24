@@ -34,7 +34,7 @@
     "eslint-config-nfl": "^8.0.1",
     "eslint-import-resolver-jspm": "^2.1.0",
     "eslint-plugin-import": "^1.7.0",
-    "eslint-plugin-jsx-a11y": "^0.6.2",
+    "eslint-plugin-jsx-a11y": "^1.2.2",
     "eslint-plugin-mocha": "^2.2.0",
     "eslint-plugin-react": "^5.1.1",
     "estraverse": "^4.2.0",
