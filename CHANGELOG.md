@@ -1,3 +1,23 @@
+<a name="4.1.0"></a>
+# [4.1.0](https://github.com/nfl/react-wildcat/compare/4.0.0...v4.1.0) (2016-05-24)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Fix default __INITIAL_DATA__ value ([#131](https://github.com/nfl/react-wildcat/issues/131)) ([4834f4f](https://github.com/nfl/react-wildcat/commit/4834f4f)), closes [#131](https://github.com/nfl/react-wildcat/issues/131)
+
+
+### Features
+
+* react@15.1.0 ([8de05f2](https://github.com/nfl/react-wildcat/commit/8de05f2))
+
+
+### Performance Improvements
+
+* Update dependency references and reduce number of calls to System.registerDynamic ([#132](https://github.com/nfl/react-wildcat/issues/132)) ([92acd66](https://github.com/nfl/react-wildcat/commit/92acd66))
+
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/nfl/react-wildcat/compare/3.2.0...v4.0.0) (2016-05-11)
 

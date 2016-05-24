@@ -7,7 +7,7 @@
     "jspm": "nfl/jspm-cli#0.16.34/fetch-support",
     "koa-favicon": "^1.2.1",
     "koa-route": "^2.4.2",
-    "react-wildcat": "4.0.0",
+    "react-wildcat": "4.1.0",
     "rimraf": "^2.5.2"
   },
   "devDependencies": {
@@ -31,7 +31,7 @@
     "chai-as-promised": "^5.3.0",
     "concurrently": "^2.0.0",
     "eslint": "^2.9.0",
-    "eslint-config-nfl": "^8.0.1",
+    "eslint-config-nfl": "^9.0.0",
     "eslint-import-resolver-jspm": "^2.1.0",
     "eslint-plugin-import": "^1.7.0",
     "eslint-plugin-jsx-a11y": "^1.2.2",
@@ -73,16 +73,16 @@
       "react-helmet": "npm:react-helmet@^3.1.0",
       "react-metrics": "npm:react-metrics@^2.0.0",
       "react-router": "npm:react-router@^2.4.0",
-      "react-wildcat-ensure": "npm:react-wildcat-ensure@4.0.0",
-      "react-wildcat-handoff": "npm:react-wildcat-handoff@4.0.0",
-      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@4.0.0"
+      "react-wildcat-ensure": "npm:react-wildcat-ensure@4.1.0",
+      "react-wildcat-handoff": "npm:react-wildcat-handoff@4.1.0",
+      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@4.1.0"
     },
     "devDependencies": {
       "enzyme": "npm:enzyme@^2.3.0",
       "react-addons-test-utils": "npm:react-addons-test-utils@15.1.0",
       "react-transform-catch-errors": "npm:react-transform-catch-errors@^1.0.2",
       "react-transform-jspm-hmr": "npm:react-transform-jspm-hmr@^1.0.1",
-      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@4.0.0",
+      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@4.1.0",
       "redbox-react": "npm:redbox-react@^1.2.4"
     },
     "overrides": {
