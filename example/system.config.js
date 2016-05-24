@@ -11,6 +11,7 @@ System.config({
     "domains/*": "public/domains/*",
     "metrics/*": "public/metrics/*"
   },
+  cjsDeferDepsExecute: true,
 
   packages: {
     "babel-polyfill": {
@@ -36,12 +37,8 @@ System.config({
   },
 
   meta: {
-    "bundles/*": {
-      "format": "register"
-    },
     "public/*": {
-      "format": "cjs",
-      "cjsDeferDepsExecute": true
+      "format": "cjs"
     },
     "*.eot.js": {
       "build": false
