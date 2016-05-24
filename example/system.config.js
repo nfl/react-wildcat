@@ -22,12 +22,6 @@ System.config({
     "radium": {
       "main": "dist/radium.js"
     },
-    "react": {
-      "main": "dist/react.js"
-    },
-    "react-dom": {
-      "main": "dist/react-dom.js"
-    },
     "react-metrics": {
       "main": "dist/react-metrics.js"
     },
