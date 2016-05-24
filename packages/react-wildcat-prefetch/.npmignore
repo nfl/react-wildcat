@@ -1,5 +1,5 @@
 .DS_Store
-dist/test
+lib/test
 jspm_packages
 reports
 src

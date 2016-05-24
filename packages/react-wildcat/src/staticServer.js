@@ -79,7 +79,7 @@ function start() {
         root: cwd,
         index: false,
         hidden: false,
-        gzip: __PROD__ && !__TEST__
+        gzip: staticServerSettings.gzip
     });
 
     return new Promise(function startPromise(resolve) {

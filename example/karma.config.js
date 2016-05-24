@@ -76,6 +76,10 @@ module.exports = function (karmaConfig) {
         exclude: [],
 
         files: [{
+            pattern: "./node_modules/babel-polyfill/dist/polyfill.js",
+            included: true,
+            watched: false
+        }, {
             pattern: "./src/test/unit/phantomShims.js",
             included: true,
             watched: false

@@ -65,10 +65,10 @@ module.exports = function (karmaConfig) {
 
         jspm: {
             config: "system.config.js",
-            loadFiles: ["packages/*/dist/**/!(*fixture).js"],
+            loadFiles: ["packages/!(react-wildcat-test-runners)/lib/**/!(*fixture).js"],
             serveFiles: [
                 "jspm_packages/**/*",
-                "packages/*/dist/**/*"
+                "packages/!(react-wildcat-test-runners)/lib/**/*"
             ]
         },
 
@@ -80,8 +80,8 @@ module.exports = function (karmaConfig) {
         port: 9876,
 
         preprocessors: {
-            "packages/*/dist/**/*.js": ["sourcemap"],
-            "packages/*/dist/{!(test)/,}!(*Spec).js": ["coverage"]
+            "packages/!(react-wildcat-test-runners)/lib/**/*.js": ["sourcemap"],
+            "packages/!(react-wildcat-test-runners)/lib/{!(test)/,}!(*Spec).js": ["coverage"]
         },
 
         proxies: {

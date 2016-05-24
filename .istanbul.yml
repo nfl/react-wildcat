@@ -6,6 +6,7 @@ instrumentation:
     - "**/node_modules/**"
     - "**/reports/**"
     - "**/dist/**"
+    - "**/lib/**"
 reporting:
   reports:
     - json

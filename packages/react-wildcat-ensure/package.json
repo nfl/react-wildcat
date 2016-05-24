@@ -2,15 +2,18 @@
   "name": "react-wildcat-ensure",
   "version": "4.0.0",
   "description": "An asynchronous System.import helper.",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "devDependencies": {
     "babel-cli": "^6.8.0",
     "rimraf": "^2.5.2"
   },
+  "jspm": {
+    "format": "cjs"
+  },
   "scripts": {
     "build": "npm run clean && npm run compile",
-    "clean": "rimraf dist",
-    "compile": "babel src --out-dir dist",
+    "clean": "rimraf lib",
+    "compile": "babel src --out-dir lib",
     "prepublish": "env NODE_ENV=production npm run build",
     "pretest": "npm run prepublish"
   },

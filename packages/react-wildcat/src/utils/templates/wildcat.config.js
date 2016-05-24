@@ -193,6 +193,9 @@ const wildcatConfig = {
                 "localhost"
             ],
 
+            // Server gzipped assets?
+            gzip: __PROD__ && !__TEST__,
+
             // One of "http2" | "https" | "http"
             protocol: "http2",
 
