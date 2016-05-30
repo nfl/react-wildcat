@@ -105,7 +105,7 @@
     }
   },
   "scripts": {
-    "build": "npm run compile -- --ignore '**/{shell,e2e,test}/**' --minify && npm run bundle",
+    "build": "npm run compile -- --ignore '**/{shell,e2e,test}/**' --minify && jspm bundle-sfx ./public/main.js ./public/main-bundle.js --format cjs --minify --skip-source-maps",
     "bundle": "jspm bundle 'react-wildcat-handoff/client + (public/**/* - [public/**/*])' bundles/vendor.js --inject --minify --skip-source-maps",
     "clean": "rimraf bin bundles public",
     "compile": "wildcat-babel --copy-files --binary-to-module src --out-dir public",
