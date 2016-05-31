@@ -106,7 +106,9 @@
   },
   "scripts": {
     "build": "npm run compile -- --ignore '**/{shell,e2e,test}/**' --minify && npm run bundle",
-    "bundle": "jspm bundle 'react-wildcat-handoff/client + (public/**/* - [public/**/*])' bundles/vendor.js --inject --minify --skip-source-maps",
+    "bundle": "npm run bundle-react && npm run bundle-vendors",
+    "bundle-react": "jspm bundle 'react + react-dom' bundles/react.js --minify --skip-source-maps",
+    "bundle-vendors": "jspm bundle 'react-wildcat-handoff/client + (public/**/* - [public/**/*]) - (react + react-dom)' bundles/vendor.js --inject --minify --skip-source-maps",
     "clean": "rimraf bin bundles public",
     "compile": "wildcat-babel --copy-files --binary-to-module src --out-dir public",
     "compile:unit": "env BABEL_ENV=test NODE_ENV=production npm run compile -- --ignore '**/!(*Test).*'",

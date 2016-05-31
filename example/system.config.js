@@ -262,8 +262,7 @@ System.config({
     },
     "npm:brace-expansion@1.1.4": {
       "balanced-match": "npm:balanced-match@0.4.1",
-      "concat-map": "npm:concat-map@0.0.1",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
+      "concat-map": "npm:concat-map@0.0.1"
     },
     "npm:browserify-aes@1.0.6": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -902,8 +901,7 @@ System.config({
       "pinkie": "npm:pinkie@2.0.4"
     },
     "npm:process-nextick-args@1.0.7": {
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:process@0.11.3": {
       "assert": "github:jspm/nodelibs-assert@0.1.0"
