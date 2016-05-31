@@ -32,8 +32,11 @@ module.exports = function defaultTemplate(cfg) {
     <head>
         <link rel="dns-prefetch" href="${staticUrl}" />
         <link rel="preconnect" href="${staticUrl}" />
+
         <link rel="prefetch" href="${staticUrl}/jspm_packages/system.js" />
         <link rel="prefetch" href="${staticUrl}/system.config.js" />
+        <link rel="prefetch" href="${staticUrl}/bundles/react.js" />
+
         ${helmetTags.join(``)}
     </head>
     <body>
@@ -162,6 +165,7 @@ module.exports = function defaultTemplate(cfg) {
         </script>
 
         <script src="${staticUrl}/system.config.js"></script>
+        ${__PROD__ ? `<script src="${staticUrl}/bundles/react.js"></script>` : ``}
 
         <script>
             Promise.all([
