@@ -74,6 +74,8 @@ const wildcatConfig = {
 
         hotReload: !__PROD__,
 
+        serviceWorker: true,
+
         // Path to the client renderer. This can be a jspm package or a relative path
         renderHandler: "react-wildcat-handoff/client",
 
@@ -97,7 +99,7 @@ const wildcatConfig = {
         binDir: "bin",
 
         // BYO-HTML template
-        htmlTemplate: require("./customHtmlTemplate.js"),
+        // htmlTemplate: require("./customHtmlTemplate.js"),
 
         // Graylog config options for the node server
         // https://www.npmjs.com/package/gelf-pro#configuration

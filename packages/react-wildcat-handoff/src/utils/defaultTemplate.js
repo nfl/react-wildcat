@@ -18,6 +18,7 @@ module.exports = function defaultTemplate(cfg) {
     const renderHandler = clientSettings.renderHandler;
     const reactRootElementID = clientSettings.reactRootElementID;
     const indexedDBModuleCache = clientSettings.indexedDBModuleCache;
+    const serviceWorker = clientSettings.serviceWorker;
 
     const staticUrl = generalSettings.staticUrl;
     const socketUrl = staticUrl.replace("http", "ws");
@@ -41,7 +42,19 @@ module.exports = function defaultTemplate(cfg) {
     </head>
     <body>
         <div id="${reactRootElementID}">${html}</div>
-
+        ${__PROD__ && serviceWorker ? `
+        <script src="/register-sw.js"></script>
+        ` : `
+        <script>
+            // Remove any registered service workers (dev mode only)
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                    console.log("reg: ", registration);
+                    registration.unregister();
+                }
+            })
+        </script>
+        `}
         <script>
             __INITIAL_DATA__ = ${JSON.stringify(data)};
             __REACT_ROOT_ID__ = "${reactRootElementID}";
