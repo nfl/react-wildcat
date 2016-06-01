@@ -61,7 +61,6 @@
   },
   "jspm": {
     "configFile": "system.config.js",
-    "dependencies": {},
     "devDependencies": {
       "cookies-js": "npm:cookies-js@^1.2.2",
       "exenv": "npm:exenv@^1.2.1",
@@ -86,8 +85,5 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "dependencies": {
-    "psi": "^2.0.3"
   }
 }

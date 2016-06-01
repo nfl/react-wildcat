@@ -12,7 +12,6 @@ const usePort = staticServer.hostname.indexOf("localhost") !== -1;
 let staticHost = `https://${staticServer.hostname}`;
 if (usePort) {
     staticHost = `${staticHost}:${staticServer.port}`;
-    console.log("USE PORT: ", staticHost);
 }
 
 const staticHostRegex = new RegExp(staticHost);
@@ -23,12 +22,7 @@ swPrecache.write(serviceWorkerPath, {
     cacheId: wildcatConfig.generalSettings.name,
     staticFileGlobs: [
         "bundles/*.js",
-        "public/components/**/*",
-        "public/routes/**/*",
-        "public/*.js",
-        "public/assets/styles/*.js",
-        "public/assets/images/*.jpg",
-        "public/application.config.js",
+        "public/**/*",
         "jspm_packages/system.js",
         "system.config.js"
     ],

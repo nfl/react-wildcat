@@ -108,7 +108,7 @@
     }
   },
   "scripts": {
-    "build": "npm run build-precache && npm run compile -- --ignore '**/{shell,e2e,test}/**' --minify && npm run bundle",
+    "build": "npm run compile -- --ignore '**/{shell,e2e,test}/**' --minify && npm run bundle && npm run build-precache",
     "build-precache": "node ./config/serviceWorkers.js",
     "bundle": "npm run bundle-react && npm run bundle-vendors",
     "bundle-react": "jspm bundle 'react + react-dom' bundles/react.js --minify --skip-source-maps",
