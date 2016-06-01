@@ -97,7 +97,7 @@ const wildcatConfig = {
         binDir: "bin",
 
         // BYO-HTML template
-        // htmlTemplate: require("./customHTMLTemplate.js"),
+        htmlTemplate: require("./customHtmlTemplate.js"),
 
         // Graylog config options for the node server
         // https://www.npmjs.com/package/gelf-pro#configuration
@@ -126,13 +126,14 @@ const wildcatConfig = {
             middleware: [
                 // EXAMPLE:
                 require("./api/sampleServerOnlyApi.js"),
-                require("./api/serveFavicon.js")
+                require("./api/serveFavicon.js"),
+                require("./api/serveStatic.js")
             ],
 
             // A key/value of urls to proxy
             // e.g. /static -> http://example.com/static
             proxies: {
-                "/static": "http://example.com/static"
+                "/proxy": "http://example.com/proxy"
             }
 
             // Only applicable when one of http2/https is true
@@ -192,7 +193,7 @@ const wildcatConfig = {
                 //     "http/1.1",
                 //     "http/1.0"
                 // ]
-            // }
+           // }
         }
     }
 };

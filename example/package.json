@@ -7,6 +7,7 @@
     "jspm": "nfl/jspm-cli#0.16.34/fetch-support",
     "koa-favicon": "^1.2.1",
     "koa-route": "^2.4.2",
+    "koa-static": "^2.0.0",
     "react-wildcat": "4.1.0",
     "rimraf": "^2.5.2"
   },
@@ -56,9 +57,11 @@
     "protractor-console": "^2.0.1",
     "protractor-istanbul-plugin": "^2.0.0",
     "react-wildcat-test-runners": "4.0.0",
+    "replace": "^0.3.0",
     "resolve": "^1.1.7",
     "sinon": "^1.17.4",
-    "sinon-chai": "^2.8.0"
+    "sinon-chai": "^2.8.0",
+    "sw-precache": "^3.1.1"
   },
   "jspm": {
     "configFile": "system.config.js",
@@ -105,7 +108,8 @@
     }
   },
   "scripts": {
-    "build": "npm run compile -- --ignore '**/{shell,e2e,test}/**' --minify && npm run bundle",
+    "build": "npm run build-precache && npm run compile -- --ignore '**/{shell,e2e,test}/**' --minify && npm run bundle",
+    "build-precache": "node ./config/serviceWorkers.js",
     "bundle": "npm run bundle-react && npm run bundle-vendors",
     "bundle-react": "jspm bundle 'react + react-dom' bundles/react.js --minify --skip-source-maps",
     "bundle-vendors": "jspm bundle 'react-wildcat-handoff/client + (public/**/* - [public/**/*]) - (react + react-dom)' bundles/vendor.js --inject --minify --skip-source-maps",

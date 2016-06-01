@@ -8,3 +8,4 @@ node_modules/
 npm-debug.log
 public/
 reports/
+static/service-worker.js
