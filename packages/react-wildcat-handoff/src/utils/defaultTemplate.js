@@ -48,11 +48,10 @@ module.exports = function defaultTemplate(cfg) {
         <script>
             // Remove any registered service workers (dev mode only)
             navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                for(let registration of registrations) {
-                    console.log("reg: ", registration);
+                for (var registration of registrations) {
                     registration.unregister();
                 }
-                if(registrations.length > 0) {
+                if (registrations.length > 0) {
                     window.location.reload();
                 }
             })
