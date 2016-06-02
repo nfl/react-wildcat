@@ -8,6 +8,7 @@ const wildcatConfig = require("../wildcat.config.js");
 const swDirectory = `${__dirname}/../static`;
 const staticServer = wildcatConfig.serverSettings.staticServer;
 const usePort = staticServer.hostname.indexOf("localhost") !== -1;
+const appServer = wildcatConfig.serverSettings.appServer;
 
 let staticHost = `https://${staticServer.hostname}`;
 if (usePort) {
@@ -15,6 +16,14 @@ if (usePort) {
 }
 
 const staticHostRegex = new RegExp(staticHost);
+
+let appHost = `https://${appServer.hostname}`;
+if (usePort) {
+    appHost = `${appHost}:${appServer.port}`;
+}
+
+const appHostRegex = new RegExp(appHost);
+
 
 const serviceWorkerPath = path.join(swDirectory, "service-worker.js");
 
@@ -30,7 +39,13 @@ swPrecache.write(serviceWorkerPath, {
         urlPattern: /\/$/,
         handler: "fastest"
     }, {
-        urlPattern: staticHostRegex,
+        urlPattern: /jspm_packages\//,
+        handler: "cacheFirst"
+    }, {
+        urlPattern: new RegExp(`^${staticHostRegex.source}`),
+        handler: "cacheFirst"
+    }, {
+        urlPattern: new RegExp(`^${appHostRegex.source}`),
         handler: "cacheFirst"
     }],
     ignoreUrlParametersMatching: /./
