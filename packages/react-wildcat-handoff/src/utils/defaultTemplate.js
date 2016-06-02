@@ -36,7 +36,7 @@ module.exports = function defaultTemplate(cfg) {
 
         <link rel="prefetch" href="${staticUrl}/jspm_packages/system.js" />
         <link rel="prefetch" href="${staticUrl}/system.config.js" />
-        <link rel="prefetch" href="${staticUrl}/bundles/react.js" />
+        ${__PROD__ ? `<link rel="prefetch" href="${staticUrl}/bundles/react.js" />` : ``}
 
         ${helmetTags.join(``)}
     </head>
@@ -51,6 +51,9 @@ module.exports = function defaultTemplate(cfg) {
                 for(let registration of registrations) {
                     console.log("reg: ", registration);
                     registration.unregister();
+                }
+                if(registrations.length > 0) {
+                    window.location.reload();
                 }
             })
         </script>
