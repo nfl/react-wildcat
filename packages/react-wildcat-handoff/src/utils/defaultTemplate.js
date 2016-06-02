@@ -18,6 +18,7 @@ module.exports = function defaultTemplate(cfg) {
     const renderHandler = clientSettings.renderHandler;
     const reactRootElementID = clientSettings.reactRootElementID;
     const indexedDBModuleCache = clientSettings.indexedDBModuleCache;
+    const serviceWorker = clientSettings.serviceWorker;
 
     const staticUrl = generalSettings.staticUrl;
     const socketUrl = staticUrl.replace("http", "ws");
@@ -35,13 +36,29 @@ module.exports = function defaultTemplate(cfg) {
 
         <link rel="prefetch" href="${staticUrl}/jspm_packages/system.js" />
         <link rel="prefetch" href="${staticUrl}/system.config.js" />
-        <link rel="prefetch" href="${staticUrl}/bundles/react.js" />
+        ${__PROD__ ? `<link rel="prefetch" href="${staticUrl}/bundles/react.js" />` : ``}
 
         ${helmetTags.join(``)}
     </head>
     <body>
         <div id="${reactRootElementID}">${html}</div>
-
+        ${serviceWorker ? `
+        <script src="/register-sw.js"></script>
+        ` : `
+        <script>
+            // Remove any registered service workers (dev mode only)
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for (var registration of registrations) {
+                        registration.unregister();
+                    }
+                    if (registrations.length > 0) {
+                        window.location.reload();
+                    }
+                })
+            }
+        </script>
+        `}
         <script>
             __INITIAL_DATA__ = ${JSON.stringify(data)};
             __REACT_ROOT_ID__ = "${reactRootElementID}";
