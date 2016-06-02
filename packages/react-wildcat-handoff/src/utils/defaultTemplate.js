@@ -47,14 +47,16 @@ module.exports = function defaultTemplate(cfg) {
         ` : `
         <script>
             // Remove any registered service workers (dev mode only)
-            navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                for (var registration of registrations) {
-                    registration.unregister();
-                }
-                if (registrations.length > 0) {
-                    window.location.reload();
-                }
-            })
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for (var registration of registrations) {
+                        registration.unregister();
+                    }
+                    if (registrations.length > 0) {
+                        window.location.reload();
+                    }
+                })
+            }
         </script>
         `}
         <script>
