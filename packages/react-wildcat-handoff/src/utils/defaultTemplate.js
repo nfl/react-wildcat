@@ -42,7 +42,7 @@ module.exports = function defaultTemplate(cfg) {
     </head>
     <body>
         <div id="${reactRootElementID}">${html}</div>
-        ${__PROD__ && serviceWorker ? `
+        ${serviceWorker ? `
         <script src="/register-sw.js"></script>
         ` : `
         <script>

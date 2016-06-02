@@ -74,7 +74,7 @@ const wildcatConfig = {
 
         hotReload: !__PROD__,
 
-        serviceWorker: true,
+        serviceWorker: __PROD__,
 
         // Path to the client renderer. This can be a jspm package or a relative path
         renderHandler: "react-wildcat-handoff/client",
