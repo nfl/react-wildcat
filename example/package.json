@@ -8,6 +8,7 @@
     "koa-favicon": "^1.2.1",
     "koa-route": "^2.4.2",
     "koa-static": "^2.0.0",
+    "preboot": "^2.1.2",
     "react-wildcat": "4.1.0",
     "rimraf": "^2.5.2"
   },
@@ -108,8 +109,9 @@
     }
   },
   "scripts": {
-    "build": "npm run compile -- --ignore '**/{shell,e2e,test}/**' --minify && npm run bundle && npm run build-precache",
+    "build": "npm run compile -- --ignore '**/{shell,e2e,test}/**' --minify && npm run bundle && npm run build-precache && npm run build-preboot",
     "build-precache": "node ./config/serviceWorkers.js",
+    "build-preboot": "node ./config/preboot.js",
     "bundle": "npm run bundle-react && npm run bundle-vendors",
     "bundle-react": "jspm bundle 'react + react-dom' bundles/react.js --minify --skip-source-maps",
     "bundle-vendors": "jspm bundle 'react-wildcat-handoff/client + (public/**/* - [public/**/*]) - (react + react-dom)' bundles/vendor.js --inject --minify --skip-source-maps",
