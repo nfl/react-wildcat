@@ -113,7 +113,7 @@
     "bundle": "npm run bundle-react && npm run bundle-vendors",
     "bundle-react": "jspm bundle 'react + react-dom' bundles/react.js --minify --skip-source-maps",
     "bundle-vendors": "jspm bundle 'react-wildcat-handoff/client + (public/**/* - [public/**/*]) - (react + react-dom)' bundles/vendor.js --inject --minify --skip-source-maps",
-    "clean": "rimraf bin bundles public",
+    "clean": "rimraf bin bundles public static/service-worker.js",
     "compile": "wildcat-babel --copy-files --binary-to-module src --out-dir public",
     "compile:unit": "env BABEL_ENV=test NODE_ENV=production npm run compile -- --ignore '**/!(*Test).*'",
     "dev": "env NODE_ENV=development NODE_TLS_REJECT_UNAUTHORIZED=0 concurrently 'wildcat' 'wildcat-static-server' 'npm run compile -- --watch'",
