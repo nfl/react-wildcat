@@ -13,6 +13,7 @@ function getDomainDataFromHost(host) {
     };
 
     var url = parseDomain(host, {
+        // https://iyware.com/dont-use-dev-for-development/
         customTlds: [
             "example",
             "invalid",
