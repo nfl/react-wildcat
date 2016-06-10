@@ -12,7 +12,15 @@ function getDomainDataFromHost(host) {
         "local": defaultSubdomain
     };
 
-    var url = parseDomain(host) || {
+    var url = parseDomain(host, {
+        // https://iyware.com/dont-use-dev-for-development/
+        customTlds: [
+            "example",
+            "invalid",
+            "localhost",
+            "test"
+        ]
+    }) || {
         domain: (host || "").split(":")[0],
         subdomain: defaultSubdomain,
         tld: undefined
