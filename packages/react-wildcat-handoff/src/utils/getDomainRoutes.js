@@ -12,7 +12,14 @@ function getDomainDataFromHost(host) {
         "local": defaultSubdomain
     };
 
-    var url = parseDomain(host) || {
+    var url = parseDomain(host, {
+        customTlds: [
+            "example",
+            "invalid",
+            "localhost",
+            "test"
+        ]
+    }) || {
         domain: (host || "").split(":")[0],
         subdomain: defaultSubdomain,
         tld: undefined
