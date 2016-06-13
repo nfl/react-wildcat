@@ -1,6 +1,7 @@
 const pkg = require("./package.json");
 const __DEV__ = (process.env.NODE_ENV === "development");
 const __PROD__ = (process.env.NODE_ENV === "production");
+const __BUNDLE__ = process.env.COVERAGE !== "e2e";
 
 function getPort(port, defaultPort) {
     if ((typeof port !== "undefined") && !(Number(port))) {
@@ -74,7 +75,7 @@ const wildcatConfig = {
 
         hotReload: !__PROD__,
 
-        serviceWorker: __PROD__,
+        serviceWorker: __PROD__ && __BUNDLE__,
 
         // Path to the client renderer. This can be a jspm package or a relative path
         renderHandler: "react-wildcat-handoff/client",

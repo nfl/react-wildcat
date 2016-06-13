@@ -31,10 +31,6 @@ lint:
 publish: lint
 	./shell/publish.sh
 
-test: lint
-	./shell/test.sh
-	./shell/test-browser.sh
-
 test-example:
 	./shell/test-example.sh
 

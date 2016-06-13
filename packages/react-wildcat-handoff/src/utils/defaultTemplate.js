@@ -12,6 +12,7 @@ module.exports = function defaultTemplate(cfg) {
     const clientSettings = wildcatConfig.clientSettings;
     const generalSettings = wildcatConfig.generalSettings;
 
+    const coverage = generalSettings.coverage;
     const entry = clientSettings.entry;
     const hotReload = clientSettings.hotReload;
     const hotReloader = clientSettings.hotReloader;
@@ -36,7 +37,7 @@ module.exports = function defaultTemplate(cfg) {
 
         <link rel="prefetch" href="${staticUrl}/jspm_packages/system.js" />
         <link rel="prefetch" href="${staticUrl}/system.config.js" />
-        ${__PROD__ ? `<link rel="prefetch" href="${staticUrl}/bundles/react.js" />` : ``}
+        ${__PROD__ && !coverage ? `<link rel="prefetch" href="${staticUrl}/bundles/react.js" />` : ``}
 
         ${helmetTags.join(``)}
     </head>
@@ -182,7 +183,7 @@ module.exports = function defaultTemplate(cfg) {
         </script>
 
         <script src="${staticUrl}/system.config.js"></script>
-        ${__PROD__ ? `<script src="${staticUrl}/bundles/react.js"></script>` : ``}
+        ${__PROD__ && !coverage ? `<script src="${staticUrl}/bundles/react.js"></script>` : ``}
 
         <script>
             Promise.all([
