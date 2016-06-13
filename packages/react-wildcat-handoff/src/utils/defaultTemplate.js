@@ -236,7 +236,11 @@ module.exports = function defaultTemplate(cfg) {
                     return client(clientOptions);
                 })
                 .then(function prebootComplete() {
-                    return preboot.complete();
+                    console.log("prebootComplete");
+                    window.setTimeout(() =>{
+                        console.log("OH HAI");
+                        return preboot.complete();
+                    }, 3000);
                 })
                 ${hotReload? `.then(function hotReloadFlag() {
                     // Flag hot reloading

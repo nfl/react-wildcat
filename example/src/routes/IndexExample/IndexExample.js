@@ -8,8 +8,9 @@ class Index extends React.Component {
         return (
             <div id="index">
                 <Helmet title="Index Example" />
-                <input type="checkbox" name="vehicle" value="Bike" />I have a bike<br />
-                <input type="checkbox" name="vehicle" value="Car" />I have a car
+                <span>First name:</span><input type="text" name="fname"></input>
+                <span>Last name:</span><input type="text" name="lname"></input>
+                <button onClick="clientClick()">Client View</button>
 
                 <h1>Index Page!</h1>
                 <img width="300" src={largeFile} alt="An example of a large file." />

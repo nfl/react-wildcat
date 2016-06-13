@@ -2,10 +2,11 @@ const fs = require("fs");
 const preboot = require("preboot");
 
 preboot.getBrowserCode({
-    appRoot: "body",    // selector for root element
-    freeze: "spinner",     // show spinner w button click & freeze page
+    appRoot: "#content",    // selector for root element
+    serverRoot: "#content",
+    // freeze: "spinner",     // show spinner w button click & freeze page
     replay: "rerender",    // rerender replay strategy
-    buffer: true,          // client app will not write to hidden div until bootstrap complete
+    buffer: false,          // client app will write to hidden div until bootstrap complete
     debug: true,
     uglify: false,
     presets: ["keyPress", "buttonPress", "focus"]
