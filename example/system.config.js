@@ -11,42 +11,6 @@ System.config({
     "domains/*": "public/domains/*",
     "metrics/*": "public/metrics/*"
   },
-  bundles: {
-    "bundles/vendor.js": [
-      "npm:react-wildcat-prefetch@4.1.0.js",
-      "npm:react-wildcat-prefetch@4.1.0/index.js",
-      "npm:hoist-non-react-statics@1.0.6.js",
-      "npm:hoist-non-react-statics@1.0.6/index.js",
-      "npm:invariant@2.2.1.js",
-      "npm:invariant@2.2.1/browser.js",
-      "npm:exenv@1.2.1.js",
-      "npm:exenv@1.2.1/index.js",
-      "npm:react-wildcat-handoff@4.1.1/dist/client.js",
-      "npm:isomorphic-fetch@2.2.1.js",
-      "npm:isomorphic-fetch@2.2.1/fetch-npm-browserify.js",
-      "npm:whatwg-fetch@0.9.0.js",
-      "npm:whatwg-fetch@0.9.0/fetch.js",
-      "npm:history@2.1.2/umd/history.js",
-      "npm:react-router@2.4.1/umd/ReactRouter.js",
-      "npm:react-wildcat-ensure@4.1.0.js",
-      "npm:react-wildcat-ensure@4.1.0/lib/index.js",
-      "npm:react-metrics@2.0.0/dist/react-metrics.js",
-      "npm:react-helmet@3.1.0.js",
-      "npm:react-helmet@3.1.0/lib/Helmet.js",
-      "npm:react-helmet@3.1.0/lib/PlainComponent.js",
-      "npm:react-helmet@3.1.0/lib/HelmetConstants.js",
-      "npm:deep-equal@1.0.1.js",
-      "npm:deep-equal@1.0.1/index.js",
-      "npm:deep-equal@1.0.1/lib/is_arguments.js",
-      "npm:deep-equal@1.0.1/lib/keys.js",
-      "npm:react-side-effect@1.0.2.js",
-      "npm:react-side-effect@1.0.2/lib/index.js",
-      "npm:fbjs@0.1.0-alpha.10/lib/shallowEqual.js",
-      "npm:fbjs@0.1.0-alpha.10/lib/ExecutionEnvironment.js",
-      "npm:radium@0.17.1/dist/radium.js",
-      "npm:babel-polyfill@6.9.0/dist/polyfill.js"
-    ]
-  },
   cjsDeferDepsExecute: true,
 
   packages: {
