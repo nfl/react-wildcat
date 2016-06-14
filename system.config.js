@@ -6,6 +6,7 @@ System.config({
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
   },
+
   map: {
     "cookies-js": "npm:cookies-js@1.2.2",
     "exenv": "npm:exenv@1.2.1",

@@ -6,8 +6,8 @@ preboot.getBrowserCode({
     freeze: "spinner",     // show spinner w button click & freeze page
     replay: "rerender",    // rerender replay strategy
     buffer: true,          // client app will write to hidden div until bootstrap complete
-    debug: false,
-    uglify: true,
+    debug: true,
+    uglify: false,
     presets: ["keyPress", "buttonPress", "focus"]
 }).then((r) => {
     return fs.writeFile("static/preboot.js", r);

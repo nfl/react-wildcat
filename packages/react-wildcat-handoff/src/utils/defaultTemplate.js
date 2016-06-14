@@ -239,7 +239,7 @@ module.exports = function defaultTemplate(cfg) {
                 })
                 .then(function prebootComplete() {
                     return preboot.complete();
-                })${hotReload? `.then(function hotReloadFlag() {
+                })${hotReload ? `.then(function hotReloadFlag() {
                     // Flag hot reloading
                     System.hot = true;
                 })` : ``}
