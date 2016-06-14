@@ -37,15 +37,17 @@ module.exports = function defaultTemplate(cfg) {
         <link rel="prefetch" href="${staticUrl}/jspm_packages/system.js" />
         <link rel="prefetch" href="${staticUrl}/system.config.js" />
         <link rel="prefetch" href="${staticUrl}/static/preboot.js" />
-
-        <script src="/preboot.js" />
-        <script> preboot.start(); </script>
         ${__PROD__ ? `<link rel="prefetch" href="${staticUrl}/bundles/react.js" />` : ``}
+
+        <script src="/preboot.js"></script>
 
         ${helmetTags.join(``)}
     </head>
     <body>
         <div id="${reactRootElementID}">${html}</div>
+        <script>
+            preboot.start();
+        </script>
 
         ${serviceWorker ? `
         <script src="/register-sw.js"></script>
@@ -236,13 +238,8 @@ module.exports = function defaultTemplate(cfg) {
                     return client(clientOptions);
                 })
                 .then(function prebootComplete() {
-                    console.log("prebootComplete");
-                    window.setTimeout(() =>{
-                        console.log("OH HAI");
-                        return preboot.complete();
-                    }, 3000);
-                })
-                ${hotReload? `.then(function hotReloadFlag() {
+                    return preboot.complete();
+                })${hotReload? `.then(function hotReloadFlag() {
                     // Flag hot reloading
                     System.hot = true;
                 })` : ``}
