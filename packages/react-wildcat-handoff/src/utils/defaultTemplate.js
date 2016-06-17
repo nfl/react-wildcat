@@ -19,6 +19,7 @@ module.exports = function defaultTemplate(cfg) {
     const reactRootElementID = clientSettings.reactRootElementID;
     const indexedDBModuleCache = clientSettings.indexedDBModuleCache;
     const serviceWorker = clientSettings.serviceWorker;
+    const enablePreboot = clientSettings.enablePreboot;
 
     const staticUrl = generalSettings.staticUrl;
     const socketUrl = staticUrl.replace("http", "ws");
@@ -36,18 +37,20 @@ module.exports = function defaultTemplate(cfg) {
 
         <link rel="prefetch" href="${staticUrl}/jspm_packages/system.js" />
         <link rel="prefetch" href="${staticUrl}/system.config.js" />
-        <link rel="prefetch" href="${staticUrl}/static/preboot.js" />
+        ${enablePreboot ? `<link rel="prefetch" href="${staticUrl}/static/preboot.js" />` : ``}
         ${__PROD__ ? `<link rel="prefetch" href="${staticUrl}/bundles/react.js" />` : ``}
 
-        <script src="/preboot.js"></script>
+        ${enablePreboot ? `<script src="/preboot.js"></script>` : ``}
 
         ${helmetTags.join(``)}
     </head>
     <body>
         <div id="${reactRootElementID}">${html}</div>
+
+        ${enablePreboot ? `
         <script>
             preboot.start();
-        </script>
+        </script>` : ``}
 
         ${serviceWorker ? `
         <script src="/register-sw.js"></script>
@@ -236,10 +239,9 @@ module.exports = function defaultTemplate(cfg) {
                     }` : ""}
                     // Pass options to server
                     return client(clientOptions);
-                })
-                .then(function prebootComplete() {
+                })${enablePreboot ? `.then(function prebootComplete() {
                     return preboot.complete();
-                })${hotReload ? `.then(function hotReloadFlag() {
+                })` : ``}${hotReload ? `.then(function hotReloadFlag() {
                     // Flag hot reloading
                     System.hot = true;
                 })` : ``}
