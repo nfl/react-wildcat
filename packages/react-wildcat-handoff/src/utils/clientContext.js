@@ -1,5 +1,6 @@
 var React = require("react");
 var Router = require("react-router").Router;
+var cookie = require("cookie");
 
 /**
  * Client Router is used to handle client routing
@@ -10,7 +11,7 @@ module.exports = function clientContext(cfg) {
     var ClientContext = React.createClass({
         childContextTypes: {
             headers: React.PropTypes.shape({
-                cookie: React.PropTypes.string,
+                cookies: React.PropTypes.object,
                 host: React.PropTypes.string,
                 referrer: React.PropTypes.string,
                 userAgent: React.PropTypes.string
@@ -21,7 +22,7 @@ module.exports = function clientContext(cfg) {
             // Pass user agent to Radium
             return {
                 headers: {
-                    cookie: document.cookie,
+                    cookies: cookie.parse(document.cookie),
                     host: window.location.host,
                     referrer: document.referrer,
                     userAgent: window.navigator.userAgent

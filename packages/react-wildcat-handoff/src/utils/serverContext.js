@@ -2,6 +2,8 @@
 
 const React = require("react");
 const Router = require("react-router");
+const cookie = require("cookie");
+
 const RouterContext = Router.RouterContext;
 
 module.exports = function serverContext(request, cookies, renderProps) {
@@ -9,7 +11,7 @@ module.exports = function serverContext(request, cookies, renderProps) {
     const ServerContext = React.createClass({
         childContextTypes: {
             headers: React.PropTypes.shape({
-                cookie: React.PropTypes.string,
+                cookies: React.PropTypes.object,
                 host: React.PropTypes.string,
                 referrer: React.PropTypes.string,
                 userAgent: React.PropTypes.string
@@ -20,7 +22,7 @@ module.exports = function serverContext(request, cookies, renderProps) {
             // Pass user agent to Radium
             return {
                 headers: {
-                    cookie: request.header.cookie,
+                    cookies: cookie.parse(request.header.cookie || ""),
                     host: request.header.host,
                     referrer: request.header.referer,
                     userAgent: request.header["user-agent"] || "*"
