@@ -8,6 +8,7 @@ System.config({
   },
 
   map: {
+    "cookie": "npm:cookie@0.3.1",
     "cookies-js": "npm:cookies-js@1.2.2",
     "exenv": "npm:exenv@1.2.1",
     "history": "npm:history@2.1.2",
