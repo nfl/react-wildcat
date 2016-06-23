@@ -1,12 +1,11 @@
 var React = require("react");
 var Router = require("react-router").Router;
-var cookie = require("cookie");
 
 /**
  * Client Router is used to handle client routing
  * @return {Promise}
  */
-module.exports = function clientContext(cfg) {
+module.exports = function clientContext(cfg, headers, renderProps) {
     /* eslint-disable react/no-multi-comp */
     var ClientContext = React.createClass({
         childContextTypes: {
@@ -21,12 +20,7 @@ module.exports = function clientContext(cfg) {
         getChildContext: function getChildContext() {
             // Pass user agent to Radium
             return {
-                headers: {
-                    cookies: cookie.parse(document.cookie),
-                    host: window.location.host,
-                    referrer: document.referrer,
-                    userAgent: window.navigator.userAgent
-                }
+                headers: headers
             };
         },
 

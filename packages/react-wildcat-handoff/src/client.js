@@ -2,6 +2,7 @@ require("isomorphic-fetch");
 
 var clientRender = require("./utils/clientRender.js");
 var getDomainRoutes = require("./utils/getDomainRoutes.js");
+var cookie = require("cookie");
 
 var createHistory = require("history").createHistory;
 var useRouterHistory = require("react-router").useRouterHistory;
@@ -15,15 +16,29 @@ function completeRender(cfg, routes) {
 }
 
 function render(cfg) {
-    var clientHistory = useRouterHistory(createHistory)();
-    var clientLocation = clientHistory.createLocation(location.pathname);
+    var headers = {
+        cookies: cookie.parse(document.cookie),
+        host: window.location.host,
+        referrer: document.referrer,
+        userAgent: window.navigator.userAgent
+    };
 
-    cfg.history = clientHistory;
-    cfg.location = clientLocation;
+    var clientHistory = useRouterHistory(createHistory)();
+    var clientLocation = clientHistory.createLocation(
+        Object.assign({}, location, {
+            state: headers
+        })
+    );
+
+    cfg = Object.assign({}, cfg, {
+        headers: headers,
+        history: clientHistory,
+        location: clientLocation
+    });
 
     if (!cfg.routes && cfg.domains) {
         return new Promise(function renderPromise(resolve, reject) {
-            getDomainRoutes(cfg.domains, location, function renderCallback(err, routes) {
+            getDomainRoutes(cfg.domains, headers, function renderCallback(err, routes) {
                 if (err) {
                     return reject(new Error(err));
                 }
