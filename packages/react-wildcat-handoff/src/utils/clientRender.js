@@ -8,10 +8,16 @@ var match = Router.match;
 var __REACT_ROOT_ID__ = "__REACT_ROOT_ID__";
 
 module.exports = function clientRender(cfg) {
-    var component = clientContext(cfg);
+    var headers = cfg.headers;
 
     return new Promise(function clientRenderPromise(resolve) {
-        match(cfg, function clientRenderMatch() {
+        match({
+            history: cfg.history,
+            location: cfg.location,
+            routes: cfg.routes
+        }, function clientRenderMatch(error, redirectLocation, renderProps) {
+            var component = clientContext(cfg, headers, renderProps);
+
             var reactRootElementID = window[__REACT_ROOT_ID__];
             var reactRootElement = document.getElementById(reactRootElementID);
 

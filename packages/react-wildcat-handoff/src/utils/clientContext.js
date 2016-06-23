@@ -24,9 +24,17 @@ module.exports = function clientContext(cfg, headers, renderProps) {
             };
         },
 
+        createElement: function createElement(Component, props) {
+            return React.createElement(Component, props);
+        },
+
         render: function render() {
+            var createElement = this.createElement;
+
             return (
-                React.createElement(Router, cfg)
+                React.createElement(Router, Object.assign({
+                    createElement: createElement
+                }, cfg, renderProps))
             );
         }
     });

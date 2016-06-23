@@ -1,20 +1,25 @@
 "use strict";
 
 const ReactDOM = require("react-dom/server");
-const Helmet = require("react-helmet");
 const Router = require("react-router");
+const serverContext = require("./serverContext.js");
+
+const Helmet = require("react-helmet");
 const defaultTemplate = require("./defaultTemplate.js");
 
-const serverContext = require("./serverContext.js");
 const match = Router.match;
 
 module.exports = function serverRender(cfg) {
-    const cookies = cfg.cookies;
+    const headers = cfg.headers;
     const request = cfg.request;
     const wildcatConfig = cfg.wildcatConfig;
 
     return new Promise(function serverRenderPromise(resolve, reject) {
-        match(cfg, function serverRenderMatch(error, redirectLocation, renderProps) {
+        match({
+            history: cfg.history,
+            location: cfg.location,
+            routes: cfg.routes
+        }, function serverRenderMatch(error, redirectLocation, renderProps) {
             let result = {};
 
             if (error) {
@@ -53,19 +58,18 @@ module.exports = function serverRender(cfg) {
                         })
                 )
                     .then(function serverRenderPromiseResult() {
-                        const renderType = wildcatConfig.serverSettings.renderType;
+                        var component = serverContext(cfg, headers, renderProps);
 
+                        const renderType = wildcatConfig.serverSettings.renderType;
                         const getRenderType = (typeof renderType === "function") ?
                             renderType({
                                 wildcatConfig,
                                 request,
-                                cookies,
+                                headers,
                                 renderProps
                             }) : renderType;
 
-                        const reactMarkup = ReactDOM[getRenderType](
-                            serverContext(request, cookies, renderProps)
-                        );
+                        const reactMarkup = ReactDOM[getRenderType](component);
 
                         const head = Object.assign({
                             link: "",
@@ -81,7 +85,7 @@ module.exports = function serverRender(cfg) {
                             html: reactMarkup,
                             wildcatConfig,
                             request,
-                            cookies,
+                            headers,
                             renderProps
                         });
 
