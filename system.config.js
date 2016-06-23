@@ -12,7 +12,7 @@ System.config({
     "cookies-js": "npm:cookies-js@1.2.2",
     "exenv": "npm:exenv@1.2.1",
     "history": "npm:history@2.1.2",
-    "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.6",
+    "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
     "invariant": "npm:invariant@2.2.1",
     "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
     "parse-domain": "npm:parse-domain@0.2.1",
@@ -20,9 +20,9 @@ System.config({
     "react-addons-test-utils": "npm:react-addons-test-utils@15.1.0",
     "react-dom": "npm:react-dom@15.1.0",
     "react-helmet": "npm:react-helmet@3.1.0",
-    "react-router": "npm:react-router@2.4.1",
+    "react-router": "npm:react-router@2.5.0",
     "react-wildcat-handoff": "npm:react-wildcat-handoff@4.1.1",
-    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@4.0.0",
+    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@4.1.0",
     "sinon": "npm:sinon@1.17.4",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
@@ -51,7 +51,7 @@ System.config({
       "path-browserify": "npm:path-browserify@0.0.0"
     },
     "github:jspm/nodelibs-process@0.1.2": {
-      "process": "npm:process@0.11.4"
+      "process": "npm:process@0.11.5"
     },
     "github:jspm/nodelibs-stream@0.1.0": {
       "stream-browserify": "npm:stream-browserify@1.0.0"
@@ -64,6 +64,9 @@ System.config({
     },
     "github:jspm/nodelibs-util@0.1.0": {
       "util": "npm:util@0.10.3"
+    },
+    "github:jspm/nodelibs-vm@0.1.0": {
+      "vm-browserify": "npm:vm-browserify@0.0.4"
     },
     "github:jspm/nodelibs-zlib@0.1.0": {
       "browserify-zlib": "npm:browserify-zlib@0.1.4"
@@ -162,9 +165,6 @@ System.config({
       "loose-envify": "npm:loose-envify@1.2.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:isarray@1.0.0": {
-      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
-    },
     "npm:isomorphic-fetch@2.2.1": {
       "node-fetch": "npm:node-fetch@1.5.3",
       "whatwg-fetch": "npm:whatwg-fetch@0.9.0"
@@ -206,8 +206,10 @@ System.config({
     "npm:process-nextick-args@1.0.7": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:process@0.11.4": {
-      "assert": "github:jspm/nodelibs-assert@0.1.0"
+    "npm:process@0.11.5": {
+      "assert": "github:jspm/nodelibs-assert@0.1.0",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "vm": "github:jspm/nodelibs-vm@0.1.0"
     },
     "npm:promise@7.1.1": {
       "asap": "npm:asap@2.0.4",
@@ -233,10 +235,11 @@ System.config({
       "shallowequal": "npm:shallowequal@0.2.2",
       "warning": "npm:warning@2.1.0"
     },
-    "npm:react-router@2.4.1": {
+    "npm:react-router@2.5.0": {
       "history": "npm:history@2.1.2",
-      "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.6",
+      "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
       "invariant": "npm:invariant@2.2.1",
+      "loose-envify": "npm:loose-envify@1.2.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "react": "npm:react@15.1.0",
       "warning": "npm:warning@2.1.0"
@@ -254,16 +257,16 @@ System.config({
       "react": "npm:react@15.1.0",
       "react-dom": "npm:react-dom@15.1.0",
       "react-helmet": "npm:react-helmet@3.1.0",
-      "react-router": "npm:react-router@2.4.1",
+      "react-router": "npm:react-router@2.5.0",
       "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@4.1.0"
     },
     "npm:react-wildcat-hot-reloader@4.1.0": {
       "debug": "npm:debug@2.2.0",
       "exenv": "npm:exenv@1.2.1"
     },
-    "npm:react-wildcat-prefetch@4.0.0": {
+    "npm:react-wildcat-prefetch@4.1.0": {
       "exenv": "npm:exenv@1.2.1",
-      "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.6",
+      "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
       "invariant": "npm:invariant@2.2.1",
       "react": "npm:react@15.1.0"
     },
@@ -328,6 +331,9 @@ System.config({
     "npm:util@0.10.3": {
       "inherits": "npm:inherits@2.0.1",
       "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:vm-browserify@0.0.4": {
+      "indexof": "npm:indexof@0.0.1"
     },
     "npm:warning@2.1.0": {
       "loose-envify": "npm:loose-envify@1.2.0",
