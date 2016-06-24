@@ -19,6 +19,7 @@ function render(cfg) {
     var headers = {
         cookies: cookie.parse(document.cookie),
         host: window.location.host,
+        protocol: window.location.protocol,
         referrer: document.referrer,
         userAgent: window.navigator.userAgent
     };
