@@ -11,7 +11,7 @@
     - Protractor + Mocha + Chai for e2e integration tests
     - eslint for static code analysis
 - **client**
-    - React 0.14 + React Router 1.0 on the cilent and server
+    - React + React Router on the cilent and server
     - Route-based lazy component loading with React Router + jspm
     - Radium for inline styling
     - Helmet for managing your document head
