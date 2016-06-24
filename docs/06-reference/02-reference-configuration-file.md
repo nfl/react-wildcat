@@ -1,9 +1,11 @@
 ## Reference configuration
 
+Configuration information for a wildcat project lives in a `wildcat.config.js` in the project's root directory. Everything is configurable, but by default wildcat loads [sensible defaults](../../packages/react-wildcat-handoff/src/utils/defaultTemplate.js). For a brand new project, we reccomend copying the [example project](../../example) and tweaking from there.  
+
 ```js
 const wildcatConfig = {
     generalSettings: {
-        // Grab the config file from package.json
+        // Config file for jspm. Defaults to the value defined in package.json
         jspmConfigFile: "config.js",
 
         // Project name
@@ -12,31 +14,39 @@ const wildcatConfig = {
         // Project version
         version: undefined,
 
-        // Instrument your code with Istanbul.
+        // {boolean} - Instrument your code with Istanbul.
         coverage: true,
 
         // Only applicable when coverage is true
         coverageSettings: {
+            // Pass in node 
             env: undefined,
 
+            // Instanbul settings for e2e integration tests with protractor
             e2e: {
                 instrumentation: {
+                    // Files to exclude from code coverage
                     excludes: []
                 },
 
                 reporting: {
+                    // Directory to write e2e coverage results
                     dir: "coverage/e2e",
+                    // Coverage format
                     reports: ["lcov", "html"]
                 }
             },
 
             unit: {
                 instrumentation: {
+                    // Files to exclude from code coverage
                     excludes: []
                 },
 
                 reporting: {
+                    // Directoryto write unit test coverage results
                     dir: "coverage/unit",
+                    // Coverage format
                     reports: ["lcov", "html"]
                 }
             }
@@ -55,7 +65,9 @@ const wildcatConfig = {
         // Path to the entry config file relative to the project root
         entry: "public/main.js",
 
-        hotReload: !__PROD__,
+        // {boolean} Enable/disable hot reloading
+        hotReload: true,
+        // Path to hot reloader
         hotReloader: "react-wildcat-hot-reloader",
 
         // Path to the client renderer. This can be a jspm package or a relative path
