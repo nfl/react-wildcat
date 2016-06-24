@@ -47,11 +47,6 @@ module.exports = function defaultTemplate(cfg) {
     <body>
         <div id="${reactRootElementID}">${html}</div>
 
-        ${enablePreboot ? `
-        <script>
-            preboot.start();
-        </script>` : ``}
-
         ${serviceWorker ? `
         <script src="/register-sw.js"></script>
         ` : `
@@ -240,7 +235,9 @@ module.exports = function defaultTemplate(cfg) {
                     // Pass options to server
                     return client(clientOptions);
                 })${enablePreboot ? `.then(function prebootComplete() {
-                    return preboot.complete();
+                    return System.import("preboot").then((preboot) => { 
+                        return preboot.complete(); 
+                    });
                 })` : ``}${hotReload ? `.then(function hotReloadFlag() {
                     // Flag hot reloading
                     System.hot = true;

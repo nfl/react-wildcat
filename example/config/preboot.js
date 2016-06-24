@@ -3,10 +3,19 @@ const preboot = require("preboot");
 
 try {
     const inlineCode = preboot.getInlineCode({
-        appRoot: "#content",    // selector for root element
+        serverClientRoot: [{
+            serverSelector: "#content",
+            clientSelector: "#content"
+        }],
         buffer: false,
         debug: true,
-        uglify: false
+        uglify: false,
+        eventSelectors: [{
+            selector: 'input[type="submit"],button',
+            events: ["click"],
+            preventDefault: true,
+            freeze: true
+        }]
     });
 
     fs.writeFile("static/preboot.js", inlineCode);

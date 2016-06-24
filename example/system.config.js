@@ -111,6 +111,7 @@ System.config({
     "exenv": "npm:exenv@1.2.1",
     "history": "npm:history@2.1.2",
     "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
+    "preboot": "npm:preboot@4.0.0",
     "radium": "npm:radium@0.17.1",
     "react": "npm:react@15.1.0",
     "react-addons-test-utils": "npm:react-addons-test-utils@15.1.0",
@@ -928,6 +929,11 @@ System.config({
     },
     "npm:pinkie-promise@2.0.1": {
       "pinkie": "npm:pinkie@2.0.4"
+    },
+    "npm:preboot@4.0.0": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "path": "github:jspm/nodelibs-path@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:process-nextick-args@1.0.7": {
       "process": "github:jspm/nodelibs-process@0.1.2"
