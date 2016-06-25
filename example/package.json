@@ -68,14 +68,13 @@
     "dependencies": {
       "babel-polyfill": "npm:babel-polyfill@^6.8.0",
       "exenv": "npm:exenv@^1.2.1",
-      "history": "npm:history@^2.1.1",
       "isomorphic-fetch": "npm:isomorphic-fetch@^2.2.1",
       "radium": "npm:radium@^0.17.1",
       "react": "npm:react@15.1.0",
       "react-dom": "npm:react-dom@15.1.0",
       "react-helmet": "npm:react-helmet@^3.1.0",
       "react-metrics": "npm:react-metrics@^2.0.0",
-      "react-router": "npm:react-router@^2.4.0",
+      "react-router": "npm:react-router@^2.5.0",
       "react-wildcat-ensure": "npm:react-wildcat-ensure@4.1.0",
       "react-wildcat-handoff": "npm:react-wildcat-handoff@4.1.1",
       "react-wildcat-prefetch": "npm:react-wildcat-prefetch@4.1.0"
