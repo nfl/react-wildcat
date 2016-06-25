@@ -1,6 +1,6 @@
 ## Reference configuration
 
-Configuration information for a wildcat project lives in a `wildcat.config.js` in the project's root directory. Everything is configurable, but by default wildcat loads [sensible defaults](../../packages/react-wildcat-handoff/src/utils/defaultTemplate.js). For a brand new project, we reccomend copying the [example project](../../example) and tweaking from there.  
+Configuration information for a wildcat project lives in a `wildcat.config.js` in the project's root directory. Everything is configurable, but by default wildcat loads [sensible defaults](https://github.com/nfl/react-wildcat/blob/master/packages/react-wildcat-handoff/src/utils/defaultTemplate.js). For a brand new project, we reccomend copying the [example project](https://github.com/nfl/react-wildcat/tree/master/example) and tweaking from there.  
 
 ```js
 const wildcatConfig = {

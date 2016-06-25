@@ -31,11 +31,11 @@
         - End-to-End Testing
 
 - CLI Tools
-    - wildcat
-    - wildcat-static-server
-    - wildcat-babel
-    - wildcat-karma-runner
-    - wildcat-protractor-runner
+    - [wildcat](docs/04-cli-tools/01-wildcat.md)
+    - [wildcat-static-server](docs/04-cli-tools/02-wildcat-static-server.md)
+    - [wildcat-babel](docs/04-cli-tools/03-wildcat-babel.md)
+    - [wildcat-karma-runner](docs/04-cli-tools/04-wildcat-karma-runner.md)
+    - [wildcat-protractor-runner](docs/04-cli-tools/05-wildcat-protractor-runner.md)
 
 - Advanced Usage
     - [Lazy Loading](docs/05-advanced-usage/01-lazy-loading.md)
