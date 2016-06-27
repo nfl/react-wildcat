@@ -80,11 +80,11 @@ System.config({
     "react-dom": "npm:react-dom@15.1.0",
     "react-helmet": "npm:react-helmet@3.1.0",
     "react-metrics": "npm:react-metrics@2.0.0",
-    "react-router": "npm:react-router@2.5.0",
+    "react-router": "npm:react-router@2.5.1",
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.2",
     "react-transform-jspm-hmr": "npm:react-transform-jspm-hmr@1.0.1",
     "react-wildcat-ensure": "npm:react-wildcat-ensure@4.1.0",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@4.1.1",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@4.2.0",
     "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@4.1.0",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@4.1.0",
     "redbox-react": "npm:redbox-react@1.2.9",
@@ -676,7 +676,7 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
       "http": "github:jspm/nodelibs-http@1.7.1",
-      "jsprim": "npm:jsprim@1.2.2",
+      "jsprim": "npm:jsprim@1.3.0",
       "sshpk": "npm:sshpk@1.8.3",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
@@ -759,7 +759,7 @@ System.config({
     "npm:jsonpointer@2.0.0": {
       "assert": "github:jspm/nodelibs-assert@0.1.0"
     },
-    "npm:jsprim@1.2.2": {
+    "npm:jsprim@1.3.0": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "extsprintf": "npm:extsprintf@1.0.2",
       "json-schema": "npm:json-schema@0.2.2",
@@ -955,7 +955,7 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "react-deep-force-update": "npm:react-deep-force-update@1.0.1"
     },
-    "npm:react-router@2.5.0": {
+    "npm:react-router@2.5.1": {
       "history": "npm:history@2.1.2",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
       "invariant": "npm:invariant@2.2.1",
@@ -971,7 +971,7 @@ System.config({
       "global": "npm:global@4.3.0",
       "react-proxy": "npm:react-proxy@1.1.8"
     },
-    "npm:react-wildcat-handoff@4.1.1": {
+    "npm:react-wildcat-handoff@4.2.0": {
       "cookie": "npm:cookie@0.3.1",
       "cookies-js": "npm:cookies-js@1.2.2",
       "history": "npm:history@2.1.2",
@@ -981,7 +981,7 @@ System.config({
       "react": "npm:react@15.1.0",
       "react-dom": "npm:react-dom@15.1.0",
       "react-helmet": "npm:react-helmet@3.1.0",
-      "react-router": "npm:react-router@2.5.0",
+      "react-router": "npm:react-router@2.5.1",
       "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@4.1.0"
     },
     "npm:react-wildcat-hot-reloader@4.1.0": {

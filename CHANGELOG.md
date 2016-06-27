@@ -1,3 +1,24 @@
+<a name="4.2.0"></a>
+# [4.2.0](https://github.com/nfl/react-wildcat/compare/4.1.0...v4.2.0) (2016-06-27)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Add cookie and referrer data support ([#139](https://github.com/nfl/react-wildcat/issues/139)) ([507611f](https://github.com/nfl/react-wildcat/commit/507611f))
+* **react-wildcat-handoff:** Add development-specific TLDs ([#137](https://github.com/nfl/react-wildcat/issues/137)) ([7d15c64](https://github.com/nfl/react-wildcat/commit/7d15c64))
+
+
+### Features
+
+* **example:** Add service worker caching to the example project ([#135](https://github.com/nfl/react-wildcat/issues/135)) ([9f9fa1e](https://github.com/nfl/react-wildcat/commit/9f9fa1e))
+
+
+### Performance Improvements
+
+* **example:** Move React into separate bundle. ([#134](https://github.com/nfl/react-wildcat/issues/134)) ([7176a4d](https://github.com/nfl/react-wildcat/commit/7176a4d))
+
+
+
 <a name="4.1.0"></a>
 # [4.1.0](https://github.com/nfl/react-wildcat/compare/4.0.0...v4.1.0) (2016-05-24)
 
