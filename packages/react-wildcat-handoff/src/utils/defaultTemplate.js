@@ -236,7 +236,10 @@ module.exports = function defaultTemplate(cfg) {
                     return client(clientOptions);
                 })${enablePreboot ? `.then(function prebootComplete() {
                     return System.import("preboot").then((Preboot) => { 
-                        return Preboot.preboot.complete(); 
+                        setTimeout(() => {
+                            console.log(Preboot.preboot);
+                            return Preboot.preboot.complete()
+                        }, 5000);
                     });
                 })` : ``}${hotReload ? `.then(function hotReloadFlag() {
                     // Flag hot reloading
