@@ -235,9 +235,8 @@ module.exports = function defaultTemplate(cfg) {
                     // Pass options to server
                     return client(clientOptions);
                 })${enablePreboot ? `.then(function prebootComplete() {
-                    return System.import("nfl-preboot").then((Preboot) => { 
-                        console.log("prebootComplete ", Preboot.preboot);
-                        return Preboot.preboot.complete();
+                    return System.import("nfl-preboot").then((Preboot) => {
+                        return Preboot.prebootClient().complete();
                     });
                 })` : ``}${hotReload ? `.then(function hotReloadFlag() {
                     // Flag hot reloading
