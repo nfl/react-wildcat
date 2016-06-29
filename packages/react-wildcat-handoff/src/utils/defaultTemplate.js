@@ -40,7 +40,7 @@ module.exports = function defaultTemplate(cfg) {
         ${enablePreboot ? `<link rel="prefetch" href="${staticUrl}/static/preboot.js" />` : ``}
         ${__PROD__ ? `<link rel="prefetch" href="${staticUrl}/bundles/react.js" />` : ``}
 
-        ${enablePreboot ? `<script src="/preboot.js"></script>` : ``}
+        ${enablePreboot ? `<script src="${staticUrl}/static/preboot.js"></script>` : ``}
 
         ${helmetTags.join(``)}
     </head>
@@ -235,11 +235,9 @@ module.exports = function defaultTemplate(cfg) {
                     // Pass options to server
                     return client(clientOptions);
                 })${enablePreboot ? `.then(function prebootComplete() {
-                    return System.import("preboot").then((Preboot) => { 
-                        setTimeout(() => {
-                            console.log(Preboot.preboot);
-                            return Preboot.preboot.complete()
-                        }, 5000);
+                    return System.import("nfl-preboot").then((Preboot) => { 
+                        console.log("prebootComplete ", Preboot.preboot);
+                        return Preboot.preboot.complete();
                     });
                 })` : ``}${hotReload ? `.then(function hotReloadFlag() {
                     // Flag hot reloading

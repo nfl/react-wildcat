@@ -8,6 +8,7 @@
     "koa-favicon": "^1.2.1",
     "koa-route": "^2.4.2",
     "koa-static": "^2.0.0",
+    "nfl-preboot": "^4.0.0",
     "preboot": "^4.0.0",
     "react-wildcat": "4.1.0",
     "rimraf": "^2.5.2"
@@ -71,6 +72,7 @@
       "exenv": "npm:exenv@^1.2.1",
       "history": "npm:history@^2.1.1",
       "isomorphic-fetch": "npm:isomorphic-fetch@^2.2.1",
+      "nfl-preboot": "npm:nfl-preboot@4.0.0",
       "radium": "npm:radium@^0.17.1",
       "react": "npm:react@15.1.0",
       "react-dom": "npm:react-dom@15.1.0",

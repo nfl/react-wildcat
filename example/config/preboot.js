@@ -1,5 +1,5 @@
 const fs = require("fs");
-const preboot = require("preboot");
+const preboot = require("nfl-preboot");
 
 try {
     const inlineCode = preboot.getInlineCode({
@@ -8,8 +8,8 @@ try {
             clientSelector: "#content"
         }],
         buffer: false,
-        debug: true,
-        uglify: false,
+        debug: false,
+        uglify: true,
         eventSelectors: [{
             selector: 'input[type="submit"],button',
             events: ["click"],

@@ -11,42 +11,6 @@ System.config({
     "domains/*": "public/domains/*",
     "metrics/*": "public/metrics/*"
   },
-  bundles: {
-    "bundles/vendor.js": [
-      "npm:react-wildcat-prefetch@4.1.0.js",
-      "npm:react-wildcat-prefetch@4.1.0/index.js",
-      "npm:hoist-non-react-statics@1.0.6.js",
-      "npm:hoist-non-react-statics@1.0.6/index.js",
-      "npm:invariant@2.2.1.js",
-      "npm:invariant@2.2.1/browser.js",
-      "npm:exenv@1.2.1.js",
-      "npm:exenv@1.2.1/index.js",
-      "npm:react-wildcat-handoff@4.1.1/dist/client.js",
-      "npm:isomorphic-fetch@2.2.1.js",
-      "npm:isomorphic-fetch@2.2.1/fetch-npm-browserify.js",
-      "npm:whatwg-fetch@0.9.0.js",
-      "npm:whatwg-fetch@0.9.0/fetch.js",
-      "npm:history@2.1.2/umd/history.js",
-      "npm:react-router@2.4.1/umd/ReactRouter.js",
-      "npm:react-wildcat-ensure@4.1.0.js",
-      "npm:react-wildcat-ensure@4.1.0/lib/index.js",
-      "npm:react-metrics@2.0.0/dist/react-metrics.js",
-      "npm:react-helmet@3.1.0.js",
-      "npm:react-helmet@3.1.0/lib/Helmet.js",
-      "npm:react-helmet@3.1.0/lib/PlainComponent.js",
-      "npm:react-helmet@3.1.0/lib/HelmetConstants.js",
-      "npm:deep-equal@1.0.1.js",
-      "npm:deep-equal@1.0.1/index.js",
-      "npm:deep-equal@1.0.1/lib/is_arguments.js",
-      "npm:deep-equal@1.0.1/lib/keys.js",
-      "npm:react-side-effect@1.0.2.js",
-      "npm:react-side-effect@1.0.2/lib/index.js",
-      "npm:fbjs@0.1.0-alpha.10/lib/shallowEqual.js",
-      "npm:fbjs@0.1.0-alpha.10/lib/ExecutionEnvironment.js",
-      "npm:radium@0.17.1/dist/radium.js",
-      "npm:babel-polyfill@6.9.0/dist/polyfill.js"
-    ]
-  },
   cjsDeferDepsExecute: true,
 
   packages: {
@@ -111,14 +75,14 @@ System.config({
     "exenv": "npm:exenv@1.2.1",
     "history": "npm:history@2.1.2",
     "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
-    "preboot": "npm:preboot@4.0.0",
+    "nfl-preboot": "npm:nfl-preboot@4.0.0",
     "radium": "npm:radium@0.17.1",
     "react": "npm:react@15.1.0",
     "react-addons-test-utils": "npm:react-addons-test-utils@15.1.0",
     "react-dom": "npm:react-dom@15.1.0",
     "react-helmet": "npm:react-helmet@3.1.0",
     "react-metrics": "npm:react-metrics@2.0.0",
-    "react-router": "npm:react-router@2.4.1",
+    "react-router": "npm:react-router@2.5.1",
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.2",
     "react-transform-hmr": "npm:react-transform-hmr@1.0.4",
     "react-transform-jspm-hmr": "npm:react-transform-jspm-hmr@1.0.1",
@@ -129,7 +93,7 @@ System.config({
     "redbox-react": "npm:redbox-react@1.2.5",
     "systemjs-plugin-babel": "npm:systemjs-plugin-babel@0.0.10",
     "github:jspm/nodelibs-assert@0.1.0": {
-      "assert": "npm:assert@1.3.0"
+      "assert": "npm:assert@1.4.1"
     },
     "github:jspm/nodelibs-buffer@0.1.0": {
       "buffer": "npm:buffer@3.6.0"
@@ -171,7 +135,7 @@ System.config({
       "path-browserify": "npm:path-browserify@0.0.0"
     },
     "github:jspm/nodelibs-process@0.1.2": {
-      "process": "npm:process@0.11.4"
+      "process": "npm:process@0.11.5"
     },
     "github:jspm/nodelibs-punycode@0.1.0": {
       "punycode": "npm:punycode@1.3.2"
@@ -251,7 +215,10 @@ System.config({
       "stream": "github:jspm/nodelibs-stream@0.1.0",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
-    "npm:assert@1.3.0": {
+    "npm:assert@1.4.1": {
+      "assert": "github:jspm/nodelibs-assert@0.1.0",
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
       "util": "npm:util@0.10.3"
     },
     "npm:async@1.5.2": {
@@ -842,6 +809,10 @@ System.config({
       "brace-expansion": "npm:brace-expansion@1.1.4",
       "path": "github:jspm/nodelibs-path@0.1.0"
     },
+    "npm:nfl-preboot@4.0.0": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "path": "github:jspm/nodelibs-path@0.1.0"
+    },
     "npm:node-fetch@1.5.3": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "encoding": "npm:encoding@0.1.12",
@@ -930,19 +901,16 @@ System.config({
     "npm:pinkie-promise@2.0.1": {
       "pinkie": "npm:pinkie@2.0.4"
     },
-    "npm:preboot@4.0.0": {
-      "fs": "github:jspm/nodelibs-fs@0.1.2",
-      "path": "github:jspm/nodelibs-path@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
     "npm:process-nextick-args@1.0.7": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:process@0.11.3": {
       "assert": "github:jspm/nodelibs-assert@0.1.0"
     },
-    "npm:process@0.11.4": {
-      "assert": "github:jspm/nodelibs-assert@0.1.0"
+    "npm:process@0.11.5": {
+      "assert": "github:jspm/nodelibs-assert@0.1.0",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "vm": "github:jspm/nodelibs-vm@0.1.0"
     },
     "npm:promise@7.1.1": {
       "asap": "npm:asap@2.0.4",
@@ -1001,10 +969,11 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "react-deep-force-update": "npm:react-deep-force-update@1.0.1"
     },
-    "npm:react-router@2.4.1": {
+    "npm:react-router@2.5.1": {
       "history": "npm:history@2.1.2",
-      "hoist-non-react-statics": "npm:hoist-non-react-statics@1.0.6",
+      "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
       "invariant": "npm:invariant@2.2.1",
+      "loose-envify": "npm:loose-envify@1.2.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "react": "npm:react@15.1.0",
       "warning": "npm:warning@2.1.0"
@@ -1030,7 +999,7 @@ System.config({
       "react": "npm:react@15.1.0",
       "react-dom": "npm:react-dom@15.1.0",
       "react-helmet": "npm:react-helmet@3.1.0",
-      "react-router": "npm:react-router@2.4.1",
+      "react-router": "npm:react-router@2.5.1",
       "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@4.1.0"
     },
     "npm:react-wildcat-hot-reloader@4.1.0": {
@@ -1049,7 +1018,7 @@ System.config({
       "object-assign": "npm:object-assign@4.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:readable-stream@1.0.34": {
+    "npm:readable-stream@1.1.14": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "core-util-is": "npm:core-util-is@1.0.2",
       "events": "github:jspm/nodelibs-events@0.1.1",
@@ -1180,7 +1149,7 @@ System.config({
     "npm:stream-browserify@1.0.0": {
       "events": "github:jspm/nodelibs-events@0.1.1",
       "inherits": "npm:inherits@2.0.1",
-      "readable-stream": "npm:readable-stream@1.0.34"
+      "readable-stream": "npm:readable-stream@1.1.14"
     },
     "npm:string_decoder@0.10.31": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
