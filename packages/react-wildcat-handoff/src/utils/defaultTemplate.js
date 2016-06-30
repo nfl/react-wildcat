@@ -47,6 +47,9 @@ module.exports = function defaultTemplate(cfg) {
     <body>
         <div id="${reactRootElementID}">${html}</div>
 
+        ${enablePreboot ? `
+        <script src="${staticUrl}/jspm_packages/npm/preboot@4.0.0/dist/preboot_browser.min.js"></script>` : ``}
+
         ${serviceWorker ? `
         <script src="/register-sw.js"></script>
         ` : `
@@ -235,9 +238,7 @@ module.exports = function defaultTemplate(cfg) {
                     // Pass options to server
                     return client(clientOptions);
                 })${enablePreboot ? `.then(function prebootComplete() {
-                    return System.import("nfl-preboot").then((Preboot) => {
-                        return Preboot.prebootClient().complete();
-                    });
+                    return preboot.complete();
                 })` : ``}${hotReload ? `.then(function hotReloadFlag() {
                     // Flag hot reloading
                     System.hot = true;
