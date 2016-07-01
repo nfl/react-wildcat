@@ -1,17 +1,18 @@
 var React = require("react");
 var Router = require("react-router").Router;
-var ExecutionEnvironment = require("exenv");
 
 /**
  * Client Router is used to handle client routing
  * @return {Promise}
  */
-module.exports = function clientContext(cfg) {
+module.exports = function clientContext(cfg, headers, renderProps) {
     /* eslint-disable react/no-multi-comp */
     var ClientContext = React.createClass({
         childContextTypes: {
             headers: React.PropTypes.shape({
+                cookies: React.PropTypes.object,
                 host: React.PropTypes.string,
+                referrer: React.PropTypes.string,
                 userAgent: React.PropTypes.string
             })
         },
@@ -19,16 +20,21 @@ module.exports = function clientContext(cfg) {
         getChildContext: function getChildContext() {
             // Pass user agent to Radium
             return {
-                headers: {
-                    host: ExecutionEnvironment.canUseDOM ? window.location.host : null,
-                    userAgent: ExecutionEnvironment.canUseDOM ? window.navigator.userAgent : null
-                }
+                headers: headers
             };
         },
 
+        createElement: function createElement(Component, props) {
+            return React.createElement(Component, props);
+        },
+
         render: function render() {
+            var createElement = this.createElement;
+
             return (
-                React.createElement(Router, cfg)
+                React.createElement(Router, Object.assign({
+                    createElement: createElement
+                }, cfg, renderProps))
             );
         }
     });

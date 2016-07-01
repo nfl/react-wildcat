@@ -3,8 +3,10 @@
 const React = require("react");
 const Router = require("react-router");
 const prefetch = require("react-wildcat-prefetch");
+const cookie = require("cookie");
 
 exports.stubUserAgent = "Mozilla/5.0";
+exports.rawCookie = "FOO=1; BAR=2";
 
 exports.requests = {
     basic: {
@@ -63,6 +65,58 @@ exports.requests = {
         url: "/redirect"
     }
 };
+
+exports.headers = {
+    basic: {
+        cookies: cookie.parse(exports.rawCookie),
+        host: "www.example.com",
+        referrer: "www.google.com",
+        "user-agent": exports.stubUserAgent
+    },
+
+    ephemeral: {
+        cookies: cookie.parse(""),
+        host: "www-staging.example.com",
+        referrer: null,
+        "user-agent": exports.stubUserAgent
+    },
+
+    err: {
+        cookies: cookie.parse(""),
+        host: "err.example.com",
+        referrer: null,
+        "user-agent": exports.stubUserAgent
+    },
+
+    invalid: {
+        cookies: cookie.parse(""),
+        host: "www.example.com",
+        referrer: null,
+        "user-agent": exports.stubUserAgent
+    },
+
+    invalidSubdomain: {
+        cookies: cookie.parse(""),
+        host: "wwwstaging.example.com",
+        referrer: null,
+        "user-agent": exports.stubUserAgent
+    },
+
+    noSubdomain: {
+        cookies: cookie.parse(""),
+        host: "example.com",
+        referrer: null,
+        "user-agent": exports.stubUserAgent
+    },
+
+    redirect: {
+        cookies: cookie.parse(exports.rawCookie),
+        host: "www.example.com",
+        referrer: "www.google.com",
+        "user-agent": exports.stubUserAgent
+    }
+};
+
 
 exports.cookieData = {
     alias: {

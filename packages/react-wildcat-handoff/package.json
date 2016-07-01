@@ -1,17 +1,17 @@
 {
   "name": "react-wildcat-handoff",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "description": "Default client/server rendering for react-wildcat",
   "dependencies": {
+    "cookie": "^0.3.1",
     "cookies-js": "^1.2.2",
-    "exenv": "^1.2.1",
-    "history": "^2.1.1",
+    "history": "^2.1.2",
     "isomorphic-fetch": "^2.2.1",
     "parse-domain": "^0.2.1",
     "react": "15.1.0",
     "react-dom": "15.1.0",
     "react-helmet": "^3.1.0",
-    "react-router": "^2.4.0",
+    "react-router": "^2.5.0",
     "react-wildcat-hot-reloader": "4.1.0"
   },
   "devDependencies": {

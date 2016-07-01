@@ -64,8 +64,8 @@ function completeGetDomainRoutes(resolveOptions, cb) {
     return subdomainResult(host, cb);
 }
 
-module.exports = function getDomainRoutes(domains, header, cb) {
-    var host = header.host;
+module.exports = function getDomainRoutes(domains, headers, cb) {
+    var host = headers.host;
     var url = getDomainDataFromHost(host);
 
     var domain = url.domain;
