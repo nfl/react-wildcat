@@ -48,7 +48,7 @@ module.exports = function defaultTemplate(cfg) {
         <div id="${reactRootElementID}">${html}</div>
 
         ${enablePreboot ? `
-        <script src="${staticUrl}/jspm_packages/npm/preboot@4.0.0/dist/preboot_browser.min.js"></script>` : ``}
+        <script src="${staticUrl}/jspm_packages/npm/nfl-preboot@4.0.0/dist/preboot_browser.min.js"></script>` : ``}
 
         ${serviceWorker ? `
         <script src="/register-sw.js"></script>
