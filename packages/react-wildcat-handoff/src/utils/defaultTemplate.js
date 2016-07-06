@@ -12,7 +12,6 @@ module.exports = function defaultTemplate(cfg) {
     const clientSettings = wildcatConfig.clientSettings;
     const generalSettings = wildcatConfig.generalSettings;
 
-    const coverage = generalSettings.coverage;
     const entry = clientSettings.entry;
     const hotReload = clientSettings.hotReload;
     const hotReloader = clientSettings.hotReloader;
@@ -20,6 +19,7 @@ module.exports = function defaultTemplate(cfg) {
     const reactRootElementID = clientSettings.reactRootElementID;
     const indexedDBModuleCache = clientSettings.indexedDBModuleCache;
     const serviceWorker = clientSettings.serviceWorker;
+    const enablePreboot = clientSettings.enablePreboot;
 
     const staticUrl = generalSettings.staticUrl;
     const socketUrl = staticUrl.replace("http", "ws");
@@ -37,12 +37,19 @@ module.exports = function defaultTemplate(cfg) {
 
         <link rel="prefetch" href="${staticUrl}/jspm_packages/system.js" />
         <link rel="prefetch" href="${staticUrl}/system.config.js" />
-        ${__PROD__ && !coverage ? `<link rel="prefetch" href="${staticUrl}/bundles/react.js" />` : ``}
+        ${enablePreboot ? `<link rel="prefetch" href="${staticUrl}/static/preboot.js" />` : ``}
+        ${__PROD__ ? `<link rel="prefetch" href="${staticUrl}/bundles/react.js" />` : ``}
+
+        ${enablePreboot ? `<script src="${staticUrl}/static/preboot.js"></script>` : ``}
 
         ${helmetTags.join(``)}
     </head>
     <body>
         <div id="${reactRootElementID}">${html}</div>
+
+        ${enablePreboot ? `
+        <script src="${staticUrl}/jspm_packages/npm/nfl-preboot@4.0.0/dist/preboot_browser.min.js"></script>` : ``}
+
         ${serviceWorker ? `
         <script src="/register-sw.js"></script>
         ` : `
@@ -183,7 +190,7 @@ module.exports = function defaultTemplate(cfg) {
         </script>
 
         <script src="${staticUrl}/system.config.js"></script>
-        ${__PROD__ && !coverage ? `<script src="${staticUrl}/bundles/react.js"></script>` : ``}
+        ${__PROD__ ? `<script src="${staticUrl}/bundles/react.js"></script>` : ``}
 
         <script>
             Promise.all([
@@ -230,8 +237,9 @@ module.exports = function defaultTemplate(cfg) {
                     }` : ""}
                     // Pass options to server
                     return client(clientOptions);
-                })
-                ${hotReload? `.then(function hotReloadFlag() {
+                })${enablePreboot ? `.then(function prebootComplete() {
+                    return preboot.complete();
+                })` : ``}${hotReload ? `.then(function hotReloadFlag() {
                     // Flag hot reloading
                     System.hot = true;
                 })` : ``}

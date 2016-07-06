@@ -8,6 +8,7 @@ import * as errorExampleRoutes from "./routes/ErrorExample/routes.js";
 import * as flexboxExampleRoutes from "./routes/FlexboxExample/routes.js";
 import * as helmetExampleRoutes from "./routes/HelmetExample/routes.js";
 import * as prefetchExampleRoutes from "./routes/PrefetchExample/routes.js";
+import * as prebootExampleRoutes from "./routes/PrebootExample/routes.js";
 
 const Routes = (
     <Route path="/" component={ApplicationContext}>
@@ -17,6 +18,7 @@ const Routes = (
         <Route {...flexboxExampleRoutes} />
         <Route {...helmetExampleRoutes} />
         <Route {...prefetchExampleRoutes} />
+        <Route {...prebootExampleRoutes} />
 
         <Redirect from="/redirect" to="/flexbox-example" />
     </Route>

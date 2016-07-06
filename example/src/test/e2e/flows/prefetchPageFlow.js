@@ -16,7 +16,7 @@ describe("Prefetch Page", () => {
             await prefetchPage.getLocation();
 
             const appLinks = await indexPage.getNavigationLinks();
-            expect(appLinks).to.have.length.of(6);
+            expect(appLinks).to.have.length.of(7);
 
             done();
         } catch (e) {

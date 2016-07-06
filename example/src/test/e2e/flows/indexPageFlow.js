@@ -2,6 +2,7 @@ import {expect} from "chai/index.js";
 
 import IndexPageObject from "../objects/IndexPageObject.js";
 import FlexboxPageObject from "../objects/FlexboxPageObject.js";
+import PrebootPageObject from "../objects/PrebootPageObject.js";
 import PrefetchPageObject from "../objects/PrefetchPageObject.js";
 import HelmetPageObject from "../objects/HelmetPageObject.js";
 
@@ -12,6 +13,7 @@ describe("Index Page", () => {
     const flexboxPage = new FlexboxPageObject();
     const prefetchPage = new PrefetchPageObject();
     const helmetPage = new HelmetPageObject();
+    const prebootPage = new PrebootPageObject();
 
     it("setup", async (done) => {
         try {
@@ -21,7 +23,7 @@ describe("Index Page", () => {
             expect(landingUrl).to.equal(IndexPageObject.location);
 
             const appLinks = await indexPage.getNavigationLinks();
-            expect(appLinks).to.have.length.of(6);
+            expect(appLinks).to.have.length.of(7);
 
             done();
         } catch (e) {
@@ -53,6 +55,20 @@ describe("Index Page", () => {
 
                     const flexboxUrl = await browser.getCurrentUrl();
                     expect(flexboxUrl).to.equal(FlexboxPageObject.location);
+
+                    done();
+                } catch (e) {
+                    done(e);
+                }
+            });
+
+            it("/preboot-example route", async (done) => {
+                try {
+                    await prebootPage.getNavigationLink().click();
+                    await prebootPage.sleepUntilPageAvailable();
+
+                    const prefetchUrl = await browser.getCurrentUrl();
+                    expect(prefetchUrl).to.equal(PrebootPageObject.location);
 
                     done();
                 } catch (e) {

@@ -9,3 +9,4 @@ npm-debug.log
 public/
 reports/
 static/service-worker.js
+static/preboot.js

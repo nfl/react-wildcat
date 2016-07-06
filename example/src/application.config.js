@@ -11,6 +11,10 @@ export const links = [{
     to: "/prefetch-example",
     text: "Prefetch Example"
 }, {
+    id: "preboot-link",
+    to: "/preboot-example",
+    text: "Preboot Example"
+}, {
     id: "helmet-link",
     to: "/helmet-example",
     text: "Helmet Example"

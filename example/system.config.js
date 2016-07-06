@@ -74,6 +74,7 @@ System.config({
     "enzyme": "npm:enzyme@2.3.0",
     "exenv": "npm:exenv@1.2.1",
     "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
+    "nfl-preboot": "npm:nfl-preboot@4.0.0",
     "radium": "npm:radium@0.17.1",
     "react": "npm:react@15.1.0",
     "react-addons-test-utils": "npm:react-addons-test-utils@15.1.0",
@@ -800,6 +801,10 @@ System.config({
     },
     "npm:minimatch@3.0.2": {
       "brace-expansion": "npm:brace-expansion@1.1.5",
+      "path": "github:jspm/nodelibs-path@0.1.0"
+    },
+    "npm:nfl-preboot@4.0.0": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0"
     },
     "npm:node-fetch@1.5.3": {
