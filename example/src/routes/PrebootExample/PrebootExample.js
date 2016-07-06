@@ -11,7 +11,7 @@ class Index extends React.Component {
 
     render() {
         return (
-            <div id="index">
+            <div id="preboot">
                 <Helmet title="Index Example" />
 
                 <h1>Preboot</h1>
