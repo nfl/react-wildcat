@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  wildcat:
+    build:
+      context: .
+      args:
+        JSPM_GITHUB_AUTH_TOKEN:
+    image: "nfl/react-wildcat-example:latest"
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      HOST:
+      STATIC_URL:
+      STATIC_PORT:
+    volumes:
+      - ./node_modules:/src/node_modules
+      - ./jspm_packages:/src/jspm_packages
+    ports:
+      - "3000:3000"
+      - "4000:4000"
+    command: "npm run prod-local"
