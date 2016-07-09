@@ -10,13 +10,16 @@ services:
     environment:
       NODE_ENV: development
       PORT: 3000
-      HOST:
-      STATIC_URL:
-      STATIC_PORT:
+      STATIC_PORT: 4000
+      COVERAGE:
+      LOG_LEVEL:
     volumes:
-      - ./node_modules:/src/node_modules
-      - ./jspm_packages:/src/jspm_packages
+      - ./src:/src/src
+      - ./api:/src/api
     ports:
       - "3000:3000"
       - "4000:4000"
-    command: "npm run prod-local"
+    ulimits:
+      nproc: 65535
+    entrypoint: "npm run"
+    command: "dev"
