@@ -66,7 +66,7 @@ Clone this repository, then:
 
 - `make install`
 - `cd example`
-- `npm run dev`
+- `docker-compose up` or `npm run dev`
 - Open `https://localhost:3000`
 
 ## ulimit increase
