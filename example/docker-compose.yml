@@ -15,10 +15,10 @@
           LOG_LEVEL:
           NODE_TLS_REJECT_UNAUTHORIZED:
         working_dir: /code
-        dns_search: wildcat.localhost
+        dns_search: .localhost
         volumes:
-          - ./src:/code/src
-          - ./api:/code/api
+          - ./packages:/code/packages
+          - ./shell:/code/shell
         ports:
           - "3000:3000"
           - "4000:4000"
