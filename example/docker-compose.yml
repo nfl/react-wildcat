@@ -15,9 +15,10 @@
           LOG_LEVEL:
           NODE_TLS_REJECT_UNAUTHORIZED: 0
           CHOKIDAR_USEPOLLING: 'true'
+        working_dir: /code
         volumes:
-          - ./src:/src/src
-          - ./api:/src/api
+          - ./src:/code/src
+          - ./api:/code/api
         ports:
           - "3000:3000"
           - "4000:4000"
