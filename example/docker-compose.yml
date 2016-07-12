@@ -15,6 +15,7 @@
           LOG_LEVEL:
           NODE_TLS_REJECT_UNAUTHORIZED:
         working_dir: /code
+        dns_search: wildcat.localhost
         volumes:
           - ./src:/code/src
           - ./api:/code/api
