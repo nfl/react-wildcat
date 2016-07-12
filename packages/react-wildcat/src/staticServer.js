@@ -176,12 +176,14 @@ function start() {
             }
 
             if (!__PROD__) {
+                console.log("Prod is false staticServer.js");
                 const startWebSocketServer = require("./utils/startWebSocketServer");
 
                 startWebSocketServer(cwd, {
                     cache: fileServer.cache,
                     server,
                     watchOptions: {
+                        usePolling: true,
                         awaitWriteFinish: {
                             pollInterval: 100,
                             stabilityThreshold: 250

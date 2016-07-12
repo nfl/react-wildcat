@@ -3,6 +3,8 @@ ENV PATH ./node_modules/.bin/:$PATH
 ENV NPM_CONFIG_LOGLEVEL warn
 ARG JSPM_GITHUB_AUTH_TOKEN
 
+RUN apt-get update && apt-get install -y net-tools vim
+
 RUN mkdir /src
 WORKDIR /src
 

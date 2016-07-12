@@ -1,25 +1,27 @@
-version: '2'
+    version: '2'
 
-services:
-  wildcat:
-    build:
-      context: .
-      args:
-        JSPM_GITHUB_AUTH_TOKEN:
-    image: "nfl/react-wildcat-example:latest"
-    environment:
-      NODE_ENV: development
-      PORT: 3000
-      STATIC_PORT: 4000
-      COVERAGE:
-      LOG_LEVEL:
-    volumes:
-      - ./src:/src/src
-      - ./api:/src/api
-    ports:
-      - "3000:3000"
-      - "4000:4000"
-    ulimits:
-      nproc: 65535
-    entrypoint: "npm run"
-    command: "dev"
+    services:
+      wildcat:
+        build:
+          context: .
+          args:
+            JSPM_GITHUB_AUTH_TOKEN:
+        image: "nfl/react-wildcat-example:latest"
+        environment:
+          NODE_ENV: development
+          PORT: 3000
+          STATIC_PORT: 4000
+          COVERAGE:
+          LOG_LEVEL:
+          NODE_TLS_REJECT_UNAUTHORIZED: 0
+          CHOKIDAR_USEPOLLING: 'true'
+        volumes:
+          - ./src:/src/src
+          - ./api:/src/api
+        ports:
+          - "3000:3000"
+          - "4000:4000"
+        ulimits:
+          nproc: 65535
+        entrypoint: "npm run"
+        command: "dev"
