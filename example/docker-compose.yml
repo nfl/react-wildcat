@@ -13,8 +13,7 @@
           STATIC_PORT: 4000
           COVERAGE:
           LOG_LEVEL:
-          NODE_TLS_REJECT_UNAUTHORIZED: 0
-          CHOKIDAR_USEPOLLING: 'true'
+          NODE_TLS_REJECT_UNAUTHORIZED:
         working_dir: /code
         volumes:
           - ./src:/code/src
