@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  wildcat:
+    extra_hosts:
+      - "static.example.localhost:127.0.0.1"
+    ports:
+      - "3000:3000"
+      - "4000:4000"
+    volumes:
+      - ./src:/code/src
+      - ./api:/code/api
+    entrypoint: "npm run"
+    command: "dev"

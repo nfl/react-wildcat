@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+  wildcat:
+    extends:
+      file: ./docker-compose.yml
+      service: wildcat
+    build:
+      context: .
+      args:
+        JSPM_GITHUB_AUTH_TOKEN:
+    image: "nfl/react-wildcat-example:latest"
+    links:
+      - "static:static.example.localhost"
+    ports:
+      - "3000:3000"
+    entrypoint: "npm run"
+    command: "prod"
+
+  static:
+    extends:
+      file: ./docker-compose.yml
+      service: wildcat
+    build:
+      context: .
+      args:
+        JSPM_GITHUB_AUTH_TOKEN:
+    image: "nfl/react-wildcat-example:latest"
+    environment: 
+      STATIC_HOST: static.example.localhost
+    ports:
+      - "4000:4000"
+    entrypoint: "npm run"
+    command: "prod-static"
+     

@@ -1,7 +1,18 @@
+const fs = require("fs");
+const path = require("path");
+
 const pkg = require("./package.json");
 const __DEV__ = (process.env.NODE_ENV === "development");
 const __PROD__ = (process.env.NODE_ENV === "production");
 const __BUNDLE__ = process.env.COVERAGE !== "e2e";
+
+function getDefaultSSLFile(filename) {
+    return fs.readFileSync(path.join(__dirname, `ssl/${filename}`), "utf8");
+}
+
+const defaultServerKey = getDefaultSSLFile("example.key");
+const defaultServerCert = getDefaultSSLFile("example.crt");
+const defaultServerCA = getDefaultSSLFile("example.csr");
 
 function getPort(port, defaultPort) {
     if ((typeof port !== "undefined") && !(Number(port))) {
@@ -117,7 +128,7 @@ const wildcatConfig = {
             // One of http2 | https | http
             protocol: "http2",
 
-            hostname: "localhost",
+            hostname: "example.localhost",
 
             // App server port
             port: getPort(process.env.PORT, 3000),
@@ -137,26 +148,26 @@ const wildcatConfig = {
             // e.g. /static -> http://example.com/static
             proxies: {
                 "/proxy": "http://example.com/proxy"
-            }
+            },
 
             // Only applicable when one of http2/https is true
             // https://github.com/indutny/node-spdy#options
-            // secureSettings: {
+            secureSettings: {
                 // Provide your own key / cert / ca
-                // key: fs.readFileSync("./ssl/appServer.key"),
-                // cert: fs.readFileSync("./ssl/appServer.crt"),
-                // ca: fs.readFileSync("./ssl/appServer.csr"),
+                key: defaultServerKey,
+                cert: defaultServerCert,
+                ca: defaultServerCA,
 
                 // If using http2, use the following protocols
-                // protocols: [
-                //     "h2",
-                //     "spdy/3.1",
-                //     "spdy/3",
-                //     "spdy/2",
-                //     "http/1.1",
-                //     "http/1.0"
-                // ]
-            // }
+                protocols: [
+                    "h2",
+                    "spdy/3.1",
+                    "spdy/3",
+                    "spdy/2",
+                    "http/1.1",
+                    "http/1.0"
+                ]
+            }
         },
 
         // config options for the static server
@@ -164,39 +175,40 @@ const wildcatConfig = {
             // An array of domains to allow for cross-origin requests
             corsOrigins: [
                 "localhost",
+                "example.localhost",
                 "example.com"
             ],
 
             // One of http2 | https | http
             protocol: "http2",
 
-            hostname: "localhost",
+            hostname: process.env.STATIC_HOST || "localhost",
 
             // Static server port
             port: getPort(process.env.STATIC_PORT, 4000),
 
             // number to limit the max number of CPU's
             // to spin up on a cluster
-            maxClusterCpuCount: Infinity // Infinity === as many CPU's as the machine has
+            maxClusterCpuCount: Infinity, // Infinity === as many CPU's as the machine has
 
             // Only applicable when one of http2/https is true
             // https://github.com/indutny/node-spdy#options
-            // secureSettings: {
+            secureSettings: {
                 // Provide your own key / cert / ca
-                // key: fs.readFileSync("./ssl/appServer.key"),
-                // cert: fs.readFileSync("./ssl/appServer.crt"),
-                // ca: fs.readFileSync("./ssl/appServer.csr"),
+                key: defaultServerKey,
+                cert: defaultServerCert,
+                ca: defaultServerCA,
 
                 // If using http2, use the following protocols
-                // protocols: [
-                //     "h2",
-                //     "spdy/3.1",
-                //     "spdy/3",
-                //     "spdy/2",
-                //     "http/1.1",
-                //     "http/1.0"
-                // ]
-           // }
+                protocols: [
+                    "h2",
+                    "spdy/3.1",
+                    "spdy/3",
+                    "spdy/2",
+                    "http/1.1",
+                    "http/1.0"
+                ]
+            }
         }
     }
 };
