@@ -20,8 +20,8 @@ System.config({
     "react-addons-test-utils": "npm:react-addons-test-utils@15.1.0",
     "react-dom": "npm:react-dom@15.1.0",
     "react-helmet": "npm:react-helmet@3.1.0",
-    "react-router": "npm:react-router@2.5.1",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@4.2.0",
+    "react-router": "npm:react-router@2.5.2",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@4.3.0",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@4.1.0",
     "sinon": "npm:sinon@1.17.4",
     "github:jspm/nodelibs-assert@0.1.0": {
@@ -235,7 +235,7 @@ System.config({
       "shallowequal": "npm:shallowequal@0.2.2",
       "warning": "npm:warning@2.1.0"
     },
-    "npm:react-router@2.5.1": {
+    "npm:react-router@2.5.2": {
       "history": "npm:history@2.1.2",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
       "invariant": "npm:invariant@2.2.1",
@@ -247,7 +247,7 @@ System.config({
     "npm:react-side-effect@1.0.2": {
       "fbjs": "npm:fbjs@0.1.0-alpha.10"
     },
-    "npm:react-wildcat-handoff@4.2.0": {
+    "npm:react-wildcat-handoff@4.3.0": {
       "cookie": "npm:cookie@0.3.1",
       "cookies-js": "npm:cookies-js@1.2.2",
       "history": "npm:history@2.1.2",
@@ -257,7 +257,7 @@ System.config({
       "react": "npm:react@15.1.0",
       "react-dom": "npm:react-dom@15.1.0",
       "react-helmet": "npm:react-helmet@3.1.0",
-      "react-router": "npm:react-router@2.5.1",
+      "react-router": "npm:react-router@2.5.2",
       "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@4.1.0"
     },
     "npm:react-wildcat-hot-reloader@4.1.0": {
