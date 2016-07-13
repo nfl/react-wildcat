@@ -380,6 +380,33 @@ describe("react-wildcat-handoff/server", () => {
             });
         });
 
+        context("matches domain aliases", () => {
+            ["async", "sync"].forEach((timing) => {
+                it(timing, (done) => {
+                    const serverHandoff = server(stubs.domains[timing]);
+
+                    expect(serverHandoff)
+                        .to.be.a("function")
+                        .that.has.property("name")
+                        .that.equals("serverHandoff");
+
+                    const result = serverHandoff(stubs.requests.ip, stubs.cookieParser, stubs.wildcatConfig)
+                        .then(response => {
+                            expect(response)
+                                .to.be.an("object")
+                                .that.has.property("html")
+                                .that.is.a("string");
+
+                            done();
+                        })
+                        .catch(error => done(error));
+
+                    expect(result)
+                        .to.be.an.instanceof(Promise);
+                });
+            });
+        });
+
         it("handles matching errors", (done) => {
             const serverHandoff = server(stubs.invalidDomains.async);
 
