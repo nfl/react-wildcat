@@ -1,16 +1,40 @@
 var parseDomain = require("parse-domain");
+var defaultSubdomain = "www";
 
 function getLeadingLeafDomain(subdomain) {
     var leafDomains = subdomain.split(".");
     return leafDomains[0];
 }
 
-function getDomainDataFromHost(host) {
-    var defaultSubdomain = "www";
+function mapDomainToAlias(host, domainAliases) {
+    var resolvedHost = host;
 
+    if (typeof domainAliases === "object") {
+        Object.keys(domainAliases)
+            .forEach(alias => {
+                var possibleHosts = domainAliases[alias];
+
+                possibleHosts.forEach(possibleHost => {
+                    if (host.startsWith(possibleHost)) {
+                        resolvedHost = alias;
+                    }
+                });
+            });
+    }
+
+    return resolvedHost;
+}
+
+function mapSubdomainToAlias(subdomain) {
     var subdomainAliases = {
         "local": defaultSubdomain
     };
+
+    return subdomainAliases[subdomain] || subdomain;
+}
+
+function getDomainDataFromHost(host, domains) {
+    var hostExcludingPort = (host || "").split(":")[0];
 
     var url = parseDomain(host, {
         // https://iyware.com/dont-use-dev-for-development/
@@ -21,15 +45,18 @@ function getDomainDataFromHost(host) {
             "test"
         ]
     }) || {
-        domain: (host || "").split(":")[0],
+        domain: hostExcludingPort,
         subdomain: defaultSubdomain,
         tld: undefined
     };
 
-    var subdomain = getLeadingLeafDomain(url.subdomain || defaultSubdomain);
-    var resolvedSubdomain = subdomainAliases[subdomain] || subdomain;
+    var resolvedDomain = mapDomainToAlias(url.domain, domains.domainAliases);
 
-    url.subdomain = resolvedSubdomain;
+    var subdomain = getLeadingLeafDomain(url.subdomain || defaultSubdomain);
+    var resolvedSubdomain = mapSubdomainToAlias(subdomain);
+
+    url.domain = resolvedDomain;
+    url.subdomain = resolvedSubdomain || defaultSubdomain;
     return url;
 }
 
@@ -66,7 +93,7 @@ function completeGetDomainRoutes(resolveOptions, cb) {
 
 module.exports = function getDomainRoutes(domains, headers, cb) {
     var host = headers.host;
-    var url = getDomainDataFromHost(host);
+    var url = getDomainDataFromHost(host, domains);
 
     var domain = url.domain;
     var subdomain = url.subdomain;
