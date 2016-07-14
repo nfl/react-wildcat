@@ -1,6 +1,7 @@
 FROM node:4.4.4
 ENV PATH ./node_modules/.bin/:$PATH
 ENV NPM_CONFIG_LOGLEVEL warn
+ENV NPM_CONFIG_OPTIONAL false
 
 # Github auth token has to be passed in during build time, unfortunately
 # the only way to do this is via an environment variable on the host 
@@ -12,6 +13,11 @@ RUN mkdir /code
 WORKDIR /code
 
 RUN npm install -g npm@3.10.5
+
+COPY ./package.json /code/package.json
+COPY ./system.config.js /code/system.config.js
+
+RUN npm install && jspm install -f
 
 COPY ./ ./
 ENTRYPOINT make
