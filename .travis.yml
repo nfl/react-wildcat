@@ -1,8 +1,9 @@
-sudo: required
-services:
-  - docker
+language: node_js
+sudo: false
+node_js:
+- 4.2
 script:
-  - docker-compose run make test-travis
+- make test-travis
 cache:
   directories:
     - node_modules
@@ -12,19 +13,15 @@ cache:
     - packages/react-wildcat/node_modules
     - packages/react-wildcat-ensure/node_modules
     - packages/react-wildcat-handoff/node_modules
-    - packages/react-wildcat-hot-reloader/node_modulesd
+    - packages/react-wildcat-hot-reloader/node_modules
     - packages/react-wildcat-prefetch/node_modules
     - packages/react-wildcat-test-runners/node_modules
 env:
   global:
-    - secure: mNbocfaFycx9+mSzw7lbipD9Ie5YSKiAnNMiadiUYoRO7eHkrPEdSNjNK2hJTx9uZ9egm4Ls2Z01edAhuPQ6ih7P2spVIxi0NLeQP+Asl99PW7b2jcY7NWTWvkiA3qKPeiucTHI3aVS83njI8zxpWHr9XBZd8sMEJRv47SFXzlFciJcX2r2nl7aCVxzDpv6IOEwrWTyY+TukeJPrOAYTRQ8xBmNWcTOCDlbMbdmURragESyMhaA3pcjMCiuo3FY92VojekDC3g1AHLtWC0MZ2GXxiXz1uMSyGCblai47bvw9O+vu/wFaZOIg7JjcKp91d30YxTu1JkTVFOzSBk3grCfINus04VOJiUanJwlxG//m+56CLRkT0Uz3WnJ6HfK8zJPPu/PZJZcGg2dTRZ6takT7uTvzm+K0BY755ln+SKb7r6bT33LgvKgwCTdvA3/c0XfDHM0sLWyb+WNh/x5e/hkyfIxuVhzkeOogYlzCYntUflJKfap99XYKdGBM02+zOAHNhMAbpblHjTQJjaviWR5M5PeHo9KDecMtreOd1vLXrSStE/9VJbIj+ufEJKxN1gObdtXbjN10cYDUSlngzd23N06uPweqVQwSuOO6hDt8uBYVLv6Dcu3k2kCS1aN61Rhk39PQlWQwYrKoQfDFGUYJQ+eRkDg5uYkW2ZKVXOU=
-    - DOCKER_COMPOSE_VERSION=1.8.0-rc2
-    - DOCKER_VERSION=1.11.2
+    secure: mNbocfaFycx9+mSzw7lbipD9Ie5YSKiAnNMiadiUYoRO7eHkrPEdSNjNK2hJTx9uZ9egm4Ls2Z01edAhuPQ6ih7P2spVIxi0NLeQP+Asl99PW7b2jcY7NWTWvkiA3qKPeiucTHI3aVS83njI8zxpWHr9XBZd8sMEJRv47SFXzlFciJcX2r2nl7aCVxzDpv6IOEwrWTyY+TukeJPrOAYTRQ8xBmNWcTOCDlbMbdmURragESyMhaA3pcjMCiuo3FY92VojekDC3g1AHLtWC0MZ2GXxiXz1uMSyGCblai47bvw9O+vu/wFaZOIg7JjcKp91d30YxTu1JkTVFOzSBk3grCfINus04VOJiUanJwlxG//m+56CLRkT0Uz3WnJ6HfK8zJPPu/PZJZcGg2dTRZ6takT7uTvzm+K0BY755ln+SKb7r6bT33LgvKgwCTdvA3/c0XfDHM0sLWyb+WNh/x5e/hkyfIxuVhzkeOogYlzCYntUflJKfap99XYKdGBM02+zOAHNhMAbpblHjTQJjaviWR5M5PeHo9KDecMtreOd1vLXrSStE/9VJbIj+ufEJKxN1gObdtXbjN10cYDUSlngzd23N06uPweqVQwSuOO6hDt8uBYVLv6Dcu3k2kCS1aN61Rhk39PQlWQwYrKoQfDFGUYJQ+eRkDg5uYkW2ZKVXOU=
 before_install:
-  - sudo rm /usr/local/bin/docker-compose
-  - sudo apt-get update 
-  - sudo apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y docker-engine
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
-  - docker-compose build
+- npm install -g nfl/jspm-cli#0.16.34/fetch-support
+- jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
+# Skip installing optional dependencies
+- npm config set optional false
+- npm config set loglevel warn
