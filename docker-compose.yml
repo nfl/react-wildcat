@@ -22,4 +22,5 @@
           - ./packages:/code/packages
         ulimits:
           nproc: 65535
-        entrypoint: "bash"
+        entrypoint: "make"
+        command: "install"
