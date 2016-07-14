@@ -22,7 +22,8 @@ env:
     - DOCKER_VERSION=1.11.2
 before_install:
   - sudo rm /usr/local/bin/docker-compose
-  - sudo apt-get install -y docker-engine
+  - sudo apt-get update 
+  - sudo apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y docker-engine
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
