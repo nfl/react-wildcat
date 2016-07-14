@@ -60,27 +60,43 @@ For first-time jspm users, you will need to configure it to use GitHub:
 
 Follow the steps to enable GitHub access.
 
-### Getting started
+### Getting started: docker development
+Clone this repository, then:
+
+- `cd example`
+- `docker-compose up`
+- Open `https://www.example.localhost:3000`
+
+This will run the example wildcat project, with automatic file syncing in `src/` and `api/`. The `example/` folder is a great starting point to create your own project.
+
+### Getting started: local development
 
 Clone this repository, then:
 
 - `make install`
 - `cd example`
-- `docker-compose up` or `npm run dev`
-- Open `https://localhost:3000`
+- `npm run dev`
+- Add the following to /etc/hosts:
 
-## ulimit increase
+```
+127.0.0.1 www.example.localhost
+127.0.0.1 static.example.localhost
+```
 
-You'll very likely need to increase the file watch limit. [Follow these steps](http://stackoverflow.com/a/27982223) to do so.
+- Open `https://www.example.localhost:3000`
+
+__Note:__ You'll very likely need to increase the file watch limit. [Follow these steps](http://stackoverflow.com/a/27982223) to do so.
+
+
 
 ## Accepting the development SSL certificate:
 
 While it is possible to run the environment with an untrusted SSL certificate, for best results you should have OS X trust the self-signed certificate. Here's how:
 
 - Run the development environment
-- Navigate to https://localhost:3000
+- Navigate to https://www.example.localhost:3000
 - Follow these steps: [http://www.andrewconnell.com/blog/setup-self-signed-certificates-trusting-them-on-os-x](http://www.andrewconnell.com/blog/setup-self-signed-certificates-trusting-them-on-os-x#add-the-certificate-as-a-trusted-root-authority)
-- Repeat the above steps for the static file server at https://localhost:4000
+- Repeat the above steps for the static file server at https://www.example.localhost:4000
 
 ## Production environment
 
@@ -97,6 +113,8 @@ This setup provides several benefits, including:
 - Delta static asset cache purging.
 - The ability to update static files without a server reboot.
 - An (optional) use of HTTP2, including push support for static assets.
+
+An example production setup with docker can be found in `example/docker-compose.prod.yml`. To run, use the command `docker-compose -f docker-compose.prod.yml up`.
 
 Each server should have the required tools installed (see above). Each server is designed to run in its own environment. Below is an implementation reference to set up and run the web prototype:
 
