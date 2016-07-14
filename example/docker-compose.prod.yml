@@ -9,7 +9,6 @@ services:
       context: .
       args:
         JSPM_GITHUB_AUTH_TOKEN:
-    image: "nfl/react-wildcat-example:latest"
     links:
       - "static:static.example.localhost"
     ports:
@@ -25,7 +24,6 @@ services:
       context: .
       args:
         JSPM_GITHUB_AUTH_TOKEN:
-    image: "nfl/react-wildcat-example:latest"
     environment: 
       STATIC_HOST: static.example.localhost
     ports:

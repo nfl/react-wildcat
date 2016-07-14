@@ -21,7 +21,7 @@ env:
     DOCKER_COMPOSE_VERSION: 1.8.0-rc2
     DOCKER_VERSION: 1.12.0-rc2
 before_install:
-  - sudo rm /usr/local/bin/docker-compose /usr/local/bin/docker
+  - sudo rm /usr/local/bin/docker-compose
   - sudo apt-get install docker=${DOCKER_COMPOSE_VERSION}
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
