@@ -182,7 +182,7 @@ const wildcatConfig = {
             // One of http2 | https | http
             protocol: "http2",
 
-            hostname: process.env.STATIC_HOST || "localhost",
+            hostname: process.env.STATIC_HOST || "static.example.localhost",
 
             // Static server port
             port: getPort(process.env.STATIC_PORT, 4000),
