@@ -2,7 +2,7 @@ import defaultTemplate from "./defaultTemplate.js"; // eslint-disable-line impor
 
 export const wildcatConfig = {
     generalSettings: {
-        staticUrl: "https://localhost:4000"
+        staticUrl: "https://static.example.localhost:4000"
     },
     clientSettings: {
         entry: "public/main.js",
