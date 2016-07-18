@@ -1,3 +1,13 @@
+<a name="4.3.1"></a>
+## [4.3.1](https://github.com/nfl/react-wildcat/compare/4.3.0...v4.3.1) (2016-07-18)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Replace arrow functions with named callbacks. ([9dd5f5f](https://github.com/nfl/react-wildcat/commit/9dd5f5f))
+
+
+
 <a name="4.3.0"></a>
 # [4.3.0](https://github.com/nfl/react-wildcat/compare/4.2.0...v4.3.0) (2016-07-13)
 
