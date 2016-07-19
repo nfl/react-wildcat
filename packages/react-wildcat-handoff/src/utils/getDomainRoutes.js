@@ -22,8 +22,10 @@ function mapDomainToAlias(host, domainAliases) {
                         }
                     });
                 } else {
-                    console.log("Not Array: ", possibleHosts);
-                    resolvedHost = mapDomainToAlias(host, possibleHosts);
+                    console.log("Not Array: ", possibleHosts, "Alias: ", alias);
+                    // resolvedHost = mapDomainToAlias(host, possibleHosts);
+                    resolvedHost = alias;
+                    console.log(resolvedHost);
                 }
             });
     }

@@ -406,7 +406,7 @@ describe("react-wildcat-handoff/server", () => {
 
                     const ip = {
                         header: {
-                            host: "www.example.localhost",
+                            host: "127.0.0.1",
                             "user-agent": exports.stubUserAgent
                         },
                         url: "/"
