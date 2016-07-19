@@ -273,14 +273,6 @@ exports.domainAliases = {
     }
 };
 
-// exports.domainAliases = {
-//     "example": [
-//         "127.0.0.1",
-//         "localhost"
-//     ]
-// };
-
-
 exports.domains = {
     async: {
         domains: {

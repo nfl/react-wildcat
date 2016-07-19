@@ -15,17 +15,13 @@ function mapDomainToAlias(host, domainAliases) {
                 var possibleHosts = domainAliases[alias];
 
                 if (Array.isArray(possibleHosts)) {
-                    console.log("Is Array: ", possibleHosts);
                     possibleHosts.forEach(possibleHost => {
                         if (host.startsWith(possibleHost)) {
                             resolvedHost = alias;
                         }
                     });
                 } else {
-                    console.log("Not Array: ", possibleHosts, "Alias: ", alias);
-                    // resolvedHost = mapDomainToAlias(host, possibleHosts);
                     resolvedHost = alias;
-                    console.log(resolvedHost);
                 }
             });
     }
