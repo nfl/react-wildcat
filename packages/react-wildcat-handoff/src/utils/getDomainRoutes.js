@@ -14,11 +14,15 @@ function mapDomainToAlias(host, domainAliases) {
             .forEach(alias => {
                 var possibleHosts = domainAliases[alias];
 
-                possibleHosts.forEach(possibleHost => {
-                    if (host.startsWith(possibleHost)) {
-                        resolvedHost = alias;
-                    }
-                });
+                if (Array.isArray(possibleHosts)) {
+                    possibleHosts.forEach(possibleHost => {
+                        if (host.startsWith(possibleHost)) {
+                            resolvedHost = alias;
+                        }
+                    });
+                } else {
+                    resolvedHost = mapDomainToAlias(host, possibleHosts);
+                }
             });
     }
 
