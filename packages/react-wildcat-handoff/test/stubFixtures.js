@@ -265,11 +265,21 @@ exports.unwrappedSubdomains = {
 };
 
 exports.domainAliases = {
-    "example": [
-        "127.0.0.1",
-        "localhost"
-    ]
+    "example": {
+        "www": [
+            "127.0.0.1",
+            "localhost"
+        ]
+    }
 };
+
+// exports.domainAliases = {
+//     "example": [
+//         "127.0.0.1",
+//         "localhost"
+//     ]
+// };
+
 
 exports.domains = {
     async: {

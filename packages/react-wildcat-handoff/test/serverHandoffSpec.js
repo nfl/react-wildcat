@@ -380,7 +380,7 @@ describe("react-wildcat-handoff/server", () => {
             });
         });
 
-        context("matches domain aliases", () => {
+        context.only("matches domain aliases", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
                     const serverHandoff = server(stubs.domains[timing]);
@@ -390,7 +390,29 @@ describe("react-wildcat-handoff/server", () => {
                         .that.has.property("name")
                         .that.equals("serverHandoff");
 
-                    const result = serverHandoff(stubs.requests.ip, stubs.cookieParser, stubs.wildcatConfig)
+                    // const result = serverHandoff(stubs.requests.ip, stubs.cookieParser, stubs.wildcatConfig)
+                    //     .then(response => {
+                    //         expect(response)
+                    //             .to.be.an("object")
+                    //             .that.has.property("html")
+                    //             .that.is.a("string");
+
+                    //         done();
+                    //     })
+                    //     .catch(error => done(error));
+
+                    // expect(result)
+                    //     .to.be.an.instanceof(Promise);
+
+                    const ip = {
+                        header: {
+                            host: "www.example.localhost",
+                            "user-agent": exports.stubUserAgent
+                        },
+                        url: "/"
+                    };
+
+                    const otherResult = serverHandoff(ip, stubs.cookieParser, stubs.wildcatConfig)
                         .then(response => {
                             expect(response)
                                 .to.be.an("object")
@@ -401,7 +423,7 @@ describe("react-wildcat-handoff/server", () => {
                         })
                         .catch(error => done(error));
 
-                    expect(result)
+                    expect(otherResult)
                         .to.be.an.instanceof(Promise);
                 });
             });
