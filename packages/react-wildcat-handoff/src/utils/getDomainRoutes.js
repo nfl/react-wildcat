@@ -11,11 +11,11 @@ function mapDomainToAlias(host, domainAliases) {
 
     if (typeof domainAliases === "object") {
         Object.keys(domainAliases)
-            .forEach(alias => {
+            .forEach(function withAlias(alias) {
                 var possibleHosts = domainAliases[alias];
 
                 if (Array.isArray(possibleHosts)) {
-                    possibleHosts.forEach(possibleHost => {
+                    possibleHosts.forEach(function withPossibleHost(possibleHost) {
                         if (host.startsWith(possibleHost)) {
                             resolvedHost = alias;
                         }
