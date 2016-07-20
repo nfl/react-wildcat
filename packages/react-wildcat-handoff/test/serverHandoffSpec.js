@@ -380,7 +380,7 @@ describe("react-wildcat-handoff/server", () => {
             });
         });
 
-        context.only("matches domain aliases", () => {
+        context("matches domain aliases", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
                     const serverHandoff = server(stubs.domains[timing]);
