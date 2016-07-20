@@ -52,10 +52,10 @@ function mapSubdomainToAlias(host, domainAliases) {
         var subdomainAliases = {
             "local": defaultSubdomain
         };
-        return subdomainAliases[subdomain];
+        return subdomainAliases[subdomain] || defaultSubdomain;
     }
 
-    return getLeadingLeafDomain(resolvedHost);
+    return getLeadingLeafDomain(resolvedHost) || defaultSubdomain;
 }
 
 function getDomainDataFromHost(host, domains) {
