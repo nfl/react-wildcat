@@ -48,11 +48,12 @@ function mapSubdomainToAlias(host, domainAliases) {
                 }
             });
     } else {
-        var subdomain = getLeadingLeafDomain(host || defaultSubdomain);
+        var subdomain = getLeadingLeafDomain(resolvedHost || defaultSubdomain);
         var subdomainAliases = {
             "local": defaultSubdomain
         };
-        return subdomainAliases[subdomain] || defaultSubdomain;
+        var result = subdomainAliases[subdomain] || defaultSubdomain;
+        return result;
     }
 
     return getLeadingLeafDomain(resolvedHost) || defaultSubdomain;
@@ -78,6 +79,8 @@ function getDomainDataFromHost(host, domains) {
 
     var resolvedDomain = mapDomainToAlias(url.domain, domains.domainAliases);
     url.domain = resolvedDomain;
+    url.subdomain = url.subdomain.length ? url.subdomain : defaultSubdomain;
+
     return url;
 }
 
