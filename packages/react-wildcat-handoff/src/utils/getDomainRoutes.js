@@ -16,8 +16,6 @@ function mapDomainToAlias(host, domainAliases) {
 
                 if (Array.isArray(possibleHosts)) {
                     possibleHosts.forEach(function withPossibleHost(possibleHost) {
-                        console.log("host: ", host);
-                        console.log("possibleHost: ", possibleHost);
                         if (host.startsWith(possibleHost)) {
                             resolvedHost = alias;
                         }
