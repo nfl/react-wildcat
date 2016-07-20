@@ -29,7 +29,7 @@ function mapDomainToAlias(host, domainAliases) {
     return resolvedHost;
 }
 
-function getSubdomainAlias(host, domainAliases) {
+function mapSubdomainToAlias(host, domainAliases) {
     var resolvedHost = host;
 
     if (typeof domainAliases === "object") {
@@ -44,28 +44,23 @@ function getSubdomainAlias(host, domainAliases) {
                         }
                     });
                 } else {
-                    resolvedHost = getSubdomainAlias(host, possibleHosts);
+                    resolvedHost = mapSubdomainToAlias(host, possibleHosts);
                 }
             });
     } else {
-        return defaultSubdomain;
+        var subdomain = getLeadingLeafDomain(host || defaultSubdomain);
+        var subdomainAliases = {
+            "local": defaultSubdomain
+        };
+        return subdomainAliases[subdomain];
     }
 
     return getLeadingLeafDomain(resolvedHost);
 }
 
-function mapSubdomainToAlias(subdomain) {
-    var subdomainAliases = {
-        "local": defaultSubdomain
-    };
-
-    return subdomainAliases[subdomain] || subdomain;
-}
-
 function getDomainDataFromHost(host, domains) {
     var hostExcludingPort = (host || "").split(":")[0];
-
-    var subdomainAlias = getSubdomainAlias(host, domains.domainAliases);
+    var resolvedSubdomain = mapSubdomainToAlias(host, domains.domainAliases);
 
     var url = parseDomain(host, {
         // https://iyware.com/dont-use-dev-for-development/
@@ -77,18 +72,12 @@ function getDomainDataFromHost(host, domains) {
         ]
     }) || {
         domain: hostExcludingPort,
-        subdomain: subdomainAlias,
+        subdomain: resolvedSubdomain,
         tld: undefined
     };
 
     var resolvedDomain = mapDomainToAlias(url.domain, domains.domainAliases);
-
-    var subdomain = getLeadingLeafDomain(url.subdomain || defaultSubdomain);
-    var resolvedSubdomain = mapSubdomainToAlias(subdomain);
-
     url.domain = resolvedDomain;
-    url.subdomain = resolvedSubdomain || defaultSubdomain;
-
     return url;
 }
 
