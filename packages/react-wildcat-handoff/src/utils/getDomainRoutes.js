@@ -29,6 +29,31 @@ function mapDomainToAlias(host, domainAliases) {
     return resolvedHost;
 }
 
+function getSubdomainAlias(host, domainAliases) {
+    var resolvedHost = host;
+
+    if (typeof domainAliases === "object") {
+        Object.keys(domainAliases)
+            .forEach(function withAlias(alias) {
+                var possibleHosts = domainAliases[alias];
+
+                if (Array.isArray(possibleHosts)) {
+                    possibleHosts.forEach(function withPossibleHost(possibleHost) {
+                        if (host.startsWith(possibleHost)) {
+                            resolvedHost = alias;
+                        }
+                    });
+                } else {
+                    resolvedHost = getSubdomainAlias(host, possibleHosts);
+                }
+            });
+    } else {
+        return defaultSubdomain;
+    }
+
+    return getLeadingLeafDomain(resolvedHost);
+}
+
 function mapSubdomainToAlias(subdomain) {
     var subdomainAliases = {
         "local": defaultSubdomain
@@ -40,6 +65,8 @@ function mapSubdomainToAlias(subdomain) {
 function getDomainDataFromHost(host, domains) {
     var hostExcludingPort = (host || "").split(":")[0];
 
+    var subdomainAlias = getSubdomainAlias(host, domains.domainAliases);
+
     var url = parseDomain(host, {
         // https://iyware.com/dont-use-dev-for-development/
         customTlds: [
@@ -50,7 +77,7 @@ function getDomainDataFromHost(host, domains) {
         ]
     }) || {
         domain: hostExcludingPort,
-        subdomain: defaultSubdomain,
+        subdomain: subdomainAlias,
         tld: undefined
     };
 
@@ -61,6 +88,7 @@ function getDomainDataFromHost(host, domains) {
 
     url.domain = resolvedDomain;
     url.subdomain = resolvedSubdomain || defaultSubdomain;
+
     return url;
 }
 
