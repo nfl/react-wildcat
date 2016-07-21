@@ -57,6 +57,14 @@ exports.requests = {
         url: "/"
     },
 
+    multiLevelSubdomain: {
+        header: {
+            host: "dev.www.example.com",
+            "user-agent": exports.stubUserAgent
+        },
+        url: "/"
+    },
+
     noSubdomain: {
         header: {
             host: "example.com",
@@ -274,6 +282,18 @@ exports.domainAliases = {
     }
 };
 
+exports.domainAliasesMultiLevel = {
+    "example": {
+        "www": {
+            "dev": [
+                "127.0.0.1",
+                "localhost",
+                "example"
+            ]
+        }
+    }
+};
+
 exports.domainAliasesNoSubdomain = {
     "example": [
         "127.0.0.1",
@@ -305,6 +325,25 @@ exports.domainsWithoutAliasedSubdomains = {
     async: {
         domains: {
             domainAliases: exports.domainAliasesNoSubdomain,
+
+            example: function getExampleRoutes(location, cb) {
+                return setTimeout(() => cb(null, exports.subdomains.async), 0);
+            }
+        }
+    },
+
+    sync: {
+        domains: {
+            domainAliases: exports.domainAliasesNoSubdomain,
+            example: exports.subdomains.sync
+        }
+    }
+};
+
+exports.multilevelAliasedDomains = {
+    async: {
+        domains: {
+            domainAliases: exports.domainAliasesMultiLevel,
 
             example: function getExampleRoutes(location, cb) {
                 return setTimeout(() => cb(null, exports.subdomains.async), 0);
