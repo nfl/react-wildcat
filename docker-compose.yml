@@ -15,6 +15,7 @@
           LOG_LEVEL:
           STATIC_HOST:
           NODE_TLS_REJECT_UNAUTHORIZED: 0
+          CI:
         working_dir: /code
         dns_search: example.localhost
         ulimits:

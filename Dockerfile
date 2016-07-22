@@ -9,18 +9,21 @@ ENV NPM_CONFIG_OPTIONAL false
 # This is the only dependency outside of docker that's needed
 ARG JSPM_GITHUB_AUTH_TOKEN
 
+# Set on travis, needed for combine-coverage.sh
+ARG CI
+
 RUN mkdir /code
 WORKDIR /code
 
 RUN npm install -g npm@3.10.5
-RUN npm install -g jspm
+RUN npm install -g jspm && jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
 
 COPY ./package.json /code/package.json
 COPY ./system.config.js /code/system.config.js
 
 COPY ./ ./
 
-RUN npm cache clean
+RUN npm cache clean && make test-travis
 
 ENTRYPOINT make
 CMD test-travis
