@@ -12,6 +12,7 @@ ARG JSPM_GITHUB_AUTH_TOKEN
 RUN mkdir /code
 WORKDIR /code
 
+COPY ./package.json /code/package.json
+COPY ./system.config.js /code/system.config.js
+
 COPY ./ ./
-ENTRYPOINT make
-CMD install

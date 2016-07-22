@@ -17,9 +17,6 @@
           NODE_TLS_REJECT_UNAUTHORIZED: 0
         working_dir: /code
         dns_search: example.localhost
-        volumes:
-          - ./example:/code/example
-          - ./packages:/code/packages
         ulimits:
           nproc: 65535
         entrypoint: "make"
