@@ -25,6 +25,9 @@
           TRAVIS_REPO_SLUG:
         working_dir: /code
         dns_search: example.localhost
+        volumes:
+          - ./example:/code/example
+          - ./packages:/code/packages
         ulimits:
           nproc: 65535
         entrypoint: "make"
