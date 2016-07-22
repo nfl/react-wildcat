@@ -49,6 +49,14 @@ exports.requests = {
         url: "/"
     },
 
+    ip: {
+        header: {
+            host: "127.0.0.1",
+            "user-agent": exports.stubUserAgent
+        },
+        url: "/"
+    },
+
     noSubdomain: {
         header: {
             host: "example.com",
@@ -256,14 +264,37 @@ exports.unwrappedSubdomains = {
     }
 };
 
+exports.domainAliases = {
+    "example": {
+        "www": [
+            "localhost",
+            "example",
+            "127.0.0.1"
+        ],
+        "dev": [
+            "127.0.0.2"
+        ]
+    }
+};
+
+exports.domainAliasesNoSubdomain = {
+    "example": [
+        "localhost",
+        "127.0.0.1",
+        "example"
+    ],
+    "dev": [
+        "test.com",
+        "127.0.0.2"
+    ]
+};
+
 exports.domains = {
     async: {
         domains: {
-            example: function getExampleRoutes(location, cb) {
-                return setTimeout(() => cb(null, exports.subdomains.async), 0);
-            },
+            domainAliases: exports.domainAliases,
 
-            localhost: function getLocalhostRoutes(location, cb) {
+            example: function getExampleRoutes(location, cb) {
                 return setTimeout(() => cb(null, exports.subdomains.async), 0);
             }
         }
@@ -271,8 +302,27 @@ exports.domains = {
 
     sync: {
         domains: {
-            example: exports.subdomains.sync,
-            localhost: exports.subdomains.sync
+            domainAliases: exports.domainAliases,
+            example: exports.subdomains.sync
+        }
+    }
+};
+
+exports.domainsWithoutAliasedSubdomains = {
+    async: {
+        domains: {
+            domainAliases: exports.domainAliasesNoSubdomain,
+
+            example: function getExampleRoutes(location, cb) {
+                return setTimeout(() => cb(null, exports.subdomains.async), 0);
+            }
+        }
+    },
+
+    sync: {
+        domains: {
+            domainAliases: exports.domainAliasesNoSubdomain,
+            example: exports.subdomains.sync
         }
     }
 };
@@ -280,6 +330,8 @@ exports.domains = {
 exports.unwrappedDomains = {
     async: {
         domains: {
+            domainAliases: exports.domainAliases,
+
             example: function getUnwrappedExampleRoutes(location, cb) {
                 return setTimeout(() => cb(null, exports.unwrappedSubdomains.async), 0);
             },
@@ -292,6 +344,8 @@ exports.unwrappedDomains = {
 
     sync: {
         domains: {
+            domainAliases: exports.domainAliases,
+
             example: exports.unwrappedSubdomains.sync,
             localhost: exports.unwrappedSubdomains.sync
         }
@@ -301,6 +355,8 @@ exports.unwrappedDomains = {
 exports.invalidDomains = {
     async: {
         domains: {
+            domainAliases: exports.domainAliases,
+
             example: function getInvalidExampleRoutes(location, cb) {
                 return setTimeout(() => cb(exports.callbackError, null), 0);
             },
