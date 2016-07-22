@@ -1,6 +1,6 @@
 sudo: required
-  services:
-    - docker
+services:
+  - docker
 script:
   - docker-compose run make test-travis
 cache:
