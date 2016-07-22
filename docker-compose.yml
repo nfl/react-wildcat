@@ -16,6 +16,13 @@
           STATIC_HOST:
           NODE_TLS_REJECT_UNAUTHORIZED: 0
           CI:
+          TRAVIS:
+          TRAVIS_COMMIT:
+          TRAVIS_JOB_NUMBER:
+          TRAVIS_BRANCH:
+          TRAVIS_JOB_ID:
+          TRAVIS_PULL_REQUEST:
+          TRAVIS_REPO_SLUG:
         working_dir: /code
         dns_search: example.localhost
         ulimits:

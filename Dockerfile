@@ -23,7 +23,5 @@ COPY ./system.config.js /code/system.config.js
 
 COPY ./ ./
 
-RUN npm cache clean && make test-travis
-
 ENTRYPOINT make
 CMD test-travis
