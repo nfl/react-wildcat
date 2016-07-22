@@ -84,7 +84,7 @@ System.config({
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.2",
     "react-transform-jspm-hmr": "npm:react-transform-jspm-hmr@1.0.1",
     "react-wildcat-ensure": "npm:react-wildcat-ensure@4.1.0",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@4.3.1",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@4.4.0",
     "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@4.1.0",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@4.1.0",
     "redbox-react": "npm:redbox-react@1.2.9",

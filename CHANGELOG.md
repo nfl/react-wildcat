@@ -1,3 +1,13 @@
+<a name="4.4.0"></a>
+# [4.4.0](https://github.com/nfl/react-wildcat/compare/4.3.1...v4.4.0) (2016-07-22)
+
+
+### Features
+
+* **react-wildcat-handoff:** Ability to alias by subdomain ([#146](https://github.com/nfl/react-wildcat/issues/146)) ([6221547](https://github.com/nfl/react-wildcat/commit/6221547))
+
+
+
 <a name="4.3.1"></a>
 ## [4.3.1](https://github.com/nfl/react-wildcat/compare/4.3.0...v4.3.1) (2016-07-18)
 
