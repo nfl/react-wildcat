@@ -265,9 +265,27 @@ exports.unwrappedSubdomains = {
 };
 
 exports.domainAliases = {
+    "example": {
+        "www": [
+            "localhost",
+            "example",
+            "127.0.0.1"
+        ],
+        "dev": [
+            "127.0.0.2"
+        ]
+    }
+};
+
+exports.domainAliasesNoSubdomain = {
     "example": [
+        "localhost",
         "127.0.0.1",
-        "localhost"
+        "example"
+    ],
+    "dev": [
+        "test.com",
+        "127.0.0.2"
     ]
 };
 
@@ -285,6 +303,25 @@ exports.domains = {
     sync: {
         domains: {
             domainAliases: exports.domainAliases,
+            example: exports.subdomains.sync
+        }
+    }
+};
+
+exports.domainsWithoutAliasedSubdomains = {
+    async: {
+        domains: {
+            domainAliases: exports.domainAliasesNoSubdomain,
+
+            example: function getExampleRoutes(location, cb) {
+                return setTimeout(() => cb(null, exports.subdomains.async), 0);
+            }
+        }
+    },
+
+    sync: {
+        domains: {
+            domainAliases: exports.domainAliasesNoSubdomain,
             example: exports.subdomains.sync
         }
     }
