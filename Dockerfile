@@ -16,3 +16,6 @@ COPY ./package.json /code/package.json
 COPY ./system.config.js /code/system.config.js
 
 COPY ./ ./
+
+ENTRYPOINT make
+CMD test-travis
