@@ -12,7 +12,8 @@ ARG JSPM_GITHUB_AUTH_TOKEN
 RUN mkdir /code
 WORKDIR /code
 
-RUN npm install -g npm@3.10.5 jspm
+RUN npm install -g npm@3.10.5
+RUN npm install -g jspm
 
 COPY ./package.json /code/package.json
 COPY ./system.config.js /code/system.config.js
