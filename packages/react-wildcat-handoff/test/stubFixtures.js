@@ -267,18 +267,25 @@ exports.unwrappedSubdomains = {
 exports.domainAliases = {
     "example": {
         "www": [
-            "127.0.0.1",
             "localhost",
-            "example"
+            "example",
+            "127.0.0.1"
+        ],
+        "dev": [
+            "127.0.0.2"
         ]
     }
 };
 
 exports.domainAliasesNoSubdomain = {
     "example": [
-        "127.0.0.1",
         "localhost",
+        "127.0.0.1",
         "example"
+    ],
+    "dev": [
+        "test.com",
+        "127.0.0.2"
     ]
 };
 

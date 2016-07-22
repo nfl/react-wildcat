@@ -9,10 +9,14 @@ function getLeadingLeafDomain(subdomain) {
 function mapDomainToAlias(host, domainAliases) {
     var resolvedHost = host;
 
+    console.log("mapDomainToAlias: ", host, domainAliases);
+
     if (typeof domainAliases === "object") {
         Object.keys(domainAliases)
             .forEach(function withAlias(alias) {
                 var possibleHosts = domainAliases[alias];
+                console.log("possibleHosts: ", possibleHosts);
+                console.log("alias: ", alias);
 
                 if (Array.isArray(possibleHosts)) {
                     possibleHosts.forEach(function withPossibleHost(possibleHost) {
@@ -25,7 +29,7 @@ function mapDomainToAlias(host, domainAliases) {
                 }
             });
     }
-
+    console.log("resolvedHost: ", resolvedHost);
     return resolvedHost;
 }
 
