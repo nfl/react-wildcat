@@ -23,4 +23,4 @@
         ulimits:
           nproc: 65535
         entrypoint: "make"
-        command: "test"
+        command: "test-travis"
