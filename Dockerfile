@@ -12,10 +12,14 @@ ARG JSPM_GITHUB_AUTH_TOKEN
 RUN mkdir /code
 WORKDIR /code
 
+RUN npm install -g npm@3.10.5 jspm
+
 COPY ./package.json /code/package.json
 COPY ./system.config.js /code/system.config.js
 
 COPY ./ ./
+
+RUN npm cache clean
 
 ENTRYPOINT make
 CMD test-travis
