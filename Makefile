@@ -42,7 +42,7 @@ test-node:
 
 test-cov: clean-coverage test-node test-browser combine-coverage
 
-test-travis: bootstrap install-example lint test-cov
+test-travis: bootstrap install-example test-cov
 
 update-dependencies:
 	./shell/update-dependencies.sh
