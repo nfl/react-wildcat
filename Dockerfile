@@ -1,7 +1,7 @@
 FROM node:4.4.4
 ENV PATH ./node_modules/.bin/:$PATH
 ENV NPM_CONFIG_LOGLEVEL warn
-ENV NPM_CONFIG_OPTIONAL false
+ENV NPM_CONFIG_OPTIONAL true
 
 # Github auth token has to be passed in during build time, unfortunately
 # the only way to do this is via an environment variable on the host
