@@ -20,8 +20,8 @@ ls("packages").forEach((loc) => {
     exec(`npm link`);
 
     if (name !== "react-wildcat" && name !== "react-wildcat-test-runners") {
-        console.log(`jspm link npm:${name}@${pkg.version} --log warn -y`);
-        exec(`jspm link npm:${name}@${pkg.version} --log warn -y`);
+        console.log(`jspm link npm:${name}@${pkg.version} --log ok -y`);
+        exec(`jspm link npm:${name}@${pkg.version} --log ok -y`);
     }
 
     cd(cwd);
