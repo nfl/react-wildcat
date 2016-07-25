@@ -15,11 +15,6 @@ WORKDIR /code
 RUN npm install -g npm@3.10.5
 RUN npm install -g jspm && jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
 
-COPY ./package.json /code/package.json
-COPY ./system.config.js /code/system.config.js
-
-RUN npm cache clean && npm install
-
 COPY ./ ./
 
 ENTRYPOINT make
