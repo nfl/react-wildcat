@@ -2,7 +2,7 @@ sudo: required
 services:
   - docker
 script:
-  - docker-compose run wildcat test-travis
+  - docker-compose up
 cache:
   directories:
     - node_modules
