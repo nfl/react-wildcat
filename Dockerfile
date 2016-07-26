@@ -12,8 +12,9 @@ ARG JSPM_GITHUB_AUTH_TOKEN
 RUN mkdir /code
 WORKDIR /code
 
-RUN npm install -g npm@3.10.5
-RUN npm install -g nfl/jspm-cli#0.16.34/fetch-support && jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN && jspm install
+RUN npm install -g npm@3.10.5 nfl/jspm-cli#0.16.34/fetch-support &&
+  jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN &&
+  jspm install
 
 COPY ./ ./
 
