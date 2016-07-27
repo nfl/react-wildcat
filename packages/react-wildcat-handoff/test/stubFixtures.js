@@ -57,6 +57,14 @@ exports.requests = {
         url: "/"
     },
 
+    multiSubdomain: {
+        header: {
+            host: "www.staging.example.com",
+            "user-agent": exports.stubUserAgent
+        },
+        url: "/"
+    },
+
     noSubdomain: {
         header: {
             host: "example.com",
