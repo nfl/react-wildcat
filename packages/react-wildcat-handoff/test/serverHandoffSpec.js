@@ -240,6 +240,33 @@ describe("react-wildcat-handoff/server", () => {
             });
         });
 
+        context("matches multi subdomains", () => {
+            ["async", "sync"].forEach((timing) => {
+                it(timing, (done) => {
+                    const serverHandoff = server(stubs.subdomains[timing]);
+
+                    expect(serverHandoff)
+                        .to.be.a("function")
+                        .that.has.property("name")
+                        .that.equals("serverHandoff");
+
+                    const result = serverHandoff(stubs.requests.multiSubdomain, stubs.cookieParser, stubs.wildcatConfig)
+                        .then(response => {
+                            expect(response)
+                                .to.be.an("object")
+                                .that.has.property("html")
+                                .that.is.a("string");
+
+                            done();
+                        })
+                        .catch(error => done(error));
+
+                    expect(result)
+                        .to.be.an.instanceof(Promise);
+                });
+            });
+        });
+
         context("matches ephemeral subdomains", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
