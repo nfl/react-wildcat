@@ -129,7 +129,7 @@ module.exports = function defaultTemplate(cfg) {
 
                 var db = new Dexie("jspm");
 
-                db.version(3).stores({
+                db.version(1).stores({
                     files: "&url,format,hash,contents,timestamp"
                 });
 
