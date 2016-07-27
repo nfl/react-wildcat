@@ -1,3 +1,14 @@
+<a name="4.4.1"></a>
+## [4.4.1](https://github.com/nfl/react-wildcat/compare/4.4.0...v4.4.1) (2016-07-27)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Fix initializing an IndexedDB cache in Firefox ([#141](https://github.com/nfl/react-wildcat/issues/141)) ([99cddef](https://github.com/nfl/react-wildcat/commit/99cddef)), closes [#141](https://github.com/nfl/react-wildcat/issues/141)
+* **react-wildcat-handoff:** Resolve multiple subdomains correctly ([#147](https://github.com/nfl/react-wildcat/issues/147)) ([024b5d4](https://github.com/nfl/react-wildcat/commit/024b5d4)), closes [#147](https://github.com/nfl/react-wildcat/issues/147)
+
+
+
 <a name="4.4.0"></a>
 # [4.4.0](https://github.com/nfl/react-wildcat/compare/4.3.1...v4.4.0) (2016-07-22)
 
