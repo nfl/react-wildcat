@@ -1,3 +1,18 @@
+<a name="4.5.0"></a>
+# [4.5.0](https://github.com/nfl/react-wildcat/compare/4.4.1...v4.5.0) (2016-08-08)
+
+
+### Bug Fixes
+
+* **react-wildcat-prefetch:** Check for existence of key before returning an undefined value. ([af1a1d9](https://github.com/nfl/react-wildcat/commit/af1a1d9))
+
+
+### Features
+
+* **react-wildcat-prefetch:** Allow users to define custom initial data keys ([b25cb51](https://github.com/nfl/react-wildcat/commit/b25cb51))
+
+
+
 <a name="4.4.1"></a>
 ## [4.4.1](https://github.com/nfl/react-wildcat/compare/4.4.0...v4.4.1) (2016-07-27)
 
