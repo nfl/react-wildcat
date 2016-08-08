@@ -1,7 +1,7 @@
 {
   "name": "react-wildcat-example",
   "description": "An example Wildcat project.",
-  "version": "4.4.1",
+  "version": "4.5.0",
   "dependencies": {
     "babel-cli": "^6.8.0",
     "jspm": "nfl/jspm-cli#0.16.34/fetch-support",
