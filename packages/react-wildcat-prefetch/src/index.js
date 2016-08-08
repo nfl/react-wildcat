@@ -3,8 +3,8 @@ import ExecutionEnvironment from "exenv";
 import invariant from "invariant";
 import hoistStatics from "hoist-non-react-statics";
 
-const __INITIAL_DATA__ = "__INITIAL_DATA__";
-const __DEFAULT_KEY__ = "asyncData";
+const __DEFAULT_INITIAL_DATA_KEY__ = "__INITIAL_DATA__";
+const __DEFAULT_ASYNC_DATA_KEY__ = "asyncData";
 const __DEFAULT_STATIC_METHOD__ = "fetchData";
 
 function getAction(action, ComposedComponent) {
@@ -69,29 +69,35 @@ function prefetchWrap(action, options) {
     var key;
 
     options = options || {};
-    key = options.key || (typeof options === "string" ? options : __DEFAULT_KEY__);
+    key = options.key || (typeof options === "string" ? options : __DEFAULT_ASYNC_DATA_KEY__);
 
     return function prefetchWrapper(ComposedComponent) {
         action = action || ComposedComponent[__DEFAULT_STATIC_METHOD__];
         var _action = getAction(action, ComposedComponent);
 
         var Prefetch = React.createClass({
+            propTypes: {
+                [__DEFAULT_INITIAL_DATA_KEY__]: React.PropTypes.string
+            },
+
             componentWillMount: function componentWillMount() {
                 /* istanbul ignore else */
                 if (ExecutionEnvironment.canUseDOM) {
-                    var initialData = window[__INITIAL_DATA__] ? {
-                        ...window[__INITIAL_DATA__]
+                    var initialDataID = this.props[__DEFAULT_INITIAL_DATA_KEY__] || __DEFAULT_INITIAL_DATA_KEY__;
+
+                    var initialData = window[initialDataID] ? {
+                        ...window[initialDataID]
                     } : undefined;
 
                     var newState = {};
 
                     if (initialData) {
                         // Delete stored objects
-                        if (window[__INITIAL_DATA__] && window[__INITIAL_DATA__][key]) {
-                            delete window[__INITIAL_DATA__][key];
+                        if (window[initialDataID] && window[initialDataID][key]) {
+                            delete window[initialDataID][key];
 
-                            if (!Object.keys(window[__INITIAL_DATA__]).length) {
-                                delete window[__INITIAL_DATA__];
+                            if (!Object.keys(window[initialDataID]).length) {
+                                delete window[initialDataID];
                             }
                         }
 
@@ -101,8 +107,10 @@ function prefetchWrap(action, options) {
 
                         invariantCheck(initialData, key, action, ComposedComponent);
 
-                        newState[key] = initialData[key];
-                        return this.setState(newState);
+                        if (key in initialData) {
+                            newState[key] = initialData[key];
+                            return this.setState(newState);
+                        }
                     }
 
                     return _action(this.props)
