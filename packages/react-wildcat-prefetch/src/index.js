@@ -107,8 +107,10 @@ function prefetchWrap(action, options) {
 
                         invariantCheck(initialData, key, action, ComposedComponent);
 
-                        newState[key] = initialData[key];
-                        return this.setState(newState);
+                        if (key in initialData) {
+                            newState[key] = initialData[key];
+                            return this.setState(newState);
+                        }
                     }
 
                     return _action(this.props)
@@ -123,12 +125,6 @@ function prefetchWrap(action, options) {
                             return this.setState(newState);
                         }.bind(this));
                 }
-            },
-
-            getDefaultProps: function getDefaultProps() {
-                return {
-                    [__DEFAULT_INITIAL_DATA_KEY__]: undefined
-                };
             },
 
             getInitialState: function getInitialState() {
