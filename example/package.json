@@ -69,9 +69,9 @@
       "babel-polyfill": "npm:babel-polyfill@^6.8.0",
       "exenv": "npm:exenv@^1.2.1",
       "isomorphic-fetch": "npm:isomorphic-fetch@^2.2.1",
-      "radium": "npm:radium@^0.17.1",
-      "react": "npm:react@15.1.0",
-      "react-dom": "npm:react-dom@15.1.0",
+      "radium": "npm:radium@0.18.1",
+      "react": "npm:react@15.3.1",
+      "react-dom": "npm:react-dom@15.3.1",
       "react-helmet": "npm:react-helmet@^3.1.0",
       "react-metrics": "npm:react-metrics@^2.0.0",
       "react-router": "npm:react-router@^2.5.0",
@@ -81,7 +81,7 @@
     },
     "devDependencies": {
       "enzyme": "npm:enzyme@^2.3.0",
-      "react-addons-test-utils": "npm:react-addons-test-utils@15.1.0",
+      "react-addons-test-utils": "npm:react-addons-test-utils@15.3.1",
       "react-transform-catch-errors": "npm:react-transform-catch-errors@^1.0.2",
       "react-transform-jspm-hmr": "npm:react-transform-jspm-hmr@^1.0.1",
       "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@4.1.0",
@@ -94,15 +94,6 @@
           "react/lib/ExecutionEnvironment": "@empty",
           "react/lib/ReactContext": "@empty"
         }
-      },
-      "npm:radium@0.17.1": {
-        "dependencies": {
-          "array-find": "npm:array-find@1.0.0",
-          "exenv": "npm:exenv@1.2.1",
-          "inline-style-prefixer": "npm:inline-style-prefixer@1.0.3"
-        },
-        "main": "dist/radium.js",
-        "registry": "jspm"
       }
     }
   },
