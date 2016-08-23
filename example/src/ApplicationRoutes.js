@@ -9,18 +9,12 @@ import * as flexboxExampleRoutes from "./routes/FlexboxExample/routes.js";
 import * as helmetExampleRoutes from "./routes/HelmetExample/routes.js";
 import * as prefetchExampleRoutes from "./routes/PrefetchExample/routes.js";
 
-const testEnter = (nextState, replace, callback) => {
-    console.log("OH HAI THAR");
-    replace("/prefetch-example");
-    callback();
-};
-
 const Routes = (
     <Route path="/" component={ApplicationContext}>
         <IndexRoute {...indexExampleRoutes} />
 
         <Route {...errorExampleRoutes} />
-        <Route {...flexboxExampleRoutes} onEnter={testEnter} />
+        <Route {...flexboxExampleRoutes} />
         <Route {...helmetExampleRoutes} />
         <Route {...prefetchExampleRoutes} />
 
