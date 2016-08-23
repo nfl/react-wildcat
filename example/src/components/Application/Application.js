@@ -23,16 +23,19 @@ class Application extends React.Component {
                     <header>
                         <nav role="navigation">
                             <ul>
-                                {links.map((link) => (
-                                    <li key={link.text}>
-                                        <Link
-                                            style={styles.a}
-                                            {...link}
-                                        >
-                                            {link.text}
-                                        </Link>
-                                    </li>
-                                ))}
+                                {links.map((link) => {
+                                    const {text, ...rest} = link;
+                                    return (
+                                        <li key={text}>
+                                            <Link
+                                                style={styles.a}
+                                                {...rest}
+                                            >
+                                                {text}
+                                            </Link>
+                                        </li>
+                                    );
+                                })}
                                 <li>
                                     <a key={404} href="not-found-route" style={styles.a}>404 Handling</a>
                                 </li>

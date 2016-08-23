@@ -80,7 +80,7 @@ System.config({
     "react-dom": "npm:react-dom@15.3.1",
     "react-helmet": "npm:react-helmet@3.1.0",
     "react-metrics": "npm:react-metrics@2.0.0",
-    "react-router": "npm:react-router@2.6.0",
+    "react-router": "npm:react-router@2.6.1",
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.2",
     "react-transform-jspm-hmr": "npm:react-transform-jspm-hmr@1.0.1",
     "react-wildcat-ensure": "npm:react-wildcat-ensure@4.1.0",
@@ -961,7 +961,7 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "react-deep-force-update": "npm:react-deep-force-update@1.0.1"
     },
-    "npm:react-router@2.6.0": {
+    "npm:react-router@2.6.1": {
       "history": "npm:history@2.1.2",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
       "invariant": "npm:invariant@2.2.1",
@@ -987,7 +987,7 @@ System.config({
       "react": "npm:react@15.3.1",
       "react-dom": "npm:react-dom@15.3.1",
       "react-helmet": "npm:react-helmet@3.1.0",
-      "react-router": "npm:react-router@2.6.0",
+      "react-router": "npm:react-router@2.6.1",
       "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@4.1.0"
     },
     "npm:react-wildcat-hot-reloader@4.1.0": {
