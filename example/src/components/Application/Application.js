@@ -37,7 +37,7 @@ class Application extends React.Component {
                                     );
                                 })}
                                 <li>
-                                    <a key={404} href="not-found-route" style={styles.a}>404 Handling</a>
+                                    <a href="not-found-route" key={404} style={styles.a}>404 Handling</a>
                                 </li>
                             </ul>
                         </nav>
