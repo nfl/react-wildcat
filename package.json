@@ -63,6 +63,9 @@
   },
   "jspm": {
     "configFile": "system.config.js",
+    "dependencies": {
+      "react-router": "npm:react-router@2.6.0"
+    },
     "devDependencies": {
       "cookie": "npm:cookie@^0.3.1",
       "cookies-js": "npm:cookies-js@^1.2.2",

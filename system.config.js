@@ -20,6 +20,7 @@ System.config({
     "react-addons-test-utils": "npm:react-addons-test-utils@15.3.1",
     "react-dom": "npm:react-dom@15.3.1",
     "react-helmet": "npm:react-helmet@3.1.0",
+    "react-router": "npm:react-router@2.6.0",
     "react-wildcat-handoff": "npm:react-wildcat-handoff@4.4.1",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@4.4.1",
     "sinon": "npm:sinon@1.17.5",
@@ -234,7 +235,7 @@ System.config({
       "shallowequal": "npm:shallowequal@0.2.2",
       "warning": "npm:warning@2.1.0"
     },
-    "npm:react-router@^2.5.0": {
+    "npm:react-router@2.6.0": {
       "history": "npm:history@2.1.2",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
       "invariant": "npm:invariant@2.2.1",
@@ -256,7 +257,7 @@ System.config({
       "react": "npm:react@15.3.1",
       "react-dom": "npm:react-dom@15.3.1",
       "react-helmet": "npm:react-helmet@3.1.0",
-      "react-router": "npm:react-router@^2.5.0",
+      "react-router": "npm:react-router@2.6.0",
       "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@4.1.0"
     },
     "npm:react-wildcat-hot-reloader@4.1.0": {
