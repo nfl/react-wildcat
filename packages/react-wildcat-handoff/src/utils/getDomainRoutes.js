@@ -92,7 +92,8 @@ function resolveSubdomain(domains, subdomain) {
     var possibleSubdomains = Object.keys(domains);
 
     var partialSubdomainMatch = possibleSubdomains.filter(function possibleSubdomain(sub) {
-        return subdomain.split("-").some(function domainPart(part) {
+        var leadingLeafDomain = getLeadingLeafDomain(subdomain);
+        return leadingLeafDomain.split("-").some(function domainPart(part) {
             return part === sub;
         });
     })[0];

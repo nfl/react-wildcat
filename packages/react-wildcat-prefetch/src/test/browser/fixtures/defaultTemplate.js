@@ -50,17 +50,9 @@ module.exports = function defaultTemplate(cfg) {
             });
         </script>
 
-        ${indexedDBModuleCache ? `<script src="//npmcdn.com/dexie@1.3.3/dist/dexie.min.js"></script>
+        ${indexedDBModuleCache ? `<script src="//npmcdn.com/dexie@1.4.1/dist/dexie.min.js"></script>
         <script>
             (function () {
-                var db = new Dexie("jspm");
-
-                db.version(1).stores({
-                    files: "&url,format,hash,contents,timestamp"
-                });
-
-                db.open();
-
                 var log = console.error.bind(console);
                 var timestamp = ${NOW};
 
@@ -106,29 +98,41 @@ module.exports = function defaultTemplate(cfg) {
 
                 // override fetch
                 System.originalFetch = System.fetch;
-                System.fetch = function (load) {
-                    var file = {
-                        url: "load_" + load.address,
-                        hash: hash(load.address)
-                    };
-
-                    return cachedCall(this, load, file, System.originalFetch);
-                };
 
                 // override translate
                 System.originalTranslate = System.translate;
-                System.translate = function (load) {
-                    if (!load.metadata.deps) {
-                        load.metadata.deps = []; // avoid https://github.com/systemjs/systemjs/pull/1158
-                    }
 
-                    var file = {
-                        url: "translate_" + load.address,
-                        hash: hash(load.source)
+                var db = new Dexie("jspm");
+
+                db.version(3).stores({
+                    files: "&url,format,hash,contents,timestamp"
+                });
+
+                db.on("ready", function () {
+                    System.fetch = function (load) {
+                        var file = {
+                            url: "load_" + load.address,
+                            hash: hash(load.address)
+                        };
+
+                        return cachedCall(this, load, file, System.originalFetch);
                     };
 
-                    return cachedCall(this, load, file, System.originalTranslate);
-                };
+                    System.translate = function (load) {
+                        if (!load.metadata.deps) {
+                            load.metadata.deps = []; // avoid https://github.com/systemjs/systemjs/pull/1158
+                        }
+
+                        var file = {
+                            url: "translate_" + load.address,
+                            hash: hash(load.source)
+                        };
+
+                        return cachedCall(this, load, file, System.originalTranslate);
+                    };
+                })
+
+                db.open();
             }());
         </script>` : ``}
 
