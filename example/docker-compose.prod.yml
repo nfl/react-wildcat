@@ -2,6 +2,8 @@ version: '2'
 
 services:
   wildcat:
+    dns_search:
+      - www.example.localhost
     extends:
       file: ./docker-compose.yml
       service: wildcat
@@ -17,6 +19,8 @@ services:
     command: "prod"
 
   static:
+    dns_search:
+      - static.example.localhost
     extends:
       file: ./docker-compose.yml
       service: wildcat
@@ -24,10 +28,10 @@ services:
       context: .
       args:
         JSPM_GITHUB_AUTH_TOKEN:
-    environment: 
+    environment:
       STATIC_HOST: static.example.localhost
     ports:
       - "4000:4000"
     entrypoint: "npm run"
     command: "prod-static"
-     
+

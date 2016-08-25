@@ -1,7 +1,11 @@
 version: '2'
 
 services:
-  wildcat:
+  www.example.localhost:
+    depends_on:
+      - selenium
+    dns_search:
+      - static.example.localhost
     extra_hosts:
       - "static.example.localhost:127.0.0.1"
     ports:
@@ -10,3 +14,18 @@ services:
     volumes:
       - ./src:/code/src
       - ./api:/code/api
+
+  selenium:
+    dns_search:
+      - selenium.example.localhost
+    # extra_hosts:
+    #   - "www.example.localhost:172.19.0.3"
+    #   - "static.example.localhost:172.19.0.3"
+    image: selenium/standalone-chrome-debug:2.52.0
+    environment:
+      no_proxy: localhost
+    volumes:
+      - /dev/urandom:/dev/random
+    ports:
+      - "4444:4444"
+      - "6900:5900"

@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-  wildcat:
+  www.example.localhost:
     extends:
       file: ../docker-compose.yml
       service: wildcat
@@ -10,7 +10,7 @@ services:
       args:
         JSPM_GITHUB_AUTH_TOKEN:
     image: "nfl/react-wildcat-example:latest"
-    environment: 
+    environment:
       STATIC_HOST: static.example.localhost
     entrypoint: "npm run"
     command: "dev"

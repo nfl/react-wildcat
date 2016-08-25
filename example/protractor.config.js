@@ -39,6 +39,7 @@ const e2eReportDir = coverageSettings.e2e.reporting.dir;
 
 /* global browser */
 exports.config = {
+    seleniumAddress: "http://selenium:4444/wd/hub",
     // The timeout in milliseconds for each script run on the browser. This should
     // be longer than the maximum time your application needs to stabilize between
     // tasks.
@@ -49,7 +50,7 @@ exports.config = {
     // Boolean. If true, Protractor will connect directly to the browser Drivers
     // at the locations specified by chromeDriver and firefoxPath. Only Chrome
     // and Firefox are supported for direct connect.
-    directConnect: true,
+    directConnect: false,
 
     framework: "mocha",
 
