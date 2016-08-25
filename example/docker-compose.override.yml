@@ -1,13 +1,18 @@
 version: '2'
 
 services:
-  www.example.localhost:
+  wildcat:
     depends_on:
       - selenium
     dns_search:
       - static.example.localhost
+      - www.example.localhost
     extra_hosts:
       - "static.example.localhost:127.0.0.1"
+    networks:
+      default:
+        aliases:
+          - www.example.localhost
     ports:
       - "3000:3000"
       - "4000:4000"
@@ -18,10 +23,9 @@ services:
   selenium:
     dns_search:
       - selenium.example.localhost
-    # extra_hosts:
-    #   - "www.example.localhost:172.19.0.3"
-    #   - "static.example.localhost:172.19.0.3"
-    image: selenium/standalone-chrome-debug:2.52.0
+    build:
+      context: ./ssl
+    image: nfl/standalone-chrome-debug:2.52.0
     environment:
       no_proxy: localhost
     volumes:

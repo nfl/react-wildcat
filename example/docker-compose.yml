@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-  www.example.localhost:
+  wildcat:
     extends:
       file: ../docker-compose.yml
       service: wildcat
