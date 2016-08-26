@@ -11,9 +11,6 @@ ARG JSPM_GITHUB_AUTH_TOKEN
 RUN mkdir /code
 WORKDIR /code
 
-COPY ssl/example.crt /usr/local/share/ca-certificates
-RUN update-ca-certificates
-
 RUN npm install -g npm@3.10.5
 
 COPY ./package.json /code/package.json

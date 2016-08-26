@@ -128,7 +128,7 @@ const wildcatConfig = {
             // One of http2 | https | http
             protocol: "http2",
 
-            hostname: "www.example.localhost",
+            hostname: "www.example.dev",
 
             // App server port
             port: getPort(process.env.PORT, 3000),
@@ -175,14 +175,14 @@ const wildcatConfig = {
             // An array of domains to allow for cross-origin requests
             corsOrigins: [
                 "localhost",
-                "www.example.localhost",
+                "www.example.dev",
                 "example.com"
             ],
 
             // One of http2 | https | http
             protocol: "http2",
 
-            hostname: process.env.STATIC_HOST || "static.example.localhost",
+            hostname: process.env.STATIC_HOST || "static.example.dev",
 
             // Static server port
             port: getPort(process.env.STATIC_PORT, 4000),

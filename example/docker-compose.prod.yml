@@ -3,7 +3,7 @@ version: '2'
 services:
   wildcat:
     dns_search:
-      - www.example.localhost
+      - www.example.dev
     extends:
       file: ./docker-compose.yml
       service: wildcat
@@ -12,7 +12,7 @@ services:
       args:
         JSPM_GITHUB_AUTH_TOKEN:
     links:
-      - "static:static.example.localhost"
+      - "static:static.example.dev"
     ports:
       - "3000:3000"
     entrypoint: "npm run"
@@ -20,7 +20,7 @@ services:
 
   static:
     dns_search:
-      - static.example.localhost
+      - static.example.dev
     extends:
       file: ./docker-compose.yml
       service: wildcat
@@ -29,7 +29,7 @@ services:
       args:
         JSPM_GITHUB_AUTH_TOKEN:
     environment:
-      STATIC_HOST: static.example.localhost
+      STATIC_HOST: static.example.dev
     ports:
       - "4000:4000"
     entrypoint: "npm run"

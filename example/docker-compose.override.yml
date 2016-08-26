@@ -5,14 +5,15 @@ services:
     depends_on:
       - selenium
     dns_search:
-      - static.example.localhost
-      - www.example.localhost
+      - static.example.dev
+      - www.example.dev
     extra_hosts:
-      - "static.example.localhost:127.0.0.1"
+      - "static.example.dev:127.0.0.1"
     networks:
       default:
         aliases:
-          - www.example.localhost
+          - www.example.dev
+          - static.example.dev
     ports:
       - "3000:3000"
       - "4000:4000"
@@ -22,14 +23,14 @@ services:
 
   selenium:
     dns_search:
-      - selenium.example.localhost
+      - selenium.example.dev
     build:
       context: ./ssl
     image: nfl/standalone-chrome-debug:2.52.0
     environment:
-      no_proxy: localhost
+      no_proxy: ""
     volumes:
-      - /dev/urandom:/dev/random
+      - /tmp:/e2e/uploads
     ports:
       - "4444:4444"
       - "6900:5900"

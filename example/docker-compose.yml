@@ -11,6 +11,6 @@ services:
         JSPM_GITHUB_AUTH_TOKEN:
     image: "nfl/react-wildcat-example:latest"
     environment:
-      STATIC_HOST: static.example.localhost
+      STATIC_HOST: static.example.dev
     entrypoint: "npm run"
     command: "dev"

@@ -66,7 +66,10 @@ exports.config = {
 
     multiCapabilities: [{
         acceptSslCerts: true,
-        browserName: "chrome"
+        browserName: "chrome",
+        chromeOptions: {
+            args: ["--test-type"]
+        }
     }],
 
     onPrepare() {

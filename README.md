@@ -65,7 +65,7 @@ Clone this repository, then:
 
 - `cd example`
 - `docker-compose up`
-- Open `https://www.example.localhost:3000`
+- Open `https://www.example.dev:3000`
 
 This will run the example wildcat project, with automatic file syncing in `src/` and `api/`. The `example/` folder is a great starting point to create your own project.
 
@@ -79,11 +79,11 @@ Clone this repository, then:
 - Add the following to /etc/hosts:
 
 ```
-127.0.0.1 www.example.localhost
-127.0.0.1 static.example.localhost
+127.0.0.1 www.example.dev
+127.0.0.1 static.example.dev
 ```
 
-- Open `https://www.example.localhost:3000`
+- Open `https://www.example.dev:3000`
 
 __Note:__ You'll very likely need to increase the file watch limit. [Follow these steps](http://stackoverflow.com/a/27982223) to do so.
 
@@ -94,9 +94,9 @@ __Note:__ You'll very likely need to increase the file watch limit. [Follow thes
 While it is possible to run the environment with an untrusted SSL certificate, for best results you should have OS X trust the self-signed certificate. Here's how:
 
 - Run the development environment
-- Navigate to https://www.example.localhost:3000
+- Navigate to https://www.example.dev:3000
 - Follow these steps: [http://www.andrewconnell.com/blog/setup-self-signed-certificates-trusting-them-on-os-x](http://www.andrewconnell.com/blog/setup-self-signed-certificates-trusting-them-on-os-x#add-the-certificate-as-a-trusted-root-authority)
-- Repeat the above steps for the static file server at https://www.example.localhost:4000
+- Repeat the above steps for the static file server at https://www.example.dev:4000
 
 ## Production environment
 
