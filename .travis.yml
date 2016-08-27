@@ -6,9 +6,9 @@ script:
   - make test-travis
 addons:
   hosts:
-    - example.localhost
-    - static.example.localhost
-    - www.example.localhost
+    - example.dev
+    - static.example.dev
+    - www.example.dev
 cache:
   directories:
     - node_modules
