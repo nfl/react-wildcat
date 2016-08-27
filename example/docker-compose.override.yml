@@ -7,8 +7,8 @@ services:
     dns_search:
       - static.example.dev
       - www.example.dev
-    extra_hosts:
-      - "static.example.dev:127.0.0.1"
+    # extra_hosts:
+    #   - "static.example.dev:127.0.0.1"
     networks:
       default:
         aliases:
@@ -34,3 +34,13 @@ services:
     ports:
       - "4444:4444"
       - "6900:5900"
+
+  dnsmasq:
+    image: andyshinn/dnsmasq:2.76
+    restart: always
+    ports:
+      - "53535:53"
+      - "53535:53/udp"
+    cap_add:
+      - NET_ADMIN
+    command: "--log-facility=- --address=/dev/127.0.0.1"

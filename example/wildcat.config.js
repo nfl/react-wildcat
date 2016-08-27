@@ -176,7 +176,7 @@ const wildcatConfig = {
             corsOrigins: [
                 "localhost",
                 "www.example.dev",
-                "example.com"
+                "example.dev"
             ],
 
             // One of http2 | https | http

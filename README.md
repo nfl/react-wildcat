@@ -61,8 +61,14 @@ For first-time jspm users, you will need to configure it to use GitHub:
 Follow the steps to enable GitHub access.
 
 ### Getting started: docker development
-Clone this repository, then:
+Clone this repository.
 
+Create the file `/etc/resolver/dev` with the following contents:
+```
+nameserver 127.0.0.1
+port 53535
+```
+Run:
 - `cd example`
 - `docker-compose up`
 - Open `https://www.example.dev:3000`
