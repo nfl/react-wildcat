@@ -9,8 +9,6 @@ services:
     dns_search:
       - static.example.dev
       - www.example.dev
-    # extra_hosts:
-    #   - "static.example.dev:127.0.0.1"
     networks:
       default:
         aliases:
