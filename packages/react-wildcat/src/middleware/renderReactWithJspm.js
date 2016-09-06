@@ -41,7 +41,11 @@ module.exports = function renderReactWithJspm(root, options) {
     }
 
     function pageHandler(request, cookies) {
-        const customizedLoader = customJspmLoader(root, options);
+        let customizedLoader = null;
+        // global.gc();
+        customizedLoader = customJspmLoader(root, options);
+        console.log("PACKAGES LENGTH: ", Object.keys(customizedLoader.packages).length);
+        console.log("_loader.modules.length: ", Object.keys(customizedLoader._loader.modules).length);
 
         // Load remote config
         return bootstrapLoader(customizedLoader)
@@ -99,6 +103,8 @@ module.exports = function renderReactWithJspm(root, options) {
     }
 
     return function* render() {
+        // console.log("RENDER GARBAGE DAY");
+        // global.gc();
         const cookies = this.cookies;
         const request = this.request;
         const response = this.response;
