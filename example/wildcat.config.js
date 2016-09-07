@@ -124,7 +124,7 @@ const wildcatConfig = {
 
             // number to limit the max number of CPU's
             // to spin up on a cluster
-            maxClusterCpuCount: 1, // Infinity === as many CPU's as the machine has
+            maxClusterCpuCount: Infinity, // Infinity === as many CPU's as the machine has
 
             middleware: [
                 // EXAMPLE:
