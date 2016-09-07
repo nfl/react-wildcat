@@ -41,7 +41,6 @@ module.exports = function renderReactWithJspm(root, options) {
     }
 
     function pageHandler(request, cookies) {
-        // let customizedLoader = null;
         const customizedLoader = customJspmLoader(root, options);
 
         // Load remote config
