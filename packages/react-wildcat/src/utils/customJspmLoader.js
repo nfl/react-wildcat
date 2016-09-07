@@ -1,4 +1,5 @@
 "use strict";
+
 let customizedLoader;
 
 function customizeJspmLoader(root, options) {

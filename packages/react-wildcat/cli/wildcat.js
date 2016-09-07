@@ -19,8 +19,6 @@ program
     .parse(process.argv);
 
 const server = cp.spawn("node", [
-    "--debug",
-    "--expose-gc",
     path.resolve(__dirname, "../main")
 ], {
     stdio: "inherit"
