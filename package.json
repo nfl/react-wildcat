@@ -28,7 +28,6 @@
     "eslint-config-nfl": "10.0.0",
     "eslint-import-resolver-jspm": "2.1.0",
     "eslint-plugin-async-await": "0.0.0",
-    "eslint-plugin-flowtype": "2.4.0",
     "eslint-plugin-import": "1.12.0",
     "eslint-plugin-jsx-a11y": "2.0.1",
     "eslint-plugin-mocha": "4.3.0",
