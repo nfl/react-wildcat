@@ -8,17 +8,17 @@
     "history": "^2.1.2",
     "isomorphic-fetch": "^2.2.1",
     "parse-domain": "^0.2.1",
-    "react": "15.1.0",
-    "react-dom": "15.1.0",
+    "react": "15.3.1",
+    "react-dom": "15.3.1",
     "react-helmet": "^3.1.0",
-    "react-router": "^2.5.0",
+    "react-router": "^2.6.0",
     "react-wildcat-hot-reloader": "4.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
     "rimraf": "^2.5.2",
-    "webpack": "^2.1.0-beta.7",
-    "webpack-node-externals": "^1.2.0"
+    "webpack": "^2.1.0-beta.21",
+    "webpack-node-externals": "^1.3.3"
   },
   "jspm": {
     "format": "cjs",
