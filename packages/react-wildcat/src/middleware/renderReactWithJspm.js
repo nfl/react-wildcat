@@ -41,8 +41,8 @@ module.exports = function renderReactWithJspm(root, options) {
     }
 
     function pageHandler(request, cookies) {
-        let customizedLoader = null;
-        customizedLoader = customJspmLoader(root, options);
+        // let customizedLoader = null;
+        const customizedLoader = customJspmLoader(root, options);
 
         // Load remote config
         return bootstrapLoader(customizedLoader)
@@ -100,8 +100,6 @@ module.exports = function renderReactWithJspm(root, options) {
     }
 
     return function* render() {
-        // console.log("RENDER GARBAGE DAY");
-        // global.gc();
         const cookies = this.cookies;
         const request = this.request;
         const response = this.response;
