@@ -1,5 +1,4 @@
 "use strict";
-const util = require("util");
 let customizedLoader;
 
 function customizeJspmLoader(root, options) {
@@ -57,6 +56,5 @@ function customizeJspmLoader(root, options) {
 }
 
 module.exports = function customJspmLoader(root, options) {
-    // console.log("------ CALLED customJspmLoader() customizedLoader=", customizedLoader ? util.inspect(customizedLoader).length : 0);
     return customizedLoader || customizeJspmLoader(root, options);
 };

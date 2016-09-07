@@ -42,10 +42,7 @@ module.exports = function renderReactWithJspm(root, options) {
 
     function pageHandler(request, cookies) {
         let customizedLoader = null;
-        // global.gc();
         customizedLoader = customJspmLoader(root, options);
-        // console.log("PACKAGES LENGTH: ", Object.keys(customizedLoader.packages).length);
-        // console.log("_loader.modules.length: ", Object.keys(customizedLoader._loader.modules).length);
 
         // Load remote config
         return bootstrapLoader(customizedLoader)
