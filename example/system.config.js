@@ -86,7 +86,7 @@ System.config({
     "react-wildcat-ensure": "npm:react-wildcat-ensure@4.1.0",
     "react-wildcat-handoff": "npm:react-wildcat-handoff@4.4.1",
     "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@4.1.0",
-    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@4.4.1",
+    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@4.5.0",
     "redbox-react": "npm:redbox-react@1.2.10",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
@@ -984,7 +984,7 @@ System.config({
       "debug": "npm:debug@2.2.0",
       "exenv": "npm:exenv@1.2.1"
     },
-    "npm:react-wildcat-prefetch@4.4.1": {
+    "npm:react-wildcat-prefetch@4.5.0": {
       "exenv": "npm:exenv@1.2.1",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
       "invariant": "npm:invariant@2.2.1",
