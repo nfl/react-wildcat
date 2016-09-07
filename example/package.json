@@ -4,7 +4,7 @@
   "version": "4.5.0",
   "dependencies": {
     "babel-cli": "^6.8.0",
-    "jspm": "nfl/jspm-cli#0.16.34/fetch-support",
+    "jspm": "0.16.45",
     "koa-favicon": "^1.2.1",
     "koa-route": "^2.4.2",
     "koa-static": "^2.0.0",
