@@ -21,8 +21,8 @@ System.config({
     "react-dom": "npm:react-dom@15.3.1",
     "react-helmet": "npm:react-helmet@3.1.0",
     "react-router": "npm:react-router@2.6.0",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@4.4.1",
-    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@4.4.1",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@5.0.0",
+    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@5.0.0",
     "sinon": "npm:sinon@1.17.5",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
@@ -51,7 +51,7 @@ System.config({
       "path-browserify": "npm:path-browserify@0.0.0"
     },
     "github:jspm/nodelibs-process@0.1.2": {
-      "process": "npm:process@0.11.8"
+      "process": "npm:process@0.11.9"
     },
     "github:jspm/nodelibs-stream@0.1.0": {
       "stream-browserify": "npm:stream-browserify@1.0.0"
@@ -167,11 +167,11 @@ System.config({
     },
     "npm:isomorphic-fetch@2.2.1": {
       "node-fetch": "npm:node-fetch@1.6.0",
-      "whatwg-fetch": "npm:whatwg-fetch@1.0.0"
+      "whatwg-fetch": "npm:whatwg-fetch@0.9.0"
     },
     "npm:lodash.keys@3.1.2": {
       "lodash._getnative": "npm:lodash._getnative@3.9.1",
-      "lodash.isarguments": "npm:lodash.isarguments@3.0.9",
+      "lodash.isarguments": "npm:lodash.isarguments@3.1.0",
       "lodash.isarray": "npm:lodash.isarray@3.0.4"
     },
     "npm:loose-envify@1.2.0": {
@@ -206,7 +206,7 @@ System.config({
     "npm:process-nextick-args@1.0.7": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:process@0.11.8": {
+    "npm:process@0.11.9": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "vm": "github:jspm/nodelibs-vm@0.1.0"
@@ -247,7 +247,7 @@ System.config({
     "npm:react-side-effect@1.0.2": {
       "fbjs": "npm:fbjs@0.1.0-alpha.10"
     },
-    "npm:react-wildcat-handoff@4.4.1": {
+    "npm:react-wildcat-handoff@5.0.0": {
       "cookie": "npm:cookie@0.3.1",
       "cookies-js": "npm:cookies-js@1.2.2",
       "history": "npm:history@2.1.2",
@@ -258,13 +258,13 @@ System.config({
       "react-dom": "npm:react-dom@15.3.1",
       "react-helmet": "npm:react-helmet@3.1.0",
       "react-router": "npm:react-router@2.6.0",
-      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@4.1.0"
+      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@5.0.0"
     },
-    "npm:react-wildcat-hot-reloader@4.1.0": {
+    "npm:react-wildcat-hot-reloader@5.0.0": {
       "debug": "npm:debug@2.2.0",
       "exenv": "npm:exenv@1.2.1"
     },
-    "npm:react-wildcat-prefetch@4.4.1": {
+    "npm:react-wildcat-prefetch@5.0.0": {
       "exenv": "npm:exenv@1.2.1",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
       "invariant": "npm:invariant@2.2.1",
