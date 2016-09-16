@@ -197,9 +197,9 @@ function start() {
                 /* istanbul ignore else */
                 if (cluster.worker.id === cpuCount) {
                     if (__PROD__) {
-                        logger.ok("Static server is running");
+                        logger.ok("Static server is running on pid", process.pid);
                     } else {
-                        logger.ok(`Static server is running at ${generalSettings.staticUrl}`);
+                        logger.ok(`Static server is running at ${generalSettings.staticUrl} on pid`, process.pid);
                     }
 
                     lifecycleHook("onAfterStart");
