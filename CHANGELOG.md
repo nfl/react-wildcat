@@ -1,3 +1,28 @@
+<a name="5.0.0"></a>
+# [5.0.0](https://github.com/nfl/react-wildcat/compare/4.5.0...v5.0.0) (2016-09-07)
+
+
+### Performance Improvements
+
+* **react-wildcat:** Update jspm to fix potential memory leak ([#153](https://github.com/nfl/react-wildcat/issues/153)) ([1046346](https://github.com/nfl/react-wildcat/commit/1046346))
+
+
+
+<a name="4.5.0"></a>
+# [4.5.0](https://github.com/nfl/react-wildcat/compare/4.4.1...v4.5.0) (2016-08-08)
+
+
+### Bug Fixes
+
+* **react-wildcat-prefetch:** Check for existence of key before returning an undefined value. ([af1a1d9](https://github.com/nfl/react-wildcat/commit/af1a1d9))
+
+
+### Features
+
+* **react-wildcat-prefetch:** Allow users to define custom initial data keys ([b25cb51](https://github.com/nfl/react-wildcat/commit/b25cb51))
+
+
+
 <a name="4.4.1"></a>
 ## [4.4.1](https://github.com/nfl/react-wildcat/compare/4.4.0...v4.4.1) (2016-07-27)
 

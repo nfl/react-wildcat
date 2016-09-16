@@ -10,7 +10,7 @@ import * as helmetExampleRoutes from "./routes/HelmetExample/routes.js";
 import * as prefetchExampleRoutes from "./routes/PrefetchExample/routes.js";
 
 const Routes = (
-    <Route path="/" component={ApplicationContext}>
+    <Route component={ApplicationContext} path="/">
         <IndexRoute {...indexExampleRoutes} />
 
         <Route {...errorExampleRoutes} />

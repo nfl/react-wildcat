@@ -75,7 +75,7 @@ module.exports = function defaultTemplate(cfg) {
             });
         </script>
 
-        ${indexedDBModuleCache ? `<script src="//npmcdn.com/dexie@1.4.1/dist/dexie.min.js"></script>
+        ${indexedDBModuleCache ? `<script src="//unpkg.com/dexie@1.4.1/dist/dexie.min.js"></script>
         <script>
             (function () {
                 var log = console.error.bind(console);
