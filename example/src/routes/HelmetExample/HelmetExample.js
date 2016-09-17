@@ -27,18 +27,19 @@ class HelmetExample extends React.Component {
             <div id="helmet">
                 <Helmet
                     htmlAttributes={htmlAttributes}
-                    title="Helmet Example"
-                    meta={meta}
                     link={link}
+                    meta={meta}
+                    title="Helmet Example"
                 />
-                <Helmet title="Nested Example"
+                <Helmet
+                    link={[
+                        {"rel": "apple-touch-icon", "href": "http://mysite.com/img/nested-apple-touch-icon.png"},
+                        {"rel": "canonical", "href": "http://mysite.com/example/nested"}
+                    ]}
                     meta={[
                         {"name": "description", "content": "Nested Example"}
                     ]}
-                    link={[
-                        {"rel": "canonical", "href": "http://mysite.com/example/nested"},
-                        {"rel": "apple-touch-icon", "href": "http://mysite.com/img/nested-apple-touch-icon.png"}
-                    ]}
+                    title="Nested Example"
                 />
 
                 <h3>Helmet Example</h3>
