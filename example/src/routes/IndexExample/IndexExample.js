@@ -10,7 +10,7 @@ class Index extends React.Component {
                 <Helmet title="Index Example" />
 
                 <h1>Index Page!</h1>
-                <img width="300" src={largeFile} alt="An example of a large file." />
+                <img alt="An example of a large file." src={largeFile} width="300" />
             </div>
         );
     }
