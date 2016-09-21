@@ -52,7 +52,7 @@ module.exports = function serverRender(cfg) {
                             return prefetch.run(renderProps).then(
                                 function renderPropsPrefetchResult(props) {
                                     initialData = initialData || {};
-                                    initialData[key] = prefetch[key] = props;
+                                    initialData[key] = props;
                                 }
                             );
                         })
@@ -80,7 +80,7 @@ module.exports = function serverRender(cfg) {
                         const htmlTemplate = wildcatConfig.serverSettings.htmlTemplate || defaultTemplate;
 
                         const html = htmlTemplate({
-                            data: initialData,
+                            data: Object.assign({}, initialData),
                             head: head,
                             html: reactMarkup,
                             wildcatConfig,
@@ -94,6 +94,7 @@ module.exports = function serverRender(cfg) {
                             status: 200
                         });
 
+                        initialData = null;
                         return resolve(result);
                     })
                     .catch(
