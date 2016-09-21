@@ -125,6 +125,15 @@ function prefetchWrap(action, options) {
                             return this.setState(newState);
                         }.bind(this));
                 }
+
+                if (Prefetch.prefetch[key]) {
+                    this.setState({
+                        [key]: Prefetch.prefetch[key]
+                    });
+
+                    // Delete stored object
+                    delete Prefetch.prefetch[key];
+                }
             },
 
             getInitialState: function getInitialState() {
@@ -133,7 +142,7 @@ function prefetchWrap(action, options) {
 
             render: function render() {
                 const props = {};
-                props[key] = this.state[key] || Prefetch.prefetch[key];
+                props[key] = this.state[key];
 
                 return <ComposedComponent {...this.props} {...props} />;
             }
