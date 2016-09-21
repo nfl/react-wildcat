@@ -6,6 +6,7 @@ services:
   wildcat:
     depends_on:
       - selenium
+      - dnsmasq
     dns_search:
       - static.example.dev
       - www.example.dev
@@ -19,7 +20,7 @@ services:
       - "4000:4000"
     volumes:
       - ./src:/code/src
-      - ./api:/code/api
+    command: "test:e2e"
 
   selenium:
     dns_search:
@@ -31,6 +32,7 @@ services:
       no_proxy: ""
     volumes:
       - /tmp:/e2e/uploads
+      - /dev/shm:/dev/shm
     ports:
       - "4444:4444"
       - "6900:5900"

@@ -67,9 +67,11 @@ exports.config = {
     multiCapabilities: [{
         acceptSslCerts: true,
         browserName: "chrome",
-        chromeOptions: {
-            args: ["--test-type"]
-        }
+        "chrome-switches": [
+            "--disable-web-security",
+            "--disable-background-timer-throttling",
+            "--user-data-dir=/tmp/protractor"
+        ]
     }],
 
     onPrepare() {
