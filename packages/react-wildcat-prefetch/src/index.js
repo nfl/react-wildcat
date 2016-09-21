@@ -81,8 +81,10 @@ function prefetchWrap(action, options) {
             },
 
             componentWillMount: function componentWillMount() {
+                var canUseDOM = (typeof options.canUseDOM !== "undefined") ? options.canUseDOM : ExecutionEnvironment.canUseDOM;
+
                 /* istanbul ignore else */
-                if (ExecutionEnvironment.canUseDOM) {
+                if (canUseDOM) {
                     var initialDataID = this.props[__DEFAULT_INITIAL_DATA_KEY__] || __DEFAULT_INITIAL_DATA_KEY__;
 
                     var initialData = window[initialDataID] ? {
