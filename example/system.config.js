@@ -84,7 +84,7 @@ System.config({
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.2",
     "react-transform-jspm-hmr": "npm:react-transform-jspm-hmr@1.0.1",
     "react-wildcat-ensure": "npm:react-wildcat-ensure@5.0.0",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@5.0.0",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@5.0.1",
     "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@5.0.0",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@5.0.0",
     "redbox-react": "npm:redbox-react@1.3.0",
@@ -719,7 +719,7 @@ System.config({
       "xtend": "npm:xtend@4.0.1"
     },
     "npm:isomorphic-fetch@2.2.1": {
-      "node-fetch": "npm:node-fetch@1.6.0",
+      "node-fetch": "npm:node-fetch@1.6.1",
       "whatwg-fetch": "npm:whatwg-fetch@0.9.0"
     },
     "npm:isstream@0.1.2": {
@@ -802,7 +802,7 @@ System.config({
       "brace-expansion": "npm:brace-expansion@1.1.6",
       "path": "github:jspm/nodelibs-path@0.1.0"
     },
-    "npm:node-fetch@1.6.0": {
+    "npm:node-fetch@1.6.1": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "encoding": "npm:encoding@0.1.12",
       "http": "github:jspm/nodelibs-http@1.7.1",
@@ -973,7 +973,7 @@ System.config({
       "global": "npm:global@4.3.0",
       "react-proxy": "npm:react-proxy@1.1.8"
     },
-    "npm:react-wildcat-handoff@5.0.0": {
+    "npm:react-wildcat-handoff@5.0.1": {
       "cookie": "npm:cookie@0.3.1",
       "cookies-js": "npm:cookies-js@1.2.2",
       "history": "npm:history@2.1.2",

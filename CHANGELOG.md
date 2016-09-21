@@ -1,3 +1,13 @@
+<a name="5.0.1"></a>
+## [5.0.1](https://github.com/nfl/react-wildcat/compare/5.0.0...v5.0.1) (2016-09-21)
+
+
+### Performance Improvements
+
+* **react-wildcat-handoff:** De-reference initialData object ([#157](https://github.com/nfl/react-wildcat/issues/157)) ([f0d0fa5](https://github.com/nfl/react-wildcat/commit/f0d0fa5))
+
+
+
 <a name="5.0.0"></a>
 # [5.0.0](https://github.com/nfl/react-wildcat/compare/4.5.0...v5.0.0) (2016-09-07)
 
