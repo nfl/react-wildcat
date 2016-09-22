@@ -565,6 +565,48 @@ describe("react-wildcat-prefetch", () => {
                     });
             });
 
+            it("hydrates React components with server data", (done) => {
+                class ServerHydrationTest extends React.Component {
+                    static propTypes = {
+                        asyncData: React.PropTypes.object
+                    };
+
+                    static defaultProps = {
+                        asyncData: {}
+                    };
+
+                    render() {
+                        expect(this.props.asyncData)
+                            .to.eql(stubs.prefetchedData.asyncData);
+
+                        done();
+
+                        return <div>{Object.keys(this.props)}</div>;
+                    }
+                }
+
+                const WrappedPrefetch = Prefetch(stubs.fetchPromise, {
+                    canUseDOM: false
+                })(ServerHydrationTest);
+
+                expect(WrappedPrefetch)
+                    .to.have.property("prefetch");
+
+                expect(WrappedPrefetch.prefetch)
+                    .to.respondTo("run");
+
+                WrappedPrefetch.prefetch.run()
+                    .then(props => {
+                        expect(WrappedPrefetch.prefetch)
+                            .to.respondTo("getKey");
+
+                        const key = WrappedPrefetch.prefetch.getKey();
+                        WrappedPrefetch.prefetch[key] = props;
+
+                        ReactTestUtils.renderIntoDocument(<WrappedPrefetch title={"Test Title"} />);
+                    });
+            });
+
             afterEach(() => {
                 window[stubs.__INITIAL_DATA__] = null;
                 delete window[stubs.__INITIAL_DATA__];

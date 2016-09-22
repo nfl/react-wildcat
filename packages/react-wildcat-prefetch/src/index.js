@@ -81,8 +81,10 @@ function prefetchWrap(action, options) {
             },
 
             componentWillMount: function componentWillMount() {
+                var canUseDOM = (typeof options.canUseDOM !== "undefined") ? options.canUseDOM : ExecutionEnvironment.canUseDOM;
+
                 /* istanbul ignore else */
-                if (ExecutionEnvironment.canUseDOM) {
+                if (canUseDOM) {
                     var initialDataID = this.props[__DEFAULT_INITIAL_DATA_KEY__] || __DEFAULT_INITIAL_DATA_KEY__;
 
                     var initialData = window[initialDataID] ? {
@@ -125,6 +127,15 @@ function prefetchWrap(action, options) {
                             return this.setState(newState);
                         }.bind(this));
                 }
+
+                if (Prefetch.prefetch[key]) {
+                    this.setState({
+                        [key]: Prefetch.prefetch[key]
+                    });
+
+                    // Delete stored object
+                    delete Prefetch.prefetch[key];
+                }
             },
 
             getInitialState: function getInitialState() {
@@ -133,7 +144,7 @@ function prefetchWrap(action, options) {
 
             render: function render() {
                 const props = {};
-                props[key] = this.state[key] || Prefetch.prefetch[key];
+                props[key] = this.state[key];
 
                 return <ComposedComponent {...this.props} {...props} />;
             }
