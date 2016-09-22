@@ -1,7 +1,7 @@
 {
   "name": "react-wildcat-example",
   "description": "An example Wildcat project.",
-  "version": "5.0.0",
+  "version": "5.0.2",
   "dependencies": {
     "babel-cli": "^6.8.0",
     "jspm": "nfl/jspm-cli#0.16.45/fetch-support",
@@ -78,8 +78,8 @@
       "react-metrics": "npm:react-metrics@^2.0.0",
       "react-router": "npm:react-router@2.6.0",
       "react-wildcat-ensure": "npm:react-wildcat-ensure@5.0.0",
-      "react-wildcat-handoff": "npm:react-wildcat-handoff@5.0.0",
-      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@5.0.0"
+      "react-wildcat-handoff": "npm:react-wildcat-handoff@5.0.2",
+      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@5.0.2"
     },
     "devDependencies": {
       "enzyme": "npm:enzyme@^2.3.0",

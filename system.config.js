@@ -21,9 +21,9 @@ System.config({
     "react-dom": "npm:react-dom@15.3.1",
     "react-helmet": "npm:react-helmet@3.1.0",
     "react-router": "npm:react-router@2.6.0",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@5.0.0",
-    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@5.0.0",
-    "sinon": "npm:sinon@1.17.5",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@5.0.2",
+    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@5.0.2",
+    "sinon": "npm:sinon@1.17.6",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
     },
@@ -166,7 +166,7 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:isomorphic-fetch@2.2.1": {
-      "node-fetch": "npm:node-fetch@1.6.0",
+      "node-fetch": "npm:node-fetch@1.6.1",
       "whatwg-fetch": "npm:whatwg-fetch@0.9.0"
     },
     "npm:lodash.keys@3.1.2": {
@@ -181,7 +181,7 @@ System.config({
       "stream": "github:jspm/nodelibs-stream@0.1.0",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
-    "npm:node-fetch@1.6.0": {
+    "npm:node-fetch@1.6.1": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "encoding": "npm:encoding@0.1.12",
       "http": "github:jspm/nodelibs-http@1.7.1",
@@ -247,7 +247,7 @@ System.config({
     "npm:react-side-effect@1.0.2": {
       "fbjs": "npm:fbjs@0.1.0-alpha.10"
     },
-    "npm:react-wildcat-handoff@5.0.0": {
+    "npm:react-wildcat-handoff@5.0.2": {
       "cookie": "npm:cookie@0.3.1",
       "cookies-js": "npm:cookies-js@1.2.2",
       "history": "npm:history@2.1.2",
@@ -264,7 +264,7 @@ System.config({
       "debug": "npm:debug@2.2.0",
       "exenv": "npm:exenv@1.2.1"
     },
-    "npm:react-wildcat-prefetch@5.0.0": {
+    "npm:react-wildcat-prefetch@5.0.2": {
       "exenv": "npm:exenv@1.2.1",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
       "invariant": "npm:invariant@2.2.1",
@@ -301,7 +301,7 @@ System.config({
     "npm:shallowequal@0.2.2": {
       "lodash.keys": "npm:lodash.keys@3.1.2"
     },
-    "npm:sinon@1.17.5": {
+    "npm:sinon@1.17.6": {
       "formatio": "npm:formatio@1.1.1",
       "lolex": "npm:lolex@1.3.2",
       "process": "github:jspm/nodelibs-process@0.1.2",

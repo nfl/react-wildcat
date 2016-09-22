@@ -46,18 +46,22 @@ module.exports = function serverRender(cfg) {
                             return component.prefetch;
                         })
                         .map(function renderPropsMap(component) {
-                            const prefetch = component.prefetch;
-                            const key = prefetch.getKey();
+                            let key = component.prefetch.getKey();
 
-                            return prefetch.run(renderProps).then(
+                            return component.prefetch.run(renderProps).then(
                                 function renderPropsPrefetchResult(props) {
                                     initialData = initialData || {};
-                                    initialData[key] = prefetch[key] = props;
+
+                                    initialData[key] = props;
+                                    component.prefetch[key] = props;
+
+                                    key = null;
+                                    return component;
                                 }
                             );
                         })
                 )
-                    .then(function serverRenderPromiseResult() {
+                    .then(function serverRenderPromiseResult(prefetchedComponents) {
                         var component = serverContext(cfg, headers, renderProps);
 
                         const renderType = wildcatConfig.serverSettings.renderType;
@@ -80,7 +84,7 @@ module.exports = function serverRender(cfg) {
                         const htmlTemplate = wildcatConfig.serverSettings.htmlTemplate || defaultTemplate;
 
                         const html = htmlTemplate({
-                            data: initialData,
+                            data: Object.assign({}, initialData),
                             head: head,
                             html: reactMarkup,
                             wildcatConfig,
@@ -93,6 +97,25 @@ module.exports = function serverRender(cfg) {
                             html: html,
                             status: 200
                         });
+
+                        // Delete stored object
+                        initialData = null;
+
+                        // Delete stored objects
+                        prefetchedComponents
+                            .filter(function renderPropsFilter(component) {
+                                return component.prefetch;
+                            })
+                            .forEach(function withPrefetchedComponent(component) {
+                                let key = component.prefetch.getKey();
+
+                                /* istanbul ignore next */
+                                if (component.prefetch[key]) {
+                                    component.prefetch[key] = null;
+                                }
+
+                                key = null;
+                            });
 
                         return resolve(result);
                     })
