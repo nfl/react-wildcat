@@ -10,7 +10,7 @@ const expect = chai.expect;
 const stubs = require("./fixtures/stubData.js");
 
 /* eslint-disable max-nested-callbacks, react/no-multi-comp */
-describe.only("react-wildcat-prefetch", () => {
+describe("react-wildcat-prefetch", () => {
     context("data hydration", () => {
         context("hydration", () => {
             it("hydrates React components with server data", (done) => {
