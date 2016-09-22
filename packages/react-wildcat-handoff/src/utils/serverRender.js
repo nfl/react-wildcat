@@ -109,6 +109,7 @@ module.exports = function serverRender(cfg) {
                             .forEach(function withPrefetchedComponent(component) {
                                 let key = component.prefetch.getKey();
 
+                                /* istanbul ignore next */
                                 if (component.prefetch[key]) {
                                     component.prefetch[key] = null;
                                 }
