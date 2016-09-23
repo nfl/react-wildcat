@@ -1,3 +1,13 @@
+<a name="5.1.0"></a>
+# [5.1.0](https://github.com/nfl/react-wildcat/compare/5.0.0...v5.1.0) (2016-09-23)
+
+
+### Features
+
+* **react-wildcat:** Ability to pass options to wildcat node process ([#149](https://github.com/nfl/react-wildcat/issues/149)) ([df6082f](https://github.com/nfl/react-wildcat/commit/df6082f))
+
+
+
 <a name="5.0.2"></a>
 ## [5.0.2](https://github.com/nfl/react-wildcat/compare/5.0.0...v5.0.2) (2016-09-22)
 
