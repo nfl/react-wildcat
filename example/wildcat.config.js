@@ -14,6 +14,8 @@ const defaultServerKey = getDefaultSSLFile("example.key");
 const defaultServerCert = getDefaultSSLFile("example.crt");
 const defaultServerCA = getDefaultSSLFile("example.csr");
 
+const __IN_DOCKER__ = fs.existsSync("/.dockerenv");
+
 function getPort(port, defaultPort) {
     if ((typeof port !== "undefined") && !(Number(port))) {
         return false;
@@ -128,7 +130,7 @@ const wildcatConfig = {
             // One of http2 | https | http
             protocol: "http2",
 
-            hostname: "www.example.dev",
+            hostname: __IN_DOCKER__ ? "www.example.dev" : "localhost",
 
             // App server port
             port: getPort(process.env.PORT, 3000),
