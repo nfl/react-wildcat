@@ -206,7 +206,4 @@ const wildcatConfig = {
     }
 };
 
-Object.assign(wildcatConfig.serverSettings.staticServer, secureSettings);
-Object.assign(wildcatConfig.serverSettings.appServer, secureSettings);
-
 module.exports = wildcatConfig;
