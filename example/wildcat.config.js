@@ -151,7 +151,7 @@ const wildcatConfig = {
             // One of http2 | https | http
             protocol: "http2",
 
-            hostname: __IN_DOCKER__ ? "www.example.dev" : "localhost",
+            hostname: process.env.HOST || "localhost",
 
             // App server port
             port: getPort(process.env.PORT, 3000),

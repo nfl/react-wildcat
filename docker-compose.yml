@@ -13,6 +13,7 @@ services:
       STATIC_PORT: 4000
       COVERAGE:
       LOG_LEVEL:
+      HOST: "www.example.dev"
       STATIC_HOST: "static.example.dev"
       NODE_TLS_REJECT_UNAUTHORIZED: 0
       CI:
