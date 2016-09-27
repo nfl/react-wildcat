@@ -170,7 +170,7 @@ exports.cookieParserWithAlias = {
 
 exports.wildcatConfig = {
     generalSettings: {
-        staticUrl: "https://static.example.dev:4000"
+        staticUrl: "https://localhost:4000"
     },
     clientSettings: {
         entry: "public/main.js",

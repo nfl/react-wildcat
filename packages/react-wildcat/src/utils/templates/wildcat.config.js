@@ -132,7 +132,7 @@ const wildcatConfig = {
 
             // App server hostname
             // Note: this should be a public facing domain
-            hostname: "www.example.dev",
+            hostname: "localhost",
 
             // App server port
             port: 3000,
@@ -203,7 +203,7 @@ const wildcatConfig = {
 
             // Static server hostname
             // Note: this should be a public facing domain
-            hostname: "static.example.dev",
+            hostname: "localhost",
 
             // Static server port
             port: 4000,

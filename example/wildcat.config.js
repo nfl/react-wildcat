@@ -5,16 +5,37 @@ const pkg = require("./package.json");
 const __DEV__ = (process.env.NODE_ENV === "development");
 const __PROD__ = (process.env.NODE_ENV === "production");
 const __BUNDLE__ = process.env.COVERAGE !== "e2e";
+const __IN_DOCKER__ = fs.existsSync("/.dockerenv");
+
 
 function getDefaultSSLFile(filename) {
-    return fs.readFileSync(path.join(__dirname, `ssl/${filename}`), "utf8");
+    const filePath = __IN_DOCKER__ ? "../packages/react-wildcat/ssl/server." : "ssl/example.";
+    return fs.readFileSync(path.join(__dirname, `${filePath}${filename}`), "utf8");
 }
 
-const defaultServerKey = getDefaultSSLFile("example.key");
-const defaultServerCert = getDefaultSSLFile("example.crt");
-const defaultServerCA = getDefaultSSLFile("example.csr");
 
-const __IN_DOCKER__ = fs.existsSync("/.dockerenv");
+const defaultServerKey = getDefaultSSLFile("key");
+const defaultServerCert = getDefaultSSLFile("crt");
+const defaultServerCA = getDefaultSSLFile("csr");
+
+// Only applicable when one of http2/https is true
+// https://github.com/indutny/node-spdy#options
+const secureSettings = {
+    // Provide your own key / cert / ca
+    key: defaultServerKey,
+    cert: defaultServerCert,
+    ca: defaultServerCA,
+
+    // If using http2, use the following protocols
+    protocols: [
+        "h2",
+        "spdy/3.1",
+        "spdy/3",
+        "spdy/2",
+        "http/1.1",
+        "http/1.0"
+    ]
+};
 
 function getPort(port, defaultPort) {
     if ((typeof port !== "undefined") && !(Number(port))) {
@@ -154,22 +175,7 @@ const wildcatConfig = {
 
             // Only applicable when one of http2/https is true
             // https://github.com/indutny/node-spdy#options
-            secureSettings: {
-                // Provide your own key / cert / ca
-                key: defaultServerKey,
-                cert: defaultServerCert,
-                ca: defaultServerCA,
-
-                // If using http2, use the following protocols
-                protocols: [
-                    "h2",
-                    "spdy/3.1",
-                    "spdy/3",
-                    "spdy/2",
-                    "http/1.1",
-                    "http/1.0"
-                ]
-            }
+            secureSettings
         },
 
         // config options for the static server
@@ -184,7 +190,7 @@ const wildcatConfig = {
             // One of http2 | https | http
             protocol: "http2",
 
-            hostname: process.env.STATIC_HOST || "static.example.dev",
+            hostname: process.env.STATIC_HOST || "localhost",
 
             // Static server port
             port: getPort(process.env.STATIC_PORT, 4000),
@@ -195,24 +201,12 @@ const wildcatConfig = {
 
             // Only applicable when one of http2/https is true
             // https://github.com/indutny/node-spdy#options
-            secureSettings: {
-                // Provide your own key / cert / ca
-                key: defaultServerKey,
-                cert: defaultServerCert,
-                ca: defaultServerCA,
-
-                // If using http2, use the following protocols
-                protocols: [
-                    "h2",
-                    "spdy/3.1",
-                    "spdy/3",
-                    "spdy/2",
-                    "http/1.1",
-                    "http/1.0"
-                ]
-            }
+            secureSettings
         }
     }
 };
+
+Object.assign(wildcatConfig.serverSettings.staticServer, secureSettings);
+Object.assign(wildcatConfig.serverSettings.appServer, secureSettings);
 
 module.exports = wildcatConfig;
