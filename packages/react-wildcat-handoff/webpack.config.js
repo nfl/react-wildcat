@@ -1,7 +1,6 @@
 var nodeExternals = require("webpack-node-externals");
 
 module.exports = {
-    debug: false,
     entry: {
         client: "./src/client.js"
     },
@@ -14,7 +13,7 @@ module.exports = {
         libraryTarget: "commonjs2"
     },
     resolve: {
-        modulesDirectories: [
+        modules: [
             "node_modules"
         ]
     },
