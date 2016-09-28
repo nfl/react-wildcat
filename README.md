@@ -63,11 +63,13 @@ Follow the steps to enable GitHub access.
 ### Getting started: docker development
 Clone this repository.
 
-Create the file `/etc/resolver/dev` with the following contents:
+Create the file `/etc/resolver/dev` with the following contents (requires root permission):
+
 ```
 nameserver 127.0.0.1
 port 53535
 ```
+
 Run:
 - `cd example`
 - `docker-compose up`

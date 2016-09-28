@@ -4,11 +4,6 @@
         "node": true,
         "mocha": true
     },
-    "rules": {
-        "prefer-arrow-callback": [2, {
-            "allowNamedFunctions": true
-        }]
-    },
     "globals": {
         "$": true,
         "$$": true,
@@ -17,6 +12,9 @@
         "element": true,
         "expect": true,
         "protractor": true
+    },
+    "rules": {
+	"prefer-arrow-callback": 0
     },
     "settings": {
         "import/ignore": [
