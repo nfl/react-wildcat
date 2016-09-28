@@ -55,7 +55,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "mocha": "^2.4.5",
     "phantomjs-prebuilt": "^2.1.7",
-    "protractor": "^4.0.2",
+    "protractor": "4.0.4",
     "protractor-console": "^2.0.1",
     "protractor-istanbul-plugin": "^2.0.0",
     "react-wildcat-test-runners": "5.0.0",
