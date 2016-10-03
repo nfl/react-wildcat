@@ -1,4 +1,3 @@
-"use strict";
 const fs = require("fs");
 const memwatch = require("memwatch-next");
 
@@ -25,8 +24,6 @@ memwatch.on("stats", function MemwatchOn(stats) {
         info = [];
         firstLine = false;
     }
-
-
 
     info.push(stats.num_full_gc);
     info.push(stats.num_inc_gc);

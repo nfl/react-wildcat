@@ -1,4 +1,3 @@
-require("heapdump");
 module.exports = function renderReactWithJspm(root, options) {
     "use strict";
 
@@ -42,16 +41,6 @@ module.exports = function renderReactWithJspm(root, options) {
     }
 
     function pageHandler(request, cookies) {
-
-        // 1. Force garbage collection every time this function is called
-        // try {
-        //     console.log("GARBAGE DAY?!?!?!");
-        //     global.gc();
-        // } catch (e) {
-        //     console.log("You must run program with 'node --expose-gc index.js' or 'npm start'");
-        //     process.exit();
-        // }
-
         const customizedLoader = customJspmLoader(root, options);
 
         // Load remote config
@@ -80,9 +69,6 @@ module.exports = function renderReactWithJspm(root, options) {
                         return render(request, cookies, wildcatConfig);
                     })
                     .then(function serverReply(reply) {
-
-                        // 3. Get Heap dump
-                        // process.kill(process.pid, "SIGUSR2");
                         return {
                             // Return the original reply
                             reply

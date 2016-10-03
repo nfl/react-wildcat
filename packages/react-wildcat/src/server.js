@@ -28,8 +28,11 @@ const renderReactWithJspm = require("./middleware/renderReactWithJspm");
 let server;
 
 function start() {
-    require("./memory");
     const wildcatConfig = require("./utils/getWildcatConfig")(cwd);
+
+    if (wildcatConfig.generalSettings.logLevel === 4) {
+        require("./memory");
+    }
 
     const generalSettings = wildcatConfig.generalSettings;
     const serverSettings = wildcatConfig.serverSettings;
