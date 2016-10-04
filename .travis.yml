@@ -1,7 +1,7 @@
 language: node_js
 sudo: false
 node_js:
-  - 6.7.0
+  - 6.6.0
 script:
   - make test-travis
 cache:
@@ -10,12 +10,6 @@ cache:
     - jspm_packages
     - example/node_modules
     - example/jspm_packages
-    - packages/react-wildcat/node_modules
-    - packages/react-wildcat-ensure/node_modules
-    - packages/react-wildcat-handoff/node_modules
-    - packages/react-wildcat-hot-reloader/node_modules
-    - packages/react-wildcat-prefetch/node_modules
-    - packages/react-wildcat-test-runners/node_modules
 env:
   global:
     - CXX=g++-4.8
