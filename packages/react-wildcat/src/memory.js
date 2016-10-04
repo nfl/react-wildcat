@@ -1,5 +1,9 @@
+"use strict";
+
 const fs = require("fs");
 const memwatch = require("memwatch-next");
+
+console.log("Watching memory...");
 
 memwatch.on("leak", function MemwatchLeak(info) {
     fs.appendFileSync("memory-leaks.txt", `${JSON.stringify(info)}\n`);
