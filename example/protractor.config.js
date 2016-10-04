@@ -39,7 +39,7 @@ const e2eReportDir = coverageSettings.e2e.reporting.dir;
 
 /* global browser */
 exports.config = {
-    seleniumAddress: appServerSettings.hostname === "http://localhost:4444/wd/hub" ? null : "http://selenium:4444/wd/hub",
+    seleniumAddress: appServerSettings.hostname === "localhost" ? null : "http://selenium:4444/wd/hub",
     // The timeout in milliseconds for each script run on the browser. This should
     // be longer than the maximum time your application needs to stabilize between
     // tasks.
