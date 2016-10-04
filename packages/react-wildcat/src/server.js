@@ -29,8 +29,7 @@ let server;
 
 function start() {
     const wildcatConfig = require("./utils/getWildcatConfig")(cwd);
-
-    if (wildcatConfig.generalSettings.logLevel === 4) {
+    if (process.env.DEBUG === "true") {
         require("./memory");
     }
 
