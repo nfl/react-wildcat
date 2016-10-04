@@ -19,7 +19,6 @@
     "fs-extra": "0.27.0",
     "gelf-pro": "^0.6.4",
     "glob": "^7.0.3",
-    "heapdump": "^0.3.7",
     "istanbul": "nfl/istanbul#feature/source-map-resolve",
     "jspm": "nfl/jspm-cli#0.16.45/fetch-support",
     "koa": "^1.2.0",
