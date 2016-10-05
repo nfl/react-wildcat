@@ -12,6 +12,8 @@ const coverageSettings = generalSettings.coverageSettings;
 const serverSettings = wildcatConfig.serverSettings;
 const appServerSettings = serverSettings.appServer;
 
+const seleniumAddress = generalSettings.seleniumAddress;
+
 const originUrl = url.format({
     protocol: appServerSettings.protocol.replace("http2", "https"),
     hostname: appServerSettings.hostname,
@@ -39,7 +41,7 @@ const e2eReportDir = coverageSettings.e2e.reporting.dir;
 
 /* global browser */
 exports.config = {
-    seleniumAddress: appServerSettings.hostname === "localhost" ? null : "http://selenium:4444/wd/hub",
+    seleniumAddress,
     // The timeout in milliseconds for each script run on the browser. This should
     // be longer than the maximum time your application needs to stabilize between
     // tasks.

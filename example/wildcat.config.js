@@ -11,7 +11,6 @@ function getDefaultSSLFile(filename) {
     return fs.readFileSync(path.join(__dirname, `${filePath}${filename}`), "utf8");
 }
 
-
 const defaultServerKey = getDefaultSSLFile("key");
 const defaultServerCert = getDefaultSSLFile("crt");
 const defaultServerCA = getDefaultSSLFile("csr");
@@ -56,6 +55,8 @@ const wildcatConfig = {
     generalSettings: {
         // Grab the config file from package.json
         jspmConfigFile: pkg.configFile || (pkg.jspm || {}).configFile || "config.js",
+
+        seleniumAddress: process.env.HOST || "localhost" ? null : "http://selenium:4444/wd/hub",
 
         // Project name
         name: pkg.name,
