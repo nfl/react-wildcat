@@ -7,7 +7,9 @@ const __PROD__ = (process.env.NODE_ENV === "production");
 const __BUNDLE__ = process.env.COVERAGE !== "e2e";
 
 function getDefaultSSLFile(filename) {
-    const filePath = process.env.HOST === "localhost" || process.env.HOST === null ? "ssl/example." : "../packages/react-wildcat/ssl/server.";
+    const filePath = process.env.HOST === "localhost" || !process.env.HOST ? "../packages/react-wildcat/ssl/server." : "ssl/example.";
+    console.log(process.env.HOST);
+    console.log("filePath: ", filePath);
     return fs.readFileSync(path.join(__dirname, `${filePath}${filename}`), "utf8");
 }
 
