@@ -14,8 +14,9 @@ function memory(logger) {
 
     let firstLine = true;
 
-    memwatch.on("stats", function MemwatchOn(stats) {
+    memwatch.on("stats", function MemwatchOn(memstats) {
         let info = [];
+        const stats = memstats || {};
 
         if (firstLine) {
             info.push("num_full_gc");
