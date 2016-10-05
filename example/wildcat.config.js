@@ -5,11 +5,9 @@ const pkg = require("./package.json");
 const __DEV__ = (process.env.NODE_ENV === "development");
 const __PROD__ = (process.env.NODE_ENV === "production");
 const __BUNDLE__ = process.env.COVERAGE !== "e2e";
-const __IN_DOCKER__ = fs.existsSync("/.dockerenv");
-
 
 function getDefaultSSLFile(filename) {
-    const filePath = __IN_DOCKER__ ? "ssl/example." : "../packages/react-wildcat/ssl/server.";
+    const filePath = wildcatConfig.appServer.hostname === "localhost" ? "ssl/example." : "../packages/react-wildcat/ssl/server.";
     return fs.readFileSync(path.join(__dirname, `${filePath}${filename}`), "utf8");
 }
 
