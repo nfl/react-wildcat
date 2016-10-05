@@ -20,7 +20,7 @@ services:
       - "4000:4000"
     volumes:
       - ./src:/code/src
-    command: "dev"
+    command: "test:e2e"
 
   selenium:
     dns_search:

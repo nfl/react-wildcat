@@ -58,7 +58,7 @@ const wildcatConfig = {
         // Grab the config file from package.json
         jspmConfigFile: pkg.configFile || (pkg.jspm || {}).configFile || "config.js",
 
-        seleniumAddress: process.env.HOST || "localhost" ? null : "http://selenium:4444/wd/hub",
+        seleniumAddress: process.env.HOST === "localhost" || !process.env.HOST ? null : "http://selenium:4444/wd/hub",
 
         // Project name
         name: pkg.name,
