@@ -2,9 +2,9 @@
 const memwatch = require("memwatch-next");
 
 function memory(logger) {
-    logger = logger || console.log;
+    logger = logger || console;
 
-    console.log("Watching memory...");
+    logger.info("Watching memory...");
 
     memwatch.on("leak", function MemwatchLeak(info) {
         logger.info(`${JSON.stringify(info)}`, {
