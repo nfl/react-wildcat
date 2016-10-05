@@ -1,4 +1,4 @@
-FROM node:4.4.0
+FROM node:6.3.1
 ENV PATH ./node_modules/.bin/:$PATH
 ENV NPM_CONFIG_LOGLEVEL warn
 ENV NPM_CONFIG_OPTIONAL true
