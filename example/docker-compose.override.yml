@@ -5,7 +5,6 @@ version: '2'
 services:
   wildcat:
     depends_on:
-      - selenium
       - dnsmasq
     dns_search:
       - static.example.dev
@@ -21,21 +20,6 @@ services:
     volumes:
       - ./src:/code/src
     command: "dev"
-
-  selenium:
-    dns_search:
-      - selenium.example.dev
-    build:
-      context: ./ssl
-    image: nfl/standalone-chrome-debug:2.52.0
-    environment:
-      no_proxy: ""
-    volumes:
-      - /tmp:/e2e/uploads
-      - /dev/shm:/dev/shm
-    ports:
-      - "4444:4444"
-      - "6900:5900"
 
   dnsmasq:
     image: andyshinn/dnsmasq:2.76
