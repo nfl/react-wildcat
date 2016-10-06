@@ -21,7 +21,6 @@ describe("memory", () => {
     it("should log a stats event", (done) => {
         memwatch.emit("stats");
         expect(logger.info.callCount).to.equal(3);
-        done();
 
         setTimeout(() => {
             memwatch.emit("stats");
