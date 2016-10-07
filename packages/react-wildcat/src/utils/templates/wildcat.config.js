@@ -19,6 +19,8 @@ const wildcatConfig = {
         // Grab the config file from package.json
         jspmConfigFile: "config.js",
 
+        seleniumAddress: undefined,
+
         // Project name
         name: undefined,
 
