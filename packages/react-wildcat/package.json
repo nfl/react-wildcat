@@ -29,6 +29,7 @@
     "koa-file-server": "nfl/file-server#feature/optional-gzip",
     "koa-morgan": "^0.4.0",
     "koa-proxy": "^0.6.0",
+    "memwatch-next": "^0.3.0",
     "minimatch": "^3.0.0",
     "node-fetch": "^1.5.1",
     "node-notifier": "^4.5.0",
