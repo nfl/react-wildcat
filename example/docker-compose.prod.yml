@@ -1,0 +1,51 @@
+version: '2'
+
+services:
+  wildcat:
+    depends_on:
+      - dnsmasq
+    dns_search:
+      - www.example.dev
+    extends:
+      file: ./docker-compose.yml
+      service: wildcat
+    build:
+      context: .
+      args:
+        JSPM_GITHUB_AUTH_TOKEN:
+    links:
+      - "static:static.example.dev"
+    ports:
+      - "3000:3000"
+    entrypoint: "npm run"
+    command: "prod"
+
+  static:
+    depends_on:
+      - dnsmasq
+    dns_search:
+      - static.example.dev
+    extends:
+      file: ./docker-compose.yml
+      service: wildcat
+    build:
+      context: .
+      args:
+        JSPM_GITHUB_AUTH_TOKEN:
+    environment:
+      STATIC_HOST: static.example.dev
+    ports:
+      - "4000:4000"
+    entrypoint: "npm run"
+    command: "prod-static"
+
+  dnsmasq:
+    image: andyshinn/dnsmasq:2.76
+    restart: always
+    ports:
+      - "53535:53"
+      - "53535:53/udp"
+    cap_add:
+      - NET_ADMIN
+    command: "--log-facility=- --address=/dev/127.0.0.1"
+

@@ -103,15 +103,15 @@ module.exports = function serverRender(cfg) {
 
                         // Delete stored objects
                         prefetchedComponents
-                            .filter(function renderPropsFilter(component) {
-                                return component.prefetch;
+                            .filter(function renderPropsFilter(_component) {
+                                return _component.prefetch;
                             })
-                            .forEach(function withPrefetchedComponent(component) {
-                                let key = component.prefetch.getKey();
+                            .forEach(function withPrefetchedComponent(_component) {
+                                let key = _component.prefetch.getKey();
 
                                 /* istanbul ignore next */
-                                if (component.prefetch[key]) {
-                                    component.prefetch[key] = null;
+                                if (_component.prefetch[key]) {
+                                    _component.prefetch[key] = null;
                                 }
 
                                 key = null;

@@ -1,0 +1,32 @@
+# Note: .localhost will not work in Chrome in the selenium container, as Chrome will resolve *.localhost
+# to 127.0.0.1 instead of the container's IP address. See https://bugs.chromium.org/p/chromium/issues/detail?id=489973
+version: '2'
+
+services:
+  wildcat:
+    depends_on:
+      - dnsmasq
+    dns_search:
+      - static.example.dev
+      - www.example.dev
+    networks:
+      default:
+        aliases:
+          - www.example.dev
+          - static.example.dev
+    ports:
+      - "3000:3000"
+      - "4000:4000"
+    volumes:
+      - ./src:/code/src
+    command: "dev"
+
+  dnsmasq:
+    image: andyshinn/dnsmasq:2.76
+    restart: always
+    ports:
+      - "53535:53"
+      - "53535:53/udp"
+    cap_add:
+      - NET_ADMIN
+    command: "--log-facility=- --address=/dev/127.0.0.1"

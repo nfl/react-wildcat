@@ -1,7 +1,38 @@
+const fs = require("fs");
+const path = require("path");
+
 const pkg = require("./package.json");
 const __DEV__ = (process.env.NODE_ENV === "development");
 const __PROD__ = (process.env.NODE_ENV === "production");
 const __BUNDLE__ = process.env.COVERAGE !== "e2e";
+
+function getDefaultSSLFile(filename) {
+    const filePath = process.env.HOST === "localhost" || !process.env.HOST ? "../packages/react-wildcat/ssl/server." : "ssl/example.";
+    return fs.readFileSync(path.join(__dirname, `${filePath}${filename}`), "utf8");
+}
+
+const defaultServerKey = getDefaultSSLFile("key");
+const defaultServerCert = getDefaultSSLFile("crt");
+const defaultServerCA = getDefaultSSLFile("csr");
+
+// Only applicable when one of http2/https is true
+// https://github.com/indutny/node-spdy#options
+const secureSettings = {
+    // Provide your own key / cert / ca
+    key: defaultServerKey,
+    cert: defaultServerCert,
+    ca: defaultServerCA,
+
+    // If using http2, use the following protocols
+    protocols: [
+        "h2",
+        "spdy/3.1",
+        "spdy/3",
+        "spdy/2",
+        "http/1.1",
+        "http/1.0"
+    ]
+};
 
 function getPort(port, defaultPort) {
     if ((typeof port !== "undefined") && !(Number(port))) {
@@ -24,6 +55,8 @@ const wildcatConfig = {
     generalSettings: {
         // Grab the config file from package.json
         jspmConfigFile: pkg.configFile || (pkg.jspm || {}).configFile || "config.js",
+
+        seleniumAddress: process.env.HOST === "localhost" || !process.env.HOST ? null : "http://selenium:4444/wd/hub",
 
         // Project name
         name: pkg.name,
@@ -117,7 +150,7 @@ const wildcatConfig = {
             // One of http2 | https | http
             protocol: "http2",
 
-            hostname: "localhost",
+            hostname: process.env.HOST || "localhost",
 
             // App server port
             port: getPort(process.env.PORT, 3000),
@@ -137,26 +170,11 @@ const wildcatConfig = {
             // e.g. /static -> http://example.com/static
             proxies: {
                 "/proxy": "http://example.com/proxy"
-            }
+            },
 
             // Only applicable when one of http2/https is true
             // https://github.com/indutny/node-spdy#options
-            // secureSettings: {
-                // Provide your own key / cert / ca
-                // key: fs.readFileSync("./ssl/appServer.key"),
-                // cert: fs.readFileSync("./ssl/appServer.crt"),
-                // ca: fs.readFileSync("./ssl/appServer.csr"),
-
-                // If using http2, use the following protocols
-                // protocols: [
-                //     "h2",
-                //     "spdy/3.1",
-                //     "spdy/3",
-                //     "spdy/2",
-                //     "http/1.1",
-                //     "http/1.0"
-                // ]
-            // }
+            secureSettings
         },
 
         // config options for the static server
@@ -164,39 +182,25 @@ const wildcatConfig = {
             // An array of domains to allow for cross-origin requests
             corsOrigins: [
                 "localhost",
-                "example.com"
+                "www.example.dev",
+                "example.dev"
             ],
 
             // One of http2 | https | http
             protocol: "http2",
 
-            hostname: "localhost",
+            hostname: process.env.STATIC_HOST || "localhost",
 
             // Static server port
             port: getPort(process.env.STATIC_PORT, 4000),
 
             // number to limit the max number of CPU's
             // to spin up on a cluster
-            maxClusterCpuCount: Infinity // Infinity === as many CPU's as the machine has
+            maxClusterCpuCount: Infinity, // Infinity === as many CPU's as the machine has
 
             // Only applicable when one of http2/https is true
             // https://github.com/indutny/node-spdy#options
-            // secureSettings: {
-                // Provide your own key / cert / ca
-                // key: fs.readFileSync("./ssl/appServer.key"),
-                // cert: fs.readFileSync("./ssl/appServer.crt"),
-                // ca: fs.readFileSync("./ssl/appServer.csr"),
-
-                // If using http2, use the following protocols
-                // protocols: [
-                //     "h2",
-                //     "spdy/3.1",
-                //     "spdy/3",
-                //     "spdy/2",
-                //     "http/1.1",
-                //     "http/1.0"
-                // ]
-           // }
+            secureSettings
         }
     }
 };
