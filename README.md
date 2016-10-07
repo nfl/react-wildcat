@@ -75,7 +75,10 @@ Run:
 - `docker-compose up`
 - Open `https://www.example.dev:3000`
 
+
+
 This will run the example wildcat project, with automatic file syncing in `src/` and `api/`. The `example/` folder is a great starting point to create your own project.
+
 
 ### Getting started: local development
 
@@ -92,6 +95,7 @@ Clone this repository, then:
 ```
 
 - Open `https://www.example.dev:3000`
+- [Accept the SSL certificate](#accepting-the-development-ssl-certificate)
 
 __Note:__ You'll very likely need to increase the file watch limit. [Follow these steps](http://stackoverflow.com/a/27982223) to do so.
 
