@@ -15,14 +15,14 @@ const webdriverBin = path.join(cwd, "node_modules/protractor/bin/webdriver-manag
 const generalSettings = wildcatConfig.generalSettings;
 const coverageSettings = generalSettings.coverageSettings;
 const serverSettings = wildcatConfig.serverSettings;
-const appServerSettings = serverSettings.appServer;
+// const appServerSettings = serverSettings.appServer;
 const staticServerSettings = serverSettings.staticServer;
 
-const originUrl = url.format({
-    protocol: appServerSettings.protocol.replace("http2", "https"),
-    hostname: appServerSettings.hostname,
-    port: appServerSettings.port
-});
+// const originUrl = url.format({
+//     protocol: appServerSettings.protocol.replace("http2", "https"),
+//     hostname: appServerSettings.hostname,
+//     port: appServerSettings.port
+// });
 
 const staticUrl = url.format({
     protocol: staticServerSettings.protocol.replace("http2", "https"),
@@ -35,8 +35,8 @@ const args = process.argv.slice(2).join(" ").trim();
 /* eslint-disable no-process-exit */
 export default (async () => {
     try {
-        const origin = originUrl;
-        const shouldStartLocalServer = await checkServerStatus(origin);
+        // const origin = originUrl;
+        // const shouldStartLocalServer = await checkServerStatus(origin);
 
         const staticOrigin = staticUrl;
         const shouldStartStaticServer = await checkServerStatus(staticOrigin);
@@ -46,12 +46,18 @@ export default (async () => {
 
         let promises = [];
 
-        if (shouldStartLocalServer) {
-            promises = [
-                ...promises,
-                startLocalServer()
-            ];
-        }
+        // if (shouldStartLocalServer) {
+        //     promises = [
+        //         ...promises,
+        //         startLocalServer()
+        //     ];
+        // }
+
+        promises = [
+            ...promises,
+            startLocalServer()
+        ];
+
 
         if (shouldStartStaticServer) {
             promises = [

@@ -2,6 +2,10 @@ FROM node:6.3.1
 ENV PATH ./node_modules/.bin/:$PATH
 ENV NPM_CONFIG_LOGLEVEL warn
 
+RUN apt-get update && \
+    apt-get install -y lsof && \
+    apt-get clean
+
 # Github auth token has to be passed in during build time, unfortunately
 # the only way to do this is via an environment variable on the host
 # machine that must be set. To generate a token use `jspm registry config github`
