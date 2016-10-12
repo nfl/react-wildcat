@@ -48,7 +48,7 @@ module.exports = function defaultTemplate(cfg) {
         ` : `
         <script>
             // Remove any registered service workers (dev mode only)
-            if ("serviceWorker" in navigator) {
+            if ("serviceWorker" in navigator && location.protocol === "https:") {
                 navigator.serviceWorker.getRegistrations().then(function(registrations) {
                     for (var registration of registrations) {
                         registration.unregister();
