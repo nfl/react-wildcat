@@ -157,7 +157,7 @@ exports.clientSize = {
 };
 
 exports.cookieParser = {
-    get: () => {}
+    get: () => { }
 };
 
 exports.cookieParserWithValues = {
@@ -182,7 +182,10 @@ exports.wildcatConfig = {
     serverSettings: {
         hotReload: true,
         hotReloader: "react-wildcat-hot-reloader",
-        renderType: "renderToString"
+        renderType: "renderToString",
+        appServer: {
+            protocol: "https"
+        }
     }
 };
 
@@ -190,7 +193,10 @@ exports.wildcatConfigRenderType = Object.assign({}, exports.wildcatConfig, {
     serverSettings: {
         hotReload: true,
         hotReloader: "react-wildcat-hot-reloader",
-        renderType: () => "renderToStaticMarkup"
+        renderType: () => "renderToStaticMarkup",
+        appServer: {
+            protocol: "https"
+        }
     }
 });
 

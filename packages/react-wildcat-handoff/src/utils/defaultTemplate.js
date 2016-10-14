@@ -11,7 +11,7 @@ module.exports = function defaultTemplate(cfg) {
 
     const wildcatConfig = cfg.wildcatConfig;
     const clientSettings = wildcatConfig.clientSettings;
-    const protocol = (((wildcatConfig || {}).serverSettings || {}).appServer || {}).protocol;
+    const protocol = wildcatConfig.serverSettings.appServer.protocol;
     const generalSettings = wildcatConfig.generalSettings;
 
     const coverage = generalSettings.coverage;
@@ -240,7 +240,7 @@ module.exports = function defaultTemplate(cfg) {
                     // Pass options to server
                     return client(clientOptions);
                 })
-                ${hotReload? `.then(function hotReloadFlag() {
+                ${hotReload ? `.then(function hotReloadFlag() {
                     // Flag hot reloading
                     System.hot = true;
                 })` : ``}
