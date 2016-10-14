@@ -157,7 +157,7 @@ exports.clientSize = {
 };
 
 exports.cookieParser = {
-    get: () => { }
+    get: () => {}
 };
 
 exports.cookieParserWithValues = {
