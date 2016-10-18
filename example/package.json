@@ -1,14 +1,14 @@
 {
   "name": "react-wildcat-example",
   "description": "An example Wildcat project.",
-  "version": "4.0.0",
+  "version": "5.0.2",
   "dependencies": {
     "babel-cli": "^6.8.0",
-    "jspm": "nfl/jspm-cli#0.16.34/fetch-support",
+    "jspm": "nfl/jspm-cli#0.16.45/fetch-support",
     "koa-favicon": "^1.2.1",
     "koa-route": "^2.4.2",
     "koa-static": "^2.0.0",
-    "react-wildcat": "4.1.0",
+    "react-wildcat": "5.1.0",
     "rimraf": "^2.5.2"
   },
   "devDependencies": {
@@ -31,17 +31,19 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
     "concurrently": "^2.0.0",
-    "eslint": "^2.9.0",
-    "eslint-config-nfl": "^9.0.0",
-    "eslint-import-resolver-jspm": "^2.1.0",
-    "eslint-plugin-import": "^1.7.0",
-    "eslint-plugin-jsx-a11y": "^1.2.2",
-    "eslint-plugin-mocha": "^2.2.0",
-    "eslint-plugin-react": "^5.1.1",
+    "eslint": "^3.2.2",
+    "eslint-config-nfl": "10.0.0",
+    "eslint-import-resolver-jspm": "2.1.0",
+    "eslint-plugin-async-await": "0.0.0",
+    "eslint-plugin-flowtype": "2.4.0",
+    "eslint-plugin-import": "1.12.0",
+    "eslint-plugin-jsx-a11y": "2.0.1",
+    "eslint-plugin-mocha": "4.3.0",
+    "eslint-plugin-react": "6.0.0",
     "estraverse": "^4.2.0",
     "estraverse-fb": "^1.3.1",
     "istanbul": "https://github.com/nfl/istanbul/tarball/6a3222a5bca6e38af456c1c18d724e1daf69533d",
-    "karma": "^0.13.22",
+    "karma": "^1.1.2",
     "karma-chai-sinon": "^0.1.5",
     "karma-cli": "^1.0.0",
     "karma-coverage": "^1.0.0",
@@ -53,39 +55,38 @@
     "karma-sourcemap-loader": "^0.3.7",
     "mocha": "^2.4.5",
     "phantomjs-prebuilt": "^2.1.7",
-    "protractor": "^3.3.0",
+    "protractor": "4.0.4",
     "protractor-console": "^2.0.1",
     "protractor-istanbul-plugin": "^2.0.0",
-    "react-wildcat-test-runners": "4.0.0",
+    "react-wildcat-test-runners": "5.0.0",
     "replace": "^0.3.0",
     "resolve": "^1.1.7",
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0",
-    "sw-precache": "^3.1.1"
+    "sw-precache": "^4.0.0"
   },
   "jspm": {
     "configFile": "system.config.js",
     "dependencies": {
       "babel-polyfill": "npm:babel-polyfill@^6.8.0",
       "exenv": "npm:exenv@^1.2.1",
-      "history": "npm:history@^2.1.1",
       "isomorphic-fetch": "npm:isomorphic-fetch@^2.2.1",
-      "radium": "npm:radium@^0.17.1",
-      "react": "npm:react@15.1.0",
-      "react-dom": "npm:react-dom@15.1.0",
+      "radium": "npm:radium@0.18.1",
+      "react": "npm:react@15.3.1",
+      "react-dom": "npm:react-dom@15.3.1",
       "react-helmet": "npm:react-helmet@^3.1.0",
       "react-metrics": "npm:react-metrics@^2.0.0",
-      "react-router": "npm:react-router@^2.4.0",
-      "react-wildcat-ensure": "npm:react-wildcat-ensure@4.1.0",
-      "react-wildcat-handoff": "npm:react-wildcat-handoff@4.1.1",
-      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@4.1.0"
+      "react-router": "npm:react-router@2.6.0",
+      "react-wildcat-ensure": "npm:react-wildcat-ensure@5.0.0",
+      "react-wildcat-handoff": "npm:react-wildcat-handoff@5.0.2",
+      "react-wildcat-prefetch": "npm:react-wildcat-prefetch@5.0.2"
     },
     "devDependencies": {
       "enzyme": "npm:enzyme@^2.3.0",
-      "react-addons-test-utils": "npm:react-addons-test-utils@15.1.0",
+      "react-addons-test-utils": "npm:react-addons-test-utils@15.3.1",
       "react-transform-catch-errors": "npm:react-transform-catch-errors@^1.0.2",
       "react-transform-jspm-hmr": "npm:react-transform-jspm-hmr@^1.0.1",
-      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@4.1.0",
+      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@5.0.0",
       "redbox-react": "npm:redbox-react@^1.2.4"
     },
     "overrides": {
@@ -95,15 +96,6 @@
           "react/lib/ExecutionEnvironment": "@empty",
           "react/lib/ReactContext": "@empty"
         }
-      },
-      "npm:radium@0.17.1": {
-        "dependencies": {
-          "array-find": "npm:array-find@1.0.0",
-          "exenv": "npm:exenv@1.2.1",
-          "inline-style-prefixer": "npm:inline-style-prefixer@1.0.3"
-        },
-        "main": "dist/radium.js",
-        "registry": "jspm"
       }
     }
   },

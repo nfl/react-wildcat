@@ -17,6 +17,11 @@ ls("packages").forEach((loc) => {
     const pkg = require(pkgPath);
 
     cd(pkgDir);
+
+    if (pkgDir === "react-wildcat-handoff") {
+        exec(`npm run build`);
+    }
+
     exec(`npm link`);
 
     if (name !== "react-wildcat" && name !== "react-wildcat-test-runners") {

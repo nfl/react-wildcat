@@ -1,20 +1,25 @@
 "use strict";
 
 const ReactDOM = require("react-dom/server");
-const Helmet = require("react-helmet");
 const Router = require("react-router");
+const serverContext = require("./serverContext.js");
+
+const Helmet = require("react-helmet");
 const defaultTemplate = require("./defaultTemplate.js");
 
-const serverContext = require("./serverContext.js");
 const match = Router.match;
 
 module.exports = function serverRender(cfg) {
-    const cookies = cfg.cookies;
+    const headers = cfg.headers;
     const request = cfg.request;
     const wildcatConfig = cfg.wildcatConfig;
 
     return new Promise(function serverRenderPromise(resolve, reject) {
-        match(cfg, function serverRenderMatch(error, redirectLocation, renderProps) {
+        match({
+            history: cfg.history,
+            location: cfg.location,
+            routes: cfg.routes
+        }, function serverRenderMatch(error, redirectLocation, renderProps) {
             let result = {};
 
             if (error) {
@@ -41,31 +46,34 @@ module.exports = function serverRender(cfg) {
                             return component.prefetch;
                         })
                         .map(function renderPropsMap(component) {
-                            const prefetch = component.prefetch;
-                            const key = prefetch.getKey();
+                            let key = component.prefetch.getKey();
 
-                            return prefetch.run(renderProps).then(
+                            return component.prefetch.run(renderProps).then(
                                 function renderPropsPrefetchResult(props) {
                                     initialData = initialData || {};
-                                    initialData[key] = prefetch[key] = props;
+
+                                    initialData[key] = props;
+                                    component.prefetch[key] = props;
+
+                                    key = null;
+                                    return component;
                                 }
                             );
                         })
                 )
-                    .then(function serverRenderPromiseResult() {
-                        const renderType = wildcatConfig.serverSettings.renderType;
+                    .then(function serverRenderPromiseResult(prefetchedComponents) {
+                        var component = serverContext(cfg, headers, renderProps);
 
+                        const renderType = wildcatConfig.serverSettings.renderType;
                         const getRenderType = (typeof renderType === "function") ?
                             renderType({
                                 wildcatConfig,
                                 request,
-                                cookies,
+                                headers,
                                 renderProps
                             }) : renderType;
 
-                        const reactMarkup = ReactDOM[getRenderType](
-                            serverContext(request, cookies, renderProps)
-                        );
+                        const reactMarkup = ReactDOM[getRenderType](component);
 
                         const head = Object.assign({
                             link: "",
@@ -76,12 +84,12 @@ module.exports = function serverRender(cfg) {
                         const htmlTemplate = wildcatConfig.serverSettings.htmlTemplate || defaultTemplate;
 
                         const html = htmlTemplate({
-                            data: initialData,
+                            data: Object.assign({}, initialData),
                             head: head,
                             html: reactMarkup,
                             wildcatConfig,
                             request,
-                            cookies,
+                            headers,
                             renderProps
                         });
 
@@ -89,6 +97,25 @@ module.exports = function serverRender(cfg) {
                             html: html,
                             status: 200
                         });
+
+                        // Delete stored object
+                        initialData = null;
+
+                        // Delete stored objects
+                        prefetchedComponents
+                            .filter(function renderPropsFilter(_component) {
+                                return _component.prefetch;
+                            })
+                            .forEach(function withPrefetchedComponent(_component) {
+                                let key = _component.prefetch.getKey();
+
+                                /* istanbul ignore next */
+                                if (_component.prefetch[key]) {
+                                    _component.prefetch[key] = null;
+                                }
+
+                                key = null;
+                            });
 
                         return resolve(result);
                     })

@@ -2,6 +2,7 @@
 
 const serverRender = require("./utils/serverRender.js");
 const getDomainRoutes = require("./utils/getDomainRoutes.js");
+const cookie = require("cookie");
 
 const createMemoryHistory = require("history").createMemoryHistory;
 const useRouterHistory = require("react-router").useRouterHistory;
@@ -16,14 +17,23 @@ function completeRender(cfg, routes) {
 
 function render(cfg) {
     return function serverHandoff(request, cookies, wildcatConfig) {
-        const header = request.header;
-        const url = request.url;
+        const headers = {
+            cookies: cookie.parse(request.header.cookie || ""),
+            host: request.header.host,
+            protocol: request.protocol,
+            referrer: request.header.referer,
+            userAgent: request.header["user-agent"] || "*"
+        };
 
         const serverHistory = useRouterHistory(createMemoryHistory)();
-        const serverLocation = serverHistory.createLocation(url);
+        const serverLocation = serverHistory.createLocation(
+            Object.assign({}, serverHistory.createLocation(request.url), {
+                state: headers
+            })
+        );
 
         cfg = Object.assign({}, cfg, {
-            cookies,
+            headers,
             history: serverHistory,
             location: serverLocation,
             request,
@@ -32,7 +42,7 @@ function render(cfg) {
 
         if (!cfg.routes && cfg.domains) {
             return new Promise((resolve, reject) => {
-                getDomainRoutes(cfg.domains, header, (error, routes) => {
+                getDomainRoutes(cfg.domains, headers, (error, routes) => {
                     if (error) {
                         return reject(error);
                     }

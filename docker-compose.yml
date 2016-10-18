@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+  wildcat:
+    build:
+      context: .
+      args:
+        JSPM_GITHUB_AUTH_TOKEN:
+    image: "nfl/react-wildcat:latest"
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      STATIC_PORT: 4000
+      COVERAGE:
+      LOG_LEVEL:
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
+      CI:
+      TRAVIS:
+      TRAVIS_COMMIT:
+      TRAVIS_JOB_NUMBER:
+      TRAVIS_BRANCH:
+      TRAVIS_JOB_ID:
+      TRAVIS_PULL_REQUEST:
+      TRAVIS_REPO_SLUG:
+    working_dir: /code
+    ulimits:
+      nproc: 65535
+    entrypoint: "make"
+    command: "test-travis"

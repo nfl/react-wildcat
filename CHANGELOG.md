@@ -1,3 +1,125 @@
+<a name="5.1.0"></a>
+# [5.1.0](https://github.com/nfl/react-wildcat/compare/5.0.0...v5.1.0) (2016-09-23)
+
+
+### Features
+
+* **react-wildcat:** Ability to pass options to wildcat node process ([#149](https://github.com/nfl/react-wildcat/issues/149)) ([df6082f](https://github.com/nfl/react-wildcat/commit/df6082f))
+
+
+
+<a name="5.0.2"></a>
+## [5.0.2](https://github.com/nfl/react-wildcat/compare/5.0.0...v5.0.2) (2016-09-22)
+
+
+### Bug Fixes
+
+* **react-wildcat-prefetch:** Fix lost reference to prefetched data ([6b900d5](https://github.com/nfl/react-wildcat/commit/6b900d5))
+
+
+### Performance Improvements
+
+* **react-wildcat-handoff:** De-reference initialData object ([#157](https://github.com/nfl/react-wildcat/issues/157)) ([f0d0fa5](https://github.com/nfl/react-wildcat/commit/f0d0fa5))
+
+
+
+<a name="5.0.1"></a>
+## [5.0.1](https://github.com/nfl/react-wildcat/compare/5.0.0...v5.0.1) (2016-09-21)
+
+
+### Performance Improvements
+
+* **react-wildcat-handoff:** De-reference initialData object ([#157](https://github.com/nfl/react-wildcat/issues/157)) ([f0d0fa5](https://github.com/nfl/react-wildcat/commit/f0d0fa5))
+
+
+
+<a name="5.0.0"></a>
+# [5.0.0](https://github.com/nfl/react-wildcat/compare/4.5.0...v5.0.0) (2016-09-07)
+
+
+### Performance Improvements
+
+* **react-wildcat:** Update jspm to fix potential memory leak ([#153](https://github.com/nfl/react-wildcat/issues/153)) ([1046346](https://github.com/nfl/react-wildcat/commit/1046346))
+
+
+
+<a name="4.5.0"></a>
+# [4.5.0](https://github.com/nfl/react-wildcat/compare/4.4.1...v4.5.0) (2016-08-08)
+
+
+### Bug Fixes
+
+* **react-wildcat-prefetch:** Check for existence of key before returning an undefined value. ([af1a1d9](https://github.com/nfl/react-wildcat/commit/af1a1d9))
+
+
+### Features
+
+* **react-wildcat-prefetch:** Allow users to define custom initial data keys ([b25cb51](https://github.com/nfl/react-wildcat/commit/b25cb51))
+
+
+
+<a name="4.4.1"></a>
+## [4.4.1](https://github.com/nfl/react-wildcat/compare/4.4.0...v4.4.1) (2016-07-27)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Fix initializing an IndexedDB cache in Firefox ([#141](https://github.com/nfl/react-wildcat/issues/141)) ([99cddef](https://github.com/nfl/react-wildcat/commit/99cddef)), closes [#141](https://github.com/nfl/react-wildcat/issues/141)
+* **react-wildcat-handoff:** Resolve multiple subdomains correctly ([#147](https://github.com/nfl/react-wildcat/issues/147)) ([024b5d4](https://github.com/nfl/react-wildcat/commit/024b5d4)), closes [#147](https://github.com/nfl/react-wildcat/issues/147)
+
+
+
+<a name="4.4.0"></a>
+# [4.4.0](https://github.com/nfl/react-wildcat/compare/4.3.1...v4.4.0) (2016-07-22)
+
+
+### Features
+
+* **react-wildcat-handoff:** Ability to alias by subdomain ([#146](https://github.com/nfl/react-wildcat/issues/146)) ([6221547](https://github.com/nfl/react-wildcat/commit/6221547))
+
+
+
+<a name="4.3.1"></a>
+## [4.3.1](https://github.com/nfl/react-wildcat/compare/4.3.0...v4.3.1) (2016-07-18)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Replace arrow functions with named callbacks. ([9dd5f5f](https://github.com/nfl/react-wildcat/commit/9dd5f5f))
+
+
+
+<a name="4.3.0"></a>
+# [4.3.0](https://github.com/nfl/react-wildcat/compare/4.2.0...v4.3.0) (2016-07-13)
+
+
+### Features
+
+* **react-wildcat-handoff:** Add support for domain aliases ([#144](https://github.com/nfl/react-wildcat/issues/144)) ([249afcd](https://github.com/nfl/react-wildcat/commit/249afcd))
+
+
+
+<a name="4.2.0"></a>
+# [4.2.0](https://github.com/nfl/react-wildcat/compare/4.1.0...v4.2.0) (2016-06-27)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Add cookie and referrer data support ([#139](https://github.com/nfl/react-wildcat/issues/139)) ([507611f](https://github.com/nfl/react-wildcat/commit/507611f))
+* **react-wildcat-handoff:** Add development-specific TLDs ([#137](https://github.com/nfl/react-wildcat/issues/137)) ([7d15c64](https://github.com/nfl/react-wildcat/commit/7d15c64))
+
+
+### Features
+
+* **example:** Add service worker caching to the example project ([#135](https://github.com/nfl/react-wildcat/issues/135)) ([9f9fa1e](https://github.com/nfl/react-wildcat/commit/9f9fa1e))
+
+
+### Performance Improvements
+
+* **example:** Move React into separate bundle. ([#134](https://github.com/nfl/react-wildcat/issues/134)) ([7176a4d](https://github.com/nfl/react-wildcat/commit/7176a4d))
+
+
+
 <a name="4.1.0"></a>
 # [4.1.0](https://github.com/nfl/react-wildcat/compare/4.0.0...v4.1.0) (2016-05-24)
 

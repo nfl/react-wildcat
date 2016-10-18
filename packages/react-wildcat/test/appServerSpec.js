@@ -127,6 +127,38 @@ describe("appServer", () => {
                     }
                 });
 
+                it(`starts the server in debug mode when env DEBUG=wildcat`, (done) => {
+                    process.env.DEBUG = "wildcat";
+                    const memorySpy = sinon.spy();
+
+                    const server = proxyquire("../src/server.js", {
+                        "cluster": {
+                            isMaster: false,
+                            worker: {
+                                id: 1
+                            }
+                        },
+                        "./memory": memorySpy
+                    });
+
+                    server.start()
+                        .then((result) => {
+                            expect(result)
+                                .to.exist;
+
+                            expect(result)
+                                .to.be.an("object")
+                                .that.has.property("env")
+                                .that.equals(process.env.NODE_ENV);
+
+                            expect(memorySpy.called);
+
+                            server.close();
+                            delete process.env.DEBUG;
+                            done();
+                        });
+                });
+
                 ["http2", "https", "http"].forEach(currentProtocol => {
                     it(`starts the server programmatically using ${currentProtocol}`, (done) => {
                         const server = proxyquire("../src/server.js", {
