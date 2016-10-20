@@ -1,12 +1,16 @@
 ## Reference configuration
 
-Configuration information for a wildcat project lives in a `wildcat.config.js` in the project's root directory. Everything is configurable, but by default wildcat loads [sensible defaults](https://github.com/nfl/react-wildcat/blob/master/packages/react-wildcat-handoff/src/utils/defaultTemplate.js). For a brand new project, we reccomend copying the [example project](https://github.com/nfl/react-wildcat/tree/master/example) and tweaking from there.  
+Configuration information for a wildcat project lives in a `wildcat.config.js` in the project's root directory. Everything is configurable, but by default wildcat loads [sensible defaults](https://github.com/nfl/react-wildcat/blob/master/packages/react-wildcat-handoff/src/utils/defaultTemplate.js). For a brand new project, we reccomend copying the [example project](https://github.com/nfl/react-wildcat/tree/master/example) and tweaking from there.
 
 ```js
 const wildcatConfig = {
     generalSettings: {
         // Config file for jspm. Defaults to the value defined in package.json
         jspmConfigFile: "config.js",
+
+        // Optional. Set the static url. By default this is determined
+        // automatically by Wildcat
+        staticUrl: "https://localhost:4000",
 
         // Project name
         name: undefined,
@@ -19,7 +23,7 @@ const wildcatConfig = {
 
         // Only applicable when coverage is true
         coverageSettings: {
-            // Pass in node 
+            // Pass in node
             env: undefined,
 
             // Instanbul settings for e2e integration tests with protractor
@@ -93,6 +97,9 @@ const wildcatConfig = {
         // Enable the Blue Box of Death to display server errors
         displayBlueBoxOfDeath: !__PROD__,
 
+        // Enable hot reloading. Useful in development mode. Allows
+        // developers to view file changes in their browser without
+        // having to reload the window themselves.
         hotReload: !__PROD__,
         hotReloader: "react-wildcat-hot-reloader",
         hotReloadReporter: undefined,
@@ -100,11 +107,11 @@ const wildcatConfig = {
         localPackageCache: !__PROD__ || __TEST__,
 
         // BYO-HTML template
-        // htmlTemplate: require("./customHTMLTemplate.js"),
+        htmlTemplate: require("./customHTMLTemplate.js"),
 
         // Graylog config options for the node server
         // https://www.npmjs.com/package/gelf-pro#configuration
-        // graylog: {},
+        graylog: {},
 
         // Directory to output compiled JavaScript modules
         publicDir: "public",
@@ -131,11 +138,11 @@ const wildcatConfig = {
             middleware: [
                 // EXAMPLE: sample server-only api route.
                 //
-                // function(app, wildcatConfig) {
-                //     app.use(route.get("/react-wildcat-server-only-example", function* () {
-                //         this.body = "Hello from the server world!";
-                //     }));
-                // }
+                function(app, wildcatConfig) {
+                    app.use(route.get("/react-wildcat-server-only-example", function* () {
+                        this.body = "Hello from the server world!";
+                    }));
+                }
             ],
 
             // A key/value of urls to proxy
