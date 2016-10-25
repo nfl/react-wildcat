@@ -3,6 +3,7 @@
 
 const NOW = Date.now();
 const __PROD__ = process.env.NODE_ENV === "production";
+const __DEV__ = process.env.NODE_ENV === "development";
 
 module.exports = function defaultTemplate(cfg) {
     const data = cfg.data;
@@ -11,6 +12,7 @@ module.exports = function defaultTemplate(cfg) {
 
     const wildcatConfig = cfg.wildcatConfig;
     const clientSettings = wildcatConfig.clientSettings;
+    const protocol = wildcatConfig.serverSettings.appServer.protocol;
     const generalSettings = wildcatConfig.generalSettings;
 
     const coverage = generalSettings.coverage;
@@ -44,11 +46,13 @@ module.exports = function defaultTemplate(cfg) {
     </head>
     <body>
         <div id="${reactRootElementID}">${html}</div>
-        ${serviceWorker ? `
+        ${serviceWorker && protocol !== "http" ? `
         <script src="/register-sw.js"></script>
-        ` : `
+        ` : ``}
+
+        ${serviceWorker && __DEV__ && protocol !== "http" ? `
         <script>
-            // Remove any registered service workers (dev mode only)
+            // Remove any registered service workers
             if ("serviceWorker" in navigator) {
                 navigator.serviceWorker.getRegistrations().then(function(registrations) {
                     for (var registration of registrations) {
@@ -60,7 +64,8 @@ module.exports = function defaultTemplate(cfg) {
                 })
             }
         </script>
-        `}
+        ` : ``}
+
         <script>
             __INITIAL_DATA__ = ${JSON.stringify(data)};
             __REACT_ROOT_ID__ = "${reactRootElementID}";
@@ -236,7 +241,7 @@ module.exports = function defaultTemplate(cfg) {
                     // Pass options to server
                     return client(clientOptions);
                 })
-                ${hotReload? `.then(function hotReloadFlag() {
+                ${hotReload ? `.then(function hotReloadFlag() {
                     // Flag hot reloading
                     System.hot = true;
                 })` : ``}

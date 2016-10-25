@@ -182,7 +182,10 @@ exports.wildcatConfig = {
     serverSettings: {
         hotReload: true,
         hotReloader: "react-wildcat-hot-reloader",
-        renderType: "renderToString"
+        renderType: "renderToString",
+        appServer: {
+            protocol: "https"
+        }
     }
 };
 
@@ -190,7 +193,32 @@ exports.wildcatConfigRenderType = Object.assign({}, exports.wildcatConfig, {
     serverSettings: {
         hotReload: true,
         hotReloader: "react-wildcat-hot-reloader",
-        renderType: () => "renderToStaticMarkup"
+        renderType: () => "renderToStaticMarkup",
+        appServer: {
+            protocol: "https"
+        }
+    }
+});
+
+exports.wildcatConfigServiceWorkerEnabled = Object.assign({}, exports.wildcatConfig, {
+    clientSettings: {
+        serviceWorker: true
+    }
+});
+exports.wildcatConfigServiceWorkerDisabled = Object.assign({}, exports.wildcatConfig, {
+    clientSettings: {
+        serviceWorker: false
+    }
+});
+exports.wildcatConfigServiceWorkerEnabledNoHttps = Object.assign({}, exports.wildcatConfig, {
+    clientSettings: {
+        serviceWorker: true
+    },
+    serverSettings: {
+        renderType: () => "renderToStaticMarkup",
+        appServer: {
+            protocol: "http"
+        }
     }
 });
 
@@ -399,5 +427,6 @@ exports.prefetchedRoutes = {
 
 exports.developmentPayload = `System.import("react-wildcat-hot-reloader")`;
 exports.hydratedPayload = `__INITIAL_DATA__ = {"${exports.prefetchedDataKey}":${JSON.stringify(exports.prefetchedData)}};`;
+exports.serviceWorkerPayload = `<script src="/register-sw.js">`;
 
 exports.__REACT_ROOT_ID__ = "__REACT_ROOT_ID__";
