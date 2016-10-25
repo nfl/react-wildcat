@@ -181,7 +181,7 @@ module.exports = function defaultTemplate(cfg) {
                             name.indexOf(".") !== -1 &&
 
                             // name is one of...
-                            (/\.(?:css|eot|gif|jpe?g|json|otf|png|swf|svg|ttf|woff)\.js$/).test(url)
+                            (/\\.(?:css|eot|gif|jpe?g|json|otf|png|swf|svg|ttf|woff)\.js$/).test(url)
                         ) {
                             return url.replace(/\.js$/, "");
                         }
