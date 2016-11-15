@@ -1,14 +1,14 @@
 {
   "name": "react-wildcat-example",
   "description": "An example Wildcat project.",
-  "version": "5.0.2",
+  "version": "5.2.0",
   "dependencies": {
     "babel-cli": "^6.8.0",
     "jspm": "nfl/jspm-cli#0.16.45/fetch-support",
     "koa-favicon": "^1.2.1",
     "koa-route": "^2.4.2",
     "koa-static": "^2.0.0",
-    "react-wildcat": "5.1.0",
+    "react-wildcat": "5.2.0",
     "rimraf": "^2.5.2"
   },
   "devDependencies": {

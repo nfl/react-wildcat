@@ -1,3 +1,13 @@
+<a name="5.2.0"></a>
+# [5.2.0](https://github.com/nfl/react-wildcat/compare/5.1.0...v5.2.0) (2016-11-15)
+
+
+### Features
+
+* **react-wildcat:** Add option to attempt reconnect on worker disconnect ([9172f78](https://github.com/nfl/react-wildcat/commit/9172f78))
+
+
+
 <a name="5.1.0"></a>
 # [5.1.0](https://github.com/nfl/react-wildcat/compare/5.0.0...v5.1.0) (2016-09-23)
 
