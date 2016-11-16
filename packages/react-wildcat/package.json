@@ -40,7 +40,7 @@
     "slash": "^1.0.0",
     "spdy": "^3.3.2",
     "uglify-js": "^2.6.2",
-    "ws": "^1.1.0"
+    "uws": "^0.11.0"
   },
   "optionalDependencies": {
     "bufferutil": "^1.2.1",
