@@ -11,7 +11,7 @@ System.config({
     "cookie": "npm:cookie@0.3.1",
     "cookies-js": "npm:cookies-js@1.2.3",
     "exenv": "npm:exenv@1.2.1",
-    "history": "npm:history@2.1.2",
+    "history": "npm:history@3.2.1",
     "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
     "invariant": "npm:invariant@2.2.2",
     "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
@@ -20,7 +20,7 @@ System.config({
     "react-addons-test-utils": "npm:react-addons-test-utils@15.4.0",
     "react-dom": "npm:react-dom@15.4.0",
     "react-helmet": "npm:react-helmet@3.2.2",
-    "react-router": "npm:react-router@2.8.1",
+    "react-router": "npm:react-router@3.0.0",
     "react-wildcat-handoff": "npm:react-wildcat-handoff@5.0.2",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@5.0.2",
     "sinon": "npm:sinon@1.17.6",
@@ -140,12 +140,12 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "samsam": "npm:samsam@1.1.2"
     },
-    "npm:history@2.1.2": {
-      "deep-equal": "npm:deep-equal@1.0.1",
+    "npm:history@3.2.1": {
       "invariant": "npm:invariant@2.2.2",
+      "loose-envify": "npm:loose-envify@1.3.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "query-string": "npm:query-string@3.0.3",
-      "warning": "npm:warning@2.1.0"
+      "query-string": "npm:query-string@4.2.3",
+      "warning": "npm:warning@3.0.0"
     },
     "npm:https-browserify@0.0.0": {
       "http": "github:jspm/nodelibs-http@1.7.1"
@@ -217,14 +217,12 @@ System.config({
     "npm:punycode@1.3.2": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:query-string@3.0.3": {
+    "npm:query-string@4.2.3": {
+      "object-assign": "npm:object-assign@4.1.0",
       "strict-uri-encode": "npm:strict-uri-encode@1.1.0"
     },
     "npm:react-addons-test-utils@15.4.0": {
       "react-dom": "npm:react-dom@15.4.0"
-    },
-    "npm:react-dom@15.3.1": {
-      "react": "npm:react@15.4.0"
     },
     "npm:react-dom@15.4.0": {
       "fbjs": "npm:fbjs@0.8.6",
@@ -240,8 +238,8 @@ System.config({
       "shallowequal": "npm:shallowequal@0.2.2",
       "warning": "npm:warning@3.0.0"
     },
-    "npm:react-router@2.8.1": {
-      "history": "npm:history@2.1.2",
+    "npm:react-router@3.0.0": {
+      "history": "npm:history@3.2.1",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
       "invariant": "npm:invariant@2.2.2",
       "loose-envify": "npm:loose-envify@1.3.0",
@@ -255,14 +253,14 @@ System.config({
     "npm:react-wildcat-handoff@5.0.2": {
       "cookie": "npm:cookie@0.3.1",
       "cookies-js": "npm:cookies-js@1.2.3",
-      "history": "npm:history@2.1.2",
+      "history": "npm:history@3.2.1",
       "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
       "parse-domain": "npm:parse-domain@0.2.2",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "react": "npm:react@15.3.1",
-      "react-dom": "npm:react-dom@15.3.1",
+      "react": "npm:react@15.4.0",
+      "react-dom": "npm:react-dom@15.4.0",
       "react-helmet": "npm:react-helmet@3.2.2",
-      "react-router": "npm:react-router@2.8.1",
+      "react-router": "npm:react-router@3.0.0",
       "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@5.0.0"
     },
     "npm:react-wildcat-hot-reloader@5.0.0": {
@@ -273,13 +271,7 @@ System.config({
       "exenv": "npm:exenv@1.2.1",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
       "invariant": "npm:invariant@2.2.2",
-      "react": "npm:react@15.3.1"
-    },
-    "npm:react@15.3.1": {
-      "fbjs": "npm:fbjs@0.8.6",
-      "loose-envify": "npm:loose-envify@1.3.0",
-      "object-assign": "npm:object-assign@4.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2"
+      "react": "npm:react@15.4.0"
     },
     "npm:react@15.4.0": {
       "fbjs": "npm:fbjs@0.8.6",
@@ -345,10 +337,6 @@ System.config({
     },
     "npm:vm-browserify@0.0.4": {
       "indexof": "npm:indexof@0.0.1"
-    },
-    "npm:warning@2.1.0": {
-      "loose-envify": "npm:loose-envify@1.3.0",
-      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:warning@3.0.0": {
       "loose-envify": "npm:loose-envify@1.3.0",
