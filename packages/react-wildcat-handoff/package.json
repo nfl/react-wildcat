@@ -8,8 +8,8 @@
     "history": "^2.1.2",
     "isomorphic-fetch": "^2.2.1",
     "parse-domain": "^0.2.1",
-    "react": "15.3.1",
-    "react-dom": "15.3.1",
+    "react": "15.4.0",
+    "react-dom": "15.4.0",
     "react-helmet": "^3.1.0",
     "react-router": "^2.6.0",
     "react-wildcat-hot-reloader": "5.0.0"

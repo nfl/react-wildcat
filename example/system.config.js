@@ -75,9 +75,9 @@ System.config({
     "exenv": "npm:exenv@1.2.1",
     "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
     "radium": "npm:radium@0.18.1",
-    "react": "npm:react@15.3.1",
-    "react-addons-test-utils": "npm:react-addons-test-utils@15.3.1",
-    "react-dom": "npm:react-dom@15.3.1",
+    "react": "npm:react@15.4.0",
+    "react-addons-test-utils": "npm:react-addons-test-utils@15.4.0",
+    "react-dom": "npm:react-dom@15.4.0",
     "react-helmet": "npm:react-helmet@3.1.0",
     "react-metrics": "npm:react-metrics@2.1.1",
     "react-router": "npm:react-router@2.6.0",
@@ -178,7 +178,7 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:asap@2.0.4": {
+    "npm:asap@2.0.5": {
       "domain": "github:jspm/nodelibs-domain@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
@@ -321,7 +321,7 @@ System.config({
       "base64-js": "npm:base64-js@0.0.8",
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
-      "ieee754": "npm:ieee754@1.1.6",
+      "ieee754": "npm:ieee754@1.1.8",
       "isarray": "npm:isarray@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
@@ -505,7 +505,7 @@ System.config({
       "object-is": "npm:object-is@1.0.1",
       "object.assign": "npm:object.assign@4.0.4",
       "object.values": "npm:object.values@1.0.3",
-      "react": "npm:react@15.3.1"
+      "react": "npm:react@15.4.0"
     },
     "npm:error-stack-parser@1.3.6": {
       "stackframe": "npm:stackframe@0.3.1"
@@ -549,15 +549,14 @@ System.config({
       "promise": "npm:promise@7.1.1",
       "whatwg-fetch": "npm:whatwg-fetch@0.9.0"
     },
-    "npm:fbjs@0.8.4": {
+    "npm:fbjs@0.8.6": {
       "core-js": "npm:core-js@1.2.7",
-      "immutable": "npm:immutable@3.8.1",
       "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
-      "loose-envify": "npm:loose-envify@1.2.0",
+      "loose-envify": "npm:loose-envify@1.3.0",
       "object-assign": "npm:object-assign@4.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "promise": "npm:promise@7.1.1",
-      "ua-parser-js": "npm:ua-parser-js@0.7.10"
+      "ua-parser-js": "npm:ua-parser-js@0.7.12"
     },
     "npm:forever-agent@0.6.1": {
       "http": "github:jspm/nodelibs-http@1.7.1",
@@ -699,7 +698,7 @@ System.config({
       "inline-style-prefix-all": "npm:inline-style-prefix-all@2.0.2"
     },
     "npm:invariant@2.2.1": {
-      "loose-envify": "npm:loose-envify@1.2.0",
+      "loose-envify": "npm:loose-envify@1.3.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:is-my-json-valid@2.14.0": {
@@ -711,7 +710,7 @@ System.config({
       "xtend": "npm:xtend@4.0.1"
     },
     "npm:isomorphic-fetch@2.2.1": {
-      "node-fetch": "npm:node-fetch@1.6.1",
+      "node-fetch": "npm:node-fetch@1.6.3",
       "whatwg-fetch": "npm:whatwg-fetch@0.9.0"
     },
     "npm:isstream@0.1.2": {
@@ -772,9 +771,9 @@ System.config({
       "lodash.isarguments": "npm:lodash.isarguments@3.1.0",
       "lodash.isarray": "npm:lodash.isarray@3.0.4"
     },
-    "npm:loose-envify@1.2.0": {
+    "npm:loose-envify@1.3.0": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
-      "js-tokens": "npm:js-tokens@1.0.3",
+      "js-tokens": "npm:js-tokens@2.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "stream": "github:jspm/nodelibs-stream@0.1.0",
       "util": "github:jspm/nodelibs-util@0.1.0"
@@ -794,7 +793,7 @@ System.config({
       "brace-expansion": "npm:brace-expansion@1.1.6",
       "path": "github:jspm/nodelibs-path@0.1.0"
     },
-    "npm:node-fetch@1.6.1": {
+    "npm:node-fetch@1.6.3": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "encoding": "npm:encoding@0.1.12",
       "http": "github:jspm/nodelibs-http@1.7.1",
@@ -888,7 +887,7 @@ System.config({
       "vm": "github:jspm/nodelibs-vm@0.1.0"
     },
     "npm:promise@7.1.1": {
-      "asap": "npm:asap@2.0.4",
+      "asap": "npm:asap@2.0.5",
       "fs": "github:jspm/nodelibs-fs@0.1.2"
     },
     "npm:public-encrypt@4.0.0": {
@@ -918,11 +917,15 @@ System.config({
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:react-addons-test-utils@15.3.1": {
-      "react": "npm:react@15.3.1"
+    "npm:react-addons-test-utils@15.4.0": {
+      "react-dom": "npm:react-dom@15.4.0"
     },
-    "npm:react-dom@15.3.1": {
-      "react": "npm:react@15.3.1"
+    "npm:react-dom@15.4.0": {
+      "fbjs": "npm:fbjs@0.8.6",
+      "loose-envify": "npm:loose-envify@1.3.0",
+      "object-assign": "npm:object-assign@4.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "react": "npm:react@15.4.0"
     },
     "npm:react-helmet@3.1.0": {
       "deep-equal": "npm:deep-equal@1.0.1",
@@ -935,7 +938,7 @@ System.config({
     "npm:react-metrics@2.1.1": {
       "deep-equal": "npm:deep-equal@1.0.1",
       "eventemitter3": "npm:eventemitter3@1.2.0",
-      "fbjs": "npm:fbjs@0.8.4",
+      "fbjs": "npm:fbjs@0.8.6",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "querystring": "npm:querystring@0.2.0",
@@ -950,9 +953,9 @@ System.config({
       "history": "npm:history@2.1.2",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
       "invariant": "npm:invariant@2.2.1",
-      "loose-envify": "npm:loose-envify@1.2.0",
+      "loose-envify": "npm:loose-envify@1.3.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "react": "npm:react@15.3.1",
+      "react": "npm:react@15.4.0",
       "warning": "npm:warning@3.0.0"
     },
     "npm:react-side-effect@1.0.2": {
@@ -969,8 +972,8 @@ System.config({
       "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
       "parse-domain": "npm:parse-domain@0.2.1",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "react": "npm:react@15.3.1",
-      "react-dom": "npm:react-dom@15.3.1",
+      "react": "npm:react@15.4.0",
+      "react-dom": "npm:react-dom@15.4.0",
       "react-helmet": "npm:react-helmet@3.1.0",
       "react-router": "npm:react-router@2.6.0",
       "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@5.0.0"
@@ -983,11 +986,11 @@ System.config({
       "exenv": "npm:exenv@1.2.1",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
       "invariant": "npm:invariant@2.2.1",
-      "react": "npm:react@15.3.1"
+      "react": "npm:react@15.4.0"
     },
-    "npm:react@15.3.1": {
-      "fbjs": "npm:fbjs@0.8.4",
-      "loose-envify": "npm:loose-envify@1.2.0",
+    "npm:react@15.4.0": {
+      "fbjs": "npm:fbjs@0.8.6",
+      "loose-envify": "npm:loose-envify@1.3.0",
       "object-assign": "npm:object-assign@4.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
@@ -1016,8 +1019,8 @@ System.config({
       "error-stack-parser": "npm:error-stack-parser@1.3.6",
       "object-assign": "npm:object-assign@4.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "react": "npm:react@15.3.1",
-      "react-dom": "npm:react-dom@15.3.1"
+      "react": "npm:react@15.4.0",
+      "react-dom": "npm:react-dom@15.4.0"
     },
     "npm:regenerator-runtime@0.9.5": {
       "path": "github:jspm/nodelibs-path@0.1.0",
@@ -1166,7 +1169,7 @@ System.config({
     "npm:type-check@0.3.2": {
       "prelude-ls": "npm:prelude-ls@1.1.2"
     },
-    "npm:ua-parser-js@0.7.10": {
+    "npm:ua-parser-js@0.7.12": {
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:url@0.10.3": {
@@ -1192,11 +1195,11 @@ System.config({
       "indexof": "npm:indexof@0.0.1"
     },
     "npm:warning@2.1.0": {
-      "loose-envify": "npm:loose-envify@1.2.0",
+      "loose-envify": "npm:loose-envify@1.3.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:warning@3.0.0": {
-      "loose-envify": "npm:loose-envify@1.2.0",
+      "loose-envify": "npm:loose-envify@1.3.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:whatwg-url-compat@0.6.5": {
