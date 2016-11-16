@@ -34,17 +34,17 @@ class PrefetchExample extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                        {superBowls.map((superBowl) => {
-                            const [team1, team2] = superBowl.teams;
+                            {superBowls.map((superBowl) => {
+                                const [team1, team2] = superBowl.teams;
 
-                            return (
-                                <tr key={superBowl.year}>
-                                    <th scope="row">{superBowl.year}</th>
-                                    <td>{superBowl.romanNumeral}</td>
-                                    <td scope="row">{`${team1.location} ${team1.name} vs ${team2.location} ${team2.name}`}</td>
-                                </tr>
-                            );
-                        })}
+                                return (
+                                    <tr key={superBowl.year}>
+                                        <th scope="row">{superBowl.year}</th>
+                                        <td>{superBowl.romanNumeral}</td>
+                                        <td scope="row">{`${team1.location} ${team1.name} vs ${team2.location} ${team2.name}`}</td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 )}

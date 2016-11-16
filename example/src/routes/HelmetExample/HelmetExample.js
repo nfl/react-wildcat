@@ -53,13 +53,13 @@ class HelmetExample extends React.Component {
 
                 <p>The head in your source should contain these tags:</p>
                 <pre>
-                {`
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
-                    <meta property="og:type" content="article">
-                    <meta name="description" content="Nested Example" />
-                    <link rel="canonical" href="http://mysite.com/example/nested" />
-                    <link rel="apple-touch-icon" href="http://mysite.com/img/nested-apple-touch-icon.png" />
-                `}
+                    {`
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+                        <meta property="og:type" content="article">
+                        <meta name="description" content="Nested Example" />
+                        <link rel="canonical" href="http://mysite.com/example/nested" />
+                        <link rel="apple-touch-icon" href="http://mysite.com/img/nested-apple-touch-icon.png" />
+                    `}
                 </pre>
             </div>
         );

@@ -13,16 +13,16 @@
     "chalk": "^1.1.3",
     "glob": "^7.0.3",
     "istanbul": "https://github.com/nfl/istanbul/tarball/feature/source-map-resolve",
-    "karma": "^0.13.22",
-    "karma-cli": "^0.1.2",
+    "karma": "^1.3.0",
+    "karma-cli": "^1.0.1",
     "open": "^0.0.5",
     "request": "^2.72.0",
     "rimraf": "^2.5.2",
-    "yargs": "^4.6.0"
+    "yargs": "^6.4.0"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
-    "protractor": "^3.1.1"
+    "protractor": "4.0.2"
   },
   "peerDependencies": {
     "babel-polyfill": "*",
