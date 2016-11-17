@@ -5,27 +5,25 @@ const pathResolve = require("resolve-path");
 const createTranspiledModule = require("../utils/createTranspiledModule");
 const createImportableModule = require("../utils/createImportableModule");
 
-module.exports = function babelDevTranspiler(root, options) {
-    "use strict";
-
+module.exports = function babelDevTranspiler(root, {
+    babelOptions,
+    binDir,
+    coverage,
+    coverageSettings,
+    extensions,
+    logger,
+    logLevel,
+    origin,
+    outDir,
+    sourceDir
+}) {
     const temporaryCache = new Map();
 
-    const babelOptions = options.babelOptions;
-    const binDir = options.binDir;
-    const coverage = options.coverage;
-    const coverageSettings = options.coverageSettings;
-    const extensions = options.extensions;
-    const logger = options.logger;
-    const logLevel = options.logLevel;
-    const origin = options.origin;
-    const outDir = options.outDir;
-    const sourceDir = options.sourceDir;
-
     function* _babelDevTranspiler(ctx, pathOptions) {
-        "use strict";
-
-        const modulePath = pathOptions.modulePath;
-        const moduleSourcePath = pathOptions.moduleSourcePath;
+        const {
+            modulePath,
+            moduleSourcePath
+        } = pathOptions;
 
         if (temporaryCache.has(modulePath)) {
             return temporaryCache.get(modulePath);
@@ -76,8 +74,10 @@ module.exports = function babelDevTranspiler(root, options) {
     return function* setupTranspiler(next) {
         "use strict";
 
-        const request = this.request;
-        const res = this.response;
+        const {
+            request,
+            response: res
+        } = this;
 
         if (!request.path.startsWith(`/${outDir}`)) {
             return yield next;

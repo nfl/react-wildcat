@@ -10,9 +10,11 @@ const defaultTemplate = require("./defaultTemplate.js");
 const match = Router.match;
 
 module.exports = function serverRender(cfg) {
-    const headers = cfg.headers;
-    const request = cfg.request;
-    const wildcatConfig = cfg.wildcatConfig;
+    const {
+        headers,
+        request,
+        wildcatConfig
+    } = cfg;
 
     return new Promise(function serverRenderPromise(resolve, reject) {
         match({

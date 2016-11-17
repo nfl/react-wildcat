@@ -1,29 +1,25 @@
 const path = require("path");
 const fs = require("fs-extra");
-const logCreateSuccess = require("./logCreateSuccess");
+const logCreateSuccess = require("./logCreateSuccess.js");
 
 function buildImportableModule(origin, moduleBinPath) {
     return `module.exports = "${origin}/${moduleBinPath}";`;
 }
 
-module.exports = function createImportableModule(options, resolve, reject) {
-    "use strict";
-
-    const root = options.root;
-    const origin = options.origin;
-
-    const logger = options.logger;
-    const logLevel = options.logLevel;
-
-    const pathOptions = options.pathOptions;
-    const modulePath = pathOptions.modulePath;
-    const moduleSourcePath = pathOptions.moduleSourcePath;
-    const moduleBinPath = pathOptions.moduleBinPath;
-    const relativePath = pathOptions.relativePath;
-
-    const temporaryCache = options.temporaryCache;
-    const binaryToModule = options.binaryToModule;
-
+module.exports = function createImportableModule({
+    root,
+    origin,
+    logger,
+    logLevel,
+    pathOptions: {
+        modulePath,
+        moduleSourcePath,
+        moduleBinPath,
+        relativePath
+    },
+    temporaryCache,
+    binaryToModule
+}, resolve, reject) {
     const importableModule = buildImportableModule(origin, moduleBinPath);
 
     Promise.all([
