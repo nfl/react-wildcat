@@ -19,7 +19,7 @@
     "fs-extra": "0.27.0",
     "gelf-pro": "^0.9.1",
     "glob": "^7.0.3",
-    "istanbul": "https://github.com/nfl/istanbul/tarball/feature/source-map-resolve",
+    "istanbul": "https://github.com/nfl/istanbul/tarball/0.4.5/source-map-resolve",
     "jspm": "https://github.com/nfl/jspm-cli/tarball/0.16.48/fetch-support",
     "koa": "^1.2.0",
     "koa-compress": "^1.0.9",
