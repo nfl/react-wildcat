@@ -1,16 +1,15 @@
-"use strict";
-
 let customizedLoader;
 
-function customizeJspmLoader(root, options) {
+function customizeJspmLoader(root, {
+    wildcatConfig: {
+        serverSettings
+    }
+}) {
     const path = require("path");
 
     const pkg = require(path.join(root, "package.json"));
     const jspm = require("jspm");
     const remoteURL = require("../polyfills/baseURI");
-
-    const wildcatConfig = options.wildcatConfig;
-    const serverSettings = wildcatConfig.serverSettings;
 
     const jspmLoader = jspm.Loader();
 

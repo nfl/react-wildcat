@@ -1,11 +1,23 @@
 module.exports = function renderReactWithJspm(root, options) {
-    "use strict";
+    const {
+        logger,
+        wildcatConfig
+    } = options;
 
-    const logger = options.logger;
-    const wildcatConfig = options.wildcatConfig;
-
-    const generalSettings = wildcatConfig.generalSettings;
-    const serverSettings = wildcatConfig.serverSettings;
+    const {
+        generalSettings: {
+            jspmConfigFile,
+            staticUrl
+        },
+        serverSettings: {
+            displayBlueBoxOfDeath,
+            entry,
+            hotReload,
+            hotReloader,
+            hotReloadReporter,
+            renderHandler
+        }
+    } = wildcatConfig;
 
     const customJspmLoader = require("../utils/customJspmLoader");
 
@@ -14,8 +26,8 @@ module.exports = function renderReactWithJspm(root, options) {
 
     function bootstrapLoader(customizedLoader) {
         return isBootstrapped ? Promise.resolve() : Promise.all([
-            customizedLoader.import(generalSettings.jspmConfigFile),
-            serverSettings.hotReload ? customizedLoader.import(serverSettings.hotReloader) : Promise.resolve()
+            customizedLoader.import(jspmConfigFile),
+            hotReload ? customizedLoader.import(hotReloader) : Promise.resolve()
         ])
             .then(function jspmConfigImportHandler(responses) {
                 const HotReloader = responses[1];
@@ -26,12 +38,12 @@ module.exports = function renderReactWithJspm(root, options) {
                         logger
                     });
 
-                    if (typeof serverSettings.hotReloadReporter === "function") {
-                        serverSettings.hotReloadReporter(hotReloaderInstance, generalSettings.staticUrl, logger);
+                    if (typeof hotReloadReporter === "function") {
+                        hotReloadReporter(hotReloaderInstance, staticUrl, logger);
                     } else {
                         const hotReloaderWebSocket = require("../utils/hotReloaderWebSocket");
 
-                        const socketUrl = generalSettings.staticUrl.replace(/http/, "ws");
+                        const socketUrl = staticUrl.replace(/http/, "ws");
                         hotReloaderWebSocket(hotReloaderInstance, socketUrl, logger);
                     }
                 }
@@ -47,21 +59,18 @@ module.exports = function renderReactWithJspm(root, options) {
         return bootstrapLoader(customizedLoader)
             .then(function customizedJspmLoader() {
                 // Load the server files from the current file system
-                const entry = serverSettings.entry;
-                const renderHandler = serverSettings.renderHandler;
-
                 return Promise.all([
                     // Entry value can be an async import, a hash of options, or falsy
                     (typeof entry === "string") ? customizedLoader.import(entry) : Promise.resolve(entry),
                     customizedLoader.import(renderHandler)
                 ])
-                    .then(function serverEntry(responses) {
+                    .then(function serverEntry([
                         // First response is a hash of project options
-                        const serverOptions = responses[0];
+                        serverOptions,
 
                         // Second response is the handoff to the server
-                        const server = responses[1];
-
+                        server
+                    ]) {
                         // Pass options to server
                         return server(serverOptions);
                     })
@@ -78,7 +87,7 @@ module.exports = function renderReactWithJspm(root, options) {
             .catch(function serverError(err) {
                 logger.error(err);
 
-                if (serverSettings.displayBlueBoxOfDeath) {
+                if (displayBlueBoxOfDeath) {
                     const blueBoxOfDeath = require("../utils/blueBoxOfDeath");
 
                     return {
@@ -99,20 +108,26 @@ module.exports = function renderReactWithJspm(root, options) {
     }
 
     return function* render() {
-        const cookies = this.cookies;
-        const request = this.request;
-        const response = this.response;
+        const {
+            cookies,
+            request,
+            response
+        } = this;
 
         response.status = 200;
         response.type = "text/html";
 
         const data = yield pageHandler(request, cookies);
-        const reply = data.reply;
+        const {
+            reply
+        } = data;
 
         this.status = reply.status;
 
         if (reply.redirect === true) {
-            const redirectLocation = reply.redirectLocation;
+            const {
+                redirectLocation
+            } = reply;
             return this.redirect(`${redirectLocation.pathname}${redirectLocation.search}`);
         }
 

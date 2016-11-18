@@ -10,11 +10,11 @@ function send(eventName, response, client) {
     }));
 }
 
-module.exports = function startWebSocketServer(root, options) {
-    const cache = options.cache;
-    const server = options.server;
-    const watchOptions = options.watchOptions;
-
+module.exports = function startWebSocketServer(root, {
+    cache,
+    server,
+    watchOptions
+}) {
     const wss = new WebSocketServer({
         server
     });

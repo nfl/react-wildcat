@@ -2,11 +2,13 @@ module.exports = function blueBoxOfDeath(err, request) {
     const path = require("path");
     const wildcatPkg = require(path.resolve(__dirname, "../../package.json"));
 
-    const name = wildcatPkg.name;
-    const version = wildcatPkg.version;
-    const dependencies = wildcatPkg.dependencies;
-    const author = wildcatPkg.author;
-    const license = wildcatPkg.license;
+    const {
+        name,
+        version,
+        dependencies,
+        author,
+        license
+    } = wildcatPkg;
 
     const bbod = `
 <!doctype html>

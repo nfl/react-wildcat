@@ -1,5 +1,3 @@
-"use strict";
-
 const os = require("os");
 const cluster = require("cluster");
 
@@ -33,12 +31,19 @@ function start() {
         require("./memory")(logger);
     }
 
-    const generalSettings = wildcatConfig.generalSettings;
-    const serverSettings = wildcatConfig.serverSettings;
+    const {
+        generalSettings,
+        serverSettings
+    } = wildcatConfig;
 
-    const appServerSettings = serverSettings.appServer;
-    const secureSettings = appServerSettings.secureSettings;
-    const proxySettings = appServerSettings.proxies;
+    const {
+        appServer: appServerSettings
+    } = serverSettings;
+
+    const {
+        secureSettings,
+        proxies: proxySettings
+    } = appServerSettings;
 
     const lifecycleHook = (lifecycle) => {
         if (typeof appServerSettings[lifecycle] === "function") {
