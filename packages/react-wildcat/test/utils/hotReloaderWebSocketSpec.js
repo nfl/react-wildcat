@@ -4,7 +4,7 @@ const sinon = require("sinon");
 const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 
-const WebSocketServer = require("ws").Server;
+const WebSocketServer = require("uws").Server;
 
 module.exports = (stubs) => {
     "use strict";

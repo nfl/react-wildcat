@@ -1,7 +1,7 @@
 language: node_js
 sudo: false
 node_js:
-  - 6.3.1
+  - 6.9.1
 script:
   - make test-travis
 env:
@@ -16,7 +16,7 @@ addons:
     packages:
       - g++-4.8
 before_install:
-  - npm install -g nfl/jspm-cli#0.16.45/fetch-support
+  - npm install -g nfl/jspm-cli#0.16.48/fetch-support
   - jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
   # Skip installing optional dependencies
   - npm config set optional false

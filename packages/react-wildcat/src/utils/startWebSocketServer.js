@@ -1,6 +1,6 @@
 "use strict";
 
-const WebSocketServer = require("ws").Server;
+const WebSocketServer = require("uws").Server;
 const chokidar = require("chokidar");
 
 function send(eventName, response, client) {
