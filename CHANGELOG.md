@@ -1,3 +1,19 @@
+<a name="6.0.0"></a>
+# [6.0.0](https://github.com/nfl/react-wildcat/compare/5.2.0...v6.0.0) (2016-11-18)
+
+
+### Features
+
+* **react-wildcat:** Update React to 15.4.0
+* **react-wildcat:** Update jspm to 0.16.48
+* **react-wildcat:** Multiple dependency updates
+
+### Bug Fixes
+
+* **example:** Enable directConnect in Selenium ([d3f48c3](https://github.com/nfl/react-wildcat/commit/d3f48c3))
+
+
+
 <a name="5.2.0"></a>
 # [5.2.0](https://github.com/nfl/react-wildcat/compare/5.1.0...v5.2.0) (2016-11-15)
 

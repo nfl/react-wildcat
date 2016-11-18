@@ -21,8 +21,8 @@ System.config({
     "react-dom": "npm:react-dom@15.4.0",
     "react-helmet": "npm:react-helmet@3.2.2",
     "react-router": "npm:react-router@3.0.0",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@5.0.2",
-    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@5.0.2",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@6.0.0",
+    "react-wildcat-prefetch": "npm:react-wildcat-prefetch@6.0.0",
     "sinon": "npm:sinon@1.17.6",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
@@ -199,6 +199,10 @@ System.config({
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0"
     },
+    "npm:parse-domain@1.0.0": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "path": "github:jspm/nodelibs-path@0.1.0"
+    },
     "npm:path-browserify@0.0.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
@@ -250,24 +254,24 @@ System.config({
     "npm:react-side-effect@1.0.2": {
       "fbjs": "npm:fbjs@0.1.0-alpha.10"
     },
-    "npm:react-wildcat-handoff@5.0.2": {
+    "npm:react-wildcat-handoff@6.0.0": {
       "cookie": "npm:cookie@0.3.1",
       "cookies-js": "npm:cookies-js@1.2.3",
       "history": "npm:history@3.2.1",
       "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
-      "parse-domain": "npm:parse-domain@0.2.2",
+      "parse-domain": "npm:parse-domain@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "react": "npm:react@15.4.0",
       "react-dom": "npm:react-dom@15.4.0",
       "react-helmet": "npm:react-helmet@3.2.2",
       "react-router": "npm:react-router@3.0.0",
-      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@5.0.0"
+      "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@6.0.0"
     },
-    "npm:react-wildcat-hot-reloader@5.0.0": {
+    "npm:react-wildcat-hot-reloader@6.0.0": {
       "debug": "npm:debug@2.3.2",
       "exenv": "npm:exenv@1.2.1"
     },
-    "npm:react-wildcat-prefetch@5.0.2": {
+    "npm:react-wildcat-prefetch@6.0.0": {
       "exenv": "npm:exenv@1.2.1",
       "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
       "invariant": "npm:invariant@2.2.2",
