@@ -122,7 +122,7 @@ module.exports = function renderReactWithJspm(root, options) {
             reply
         } = data;
 
-        this.status = reply.status;
+        this.status = reply.status || response.status;
 
         if (reply.redirect === true) {
             const {
