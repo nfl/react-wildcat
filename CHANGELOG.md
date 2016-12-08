@@ -1,3 +1,13 @@
+<a name="6.0.1"></a>
+## [6.0.1](https://github.com/nfl/react-wildcat/compare/6.0.0...v6.0.1) (2016-12-08)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Add dev to customTlds ([#180](https://github.com/nfl/react-wildcat/issues/180)) ([6597304](https://github.com/nfl/react-wildcat/commit/6597304))
+
+
+
 <a name="6.0.0"></a>
 # [6.0.0](https://github.com/nfl/react-wildcat/compare/5.2.0...v6.0.0) (2016-11-18)
 
