@@ -23,9 +23,9 @@
   "jspm": {
     "format": "cjs",
     "ignore": [
-      "lib",
+      "src",
       "test",
-      "src/test",
+      "lib/test",
       ".eslintrc",
       ".npmignore",
       "webpack.config.js"
@@ -35,10 +35,9 @@
   "scripts": {
     "build": "npm run clean && npm run compile",
     "clean": "rimraf dist lib",
-    "clean-test": "rimraf lib/**/server{*,}.js",
     "compile": "babel src test/stubFixtures.js --out-dir lib && webpack",
-    "pretest": "env NODE_ENV=production npm run build",
-    "posttest": "npm run clean-test"
+    "prepublish": "env NODE_ENV=production npm run build",
+    "pretest": "npm run prepublish"
   },
   "author": "engineers@nfl.com",
   "license": "MIT"
