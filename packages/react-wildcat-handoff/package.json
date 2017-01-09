@@ -35,10 +35,8 @@
   "scripts": {
     "build": "npm run clean && npm run compile",
     "clean": "rimraf dist lib",
-    "clean-test": "rimraf lib/**/server{*,}.js",
     "compile": "babel src test/stubFixtures.js --out-dir lib && webpack",
-    "pretest": "env NODE_ENV=production npm run build",
-    "posttest": "npm run clean-test"
+    "pretest": "env NODE_ENV=production npm run build"
   },
   "author": "engineers@nfl.com",
   "license": "MIT"
