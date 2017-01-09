@@ -21,7 +21,7 @@ System.config({
     "react-dom": "npm:react-dom@15.4.0",
     "react-helmet": "npm:react-helmet@3.2.2",
     "react-router": "npm:react-router@3.0.0",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@6.0.0",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@6.1.0",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@6.0.0",
     "sinon": "npm:sinon@1.17.6",
     "github:jspm/nodelibs-assert@0.1.0": {

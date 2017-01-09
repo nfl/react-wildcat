@@ -84,7 +84,7 @@ System.config({
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.2",
     "react-transform-jspm-hmr": "npm:react-transform-jspm-hmr@1.0.1",
     "react-wildcat-ensure": "npm:react-wildcat-ensure@6.0.0",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@6.0.0",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@6.1.0",
     "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@6.0.0",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@6.0.0",
     "redbox-react": "npm:redbox-react@1.3.3",
@@ -713,13 +713,12 @@ System.config({
       "global": "npm:global@4.3.1",
       "react-proxy": "npm:react-proxy@1.1.8"
     },
-    "npm:react-wildcat-handoff@6.0.0": {
+    "npm:react-wildcat-handoff@6.0.1": {
       "cookie": "npm:cookie@0.3.1",
       "cookies-js": "npm:cookies-js@1.2.3",
       "history": "npm:history@3.2.1",
       "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
       "parse-domain": "npm:parse-domain@1.0.0",
-      "process": "github:jspm/nodelibs-process@0.1.2",
       "react": "npm:react@15.4.0",
       "react-dom": "npm:react-dom@15.4.0",
       "react-helmet": "npm:react-helmet@3.2.2",
