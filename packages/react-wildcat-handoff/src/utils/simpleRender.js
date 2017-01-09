@@ -3,6 +3,7 @@
 const defaultTemplate = require("./defaultTemplate.js");
 
 module.exports = function serverRender({
+    request,
     wildcatConfig
 }) {
     let result = {};
@@ -25,6 +26,7 @@ module.exports = function serverRender({
             }
         },
         html: "",
+        request,
         wildcatConfig
     });
 
