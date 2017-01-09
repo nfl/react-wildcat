@@ -21,7 +21,7 @@ System.config({
     "react-dom": "npm:react-dom@15.4.0",
     "react-helmet": "npm:react-helmet@3.2.2",
     "react-router": "npm:react-router@3.0.0",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@6.0.0",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@6.1.0",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@6.0.0",
     "sinon": "npm:sinon@1.17.6",
     "github:jspm/nodelibs-assert@0.1.0": {
@@ -254,13 +254,12 @@ System.config({
     "npm:react-side-effect@1.0.2": {
       "fbjs": "npm:fbjs@0.1.0-alpha.10"
     },
-    "npm:react-wildcat-handoff@6.0.0": {
+    "npm:react-wildcat-handoff@6.1.0": {
       "cookie": "npm:cookie@0.3.1",
       "cookies-js": "npm:cookies-js@1.2.3",
       "history": "npm:history@3.2.1",
       "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
       "parse-domain": "npm:parse-domain@1.0.0",
-      "process": "github:jspm/nodelibs-process@0.1.2",
       "react": "npm:react@15.4.0",
       "react-dom": "npm:react-dom@15.4.0",
       "react-helmet": "npm:react-helmet@3.2.2",

@@ -64,8 +64,8 @@ function getDomainDataFromHost(host, domains) {
     var resolvedSubdomain = mapSubdomainToAlias(host, domains.domainAliases);
 
     var url = parseDomain(host, {
-        // https://iyware.com/dont-use-dev-for-development/
         customTlds: [
+            "dev",
             "example",
             "invalid",
             "localhost",

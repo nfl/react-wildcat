@@ -77,7 +77,7 @@
       "react-metrics": "npm:react-metrics@^2.2.3",
       "react-router": "npm:react-router@^3.0.0",
       "react-wildcat-ensure": "npm:react-wildcat-ensure@6.0.0",
-      "react-wildcat-handoff": "npm:react-wildcat-handoff@6.0.0",
+      "react-wildcat-handoff": "npm:react-wildcat-handoff@6.1.0",
       "react-wildcat-prefetch": "npm:react-wildcat-prefetch@6.0.0"
     },
     "devDependencies": {

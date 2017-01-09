@@ -12,7 +12,5 @@ module.exports = {
         library: "react-wildcat-handoff",
         libraryTarget: "commonjs2"
     },
-    externals: [nodeExternals({
-        whitelist: ["parse-domain"]
-    })]
+    externals: [nodeExternals()]
 };
