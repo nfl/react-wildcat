@@ -19,10 +19,11 @@ ls("packages").forEach((loc) => {
     cd(pkgDir);
 
     if (pkgDir === "react-wildcat-handoff") {
-        exec(`npm run build`);
+        exec(`yarn run build`);
     }
 
-    exec(`npm link`);
+    exec(`yarn install`);
+    exec(`yarn link --force`);
 
     if (name !== "react-wildcat" && name !== "react-wildcat-test-runners") {
         console.log(`jspm link npm:${name}@${pkg.version} --log warn -y`);
