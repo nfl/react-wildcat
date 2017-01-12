@@ -153,7 +153,8 @@ describe("react-wildcat-prefetch", () => {
                             .that.equals(stubs.prefetchedData.asyncData);
 
                         done();
-                    });
+                    })
+                    .catch(done);
 
                 expect(runner)
                     .to.be.an.instanceof(Promise);
@@ -175,7 +176,8 @@ describe("react-wildcat-prefetch", () => {
                             .that.has.keys(stubs.prefetchedData.asyncData);
 
                         done();
-                    });
+                    })
+                    .catch(done);
 
                 expect(runner)
                     .to.be.an.instanceof(Promise);
@@ -197,7 +199,8 @@ describe("react-wildcat-prefetch", () => {
                             .that.equals(stubs.customFetchDataResponse);
 
                         done();
-                    });
+                    })
+                    .catch(done);
 
                 expect(runner)
                     .to.be.an.instanceof(Promise);
@@ -219,7 +222,8 @@ describe("react-wildcat-prefetch", () => {
                             .that.equals(stubs.customFetchDataResponse);
 
                         done();
-                    });
+                    })
+                    .catch(done);
 
                 expect(runner)
                     .to.be.an.instanceof(Promise);
@@ -247,7 +251,8 @@ describe("react-wildcat-prefetch", () => {
                             .that.has.property("error");
 
                         done();
-                    });
+                    })
+                    .catch(done);
 
                 expect(runner)
                     .to.be.an.instanceof(Promise);
@@ -273,7 +278,8 @@ describe("react-wildcat-prefetch", () => {
                         .that.equals(stubs.prefetchedData.asyncData);
 
                     done();
-                });
+                })
+                .catch(done);
 
             expect(runner)
                 .to.be.an.instanceof(Promise);
@@ -562,7 +568,8 @@ describe("react-wildcat-prefetch", () => {
                         WrappedPrefetch.prefetch[key] = props;
 
                         ReactTestUtils.renderIntoDocument(<WrappedPrefetch title={"Test Title"} />);
-                    });
+                    })
+                    .catch(done);
             });
 
             it("hydrates React components with server data", (done) => {
@@ -604,7 +611,8 @@ describe("react-wildcat-prefetch", () => {
                         WrappedPrefetch.prefetch[key] = props;
 
                         ReactTestUtils.renderIntoDocument(<WrappedPrefetch title={"Test Title"} />);
-                    });
+                    })
+                    .catch(done);
             });
 
             afterEach(() => {
