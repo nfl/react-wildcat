@@ -1635,9 +1635,9 @@ rc@~1.1.6:
     minimist "^1.2.0"
     strip-json-comments "~1.0.4"
 
-react-dom@15.4.0:
-  version "15.4.0"
-  resolved "https://registry.npmjs.org/react-dom/-/react-dom-15.4.0.tgz#6a97a69000966570db48c746bc4b7b0ca50d1534"
+react-dom@15.4.2:
+  version "15.4.2"
+  resolved "https://registry.npmjs.org/react-dom/-/react-dom-15.4.2.tgz#015363f05b0a1fd52ae9efdd3a0060d90695208f"
   dependencies:
     fbjs "^0.8.1"
     loose-envify "^1.1.0"
@@ -1674,9 +1674,9 @@ react-wildcat-hot-reloader@6.0.0:
     debug "^2.2.0"
     exenv "^1.2.1"
 
-react@15.4.0:
-  version "15.4.0"
-  resolved "https://registry.npmjs.org/react/-/react-15.4.0.tgz#736c1c7c542e8088127106e1f450b010f86d172b"
+react@15.4.2:
+  version "15.4.2"
+  resolved "https://registry.npmjs.org/react/-/react-15.4.2.tgz#41f7991b26185392ba9bae96c8889e7e018397ef"
   dependencies:
     fbjs "^0.8.4"
     loose-envify "^1.1.0"
