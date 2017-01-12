@@ -5,10 +5,10 @@ export BABEL_ENV = test
 .PHONY: bootstrap clean install install-example lint publish test test-example test-browser-cov test-cov test-travis update-dependencies
 
 bootstrap:
-	npm install
+	yarn install
 	jspm install --log warn -y
 	node ./shell/install.js
-	npm link react-wildcat-prefetch
+	yarn link --force react-wildcat-prefetch
 
 clean:
 	./shell/clean.sh
