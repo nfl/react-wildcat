@@ -9,5 +9,5 @@ example=example
     cd ${example};
 
     # Install node modules
-    npm test;
+    yarn run test;
 )

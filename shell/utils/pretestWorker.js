@@ -23,11 +23,11 @@ const run = (message) => {
         cd(loc);
 
         if (pkg.scripts.pretest) {
-            exec(`npm run pretest --silent`);
+            exec(`yarn run pretest`);
         }
 
         if (pkg.scripts.posttest) {
-            exec(`npm run posttest --silent`);
+            exec(`yarn run posttest`);
         }
 
         cd(cwd);
