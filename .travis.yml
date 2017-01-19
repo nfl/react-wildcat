@@ -22,3 +22,4 @@ before_install:
   # Skip installing optional dependencies
   - npm config set optional false
   - npm config set loglevel warn
+install: npm install
