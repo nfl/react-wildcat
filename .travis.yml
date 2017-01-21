@@ -1,5 +1,6 @@
 language: node_js
 sudo: false
+cache: false
 node_js:
   - 6.9.1
 script:
@@ -16,9 +17,10 @@ addons:
     packages:
       - g++-4.8
 before_install:
-  - npm install -g yarn
+  - npm install -g yarn@0.18.1
   - npm install -g nfl/jspm-cli#0.16.48/fetch-support
   - jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
   # Skip installing optional dependencies
   - npm config set optional false
   - npm config set loglevel warn
+install: npm install

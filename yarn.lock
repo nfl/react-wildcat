@@ -3490,22 +3490,14 @@ react-dom@15.4.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
 
-react-wildcat-prefetch@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.npmjs.org/react-wildcat-prefetch/-/react-wildcat-prefetch-6.0.0.tgz#8804936011be89e9823304e31c68117538390f06"
+react-wildcat-prefetch@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.npmjs.org/react-wildcat-prefetch/-/react-wildcat-prefetch-6.2.0.tgz#4d7423561461eb1e6a168462226f71ee367a14a7"
   dependencies:
     exenv "^1.2.1"
     hoist-non-react-statics "^1.0.5"
     invariant "^2.2.1"
-    react "15.4.0"
-
-react@15.4.0:
-  version "15.4.0"
-  resolved "https://registry.npmjs.org/react/-/react-15.4.0.tgz#736c1c7c542e8088127106e1f450b010f86d172b"
-  dependencies:
-    fbjs "^0.8.4"
-    loose-envify "^1.1.0"
-    object-assign "^4.1.0"
+    react "15.4.2"
 
 react@15.4.2:
   version "15.4.2"

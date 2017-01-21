@@ -1,3 +1,18 @@
+<a name="6.2.0"></a>
+# [6.2.0](https://github.com/nfl/react-wildcat/compare/6.1.0...v6.2.0) (2017-01-18)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Pass request info to simple template ([#179](https://github.com/nfl/react-wildcat/issues/179)) ([3e0a9b1](https://github.com/nfl/react-wildcat/commit/3e0a9b1))
+
+
+### Features
+
+* Update React to 15.4.2 ([#186](https://github.com/nfl/react-wildcat/issues/186)) ([4c209d3](https://github.com/nfl/react-wildcat/commit/4c209d3))
+
+
+
 <a name="6.1.0"></a>
 # [6.1.0](https://github.com/nfl/react-wildcat/compare/6.0.0...v6.1.0) (2017-01-09)
 

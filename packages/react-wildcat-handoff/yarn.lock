@@ -1667,9 +1667,9 @@ react-side-effect@1.0.2:
   dependencies:
     fbjs "0.1.0-alpha.10"
 
-react-wildcat-hot-reloader@6.0.0:
-  version "6.0.0"
-  resolved "https://registry.npmjs.org/react-wildcat-hot-reloader/-/react-wildcat-hot-reloader-6.0.0.tgz#af12d78a189f1c7e837805001c5b771525733947"
+react-wildcat-hot-reloader@6.2.0:
+  version "6.2.0"
+  resolved "https://registry.npmjs.org/react-wildcat-hot-reloader/-/react-wildcat-hot-reloader-6.2.0.tgz#f1542bde10b7f75937f11d0a70261c1480dacc73"
   dependencies:
     debug "^2.2.0"
     exenv "^1.2.1"
