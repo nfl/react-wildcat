@@ -16,8 +16,7 @@ module.exports = function renderReactWithBabel(root, options) {
                     "node": 6.9
                 },
                 "modules": "commonjs",
-                "useBuiltIns": true,
-                "debug": true
+                "useBuiltIns": true
             }]
         ]
     });
