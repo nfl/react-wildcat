@@ -21,8 +21,6 @@ require("./utils/customMorganTokens")(morgan, "🏈");
 const Logger = require("./utils/logger");
 const logger = new Logger("🏈");
 
-const renderReactWithJspm = require("./middleware/renderReactWithJspm");
-
 let server;
 
 function start() {
@@ -32,12 +30,16 @@ function start() {
     }
 
     const {
-        generalSettings,
+        generalSettings: {
+            logLevel,
+            originUrl
+        },
         serverSettings
     } = wildcatConfig;
 
     const {
-        appServer: appServerSettings
+        appServer: appServerSettings,
+        esCompiler
     } = serverSettings;
 
     const {
@@ -53,7 +55,7 @@ function start() {
 
     lifecycleHook("onBeforeStart");
 
-    const morganOptions = getMorganOptions(generalSettings.logLevel, serverSettings);
+    const morganOptions = getMorganOptions(logLevel, serverSettings);
 
     const __PROD__ = (process.env.NODE_ENV === "production");
     const __TEST__ = (process.env.BABEL_ENV === "test");
@@ -147,10 +149,23 @@ Middleware at serverSettings.appServer.middleware[${index}] could not be correcl
                 });
             }
 
-            app.use(renderReactWithJspm(cwd, {
-                logger,
-                wildcatConfig
-            }));
+            if (esCompiler === "babel") {
+                const renderReactWithBabel = require("./middleware/renderReactWithBabel");
+
+                app.use(renderReactWithBabel(cwd, {
+                    logger,
+                    wildcatConfig
+                }));
+            }
+
+            if (esCompiler === "webpack") {
+                const renderReactWithWebpack = require("./middleware/renderReactWithWebpack");
+
+                app.use(renderReactWithWebpack(cwd, {
+                    logger,
+                    wildcatConfig
+                }));
+            }
 
             let serverType;
 
@@ -185,7 +200,7 @@ Middleware at serverSettings.appServer.middleware[${index}] could not be correcl
                     if (__PROD__) {
                         logger.ok("Node server is running on pid", process.pid);
                     } else {
-                        logger.ok(`Node server is running at ${generalSettings.originUrl} on pid`, process.pid);
+                        logger.ok(`Node server is running at ${originUrl} on pid`, process.pid);
                     }
 
                     lifecycleHook("onAfterStart");
