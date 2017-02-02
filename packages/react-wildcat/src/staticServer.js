@@ -33,6 +33,7 @@ function start() {
     } = wildcatConfig;
 
     const {
+        sourceDir,
         staticServer: staticServerSettings
     } = serverSettings;
 
@@ -180,7 +181,7 @@ function start() {
             if (!__PROD__) {
                 const startWebSocketServer = require("./utils/startWebSocketServer");
 
-                startWebSocketServer(cwd, {
+                startWebSocketServer(sourceDir, {
                     cache: fileServer.cache,
                     server,
                     watchOptions: {
@@ -188,7 +189,6 @@ function start() {
                             pollInterval: 100,
                             stabilityThreshold: 250
                         },
-                        ignored: /\.(git|gz|map)|node_modules|jspm_packages|src/,
                         ignoreInitial: true,
                         persistent: true
                     }
