@@ -137,7 +137,7 @@ function start() {
 
             app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
 
-            if (!__PROD__ || __TEST__) {
+            if (!__PROD__) {
                 const webpack = require("webpack");
                 const webpackDevServer = require("koa-webpack-dev-middleware");
                 const {webpackDevConfigFile} = generalSettings;
