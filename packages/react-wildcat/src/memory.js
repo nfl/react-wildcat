@@ -14,9 +14,8 @@ function memory(logger) {
 
     let firstLine = true;
 
-    memwatch.on("stats", function MemwatchOn(memstats) {
+    memwatch.on("stats", function MemwatchOn(memstats = {}) {
         let info = [];
-        const stats = memstats || {};
 
         if (firstLine) {
             info.push("num_full_gc");
@@ -34,14 +33,14 @@ function memory(logger) {
             firstLine = false;
         }
 
-        info.push(stats.num_full_gc);
-        info.push(stats.num_inc_gc);
-        info.push(stats.heap_compactions);
-        info.push(stats.usage_trend);
-        info.push(stats.estimated_base);
-        info.push(stats.current_base);
-        info.push(stats.min);
-        info.push(stats.max);
+        info.push(memstats.num_full_gc);
+        info.push(memstats.num_inc_gc);
+        info.push(memstats.heap_compactions);
+        info.push(memstats.usage_trend);
+        info.push(memstats.estimated_base);
+        info.push(memstats.current_base);
+        info.push(memstats.min);
+        info.push(memstats.max);
 
         logger.info(`${info.join(",")}`, {
             debug: "MemwatchStats"

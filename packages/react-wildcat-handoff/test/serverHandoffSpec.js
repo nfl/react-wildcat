@@ -505,4 +505,76 @@ describe("react-wildcat-handoff/server", () => {
                 .to.be.an.instanceof(Promise);
         });
     });
+
+    context("service worker", () => {
+        it("renders when it's enabled under https", (done) => {
+            const serverHandoff = server(stubs.prefetchedRoutes);
+
+            expect(serverHandoff)
+                .to.be.a("function")
+                .that.has.property("name")
+                .that.equals("serverHandoff");
+
+            const result = serverHandoff(stubs.requests.basic, stubs.cookieParser, stubs.wildcatConfigServiceWorkerEnabled)
+                .then(response => {
+                    expect(response)
+                        .to.be.an("object")
+                        .that.has.property("html")
+                        .that.is.a("string")
+                        .that.has.string(stubs.serviceWorkerPayload);
+
+                    done();
+                })
+                .catch(error => done(error));
+
+            expect(result)
+                .to.be.an.instanceof(Promise);
+        });
+        it("does not render when it's enabled under http", (done) => {
+            const serverHandoff = server(stubs.prefetchedRoutes);
+
+            expect(serverHandoff)
+                .to.be.a("function")
+                .that.has.property("name")
+                .that.equals("serverHandoff");
+
+            const result = serverHandoff(stubs.requests.basic, stubs.cookieParser, stubs.wildcatConfigServiceWorkerEnabledNoHttps)
+                .then(response => {
+                    expect(response)
+                        .to.be.an("object")
+                        .that.has.property("html")
+                        .that.is.a("string")
+                        .and.not.have.string(stubs.serviceWorkerPayload);
+
+                    done();
+                })
+                .catch(error => done(error));
+
+            expect(result)
+                .to.be.an.instanceof(Promise);
+        });
+        it("does not render when it's disabled", (done) => {
+            const serverHandoff = server(stubs.prefetchedRoutes);
+
+            expect(serverHandoff)
+                .to.be.a("function")
+                .that.has.property("name")
+                .that.equals("serverHandoff");
+
+            const result = serverHandoff(stubs.requests.basic, stubs.cookieParser, stubs.wildcatConfigServiceWorkerDisabled)
+                .then(response => {
+                    expect(response)
+                        .to.be.an("object")
+                        .that.has.property("html")
+                        .that.is.a("string")
+                        .and.not.have.string(stubs.serviceWorkerPayload);
+
+                    done();
+                })
+                .catch(error => done(error));
+
+            expect(result)
+                .to.be.an.instanceof(Promise);
+        });
+    });
 });

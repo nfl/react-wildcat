@@ -10,7 +10,7 @@ const example = "example";
 cd(example);
 
 // Install node modules
-exec(`npm install`);
+exec(`yarn install`);
 
 // Install jspm packages
 exec(`jspm install --log warn -y`);
@@ -30,7 +30,8 @@ ls("packages").forEach((loc) => {
     cd(example);
 
     // Link package to npm
-    exec(`npm link ${pkg.name}`);
+    exec(`yarn install`);
+    exec(`yarn link --force ${pkg.name}`);
 
     if (pkg.name !== "react-wildcat" && pkg.name !== "react-wildcat-test-runners") {
         // Link package to jspm

@@ -1,8 +1,4 @@
-module.exports = function getWildcatConfig(cwd) {
-    "use strict";
-
-    cwd = cwd || process.cwd();
-
+module.exports = function getWildcatConfig(cwd = process.cwd()) {
     const fs = require("fs-extra");
     const url = require("url");
     const path = require("path");
@@ -17,8 +13,12 @@ module.exports = function getWildcatConfig(cwd) {
         wildcatConfig = merge(defaultConfig, require(projectConfigFile));
     }
 
-    const appServerSettings = wildcatConfig.serverSettings.appServer;
-    const staticServerSettings = wildcatConfig.serverSettings.staticServer;
+    const {
+        serverSettings: {
+            appServer: appServerSettings,
+            staticServer: staticServerSettings
+        }
+    } = wildcatConfig;
 
     // Add some convenience aliases
     wildcatConfig = merge({

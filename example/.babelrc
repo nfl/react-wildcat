@@ -28,7 +28,6 @@
     },
     "plugins": [
         "add-module-exports",
-        "closure-elimination",
         "transform-decorators-legacy",
         "transform-inline-environment-variables"
     ],

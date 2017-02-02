@@ -1,18 +1,18 @@
 {
   "name": "react-wildcat-handoff",
-  "version": "5.0.2",
+  "version": "6.2.0",
   "description": "Default client/server rendering for react-wildcat",
   "dependencies": {
     "cookie": "^0.3.1",
     "cookies-js": "^1.2.2",
-    "history": "^2.1.2",
+    "history": "^3.2.1",
     "isomorphic-fetch": "^2.2.1",
-    "parse-domain": "^0.2.1",
-    "react": "15.3.1",
-    "react-dom": "15.3.1",
-    "react-helmet": "^3.1.0",
-    "react-router": "^2.6.0",
-    "react-wildcat-hot-reloader": "5.0.0"
+    "parse-domain": "^1.0.0",
+    "react": "15.4.2",
+    "react-dom": "15.4.2",
+    "react-helmet": "^4.0.0",
+    "react-router": "^3.0.0",
+    "react-wildcat-hot-reloader": "6.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
@@ -23,9 +23,9 @@
   "jspm": {
     "format": "cjs",
     "ignore": [
-      "lib",
+      "src",
       "test",
-      "src/test",
+      "lib/test",
       ".eslintrc",
       ".npmignore",
       "webpack.config.js"
@@ -35,10 +35,9 @@
   "scripts": {
     "build": "npm run clean && npm run compile",
     "clean": "rimraf dist lib",
-    "clean-test": "rimraf lib/**/server{*,}.js",
     "compile": "babel src test/stubFixtures.js --out-dir lib && webpack",
-    "pretest": "env NODE_ENV=production npm run build",
-    "posttest": "npm run clean-test"
+    "prepublish": "env NODE_ENV=production npm run build",
+    "pretest": "npm run prepublish"
   },
   "author": "engineers@nfl.com",
   "license": "MIT"

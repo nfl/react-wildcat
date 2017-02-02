@@ -187,7 +187,10 @@ const wildcatConfig = {
             onStart: undefined,
 
             // onAfterStart lifecycle is triggered after the application is initialized and after the server starts
-            onAfterStart: undefined
+            onAfterStart: undefined,
+
+            // onWorkerDisconnect lifecycle is triggered when a worker disconnects
+            reconnectOnWorkerDisconnect: false
         },
 
         // config options for the static server
@@ -244,7 +247,10 @@ const wildcatConfig = {
             onStart: undefined,
 
             // onAfterStart lifecycle is triggered after the application is initialized and after the server starts
-            onAfterStart: undefined
+            onAfterStart: undefined,
+
+            // onWorkerDisconnect lifecycle is triggered when a worker disconnects
+            reconnectOnWorkerDisconnect: false
         }
     }
 };

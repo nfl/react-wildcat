@@ -9,36 +9,27 @@ const logCreateSuccess = require("./logCreateSuccess");
 const logTransformError = require("./logTransformError");
 
 function addSourceMappingUrl(code, loc) {
-    "use strict";
     return `${code}\n//# sourceMappingURL=${path.basename(loc)}`;
 }
 
-module.exports = function createTranspiledModule(options, resolve, reject) {
-    "use strict";
-
-    const babel = options.babel || require("babel-core");
-
-    const logger = options.logger;
-    const logLevel = options.logLevel;
-
-    const babelOptions = options.babelOptions;
-    const dataOptions = options.dataOptions;
-    const pathOptions = options.pathOptions;
-
-    const modulePath = pathOptions.modulePath;
-    const moduleSourcePath = pathOptions.moduleSourcePath;
-    const relativePath = pathOptions.relativePath;
-
-    const temporaryCache = options.temporaryCache;
-
-    const coverage = options.coverage;
-    const coverageSettings = options.coverageSettings;
-
-    const minify = options.minify;
-    const minifySettings = options.minifySettings;
-
-    const waitForFileWrite = options.waitForFileWrite;
-
+module.exports = function createTranspiledModule({
+    babel = require("babel-core"),
+    logger,
+    logLevel,
+    babelOptions,
+    dataOptions,
+    pathOptions: {
+        modulePath,
+        moduleSourcePath,
+        relativePath
+    },
+    temporaryCache,
+    coverage,
+    coverageSettings,
+    minify,
+    minifySettings,
+    waitForFileWrite
+}, resolve, reject) {
     let instrumenter, instrumentationExcludes;
 
     if (coverage) {

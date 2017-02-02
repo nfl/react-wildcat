@@ -1,8 +1,7 @@
 // WebSocket polyfill for Node
 const WebSocket = require("ws/lib/WebSocket.js");
 
-module.exports = function hotReloaderWebSocket(hotReloader, socketUrl, logger) {
-    logger = logger || console;
+module.exports = function hotReloaderWebSocket(hotReloader, socketUrl, logger = console) {
     const socket = new WebSocket(socketUrl);
 
     socket.addEventListener("open", function socketOpen() {

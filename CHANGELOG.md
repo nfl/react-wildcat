@@ -1,3 +1,65 @@
+<a name="6.2.0"></a>
+# [6.2.0](https://github.com/nfl/react-wildcat/compare/6.1.0...v6.2.0) (2017-01-18)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Pass request info to simple template ([#179](https://github.com/nfl/react-wildcat/issues/179)) ([3e0a9b1](https://github.com/nfl/react-wildcat/commit/3e0a9b1))
+
+
+### Features
+
+* Update React to 15.4.2 ([#186](https://github.com/nfl/react-wildcat/issues/186)) ([4c209d3](https://github.com/nfl/react-wildcat/commit/4c209d3))
+
+
+
+<a name="6.1.0"></a>
+# [6.1.0](https://github.com/nfl/react-wildcat/compare/6.0.0...v6.1.0) (2017-01-09)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Add dev to customTlds ([#180](https://github.com/nfl/react-wildcat/issues/180)) ([6597304](https://github.com/nfl/react-wildcat/commit/6597304))
+* **react-wildcat-handoff:** Compile package before publishing. ([7e49862](https://github.com/nfl/react-wildcat/commit/7e49862))
+
+
+
+<a name="6.0.1"></a>
+## [6.0.1](https://github.com/nfl/react-wildcat/compare/6.0.0...v6.0.1) (2016-12-08)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Add dev to customTlds ([#180](https://github.com/nfl/react-wildcat/issues/180)) ([6597304](https://github.com/nfl/react-wildcat/commit/6597304))
+
+
+
+<a name="6.0.0"></a>
+# [6.0.0](https://github.com/nfl/react-wildcat/compare/5.2.0...v6.0.0) (2016-11-18)
+
+
+### Features
+
+* **react-wildcat:** Update React to 15.4.0
+* **react-wildcat:** Update jspm to 0.16.48
+* **react-wildcat:** Multiple dependency updates
+
+### Bug Fixes
+
+* **example:** Enable directConnect in Selenium ([d3f48c3](https://github.com/nfl/react-wildcat/commit/d3f48c3))
+
+
+
+<a name="5.2.0"></a>
+# [5.2.0](https://github.com/nfl/react-wildcat/compare/5.1.0...v5.2.0) (2016-11-15)
+
+
+### Features
+
+* **react-wildcat:** Add option to attempt reconnect on worker disconnect ([9172f78](https://github.com/nfl/react-wildcat/commit/9172f78))
+
+
+
 <a name="5.1.0"></a>
 # [5.1.0](https://github.com/nfl/react-wildcat/compare/5.0.0...v5.1.0) (2016-09-23)
 

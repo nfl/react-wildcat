@@ -1,5 +1,3 @@
-"use strict";
-
 const os = require("os");
 const cluster = require("cluster");
 
@@ -31,11 +29,18 @@ let server;
 function start() {
     const wildcatConfig = require("./utils/getWildcatConfig")(cwd);
 
-    const generalSettings = wildcatConfig.generalSettings;
-    const serverSettings = wildcatConfig.serverSettings;
+    const {
+        generalSettings,
+        serverSettings
+    } = wildcatConfig;
 
-    const staticServerSettings = serverSettings.staticServer;
-    const secureSettings = staticServerSettings.secureSettings;
+    const {
+        staticServer: staticServerSettings
+    } = serverSettings;
+
+    const {
+        secureSettings
+    } = staticServerSettings;
 
     const lifecycleHook = (lifecycle) => {
         if (typeof staticServerSettings[lifecycle] === "function") {
@@ -93,6 +98,11 @@ function start() {
 
             cluster.on("exit", function clusterExit(worker, code, signal) {
                 logger.warn(`worker ${worker.process.pid} has died (code: ${code}) (signal: ${signal})`);
+
+                if (staticServerSettings.reconnectOnWorkerDisconnect === true) {
+                    logger.warn(`Starting a new worker`);
+                    cluster.fork();
+                }
             });
 
             resolve({

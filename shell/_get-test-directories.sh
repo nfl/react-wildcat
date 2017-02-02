@@ -10,12 +10,12 @@ for f in packages/*; do
   fi
 
   if [ -d "$f/test" ]; then
-    TEST_DIRS="$f/test $TEST_DIRS"
+    TEST_DIRS="$PWD/$f/test $TEST_DIRS"
   fi
 done
 
 # Add CLI tests
 CLI_DIR="packages/react-wildcat/cli"
-TEST_DIRS="$CLI_DIR/test $TEST_DIRS"
+TEST_DIRS="$PWD/$CLI_DIR/test $TEST_DIRS"
 
 echo $TEST_DIRS

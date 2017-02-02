@@ -23,19 +23,19 @@ function upgradeReactNpm(pkg) {
         if (pkgDependencies[reactPkg] && pkgDependencies[reactPkg] !== REACT_VERSION) {
             console.log();
             console.log(`upgrading dependency ${NPM_REACT_VERSION} in ${pkg.name}`);
-            exec(`npm install --save --save-exact "${NPM_REACT_VERSION}"`);
+            exec(`yarn add --exact "${NPM_REACT_VERSION}"`);
         }
 
         if (pkgDevDependencies[reactPkg] && pkgDevDependencies[reactPkg] !== REACT_VERSION) {
             console.log();
             console.log(`upgrading dev dependency ${NPM_REACT_VERSION} in ${pkg.name}`);
-            exec(`npm install --save-dev --save-exact "${NPM_REACT_VERSION}"`);
+            exec(`yarn add --dev --exact "${NPM_REACT_VERSION}"`);
         }
 
         if (pkgOptionalDependencies[reactPkg] && pkgOptionalDependencies[reactPkg] !== REACT_VERSION) {
             console.log();
             console.log(`upgrading optional dependency ${NPM_REACT_VERSION} in ${pkg.name}`);
-            exec(`npm install --save-optional --save-exact "${NPM_REACT_VERSION}" --quiet`);
+            exec(`yarn add --optional --exact "${NPM_REACT_VERSION}"`);
         }
     });
 }

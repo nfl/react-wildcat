@@ -20,21 +20,23 @@ class ApplicationContext extends React.Component {
         const {headers} = this.context;
 
         return (
-            <StyleRoot radiumConfig={{
-                userAgent: headers.userAgent,
+            <StyleRoot
+                radiumConfig={{
+                    userAgent: headers.userAgent,
 
-                plugins: [
-                    radium.Plugins.mergeStyleArray,
-                    radium.Plugins.checkProps,
-                    radium.Plugins.resolveMediaQueries,
-                    radium.Plugins.resolveInteractionStyles,
-                    radium.Plugins.prefix,
-                    // prefixAll,
-                    // customRadiumPlugin
-                    // ...etc
-                    radium.Plugins.checkProps
-                ]
-            }}>
+                    plugins: [
+                        radium.Plugins.mergeStyleArray,
+                        radium.Plugins.checkProps,
+                        radium.Plugins.resolveMediaQueries,
+                        radium.Plugins.resolveInteractionStyles,
+                        radium.Plugins.prefix,
+                        // prefixAll,
+                        // customRadiumPlugin
+                        // ...etc
+                        radium.Plugins.checkProps
+                    ]
+                }}
+            >
                 <Application {...this.props} />
             </StyleRoot>
         );
