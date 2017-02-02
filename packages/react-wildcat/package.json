@@ -9,11 +9,17 @@
   },
   "main": "main.js",
   "dependencies": {
+    "asset-require-hook": "^1.0.2",
     "babel-core": "^6.8.0",
+    "babel-plugin-dynamic-import-node": "1.0.0",
+    "babel-polyfill": "6.22.0",
+    "babel-preset-env": "1.1.8",
+    "babel-register": "^6.18.0",
     "batch": "^0.5.3",
     "better-log": "^1.3.3",
     "chalk": "^1.1.3",
     "chokidar": "^1.4.3",
+    "clear-require": "^2.0.0",
     "commander": "^2.9.0",
     "deepmerge": "^1.3.0",
     "fs-extra": "0.27.0",
@@ -29,6 +35,7 @@
     "koa-file-server": "https://github.com/nfl/file-server/tarball/feature/optional-gzip",
     "koa-morgan": "^0.4.0",
     "koa-proxy": "^0.6.0",
+    "koa-webpack-dev-middleware": "^1.3.0",
     "memwatch-next": "^0.3.0",
     "minimatch": "^3.0.0",
     "node-fetch": "^1.5.1",
@@ -40,7 +47,8 @@
     "slash": "^1.0.0",
     "spdy": "^3.3.2",
     "uglify-js": "^2.6.2",
-    "uws": "^0.11.0"
+    "uws": "^0.11.0",
+    "webpack": "^2.2.1"
   },
   "optionalDependencies": {
     "bufferutil": "^1.2.1",
