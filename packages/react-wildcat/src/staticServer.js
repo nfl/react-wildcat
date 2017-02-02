@@ -22,8 +22,6 @@ require("./utils/customMorganTokens")(morgan, "☁️");
 const Logger = require("./utils/logger");
 const logger = new Logger("☁️");
 
-const babelDevTranspiler = require("./middleware/babelDevTranspiler");
-
 let server;
 
 function start() {
@@ -139,20 +137,14 @@ function start() {
             app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
 
             if (!__PROD__ || __TEST__) {
-                app.use(babelDevTranspiler(cwd, {
-                    babelOptions,
-                    binDir: serverSettings.binDir,
-                    coverage: generalSettings.coverage,
-                    coverageSettings: generalSettings.coverageSettings,
-                    extensions: [".es6", ".js", ".es", ".jsx"],
-                    logger,
-                    logLevel: generalSettings.logLevel,
-                    origin: generalSettings.staticUrl,
-                    outDir: serverSettings.publicDir,
-                    sourceDir: serverSettings.sourceDir,
-                    minify: serverSettings.minifyTranspilerOutput,
-                    minifySettings: serverSettings.minifySettings
-                }));
+                const webpack = require("webpack");
+                const webpackDevServer = require("koa-webpack-dev-middleware");
+                const {webpackDevConfigFile} = generalSettings;
+
+                if (fs.existsSync(webpackDevConfigFile)) {
+                    const webpackConfig = require(path.resolve(cwd, webpackDevConfigFile));
+                    app.use(webpackDevServer(webpack(webpackConfig), webpackConfig.devServer));
+                }
             }
 
             // serve statics
