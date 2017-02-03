@@ -47,8 +47,8 @@ module.exports = function renderReactWithBabel(root, options) {
 
     if (hotReload) {
         hotReloaderWebSocket({
-            onFileChanged(moduleId) {
-                clearRequire(path.resolve(root, moduleId));
+            onFileChanged() {
+                clearRequire.all();
             }
         }, staticUrl.replace("http", "ws"), logger);
     }
