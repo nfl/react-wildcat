@@ -37,6 +37,18 @@ function render(cfg) {
         location: clientLocation
     });
 
+    if (typeof cfg.routes === "function") {
+        return new Promise(function routePromise(resolve, reject) {
+            cfg.routes(cfg.location, function renderCallback(err, routes) {
+                if (err) {
+                    return reject(new Error(err));
+                }
+
+                return resolve(completeRender(cfg, routes));
+            });
+        });
+    }
+
     if (!cfg.routes && cfg.domains) {
         return new Promise(function renderPromise(resolve, reject) {
             getDomainRoutes(cfg.domains, headers, function renderCallback(err, routes) {

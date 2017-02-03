@@ -40,6 +40,18 @@ function render(cfg) {
             wildcatConfig
         });
 
+        if (typeof cfg.routes === "function") {
+            return new Promise(function routePromise(resolve, reject) {
+                cfg.routes(cfg.location, function renderCallback(err, routes) {
+                    if (err) {
+                        return reject(new Error(err));
+                    }
+
+                    return resolve(completeRender(cfg, routes));
+                });
+            });
+        }
+
         if (!cfg.routes && cfg.domains) {
             return new Promise((resolve, reject) => {
                 getDomainRoutes(cfg.domains, headers, (error, routes) => {
