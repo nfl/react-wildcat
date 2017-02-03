@@ -2,7 +2,7 @@
 
 - Node +4.x (we recommend installing via ([n](https://github.com/tj/n)): `n lts` or `n stable`)
 - npm +2.x
-- jspm ^0.16.31 (`npm install -g jspm@^0.16.31`)
+- jspm ^0.16.48 (`npm install -g jspm@^0.16.48`)
 
 ## Client Requirements
 
