@@ -139,12 +139,21 @@ function start() {
 
             if (!__PROD__) {
                 const webpack = require("webpack");
-                const webpackDevServer = require("koa-webpack-dev-middleware");
+                const webpackDevMiddleware = require("koa-webpack-dev-middleware");
+                const webpackHotMiddleware = require("./middleware/webpackHotMiddleware");
                 const {webpackDevConfigFile} = generalSettings;
 
                 if (fs.existsSync(webpackDevConfigFile)) {
-                    const webpackConfig = require(path.resolve(cwd, webpackDevConfigFile));
-                    app.use(webpackDevServer(webpack(webpackConfig), webpackConfig.devServer));
+                    const {
+                        devConfig,
+                        devMiddleware,
+                        hotMiddleware
+                    } = require(path.resolve(cwd, webpackDevConfigFile));
+
+                    const compiler = webpack(devConfig);
+
+                    app.use(webpackDevMiddleware(compiler, devMiddleware));
+                    app.use(webpackHotMiddleware(compiler, hotMiddleware));
                 }
             }
 

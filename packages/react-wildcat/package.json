@@ -48,7 +48,8 @@
     "spdy": "^3.3.2",
     "uglify-js": "^2.6.2",
     "uws": "^0.11.0",
-    "webpack": "^2.2.1"
+    "webpack": "^2.2.1",
+    "webpack-hot-middleware": "^2.16.1"
   },
   "optionalDependencies": {
     "bufferutil": "^1.2.1",
