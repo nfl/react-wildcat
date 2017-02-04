@@ -14,8 +14,4 @@ for f in packages/*; do
   fi
 done
 
-# Add CLI tests
-CLI_DIR="packages/react-wildcat/cli"
-TEST_DIRS="$PWD/$CLI_DIR/test $TEST_DIRS"
-
 echo $TEST_DIRS
