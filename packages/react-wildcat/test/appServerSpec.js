@@ -28,25 +28,16 @@ describe("appServer", () => {
         process.chdir(stubs.exampleDir);
     });
 
-    context("polyfills", () => {
-        require("./polyfills/fetchSpec.js")();
-        require("./polyfills/baseURISpec.js")();
-    });
-
     context("utils", () => {
         require("./utils/blueBoxOfDeathSpec.js")(stubs);
-        require("./utils/customJspmLoaderSpec.js")(stubs);
         require("./utils/customMorganTokensSpec.js")(stubs);
         require("./utils/getMorganOptionsSpec.js")(stubs);
         require("./utils/getWildcatConfigSpec.js")(stubs);
-        require("./utils/hotReloaderWebSocketSpec.js")(stubs);
-        require("./utils/logCreateSuccessSpec.js")(stubs);
         require("./utils/loggerSpec.js")(stubs);
-        require("./utils/logTransformErrorSpec.js")(stubs);
     });
 
     context("middleware", () => {
-        require("./middleware/renderReactWithJspmSpec.js")(stubs);
+        // require("./middleware/renderReactWithJspmSpec.js")(stubs);
     });
 
     context("app server", () => {
