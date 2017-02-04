@@ -1,6 +1,13 @@
 module.exports = function renderReactWithWebpack(root, options) {
+    const fs = require("fs-extra");
     const path = require("path");
     const clearRequire = require("clear-require");
+
+    const blueBoxOfDeath = require("../utils/blueBoxOfDeath");
+    const Convert = require("ansi-to-html");
+    const convert = new Convert();
+
+    const __PROD__ = (process.env.NODE_ENV === "production");
 
     const {
         logger,
@@ -9,53 +16,115 @@ module.exports = function renderReactWithWebpack(root, options) {
 
     const {
         generalSettings: {
-            jspmConfigFile,
-            staticUrl
+            webpackDevConfigFile
         },
         serverSettings: {
             displayBlueBoxOfDeath,
             entry,
-            hotReload,
-            hotReloader,
-            hotReloadReporter,
             renderHandler
         }
     } = wildcatConfig;
 
-    function pageHandler(request, cookies) {
-        try {
+    const webpack = {
+        _err: undefined,
+        _handlers: [],
+        _stats: undefined,
+        _watcher: undefined,
+
+        onReady(callback) {
+            if (this._watcher && !this._watcher.invalid) {
+                return callback.call(callback, this._err, this._stats);
+            }
+
+            logger.info(`webpack: wait until bundle finished`);
+            return this._handlers.push(callback);
+        },
+
+        ready({
+            err,
+            stats,
+            watcher
+        }) {
+            this._err = err;
+            this._stats = stats;
+            this._watcher = watcher;
+
+            // Clear require cache and re-import
             clearRequire.all();
 
-            // Load the server files from the current file system
-            const serverOptions = (typeof entry === "string") ? require(path.resolve(root, entry)) : entry;
-            const server = require(renderHandler);
+            this._handlers.forEach(handler => {
+                handler.call(handler, err, stats);
+            });
 
-            const render = server(serverOptions.default || serverOptions);
-            const reply = render(request, cookies, wildcatConfig);
+            this._handlers = [];
+        }
+    };
 
-            return {
-                // Return the original reply
-                reply
-            };
+    if (!__PROD__) {
+        const w = require("webpack");
+
+        if (fs.existsSync(webpackDevConfigFile)) {
+            const {
+                server: {
+                    devConfig
+                }
+            } = require(path.resolve(root, webpackDevConfigFile));
+
+            const compiler = w(devConfig);
+            const watcher = compiler.watch({}, (err, stats) => {
+                webpack.ready({
+                    err,
+                    stats,
+                    watcher
+                });
+            });
+        }
+    }
+
+    function pageHandler(request, cookies) {
+        try {
+            return new Promise((resolve, reject) => {
+                webpack.onReady((err, stats) => {
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    if (displayBlueBoxOfDeath && stats.hasErrors()) {
+                        return resolve({
+                            error: blueBoxOfDeath(stats.compilation.errors.map(e => ({
+                                message: convert.toHtml(e.error),
+                                id: e.module.id
+                            })), request),
+                            status: 500
+                        });
+                    }
+
+                    // Load the server files from the current file system
+                    const serverOptions = (typeof entry === "string") ? require(path.resolve(root, entry)) : entry;
+                    const server = require(renderHandler);
+
+                    const render = server(serverOptions.default || serverOptions);
+                    const reply = render(request, cookies, wildcatConfig);
+
+                    return resolve(
+                        // Return the original reply
+                        reply
+                    );
+                });
+            });
         } catch (err) {
             logger.error(err);
 
             if (displayBlueBoxOfDeath) {
-                const blueBoxOfDeath = require("../utils/blueBoxOfDeath");
-
                 return {
-                    reply: {
-                        error: blueBoxOfDeath(err, request),
-                        status: 500
-                    }
+                    error: blueBoxOfDeath(err, request),
+                    status: 500
                 };
             }
 
             return {
-                reply: {
-                    error: err.stack,
-                    status: 500
-                }
+                error: err.stack,
+                status: 500
             };
         }
     }
@@ -70,10 +139,7 @@ module.exports = function renderReactWithWebpack(root, options) {
         response.status = 200;
         response.type = "text/html";
 
-        const data = yield pageHandler(request, cookies);
-        const {
-            reply
-        } = data;
+        const reply = yield pageHandler(request, cookies);
 
         this.status = reply.status || response.status;
 

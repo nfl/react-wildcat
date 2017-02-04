@@ -9,6 +9,7 @@
   },
   "main": "main.js",
   "dependencies": {
+    "ansi-to-html": "^0.5.0",
     "asset-require-hook": "^1.0.2",
     "babel-core": "^6.8.0",
     "babel-plugin-dynamic-import-node": "1.0.0",
@@ -49,6 +50,7 @@
     "uglify-js": "^2.6.2",
     "uws": "^0.11.0",
     "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.3.0",
     "webpack-hot-middleware": "^2.16.1"
   },
   "optionalDependencies": {

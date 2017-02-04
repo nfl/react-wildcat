@@ -145,9 +145,11 @@ function start() {
 
                 if (fs.existsSync(webpackDevConfigFile)) {
                     const {
-                        devConfig,
-                        devMiddleware,
-                        hotMiddleware
+                        client: {
+                            devConfig,
+                            devMiddleware,
+                            hotMiddleware
+                        }
                     } = require(path.resolve(cwd, webpackDevConfigFile));
 
                     const compiler = webpack(devConfig);
