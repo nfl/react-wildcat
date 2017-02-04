@@ -525,10 +525,6 @@ cookie@^0.3.1:
   version "0.3.1"
   resolved "https://registry.npmjs.org/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
 
-cookies-js@^1.2.2:
-  version "1.2.3"
-  resolved "https://registry.npmjs.org/cookies-js/-/cookies-js-1.2.3.tgz#03315049e7c52bee3f73186a69167eab0ddb2d31"
-
 core-js@^1.0.0:
   version "1.2.7"
   resolved "https://registry.npmjs.org/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
@@ -1721,13 +1717,6 @@ react-side-effect@^1.1.0:
   dependencies:
     exenv "^1.2.1"
     shallowequal "^0.2.2"
-
-react-wildcat-hot-reloader@6.2.0:
-  version "6.2.0"
-  resolved "https://registry.npmjs.org/react-wildcat-hot-reloader/-/react-wildcat-hot-reloader-6.2.0.tgz#f1542bde10b7f75937f11d0a70261c1480dacc73"
-  dependencies:
-    debug "^2.2.0"
-    exenv "^1.2.1"
 
 react@15.4.2:
   version "15.4.2"
