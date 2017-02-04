@@ -149,15 +149,6 @@ Middleware at serverSettings.appServer.middleware[${index}] could not be correcl
                 });
             }
 
-            if (esCompiler === "babel") {
-                const renderReactWithBabel = require("./middleware/renderReactWithBabel");
-
-                app.use(renderReactWithBabel(cwd, {
-                    logger,
-                    wildcatConfig
-                }));
-            }
-
             if (esCompiler === "webpack") {
                 const renderReactWithWebpack = require("./middleware/renderReactWithWebpack");
 
