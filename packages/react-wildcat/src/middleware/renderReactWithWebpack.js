@@ -7,7 +7,7 @@ module.exports = function renderReactWithWebpack(root, options) {
     const Convert = require("ansi-to-html");
     const convert = new Convert();
 
-    const __PROD__ = (process.env.NODE_ENV === "production");
+    const __DEV__ = (process.env.NODE_ENV === "development");
 
     const {
         logger,
@@ -32,7 +32,7 @@ module.exports = function renderReactWithWebpack(root, options) {
         _watcher: undefined,
 
         onReady(callback) {
-            if (this._watcher && !this._watcher.invalid) {
+            if (!__DEV__ || (this._watcher && !this._watcher.invalid)) {
                 return callback.call(callback, this._err, this._stats);
             }
 
@@ -60,7 +60,7 @@ module.exports = function renderReactWithWebpack(root, options) {
         }
     };
 
-    if (!__PROD__) {
+    if (__DEV__) {
         const w = require("webpack");
 
         if (fs.existsSync(webpackDevConfigFile)) {
