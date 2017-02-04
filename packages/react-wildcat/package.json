@@ -4,7 +4,6 @@
   "description": "An opinionated React environment.",
   "bin": {
     "wildcat": "./cli/wildcat.js",
-    "wildcat-babel": "./cli/wildcatBabel.js",
     "wildcat-static-server": "./cli/wildcatStaticServer.js"
   },
   "main": "main.js",
