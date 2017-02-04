@@ -1,11 +1,8 @@
 "use strict";
 
-const fs = require("fs-extra");
 const cwd = process.cwd();
 const path = require("path");
 const chalk = require("chalk");
-const pathExists = require("path-exists");
-const pathResolve = require("resolve-path");
 
 const Logger = require("../src/utils/logger");
 exports.Logger = Logger;
@@ -54,15 +51,6 @@ exports.exampleDir = exampleDir;
 
 const projectConfigFile = path.join(exampleDir, "wildcat.config.js");
 exports.projectConfigFile = projectConfigFile;
-
-const mainEntrySourcePath = `${sourceDir}/main.js`;
-exports.mainEntrySourcePath = mainEntrySourcePath;
-
-const mainEntryTranspiledPath = getPublicPath(mainEntrySourcePath);
-exports.mainEntryTranspiledPath = mainEntryTranspiledPath;
-
-const mainEntryAbsTranspiledPath = path.join(exampleDir, mainEntryTranspiledPath);
-exports.mainEntryAbsTranspiledPath = mainEntryAbsTranspiledPath;
 
 const customEmoji = "🏈";
 exports.customEmoji = customEmoji;
@@ -127,65 +115,6 @@ exports.origin = origin;
 const logLevel = 4;
 exports.logLevel = logLevel;
 
-const exampleBinarySourcePath = `${sourceDir}/assets/images/primary-background.jpg`;
-exports.exampleBinarySourcePath = exampleBinarySourcePath;
-
-const exampleBinaryPath = `/${publicDir}/assets/images/primary-background.jpg`;
-exports.exampleBinaryPath = exampleBinaryPath;
-
-let babelOptions = {};
-
-const babelRcPath = path.join(exampleDir, ".babelrc");
-exports.babelRcPath = babelRcPath;
-
-if (pathExists.sync(babelRcPath)) {
-    babelOptions = JSON.parse(fs.readFileSync(babelRcPath));
-}
-exports.babelOptions = babelOptions;
-
-function getPathOptions(sourcePath) {
-    const relativePath = getPublicPath(sourcePath);
-    const modulePath = pathResolve(exampleDir, relativePath);
-    const moduleSourcePath = relativePath.replace(publicDir, sourceDir);
-    const moduleBinPath = relativePath.replace(publicDir, binDir);
-
-    return {
-        modulePath,
-        moduleSourcePath,
-        moduleBinPath,
-        relativePath
-    };
-}
-
-function getDataOptions(sourcePath) {
-    const dataOptions = Object.assign({}, babelOptions, {
-        sourceFileName: sourcePath,
-        sourceMapTarget: path.basename(sourcePath)
-    });
-
-    return dataOptions;
-}
-
-const temporaryCache = new Map();
-exports.temporaryCache = temporaryCache;
-
-const binaryToModule = true;
-exports.binaryToModule = binaryToModule;
-
-const importBinaryDefaults = {
-    root: exampleDir,
-    origin,
-
-    logger,
-    logLevel,
-
-    pathOptions: getPathOptions(exampleBinarySourcePath),
-
-    temporaryCache,
-    binaryToModule
-};
-exports.importBinaryDefaults = importBinaryDefaults;
-
 const coverage = undefined;
 exports.coverage = coverage;
 
@@ -195,30 +124,8 @@ exports.coverageSettings = coverageSettings;
 const waitForFileWrite = false;
 exports.waitForFileWrite = waitForFileWrite;
 
-const transpileModuleDefaults = {
-    babel: require("babel-core"),
-
-    logger,
-    logLevel,
-
-    babelOptions,
-    dataOptions: getDataOptions(mainEntrySourcePath),
-    pathOptions: getPathOptions(mainEntrySourcePath),
-
-    temporaryCache,
-
-    coverage,
-    coverageSettings,
-
-    waitForFileWrite
-};
-exports.transpileModuleDefaults = transpileModuleDefaults;
-
 const writeDelay = 200;
 exports.writeDelay = writeDelay;
-
-const jspmPackage = "react";
-exports.jspmPackage = jspmPackage;
 
 const temporaryPackageJSON = path.join(exampleDir, "tmp.json");
 exports.temporaryPackageJSON = temporaryPackageJSON;

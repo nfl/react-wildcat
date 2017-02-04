@@ -9,7 +9,6 @@ const serve = require("koa-file-server");
 const fs = require("fs-extra");
 const cwd = process.cwd();
 const path = require("path");
-const pathExists = require("path-exists");
 
 const http = require("http");
 const http2 = require("spdy");
@@ -54,8 +53,6 @@ function start() {
     const __PROD__ = (process.env.NODE_ENV === "production");
     const __TEST__ = (process.env.BABEL_ENV === "test");
 
-    let babelOptions = {};
-
     let cpuCount = staticServerSettings.maxClusterCpuCount;
 
     if (cpuCount === Infinity) {
@@ -63,12 +60,6 @@ function start() {
     }
 
     if (!__PROD__ || __TEST__) {
-        const babelRcPath = path.join(cwd, ".babelrc");
-
-        if (pathExists.sync(babelRcPath)) {
-            babelOptions = JSON.parse(fs.readFileSync(babelRcPath));
-        }
-
         https.globalAgent.options.rejectUnauthorized = false;
 
         if (!wildcatConfig.__ClusterServerTest__) {
