@@ -108,9 +108,6 @@ const wildcatConfig = {
             mangle: true
         },
 
-        // One of "jspm" | "webpack" | "babel"
-        esCompiler: "webpack",
-
         // BYO-HTML template
         // htmlTemplate: require("./customHTMLTemplate.js"),
 

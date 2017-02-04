@@ -38,8 +38,7 @@ function start() {
     } = wildcatConfig;
 
     const {
-        appServer: appServerSettings,
-        esCompiler
+        appServer: appServerSettings
     } = serverSettings;
 
     const {
@@ -149,14 +148,12 @@ Middleware at serverSettings.appServer.middleware[${index}] could not be correcl
                 });
             }
 
-            if (esCompiler === "webpack") {
-                const renderReactWithWebpack = require("./middleware/renderReactWithWebpack");
+            const renderReactWithWebpack = require("./middleware/renderReactWithWebpack");
 
-                app.use(renderReactWithWebpack(cwd, {
-                    logger,
-                    wildcatConfig
-                }));
-            }
+            app.use(renderReactWithWebpack(cwd, {
+                logger,
+                wildcatConfig
+            }));
 
             let serverType;
 
