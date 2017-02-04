@@ -3,4 +3,3 @@
 *.gz
 public/
 node_modules/
-jspm_packages/

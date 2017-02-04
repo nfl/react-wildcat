@@ -11,8 +11,6 @@ services:
       service: wildcat
     build:
       context: .
-      args:
-        JSPM_GITHUB_AUTH_TOKEN:
     links:
       - "static:static.example.dev"
     ports:
@@ -30,8 +28,6 @@ services:
       service: wildcat
     build:
       context: .
-      args:
-        JSPM_GITHUB_AUTH_TOKEN:
     environment:
       STATIC_HOST: static.example.dev
     ports:
@@ -48,4 +44,3 @@ services:
     cap_add:
       - NET_ADMIN
     command: "--log-facility=- --address=/dev/127.0.0.1"
-

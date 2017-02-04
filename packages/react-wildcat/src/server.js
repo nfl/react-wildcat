@@ -133,7 +133,7 @@ function start() {
                 }));
             });
 
-            // Allow custom middleware priority over react/jspm/render from below
+            // Allow custom middleware priority over react/render from below
             // otherwise server-only routes will receive 404's.
             if (appServerSettings.middleware && appServerSettings.middleware.length) {
                 appServerSettings.middleware.forEach(function eachCustomAppMiddleware(middlewareConfigFunction, index) {

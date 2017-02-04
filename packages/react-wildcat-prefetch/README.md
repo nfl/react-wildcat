@@ -8,12 +8,6 @@ A React higher order component to prefetch component data.
 
 ## Installation
 
-jspm:
-
-```bash
-jspm install npm:react-wildcat-prefetch
-```
-
 npm:
 
 ```bash

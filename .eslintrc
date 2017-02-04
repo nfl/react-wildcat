@@ -20,28 +20,9 @@
     },
     "settings": {
         "import/ignore": [
-            "jspm_packages",
             "node_modules",
             ".(scss|less|css)$",
             ".[^js(x)?]+$"
-        ],
-        "import/resolve": {
-            "moduleDirectory": [
-                "jspm_packages",
-                "node_modules",
-                "."
-            ]
-        },
-        "import/resolver": {
-            "jspm": {
-                "moduleDirectory": "jspm_packages",
-                "pathsOverride": {
-                    "public": "src"
-                }
-            },
-            "node": {
-                "moduleDirectory": "node_modules"
-            }
-        }
+        ]
     }
 }

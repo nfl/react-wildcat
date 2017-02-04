@@ -59,18 +59,8 @@ module.exports = function (karmaConfig) {
         frameworks: [
             "phantomjs-shim",
             "chai-sinon",
-            "jspm",
             "mocha"
         ],
-
-        jspm: {
-            config: "system.config.js",
-            loadFiles: ["packages/!(react-wildcat-test-runners)/lib/**/!(*fixture).js"],
-            serveFiles: [
-                "jspm_packages/**/*",
-                "packages/!(react-wildcat-test-runners)/lib/**/*"
-            ]
-        },
 
         // level of logging
         // possible values: karmaConfig.LOG_DISABLE || karmaConfig.LOG_ERROR || karmaConfig.LOG_WARN || karmaConfig.LOG_INFO || karmaConfig.LOG_DEBUG
@@ -85,8 +75,7 @@ module.exports = function (karmaConfig) {
         },
 
         proxies: {
-            "/packages": "/base/packages",
-            "/jspm_packages": "/base/jspm_packages"
+            "/packages": "/base/packages"
         },
 
         // test results reporter to use

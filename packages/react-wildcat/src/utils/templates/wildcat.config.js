@@ -16,9 +16,6 @@ const __PROD__ = (process.env.NODE_ENV === "production");
 /* istanbul ignore next */
 const wildcatConfig = {
     generalSettings: {
-        // Grab the config file from package.json
-        jspmConfigFile: "config.js",
-
         seleniumAddress: undefined,
 
         // Project name

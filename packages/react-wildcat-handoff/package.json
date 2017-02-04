@@ -21,18 +21,6 @@
     "webpack": "^2.1.0-beta.25",
     "webpack-node-externals": "^1.3.3"
   },
-  "jspm": {
-    "format": "cjs",
-    "ignore": [
-      "src",
-      "test",
-      "lib/test",
-      ".eslintrc",
-      ".npmignore",
-      "webpack.config.js"
-    ],
-    "main": false
-  },
   "scripts": {
     "build": "npm run clean && npm run compile",
     "clean": "rimraf dist lib",

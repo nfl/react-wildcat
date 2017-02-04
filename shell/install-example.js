@@ -12,9 +12,6 @@ cd(example);
 // Install node modules
 exec(`yarn install`);
 
-// Install jspm packages
-exec(`jspm install --log warn -y`);
-
 cd(cwd);
 
 ls("packages").forEach((loc) => {
@@ -32,12 +29,6 @@ ls("packages").forEach((loc) => {
     // Link package to npm
     exec(`yarn install`);
     exec(`yarn link --force ${pkg.name}`);
-
-    if (pkg.name !== "react-wildcat" && pkg.name !== "react-wildcat-test-runners") {
-        // Link package to jspm
-        console.log(`jspm install --link npm:${pkg.name}@${pkg.version} --log warn -y`);
-        exec(`jspm install --link npm:${pkg.name}@${pkg.version} --log warn -y`);
-    }
 
     cd(cwd);
 });

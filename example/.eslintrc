@@ -15,30 +15,14 @@
     },
     "settings": {
         "import/ignore": [
-            "jspm_packages",
             "node_modules",
             ".(scss|less|css)$",
             ".[^js(x)?]+$"
         ],
         "import/resolve": {
             "moduleDirectory": [
-                "jspm_packages",
-                "node_modules",
-                "."
+                "node_modules"
             ]
-        },
-        "import/resolver": {
-            "jspm": {
-                "extensions": [],
-                "moduleDirectory": "jspm_packages",
-                "pathsOverride": {
-                    "public": "src"
-                }
-            },
-            "node": {
-                "extensions": [],
-                "moduleDirectory": "node_modules"
-            }
         }
     }
 }

@@ -44,7 +44,6 @@ function getPort(port, defaultPort) {
 
 const excludes = [
     "**/node_modules/**",
-    "**/jspm_packages/**",
     "**/test/**",
     "**/Test*",
     "**/*.json"
@@ -53,9 +52,6 @@ const excludes = [
 /* istanbul ignore next */
 const wildcatConfig = {
     generalSettings: {
-        // Grab the config file from package.json
-        jspmConfigFile: pkg.configFile || (pkg.jspm || {}).configFile || "config.js",
-
         seleniumAddress: process.env.HOST === "localhost" || !process.env.HOST ? null : "http://selenium:4444/wd/hub",
 
         // Project name
@@ -110,7 +106,7 @@ const wildcatConfig = {
 
         serviceWorker: __PROD__ && __BUNDLE__,
 
-        // Path to the client renderer. This can be a jspm package or a relative path
+        // Path to the client renderer. This can be a node module or a relative path
         renderHandler: "react-wildcat-handoff/client",
 
         // The target element id where React will be injected

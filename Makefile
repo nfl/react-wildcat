@@ -6,7 +6,6 @@ export BABEL_ENV = test
 
 bootstrap:
 	yarn install
-	jspm install --log warn -y
 	node ./shell/install.js
 	yarn link --force react-wildcat-prefetch
 

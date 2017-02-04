@@ -31,7 +31,7 @@ module.exports = (stubs) => {
                         pollInterval: 100,
                         stabilityThreshold: 250
                     },
-                    ignored: /\.(git|gz|map)|node_modules|jspm_packages|src/,
+                    ignored: /\.(git|gz|map)|node_modules|src/,
                     ignoreInitial: true,
                     persistent: true
                 }
@@ -84,7 +84,7 @@ module.exports = (stubs) => {
                             pollInterval: 100,
                             stabilityThreshold: 250
                         },
-                        ignored: /\.(git|gz|map)|node_modules|jspm_packages|src/,
+                        ignored: /\.(git|gz|map)|node_modules|src/,
                         ignoreInitial: true,
                         persistent: true
                     }

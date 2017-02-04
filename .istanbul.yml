@@ -2,7 +2,6 @@
 instrumentation:
   root: ./packages
   excludes:
-    - "**/jspm_packages/**"
     - "**/node_modules/**"
     - "**/reports/**"
     - "**/dist/**"

@@ -31,16 +31,11 @@ swPrecache.write(serviceWorkerPath, {
     cacheId: wildcatConfig.generalSettings.name,
     staticFileGlobs: [
         "bundles/*.js",
-        "public/**/*",
-        "jspm_packages/system.js",
-        "system.config.js"
+        "public/**/*"
     ],
     runtimeCaching: [{
         urlPattern: /\/$/,
         handler: "fastest"
-    }, {
-        urlPattern: /jspm_packages\//,
-        handler: "cacheFirst"
     }, {
         urlPattern: new RegExp(`^${staticHostRegex.source}`),
         handler: "cacheFirst"

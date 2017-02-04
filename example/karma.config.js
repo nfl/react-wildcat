@@ -90,14 +90,8 @@ module.exports = function (karmaConfig) {
         frameworks: [
             "phantomjs-shim",
             "chai-sinon",
-            "jspm",
             "mocha"
         ],
-
-        jspm: {
-            config: "system.config.js",
-            loadFiles: ["public/**/*Test.js"]
-        },
 
         // level of logging
         // possible values: karmaConfig.LOG_DISABLE || karmaConfig.LOG_ERROR || karmaConfig.LOG_WARN || karmaConfig.LOG_INFO || karmaConfig.LOG_DEBUG

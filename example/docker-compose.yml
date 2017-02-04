@@ -7,8 +7,6 @@ services:
       service: wildcat
     build:
       context: .
-      args:
-        JSPM_GITHUB_AUTH_TOKEN:
     image: "nfl/react-wildcat-example:latest"
     environment:
       HOST: "www.example.dev"
