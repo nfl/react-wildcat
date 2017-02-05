@@ -37,7 +37,7 @@ describe("appServer", () => {
     });
 
     context("middleware", () => {
-        // require("./middleware/renderReactWithJspmSpec.js")(stubs);
+        require("./middleware/renderReactWithWebpackSpec.js")(stubs);
     });
 
     context("app server", () => {

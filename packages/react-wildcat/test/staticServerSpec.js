@@ -31,7 +31,7 @@ describe("staticServer", () => {
     });
 
     context("middleware", () => {
-        // require("./middleware/babelDevTranspilerSpec.js")(stubs);
+        require("./middleware/webpackHotMiddlewareSpec.js")(stubs);
     });
 
     context("static server", () => {
