@@ -6,9 +6,7 @@ const cors = require("koa-cors");
 const compress = require("koa-compress");
 const serve = require("koa-file-server");
 
-const fs = require("fs-extra");
 const cwd = process.cwd();
-const path = require("path");
 
 const http = require("http");
 const http2 = require("spdy");
@@ -28,6 +26,9 @@ function start() {
 
     const {
         generalSettings,
+        clientSettings: {
+            webpackDev
+        },
         serverSettings
     } = wildcatConfig;
 
@@ -51,6 +52,7 @@ function start() {
     const morganOptions = getMorganOptions(generalSettings.logLevel, serverSettings);
 
     const __PROD__ = (process.env.NODE_ENV === "production");
+    const __DEV__ = (process.env.NODE_ENV === "development");
     const __TEST__ = (process.env.BABEL_ENV === "test");
 
     let cpuCount = staticServerSettings.maxClusterCpuCount;
@@ -128,26 +130,21 @@ function start() {
 
             app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
 
-            if (!__PROD__) {
+            if (__DEV__) {
                 const webpack = require("webpack");
                 const webpackDevMiddleware = require("koa-webpack-dev-middleware");
                 const webpackHotMiddleware = require("./middleware/webpackHotMiddleware");
-                const {webpackDevConfigFile} = generalSettings;
 
-                if (fs.existsSync(webpackDevConfigFile)) {
-                    const {
-                        client: {
-                            devConfig,
-                            devMiddleware,
-                            hotMiddleware
-                        }
-                    } = require(path.resolve(cwd, webpackDevConfigFile));
+                const {
+                    devConfig,
+                    devMiddleware,
+                    hotMiddleware
+                } = webpackDev();
 
-                    const compiler = webpack(devConfig);
+                const compiler = webpack(devConfig);
 
-                    app.use(webpackDevMiddleware(compiler, devMiddleware));
-                    app.use(webpackHotMiddleware(compiler, hotMiddleware));
-                }
+                app.use(webpackDevMiddleware(compiler, devMiddleware));
+                app.use(webpackHotMiddleware(compiler, hotMiddleware));
             }
 
             // serve statics

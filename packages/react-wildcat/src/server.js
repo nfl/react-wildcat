@@ -21,6 +21,8 @@ require("./utils/customMorganTokens")(morgan, "🏈");
 const Logger = require("./utils/logger");
 const logger = new Logger("🏈");
 
+const renderReactWithWebpack = require("./middleware/renderReactWithWebpack");
+
 let server;
 
 function start() {
@@ -147,8 +149,6 @@ Middleware at serverSettings.appServer.middleware[${index}] could not be correcl
                     }
                 });
             }
-
-            const renderReactWithWebpack = require("./middleware/renderReactWithWebpack");
 
             app.use(renderReactWithWebpack(cwd, {
                 logger,

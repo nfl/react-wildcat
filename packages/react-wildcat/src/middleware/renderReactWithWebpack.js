@@ -1,5 +1,4 @@
 module.exports = function renderReactWithWebpack(root, options) {
-    const fs = require("fs-extra");
     const path = require("path");
     const clearRequire = require("clear-require");
 
@@ -15,13 +14,11 @@ module.exports = function renderReactWithWebpack(root, options) {
     } = options;
 
     const {
-        generalSettings: {
-            webpackDevConfigFile
-        },
         serverSettings: {
             displayBlueBoxOfDeath,
             entry,
-            renderHandler
+            renderHandler,
+            webpackDev
         }
     } = wildcatConfig;
 
@@ -63,22 +60,14 @@ module.exports = function renderReactWithWebpack(root, options) {
     if (__DEV__) {
         const w = require("webpack");
 
-        if (fs.existsSync(webpackDevConfigFile)) {
-            const {
-                server: {
-                    devConfig
-                }
-            } = require(path.resolve(root, webpackDevConfigFile));
-
-            const compiler = w(devConfig);
-            const watcher = compiler.watch({}, (err, stats) => {
-                webpack.ready({
-                    err,
-                    stats,
-                    watcher
-                });
+        const compiler = w(webpackDev());
+        const watcher = compiler.watch({}, (err, stats) => {
+            webpack.ready({
+                err,
+                stats,
+                watcher
             });
-        }
+        });
     }
 
     function pageHandler(request, cookies) {
