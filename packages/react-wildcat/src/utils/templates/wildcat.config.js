@@ -64,22 +64,18 @@ const wildcatConfig = {
     },
 
     clientSettings: {
-        // Path to the entry config file relative to the project root
-        entry: "public/main.js",
-
         hotReload: !__PROD__,
-        hotReloader: "react-wildcat-hot-reloader",
 
         serviceWorker: __PROD__,
-
-        // Path to the client renderer. This can be a jspm package or a relative path
-        renderHandler: "react-wildcat-handoff/client",
 
         // The target element id where React will be injected
         reactRootElementID: "content",
 
-        // Enable / disable client-side IndexedDB module caching
-        indexedDBModuleCache: __DEV__ && !__TEST__
+        webpackDev: () => ({
+            devMiddleware: {},
+            hotMiddleware: {},
+            devConfig: {}
+        })
     },
 
     serverSettings: {
@@ -89,24 +85,10 @@ const wildcatConfig = {
         // Path to the server renderer. This can be a jspm package or a relative path
         renderHandler: "react-wildcat-handoff/server",
 
-        // Directory to save raw binaries (jpg, gif, fonts, etc)
-        binDir: "bin",
-
         // Enable the Blue Box of Death to display server errors
         displayBlueBoxOfDeath: !__PROD__,
 
         hotReload: !__PROD__,
-        hotReloader: "react-wildcat-hot-reloader",
-        hotReloadReporter: undefined,
-
-        localPackageCache: !__PROD__ || __TEST__,
-        minifyTranspilerOutput: __PROD__,
-
-        // Only applicable when minifyTranspilerOutput is true
-        minifySettings: {
-            warnings: false,
-            mangle: true
-        },
 
         // BYO-HTML template
         // htmlTemplate: require("./customHTMLTemplate.js"),
@@ -123,6 +105,8 @@ const wildcatConfig = {
 
         // One of "renderToString" | "renderToStaticMarkup" | a function that returns either of the two strings
         renderType: "renderToString",
+
+        webpackDev: () => ({}),
 
         // config options for the app server
         appServer: {
