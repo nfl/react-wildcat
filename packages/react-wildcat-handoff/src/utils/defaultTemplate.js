@@ -1,6 +1,3 @@
-/* eslint-disable no-useless-escape */
-"use strict";
-
 const NOW = Date.now();
 const __PROD__ = process.env.NODE_ENV === "production";
 const __DEV__ = process.env.NODE_ENV === "development";

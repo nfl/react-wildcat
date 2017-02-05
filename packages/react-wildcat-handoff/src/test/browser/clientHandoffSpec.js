@@ -1,8 +1,10 @@
 "use strict";
 
-const client = require("../../client.js");
-const defaultTemplate = require("../../utils/defaultTemplate.js");
-const stubs = require("../stubFixtures.js"); // eslint-disable-line import/no-unresolved
+import client from "../../client.js";
+import defaultTemplate from "../../utils/defaultTemplate.js";
+import * as stubs from "../../../test/stubFixtures.js";
+
+import {expect} from "chai";
 
 const __REACT_ROOT_ID__ = stubs.__REACT_ROOT_ID__;
 

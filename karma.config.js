@@ -1,13 +1,8 @@
-"use strict";
-
-require("isomorphic-fetch");
+const cwd = process.cwd();
+const path = require("path");
 
 // Karma configuration
 module.exports = function (karmaConfig) {
-    function normalizationBrowserName(browser) {
-        return browser.toLowerCase().split(/[ /-]/)[0];
-    }
-
     const timeout = process.env.TIMEOUT || 10000;
 
     karmaConfig.set({
@@ -40,25 +35,24 @@ module.exports = function (karmaConfig) {
         colors: true,
 
         coverageReporter: {
-            dir: "coverage/browser",
-            reporters: [
-                {
-                    type: "json",
-                    subdir: normalizationBrowserName
-                }
-            ]
+            type: "json",
+            dir: "coverage/browser"
         },
 
         files: [{
             pattern: "./node_modules/whatwg-fetch/fetch.js",
             watched: false
+        }, {
+            pattern: "./node_modules/babel-polyfill/dist/polyfill.js",
+            watched: false
+        }, {
+            pattern: "./tests/tests.js"
         }],
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
         frameworks: [
             "phantomjs-shim",
-            "chai-sinon",
             "mocha"
         ],
 
@@ -70,18 +64,71 @@ module.exports = function (karmaConfig) {
         port: 9876,
 
         preprocessors: {
-            "packages/!(react-wildcat-test-runners)/lib/**/*.js": ["sourcemap"],
-            "packages/!(react-wildcat-test-runners)/lib/{!(test)/,}!(*Spec).js": ["coverage"]
-        },
-
-        proxies: {
-            "/packages": "/base/packages"
+            "./tests/tests.js": ["webpack"]
         },
 
         // test results reporter to use
         // possible values: "dots", "progress"
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
         reporters: ["coverage", "mocha"],
+
+        webpack: {
+            cache: true,
+            target: "web",
+            devtool: "inline-source-map",
+
+            // webpack configuration
+            module: {
+                rules: [{
+                    test: /\.js/,
+                    exclude: /lib|node_modules/,
+                    use: [
+                        {
+                            loader: "babel-loader",
+                            options: {
+                                cacheDirectory: true
+                            }
+                        }
+                    ]
+                }, {
+                    test: /\.js/,
+                    enforce: "post",
+                    exclude: /(lib|test|node_modules)/,
+                    use: [
+                        "istanbul-instrumenter-loader"
+                    ]
+                }]
+            },
+            resolve: {
+                alias: {
+                    // dedupe React
+                    "react": path.resolve(cwd, "node_modules", "react"),
+                    // dedupe React DOM
+                    "react-dom": path.resolve(cwd, "node_modules", "react-dom")
+                },
+                modules: [
+                    "node_modules"
+                ]
+            }
+        },
+
+        webpackMiddleware: {
+            // webpack-dev-middleware configuration
+            progress: false,
+            stats: false,
+            debug: false,
+            noInfo: true
+        },
+
+        plugins: [
+            require("istanbul-instrumenter-loader"),
+            require("karma-coverage"),
+            require("karma-mocha"),
+            require("karma-mocha-reporter"),
+            require("karma-phantomjs-launcher"),
+            require("karma-phantomjs-shim"),
+            require("karma-webpack")
+        ],
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits

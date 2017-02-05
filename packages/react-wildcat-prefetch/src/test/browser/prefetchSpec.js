@@ -11,6 +11,8 @@ import DefaultPrefetchStatic from "./fixtures/DefaultPrefetchStatic.js";
 import sinon from "sinon";
 import * as stubs from "./fixtures/stubData.js";
 
+import {expect} from "chai";
+
 /* eslint-disable max-nested-callbacks, react/no-multi-comp */
 describe("react-wildcat-prefetch", () => {
     context("@prefetch", () => {

@@ -1,8 +1,6 @@
 /* eslint-disable no-useless-escape */
 "use strict";
 
-const NOW = Date.now();
-const __PROD__ = process.env.NODE_ENV === "production";
 const __DEV__ = process.env.NODE_ENV === "development";
 
 module.exports = function defaultTemplate(cfg) {
@@ -15,17 +13,10 @@ module.exports = function defaultTemplate(cfg) {
     const protocol = wildcatConfig.serverSettings.appServer.protocol;
     const generalSettings = wildcatConfig.generalSettings;
 
-    const coverage = generalSettings.coverage;
-    const entry = clientSettings.entry;
-    const hotReload = clientSettings.hotReload;
-    const hotReloader = clientSettings.hotReloader;
-    const renderHandler = clientSettings.renderHandler;
     const reactRootElementID = clientSettings.reactRootElementID;
-    const indexedDBModuleCache = clientSettings.indexedDBModuleCache;
     const serviceWorker = clientSettings.serviceWorker;
 
     const staticUrl = generalSettings.staticUrl;
-    const socketUrl = staticUrl.replace("http", "ws");
 
     const helmetTags = Object.keys(head)
         .filter(meta => meta !== "htmlAttributes")
