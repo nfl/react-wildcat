@@ -15,7 +15,6 @@
         "browser": true,
         "by": true,
         "element": true,
-        "expect": true,
         "protractor": true
     },
     "settings": {
