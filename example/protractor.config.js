@@ -18,22 +18,6 @@ const originUrl = url.format({
     port: appServerSettings.port
 });
 
-if (!global._babelPolyfill) {
-    require("babel-polyfill");
-}
-
-require("babel-register")({
-    resolveModuleSource(importPath) {
-        if (/^src/.test(importPath)) {
-            importPath = path.join(cwd, importPath);
-        }
-
-        return importPath;
-    },
-    retainLines: true,
-    sourceRoot: __dirname
-});
-
 const timeout = 30000;
 const e2eReportDir = coverageSettings.e2e.reporting.dir;
 
@@ -75,6 +59,20 @@ exports.config = {
     }],
 
     onPrepare() {
+        require("babel-polyfill");
+        require("babel-register")({
+            "presets": [
+                ["env", {
+                    "targets": {
+                        "node": 6.9
+                    },
+                    "modules": "commonjs",
+                    "loose": true,
+                    "useBuiltIns": true
+                }]
+            ]
+        });
+
         const chai = require("chai/index.js");
         const chaiAsPromised = require("chai-as-promised");
 

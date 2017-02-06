@@ -1,6 +1,7 @@
 import React from "react";
 import {shallow} from "enzyme";
 import {TestMode} from "radium";
+import {expect} from "chai";
 
 import {ApplicationComponent as Application} from "../Application.js";
 import ApplicationContext from "../ApplicationContext.js";
@@ -61,4 +62,3 @@ describe("Application", () => {
         });
     });
 });
-

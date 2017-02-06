@@ -1,28 +1,15 @@
 const cwd = process.cwd();
-const url = require("url");
 const path = require("path");
 
 const wildcatConfig = require(path.join(cwd, "wildcat.config.js"));
 
 const generalSettings = wildcatConfig.generalSettings;
 const coverageSettings = generalSettings.coverageSettings;
-const serverSettings = wildcatConfig.serverSettings;
-const staticServerSettings = serverSettings.staticServer;
-
-const staticUrl = url.format({
-    protocol: staticServerSettings.protocol.replace("http2", "https"),
-    hostname: staticServerSettings.hostname,
-    port: staticServerSettings.port
-});
 
 // Karma configuration
 module.exports = function (karmaConfig) {
     const unitReportDir = coverageSettings.unit.reporting.dir;
     const unitInstrumentation = coverageSettings.unit.instrumentation;
-
-    function normalizationBrowserName(browser) {
-        return browser.toLowerCase().split(/[ /-]/)[0];
-    }
 
     karmaConfig.set({
         // enable / disable watching file and executing tests whenever any file changes
@@ -43,6 +30,7 @@ module.exports = function (karmaConfig) {
 
         client: {
             mocha: {
+                bail: true,
                 reporter: "html",
                 timeout: 30000
             }
@@ -56,12 +44,10 @@ module.exports = function (karmaConfig) {
             includeAllSources: true,
             reporters: [
                 {
-                    type: "text",
-                    subdir: normalizationBrowserName
+                    type: "html"
                 },
                 {
-                    type: "html",
-                    subdir: normalizationBrowserName
+                    type: "text"
                 }
             ]
         },
@@ -81,13 +67,14 @@ module.exports = function (karmaConfig) {
             pattern: "./src/test/unit/phantomShims.js",
             included: true,
             watched: false
+        }, {
+            pattern: "./src/test/unit/tests.js"
         }],
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
         frameworks: [
             "phantomjs-shim",
-            "chai-sinon",
             "mocha"
         ],
 
@@ -98,8 +85,8 @@ module.exports = function (karmaConfig) {
         // web server port
         port: 9876,
 
-        proxies: {
-            "/base": staticUrl
+        preprocessors: {
+            "./src/test/unit/tests.js": ["webpack"]
         },
 
         proxyValidateSSL: false,
@@ -108,6 +95,25 @@ module.exports = function (karmaConfig) {
         // possible values: "dots", "progress"
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
         reporters: ["coverage", "mocha"],
+
+        webpack: require("./config/webpack/karma.config.js"),
+
+        webpackMiddleware: {
+            // webpack-dev-middleware configuration
+            progress: false,
+            stats: false,
+            debug: false,
+            noInfo: true
+        },
+
+        plugins: [
+            require("karma-coverage"),
+            require("karma-mocha"),
+            require("karma-mocha-reporter"),
+            require("karma-phantomjs-launcher"),
+            require("karma-phantomjs-shim"),
+            require("karma-webpack")
+        ],
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits

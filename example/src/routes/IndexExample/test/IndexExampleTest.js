@@ -1,5 +1,6 @@
 import React from "react";
 import {shallow} from "enzyme";
+import {expect} from "chai";
 
 import IndexExample from "../IndexExample.js";
 import * as indexExampleRoutes from "../routes.js";
@@ -53,4 +54,3 @@ describe("Index Example", () => {
         });
     });
 });
-

@@ -83,7 +83,7 @@ const wildcatConfig = {
 
         serviceWorker: __PROD__ && __BUNDLE__,
 
-        webpackDev: require("./config/webpack/development.client.config.js")
+        webpackDevSettings: require("./config/webpack/development.client.config.js")
     },
 
     serverSettings: {
@@ -105,7 +105,7 @@ const wildcatConfig = {
         // Path to your source JavaScript files
         sourceDir: "src",
 
-        webpackDev: require("./config/webpack/development.server.config.js"),
+        webpackDevSettings: require("./config/webpack/development.server.config.js"),
 
         // config options for the app server
         appServer: {

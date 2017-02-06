@@ -24,7 +24,7 @@ const include = [
 ];
 
 const exclude = [
-    /node_modules/
+    /lib|node_modules/
 ];
 
 const hotEntries = [
