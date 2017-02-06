@@ -1,5 +1,3 @@
-"use strict";
-
 import client from "../../client.js";
 import defaultTemplate from "../../utils/defaultTemplate.js";
 import * as stubs from "../../../test/stubFixtures.js";

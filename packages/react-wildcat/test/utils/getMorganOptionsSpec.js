@@ -7,8 +7,6 @@ chai.use(sinonChai);
 const proxyquire = require("proxyquire");
 
 module.exports = (stubs) => {
-    "use strict";
-
     describe("getMorganOptions", () => {
         const testLog = ``;
         const morganRequestStub = {

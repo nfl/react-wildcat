@@ -1,5 +1,3 @@
-"use strict";
-
 const WebSocketServer = require("uws").Server;
 const chokidar = require("chokidar");
 

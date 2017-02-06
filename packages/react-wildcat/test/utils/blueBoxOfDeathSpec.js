@@ -4,8 +4,6 @@ const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 
 module.exports = (stubs) => {
-    "use strict";
-
     describe("blueBoxOfDeath", () => {
         it("returns an HTML template", () => {
             const blueBoxOfDeath = require("../../src/utils/blueBoxOfDeath");

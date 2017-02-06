@@ -1,5 +1,3 @@
-"use strict";
-
 const cwd = process.cwd();
 const path = require("path");
 const chalk = require("chalk");
@@ -29,8 +27,6 @@ const sourceDir = serverSettings.sourceDir;
 exports.sourceDir = sourceDir;
 
 function getBinPath(source) {
-    "use strict";
-
     return source
         .replace(publicDir, binDir)
         .replace(sourceDir, binDir);
@@ -38,8 +34,6 @@ function getBinPath(source) {
 exports.getBinPath = getBinPath;
 
 function getPublicPath(source) {
-    "use strict";
-
     return source
         .replace(binDir, publicDir)
         .replace(sourceDir, publicDir);

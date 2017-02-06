@@ -1,5 +1,3 @@
-"use strict";
-
 const simpleRender = require("./utils/simpleRender.js");
 
 function render(cfg) {

@@ -1,5 +1,3 @@
-"use strict";
-
 const cwd = process.cwd();
 const url = require("url");
 const path = require("path");

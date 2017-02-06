@@ -10,8 +10,6 @@ const http = require("http");
 const WebSocket = require("ws/lib/WebSocket.js");
 
 module.exports = (stubs) => {
-    "use strict";
-
     describe("startWebSocketServer", () => {
         before(() => {
             sinon.stub(stubs.logger, "info").returns();

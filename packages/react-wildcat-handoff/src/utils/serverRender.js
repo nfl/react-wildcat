@@ -1,5 +1,3 @@
-"use strict";
-
 const ReactDOM = require("react-dom/server");
 const Router = require("react-router");
 const serverContext = require("./serverContext.js");

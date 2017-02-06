@@ -1,5 +1,3 @@
-"use strict";
-
 const serverRender = require("./utils/serverRender.js");
 const getDomainRoutes = require("./utils/getDomainRoutes.js");
 const cookie = require("cookie");

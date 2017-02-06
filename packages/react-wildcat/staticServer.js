@@ -1,5 +1,3 @@
-"use strict";
-
 // Better log
 require("better-log/install");
 

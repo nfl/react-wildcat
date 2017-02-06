@@ -1,5 +1,3 @@
-"use strict";
-
 const chalk = require("chalk");
 const wildcatConfig = require("./getWildcatConfig")();
 const serverSettings = wildcatConfig.serverSettings;

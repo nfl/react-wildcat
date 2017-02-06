@@ -1,7 +1,5 @@
 /* eslint-disable no-var, prefer-arrow-callback */
 
-"use strict";
-
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("service-worker.js").then(function (reg) {
         // updatefound is fired if service-worker.js changes.
