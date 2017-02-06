@@ -1,29 +1,19 @@
-const NOW = Date.now();
 const __PROD__ = process.env.NODE_ENV === "production";
-const __DEV__ = process.env.NODE_ENV === "development";
 
-module.exports = function defaultTemplate(cfg) {
-    const data = cfg.data;
-    const head = cfg.head;
-    const html = cfg.html;
-
-    const wildcatConfig = cfg.wildcatConfig;
-    const clientSettings = wildcatConfig.clientSettings;
-    const protocol = wildcatConfig.serverSettings.appServer.protocol;
-    const generalSettings = wildcatConfig.generalSettings;
-
-    const coverage = generalSettings.coverage;
-    const entry = clientSettings.entry;
-    const hotReload = clientSettings.hotReload;
-    const hotReloader = clientSettings.hotReloader;
-    const renderHandler = clientSettings.renderHandler;
-    const reactRootElementID = clientSettings.reactRootElementID;
-    const indexedDBModuleCache = clientSettings.indexedDBModuleCache;
-    const serviceWorker = clientSettings.serviceWorker;
-
-    const staticUrl = generalSettings.staticUrl;
-    const socketUrl = staticUrl.replace("http", "ws");
-
+module.exports = function defaultTemplate({
+    data,
+    head,
+    html,
+    wildcatConfig: {
+        clientSettings: {
+            reactRootElementID,
+            serviceWorker
+        },
+        generalSettings: {
+            staticUrl
+        }
+    }
+}) {
     const helmetTags = Object.keys(head)
         .filter(meta => meta !== "htmlAttributes")
         .map(meta => head[meta].toString().trim());
@@ -39,30 +29,29 @@ module.exports = function defaultTemplate(cfg) {
     </head>
     <body>
         <div id="${reactRootElementID}">${html}</div>
-        ${serviceWorker && protocol !== "http" ? `
-        <script src="/register-sw.js"></script>
-        ` : ``}
 
-        ${serviceWorker && __DEV__ && protocol !== "http" ? `
+        ${serviceWorker ? `
         <script>
-            // Remove any registered service workers
+            // Register service worker
             if ("serviceWorker" in navigator) {
-                navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                    for (var registration of registrations) {
-                        registration.unregister();
-                    }
-                    if (registrations.length > 0) {
-                        window.location.reload();
-                    }
-                })
+                navigator.serviceWorker.register("/serviceWorker.js").catch(function (e) {
+                    console.error("Error during service worker registration:", e);
+                });
             }
         </script>
         ` : ``}
-
         <script>
             __INITIAL_DATA__ = ${JSON.stringify(data)};
             __REACT_ROOT_ID__ = "${reactRootElementID}";
         </script>
+
+        ${__PROD__ ? `
+        <script defer src="${staticUrl}/bundles/manifest.bundle.js"></script>
+        <script defer src="${staticUrl}/bundles/bootstrap.bundle.js"></script>
+        ` : `
+        <script defer src="${staticUrl}/bundles/dependencies.bundle.js"></script>
+        `}
+        <script defer src="${staticUrl}/bundles/app.bundle.js"></script>
     </body>
 </html>
 `.trim();
