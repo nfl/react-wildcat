@@ -46,8 +46,10 @@ module.exports = function renderReactWithWebpack(root, options) {
             this._stats = stats;
             this._watcher = watcher;
 
-            // Clear require cache and re-import
-            clearRequire.all();
+            // Clear require caches and re-import
+            for (const asset in stats.compilation.assets) { // eslint-disable-line guard-for-in
+                clearRequire(stats.compilation.assets[asset].existsAt);
+            }
 
             this._handlers.forEach(handler => {
                 handler.call(handler, err, stats);
@@ -89,10 +91,7 @@ module.exports = function renderReactWithWebpack(root, options) {
                     }
 
                     // Load the server files from the current file system
-                    const serverOptions = (typeof entry === "string") ? require(path.resolve(root, entry)) : entry;
-                    const server = require(renderHandler);
-
-                    const render = server(serverOptions.default || serverOptions);
+                    const render = require(path.resolve(root, entry)).default;
                     const reply = render(request, cookies, wildcatConfig);
 
                     return resolve(
