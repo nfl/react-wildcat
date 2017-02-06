@@ -1,14 +1,34 @@
 "use strict";
 
+const fs = require("fs-extra");
 const path = require("path");
 const replace = require("replace");
 const swPrecache = require("sw-precache");
-const wildcatConfig = require("../wildcat.config.js");
+const {
+    clientSettings: {
+        serviceWorker
+    },
+    generalSettings: {
+        name
+    },
+    serverSettings: {
+        appServer,
+        staticServer
+    }
+} = require("../wildcat.config.js");
 
 const swDirectory = `${__dirname}/../static`;
-const staticServer = wildcatConfig.serverSettings.staticServer;
 const usePort = staticServer.hostname.indexOf("localhost") !== -1;
-const appServer = wildcatConfig.serverSettings.appServer;
+
+const serviceWorkerPath = path.join(swDirectory, "service-worker.js");
+
+if (!serviceWorker) {
+    if (fs.existsSync(serviceWorkerPath)) {
+        fs.removeSync(serviceWorkerPath);
+    }
+
+    return;
+}
 
 let staticHost = `https://${staticServer.hostname}`;
 if (usePort) {
@@ -24,11 +44,8 @@ if (usePort) {
 
 const appHostRegex = new RegExp(appHost);
 
-
-const serviceWorkerPath = path.join(swDirectory, "service-worker.js");
-
 swPrecache.write(serviceWorkerPath, {
-    cacheId: wildcatConfig.generalSettings.name,
+    cacheId: name,
     staticFileGlobs: [
         "bundles/*.js",
         "public/**/*"

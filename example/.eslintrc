@@ -23,6 +23,15 @@
             "moduleDirectory": [
                 "node_modules"
             ]
+        },
+        "import/resolver": {
+            "node": {
+                "extensions": [],
+                "moduleDirectory": "node_modules"
+            },
+            "babel-module": {
+                "root": ["./src"]
+            }
         }
     }
 }

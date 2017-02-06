@@ -1,29 +1,37 @@
 {
     "env": {
-        "development": {
-            "plugins": []
-        },
         "production": {
-            "sourceMaps": false,
-            "plugins": [
-                "transform-react-constant-elements",
-                "transform-react-remove-prop-types",
-                "transform-react-pure-class-to-function"
-            ]
+            "presets": [
+                "react-optimize"
+            ],
+            "sourceMaps": false
         },
         "test": {
-            "sourceMaps": "inline"
+            "sourceMaps": "inline",
         }
     },
     "plugins": [
-        "add-module-exports",
+        ["module-resolver", {
+            "root": ["./src"]
+        }],
         "transform-decorators-legacy",
-        "transform-inline-environment-variables"
+        "transform-inline-environment-variables",
+        "transform-export-extensions",
+        "transform-class-properties",
+        "transform-object-rest-spread",
+        "transform-remove-strict-mode",
+        "syntax-dynamic-import"
     ],
     "presets": [
-        "es2015",
-        "react",
-        "stage-0"
+        ["env", {
+            "targets": {
+                "browsers": ["last 1 versions", "ie >= 11"]
+            },
+            "modules": false,
+            "loose": true,
+            "useBuiltIns": true
+        }],
+        "react"
     ],
     "sourceMaps": "inline"
 }

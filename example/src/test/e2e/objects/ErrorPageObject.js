@@ -1,4 +1,4 @@
-import {sleepUntilReactAvailable} from "src/test/e2e/utils/index.js";
+import {sleepUntilReactAvailable} from "test/e2e/utils/index.js";
 
 const {originUrl} = browser.params;
 
