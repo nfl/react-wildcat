@@ -2,14 +2,13 @@ const fs = require("fs-extra");
 const path = require("path");
 
 function getDefaultSSLFile(filename) {
-    return fs.readFileSync(path.join(__dirname, `../../../ssl/${filename}`));
+    return fs.readFileSync(path.join(__dirname, `../../ssl/${filename}`));
 }
 
 const defaultServerKey = getDefaultSSLFile("server.key");
 const defaultServerCert = getDefaultSSLFile("server.crt");
 const defaultServerCA = getDefaultSSLFile("server.csr");
 
-const __DEV__ = (process.env.NODE_ENV === "development");
 const __TEST__ = (process.env.NODE_ENV === "test") || (process.env.BABEL_ENV === "test");
 const __PROD__ = (process.env.NODE_ENV === "production");
 
@@ -80,7 +79,7 @@ const wildcatConfig = {
 
     serverSettings: {
         // Path to the entry config file relative to the project root
-        entry: "public/main.js",
+        entry: "public/server.js",
 
         // Path to the server renderer. This can be a jspm package or a relative path
         renderHandler: "react-wildcat-handoff/server",
