@@ -4,6 +4,7 @@ const webpack = require("webpack");
 
 const {
     cacheEnvDir,
+    context,
     minimalStats,
     nodeEnv,
     output,
@@ -29,6 +30,7 @@ module.exports = () => ({
 
     devConfig: {
         cache: true,
+        context,
         name: `client-side rendering <${nodeEnv}>`,
         entry: webpackEntry({
             hot: true

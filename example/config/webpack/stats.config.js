@@ -2,6 +2,7 @@ const nodeExternals = require("webpack-node-externals");
 const CircularDependencyPlugin = require("circular-dependency-plugin");
 
 const {
+    context,
     nodeEnv,
     output,
     resolve,
@@ -12,6 +13,7 @@ const {
 
 module.exports = {
     cache: true,
+    context,
     name: `client-side rendering <${nodeEnv}>`,
     entry: webpackEntry(),
     externals: nodeExternals(),

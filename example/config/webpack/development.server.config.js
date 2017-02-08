@@ -1,8 +1,8 @@
-const cwd = process.cwd();
 const path = require("path");
 const nodeExternals = require("webpack-node-externals");
 
 const {
+    context,
     minimalStats,
     nodeEnv,
     resolve,
@@ -13,6 +13,7 @@ const {
 module.exports = () => ({
     // The configuration for the server-side rendering
     cache: true,
+    context,
     name: `server-side rendering <${nodeEnv}>`,
     entry: {
         server: "./src/server.js"
@@ -20,7 +21,7 @@ module.exports = () => ({
     target: "node",
     devtool: false,
     output: {
-        path: path.resolve(cwd, "public"),
+        path: path.resolve(context, "public"),
         filename: "[name].js",
         chunkFilename: "[id].js",
         libraryTarget: "commonjs2"

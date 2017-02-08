@@ -1,5 +1,4 @@
 const fs = require("fs-extra");
-const cwd = process.cwd();
 const path = require("path");
 const webpack = require("webpack");
 const nodeEnv = process.env.NODE_ENV || "development";
@@ -7,17 +6,19 @@ const nodeExternals = require("webpack-node-externals");
 const HappyPack = require("happypack");
 const ProgressBarPlugin = require("progress-bar-webpack-plugin");
 
+const root = path.resolve(__dirname, "../..");
+
 const {
     generalSettings: {
         staticUrl
     }
-} = require("react-wildcat/src/utils/getWildcatConfig")(cwd);
+} = require("react-wildcat/src/utils/getWildcatConfig")(root);
 
 const CACHE_DIR = ".cache";
-const CACHE_ENV_DIR = path.join(cwd, CACHE_DIR, nodeEnv);
+const CACHE_ENV_DIR = path.join(root, CACHE_DIR, nodeEnv);
 fs.ensureDirSync(CACHE_ENV_DIR);
 
-const src = path.resolve(cwd, "src");
+const src = path.resolve(root, "src");
 
 const include = [
     src // important for performance!
@@ -50,10 +51,11 @@ exports.webpackEntry = ({
 
     app: [
         ...(hot ? hotEntries : []),
-        "client.js"
+        "./src/client.js"
     ]
 });
 
+exports.context = root;
 exports.cacheDir = CACHE_DIR;
 exports.cacheEnvDir = CACHE_ENV_DIR;
 
@@ -81,9 +83,11 @@ exports.rules = [
 exports.resolve = {
     alias: {
         // dedupe React
-        "react": path.resolve(cwd, "node_modules", "react"),
+        "react": path.resolve(root, "node_modules", "react"),
         // dedupe React DOM
-        "react-dom": path.resolve(cwd, "node_modules", "react-dom")
+        "react-dom": path.resolve(root, "node_modules", "react-dom"),
+        // dedupe React Helmet
+        "react-helmet": path.resolve(root, "node_modules", "react-helmet")
     },
     modules: [
         src,
@@ -129,7 +133,7 @@ exports.minimalStats = {
 exports.nodeEnv = nodeEnv;
 
 exports.output = {
-    path: path.resolve(cwd, "bundles"),
+    path: path.resolve(root, "bundles"),
     pathinfo: true,
     publicPath: `${staticUrl}/bundles/`,
     filename: "[name].bundle.js",
@@ -167,7 +171,8 @@ exports.plugins = [
 
     new webpack.ContextReplacementPlugin((/moment[\/|\\]locale$/), (/de|fr|hu/)),
 
-    new webpack.IgnorePlugin(/^\.\/lang$/, /moment$/)
+    new webpack.IgnorePlugin(/^\.\/lang$/, /moment$/),
+    new webpack.IgnorePlugin(/\/iconv-loader$/)
 ];
 
 exports.webpackPlugins = ({

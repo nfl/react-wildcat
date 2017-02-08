@@ -3,6 +3,7 @@ const webpack = require("webpack");
 
 const {
     cacheEnvDir,
+    context,
     minimalStats,
     output,
     resolve,
@@ -10,6 +11,7 @@ const {
 } = require("./base.config.js");
 
 module.exports = {
+    context,
     entry: {
         dependencies: [
             "babel-polyfill",

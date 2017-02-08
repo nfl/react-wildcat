@@ -1,9 +1,11 @@
 const {
+    context,
     resolve
 } = require("./base.config.js");
 
 module.exports = {
     cache: true,
+    context,
     target: "web",
     devtool: "inline-source-map",
 
