@@ -12,6 +12,7 @@ const path = require("path");
 const os = require("os");
 
 const cluster = require("cluster");
+const deepmerge = require("deepmerge");
 const proxyquire = require("proxyquire");
 
 describe("appServer", () => {
@@ -19,7 +20,6 @@ describe("appServer", () => {
 
     before(() => {
         [
-            stubs.binDir,
             stubs.publicDir
         ].forEach(fs.removeSync);
 
@@ -39,17 +39,12 @@ describe("appServer", () => {
     });
 
     context("app server", () => {
-        const nodeEnv = process.env.NODE_ENV;
-
         const expectations = {
             "development": [
                 "Proxy",
                 "Node server is running at"
             ],
             "production": [
-                "Node server is running"
-            ],
-            "production-with-proxies": [
                 "Proxy",
                 "Node server is running"
             ]
@@ -67,15 +62,6 @@ describe("appServer", () => {
 
         Object.keys(expectations).forEach(currentEnv => {
             context(currentEnv, () => {
-                before(() => {
-                    if (currentEnv === "production-with-proxies") {
-                        process.env.DANGEROUSLY_ENABLE_PROXIES_IN_PRODUCTION = "true";
-                        process.env.NODE_ENV = "production";
-                    } else {
-                        process.env.NODE_ENV = currentEnv;
-                    }
-                });
-
                 it("starts the server via cli", (done) => {
                     const currentExpectations = expectations[currentEnv];
                     let currentExpectationCount = 0;
@@ -117,7 +103,6 @@ describe("appServer", () => {
                 });
 
                 it(`starts the server in debug mode when env DEBUG=wildcat`, (done) => {
-                    process.env.DEBUG = "wildcat";
                     const memorySpy = sinon.spy();
 
                     const server = proxyquire("../src/server.js", {
@@ -126,6 +111,24 @@ describe("appServer", () => {
                             worker: {
                                 id: 1
                             }
+                        },
+                        "./utils/getWildcatConfig": () => {
+                            const defaultConfig = require("../src/utils/getWildcatConfig")();
+                            return deepmerge.all([
+                                defaultConfig,
+                                stubs.getEnvironment({
+                                    DEBUG: "wildcat",
+                                    NODE_ENV: currentEnv
+                                }),
+                                {
+                                    serverSettings: {
+                                        appServer: {
+                                            minClusterCpuCount: 1,
+                                            maxClusterCpuCount: 1
+                                        }
+                                    }
+                                }
+                            ]);
                         },
                         "./memory": memorySpy
                     });
@@ -138,14 +141,14 @@ describe("appServer", () => {
                             expect(result)
                                 .to.be.an("object")
                                 .that.has.property("env")
-                                .that.equals(process.env.NODE_ENV);
+                                .that.equals(currentEnv);
 
                             expect(memorySpy.called);
 
                             server.close();
-                            delete process.env.DEBUG;
                             done();
-                        });
+                        })
+                        .catch(done);
                 });
 
                 ["http2", "https", "http"].forEach(currentProtocol => {
@@ -159,9 +162,21 @@ describe("appServer", () => {
                             },
                             "./utils/getWildcatConfig": () => {
                                 const defaultConfig = require("../src/utils/getWildcatConfig")();
-                                defaultConfig.serverSettings.appServer.protocol = currentProtocol;
-
-                                return defaultConfig;
+                                return deepmerge.all([
+                                    defaultConfig,
+                                    stubs.getEnvironment({
+                                        NODE_ENV: currentEnv
+                                    }),
+                                    {
+                                        serverSettings: {
+                                            appServer: {
+                                                maxClusterCpuCount: 1,
+                                                minClusterCpuCount: 1,
+                                                protocol: currentProtocol
+                                            }
+                                        }
+                                    }
+                                ]);
                             },
                             "./utils/logger": stubs.NullConsoleLogger
                         });
@@ -183,20 +198,13 @@ describe("appServer", () => {
                                 expect(result)
                                     .to.be.an("object")
                                     .that.has.property("env")
-                                    .that.equals(process.env.NODE_ENV);
+                                    .that.equals(currentEnv);
 
                                 server.close();
                                 done();
-                            });
+                            })
+                            .catch(done);
                     });
-                });
-
-                after(() => {
-                    if (currentEnv === "production-with-debug") {
-                        process.env.DEBUG = undefined;
-                    }
-
-                    process.env.NODE_ENV = nodeEnv;
                 });
             });
         });
@@ -222,7 +230,6 @@ describe("appServer", () => {
                                 };
                             }
                         ];
-
                         return defaultConfig;
                     },
                     "./utils/logger": stubs.NullConsoleLogger
@@ -242,7 +249,8 @@ describe("appServer", () => {
 
                         server.close();
                         done();
-                    });
+                    })
+                    .catch(done);
             });
 
             it(`starts the server and loads incorrectly formed middleware`, (done) => {
@@ -455,7 +463,6 @@ describe("appServer", () => {
 
     after(() => {
         [
-            stubs.binDir,
             stubs.publicDir
         ].forEach(fs.removeSync);
 

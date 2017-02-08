@@ -17,25 +17,14 @@ exports.generalSettings = generalSettings;
 const serverSettings = wildcatConfig.serverSettings;
 exports.serverSettings = serverSettings;
 
-const binDir = serverSettings.binDir;
-exports.binDir = binDir;
-
 const publicDir = serverSettings.publicDir;
 exports.publicDir = publicDir;
 
 const sourceDir = serverSettings.sourceDir;
 exports.sourceDir = sourceDir;
 
-function getBinPath(source) {
-    return source
-        .replace(publicDir, binDir)
-        .replace(sourceDir, binDir);
-}
-exports.getBinPath = getBinPath;
-
 function getPublicPath(source) {
     return source
-        .replace(binDir, publicDir)
         .replace(sourceDir, publicDir);
 }
 exports.getPublicPath = getPublicPath;
@@ -43,8 +32,29 @@ exports.getPublicPath = getPublicPath;
 const exampleDir = path.join(cwd, "example");
 exports.exampleDir = exampleDir;
 
-const projectConfigFile = path.join(exampleDir, "wildcat.config.js");
-exports.projectConfigFile = projectConfigFile;
+const devConfigFile = path.join(exampleDir, "config/webpack/development.client.config.js");
+exports.devConfigFile = devConfigFile;
+
+const prodConfigFile = path.join(exampleDir, "config/webpack/production.config.js");
+exports.prodConfigFile = prodConfigFile;
+
+const getEnvironment = ({
+    BABEL_ENV = undefined,
+    DEBUG = undefined,
+    NODE_ENV = undefined
+} = {}) => ({
+    generalSettings: {
+        env: {
+            __DEV__: NODE_ENV === "development",
+            __PROD__: NODE_ENV === "production",
+            __TEST__: BABEL_ENV === "test",
+            BABEL_ENV,
+            DEBUG,
+            NODE_ENV
+        }
+    }
+});
+exports.getEnvironment = getEnvironment;
 
 const customEmoji = "🏈";
 exports.customEmoji = customEmoji;
@@ -96,6 +106,14 @@ exports.mapLogMethods = mapLogMethods;
 
 const errorStub = new Error("test error");
 exports.errorStub = errorStub;
+
+const errorArrayStub = [
+    {
+        message: `SyntaxError: "foo" is read-only`,
+        id: 92
+    }
+];
+exports.errorArrayStub = errorArrayStub;
 
 const failedRequest = {
     host: "www.example.com",

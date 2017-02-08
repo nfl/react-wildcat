@@ -38,6 +38,16 @@ module.exports = (stubs) => {
             });
         });
 
+        it("handles a Webpack error", () => {
+            const blueBoxOfDeath = require("../../src/utils/blueBoxOfDeath");
+            const template = blueBoxOfDeath(stubs.errorArrayStub, stubs.failedRequest);
+
+            stubs.errorArrayStub.forEach(errorStub => {
+                expect(template)
+                    .to.contain(errorStub.message);
+            });
+        });
+
         it("returns an HTML template with no specified error", () => {
             const blueBoxOfDeath = require("../../src/utils/blueBoxOfDeath");
             const template = blueBoxOfDeath(undefined, stubs.failedRequest);
