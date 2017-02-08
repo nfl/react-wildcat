@@ -11,6 +11,11 @@ module.exports = function defaultTemplate({
         },
         generalSettings: {
             staticUrl
+        },
+        serverSettings: {
+            appServer: {
+                protocol
+            }
         }
     }
 }) {
@@ -30,16 +35,7 @@ module.exports = function defaultTemplate({
     <body>
         <div id="${reactRootElementID}">${html}</div>
 
-        ${serviceWorker ? `
-        <script>
-            // Register service worker
-            if ("serviceWorker" in navigator) {
-                navigator.serviceWorker.register("/serviceWorker.js").catch(function (e) {
-                    console.error("Error during service worker registration:", e);
-                });
-            }
-        </script>
-        ` : ``}
+        ${serviceWorker && protocol !== "http" ? `<script src="/register-sw.js"></script>` : ``}
         <script>
             __INITIAL_DATA__ = ${JSON.stringify(data)};
             __REACT_ROOT_ID__ = "${reactRootElementID}";
