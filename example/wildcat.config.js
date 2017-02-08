@@ -3,7 +3,7 @@ const path = require("path");
 
 const pkg = require("./package.json");
 const __PROD__ = (process.env.NODE_ENV === "production");
-const __BUNDLE__ = process.env.COVERAGE !== "e2e";
+const __TEST__ = (process.env.BABEL_ENV === "test");
 
 function getDefaultSSLFile(filename) {
     const filePath = process.env.HOST === "localhost" || !process.env.HOST ? "../packages/react-wildcat/ssl/server." : "ssl/example.";
@@ -81,7 +81,7 @@ const wildcatConfig = {
     clientSettings: {
         hotReload: !__PROD__,
 
-        serviceWorker: __PROD__ && __BUNDLE__,
+        serviceWorker: process.env.SERVICE_WORKERS || (__PROD__ && !__TEST__),
 
         webpackDevSettings: require("./config/webpack/development.client.config.js")
     },
