@@ -6,19 +6,21 @@ module.exports = function renderReactWithWebpack(root, options) {
     const Convert = require("ansi-to-html");
     const convert = new Convert();
 
-    const __DEV__ = (process.env.NODE_ENV === "development");
-
     const {
         logger,
         wildcatConfig
     } = options;
 
     const {
+        generalSettings: {
+            env: {
+                __DEV__
+            }
+        },
         serverSettings: {
             displayBlueBoxOfDeath,
             entry,
-            renderHandler,
-            webpackDev
+            webpackDevSettings
         }
     } = wildcatConfig;
 
@@ -62,7 +64,7 @@ module.exports = function renderReactWithWebpack(root, options) {
     if (__DEV__) {
         const w = require("webpack");
 
-        const compiler = w(webpackDev());
+        const compiler = w(webpackDevSettings());
         const watcher = compiler.watch({}, (err, stats) => {
             webpack.ready({
                 err,
@@ -73,48 +75,47 @@ module.exports = function renderReactWithWebpack(root, options) {
     }
 
     function pageHandler(request, cookies) {
-        try {
-            return new Promise((resolve, reject) => {
-                webpack.onReady((err, stats) => {
-                    if (err) {
-                        return reject(err);
-                    }
+        return new Promise((resolve, reject) => {
+            webpack.onReady((err, stats) => {
+                if (err) {
+                    return reject(err);
+                }
 
-                    if (displayBlueBoxOfDeath && stats.hasErrors()) {
-                        return resolve({
-                            error: blueBoxOfDeath(stats.compilation.errors.map(e => ({
-                                message: convert.toHtml(e.error),
-                                id: e.module.id
-                            })), request),
-                            status: 500
-                        });
-                    }
+                if (displayBlueBoxOfDeath && stats && stats.hasErrors()) {
+                    return resolve({
+                        error: blueBoxOfDeath(stats.compilation.errors.map(e => ({
+                            message: convert.toHtml(e.error),
+                            id: e.module.id
+                        })), request),
+                        status: 500
+                    });
+                }
 
-                    // Load the server files from the current file system
-                    const render = require(path.resolve(root, entry)).default;
-                    const reply = render(request, cookies, wildcatConfig);
+                // Load the server files from the current file system
+                const render = require(path.resolve(root, entry)).default;
+                const reply = render(request, cookies, wildcatConfig);
 
-                    return resolve(
-                        // Return the original reply
-                        reply
-                    );
-                });
+                return resolve(
+                    // Return the original reply
+                    reply
+                );
             });
-        } catch (err) {
-            logger.error(err);
+        })
+            .catch(err => {
+                logger.error(err);
 
-            if (displayBlueBoxOfDeath) {
+                if (displayBlueBoxOfDeath) {
+                    return {
+                        error: blueBoxOfDeath(err, request),
+                        status: 500
+                    };
+                }
+
                 return {
-                    error: blueBoxOfDeath(err, request),
+                    error: err.stack,
                     status: 500
                 };
-            }
-
-            return {
-                error: err.stack,
-                status: 500
-            };
-        }
+            });
     }
 
     return function* render() {

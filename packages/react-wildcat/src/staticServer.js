@@ -25,15 +25,23 @@ function start() {
     const wildcatConfig = require("./utils/getWildcatConfig")(cwd);
 
     const {
-        generalSettings,
+        generalSettings: {
+            env: {
+                __DEV__,
+                __PROD__,
+                __TEST__,
+                NODE_ENV
+            },
+            logLevel,
+            staticUrl
+        },
         clientSettings: {
-            webpackDev
+            webpackDevSettings
         },
         serverSettings
     } = wildcatConfig;
 
     const {
-        sourceDir,
         staticServer: staticServerSettings
     } = serverSettings;
 
@@ -49,12 +57,7 @@ function start() {
 
     lifecycleHook("onBeforeStart");
 
-    const morganOptions = getMorganOptions(generalSettings.logLevel, serverSettings);
-
-    const __PROD__ = (process.env.NODE_ENV === "production");
-    const __DEV__ = (process.env.NODE_ENV === "development");
-    const __TEST__ = (process.env.BABEL_ENV === "test");
-
+    const morganOptions = getMorganOptions(logLevel, serverSettings);
     let cpuCount = staticServerSettings.maxClusterCpuCount;
 
     if (cpuCount === Infinity) {
@@ -139,7 +142,7 @@ function start() {
                     devConfig,
                     devMiddleware,
                     hotMiddleware
-                } = webpackDev();
+                } = webpackDevSettings();
 
                 const compiler = webpack(devConfig);
 
@@ -177,36 +180,19 @@ function start() {
                 server = serverType.createServer(secureSettings, app.callback());
             }
 
-            if (!__PROD__) {
-                const startWebSocketServer = require("./utils/startWebSocketServer");
-
-                startWebSocketServer(sourceDir, {
-                    cache: fileServer.cache,
-                    server,
-                    watchOptions: {
-                        awaitWriteFinish: {
-                            pollInterval: 100,
-                            stabilityThreshold: 250
-                        },
-                        ignoreInitial: true,
-                        persistent: true
-                    }
-                });
-            }
-
             server.listen(port, function serverListener() {
                 /* istanbul ignore else */
                 if (cluster.worker.id === cpuCount) {
                     if (__PROD__) {
                         logger.ok("Static server is running on pid", process.pid);
                     } else {
-                        logger.ok(`Static server is running at ${generalSettings.staticUrl} on pid`, process.pid);
+                        logger.ok(`Static server is running at ${staticUrl} on pid`, process.pid);
                     }
 
                     lifecycleHook("onAfterStart");
 
                     resolve({
-                        env: process.env.NODE_ENV,
+                        env: NODE_ENV,
                         server
                     });
                 }

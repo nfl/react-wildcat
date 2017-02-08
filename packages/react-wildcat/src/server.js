@@ -27,17 +27,24 @@ let server;
 
 function start() {
     const wildcatConfig = require("./utils/getWildcatConfig")(cwd);
-    if (process.env.DEBUG && process.env.DEBUG.includes("wildcat")) {
-        require("./memory")(logger);
-    }
 
     const {
         generalSettings: {
+            env: {
+                __PROD__,
+                __TEST__,
+                DEBUG,
+                NODE_ENV
+            },
             logLevel,
             originUrl
         },
         serverSettings
     } = wildcatConfig;
+
+    if (DEBUG && DEBUG.includes("wildcat")) {
+        require("./memory")(logger);
+    }
 
     const {
         appServer: appServerSettings
@@ -57,10 +64,6 @@ function start() {
     lifecycleHook("onBeforeStart");
 
     const morganOptions = getMorganOptions(logLevel, serverSettings);
-
-    const __PROD__ = (process.env.NODE_ENV === "production");
-    const __TEST__ = (process.env.BABEL_ENV === "test");
-
     let cpuCount = appServerSettings.maxClusterCpuCount;
 
     if (cpuCount === Infinity) {
@@ -194,7 +197,7 @@ Middleware at serverSettings.appServer.middleware[${index}] could not be correcl
                     lifecycleHook("onAfterStart");
 
                     resolve({
-                        env: process.env.NODE_ENV,
+                        env: NODE_ENV,
                         server
                     });
                 }
