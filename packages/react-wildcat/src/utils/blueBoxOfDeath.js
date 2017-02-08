@@ -91,19 +91,21 @@ module.exports = function blueBoxOfDeath(err, request) {
             </ul>
         </div>
 
-        ${errors.map(error => `
-            <div class="stack">
-                <h4>${error.id || "Error Message"}:</h4>
-                <pre>${error.message || error}</pre>
-            </div>
-
-            ${error.stack ? `
+        ${errors
+            .filter(error => error)
+            .map(error => `
                 <div class="stack">
-                    <h4>Stack Trace:</h4>
-                    <pre>${error.stack}</pre>
+                    <h4>${error.id || "Error Message"}:</h4>
+                    <pre>${error.message}</pre>
                 </div>
-            ` : ``}
-        `)}
+
+                ${error.stack ? `
+                    <div class="stack">
+                        <h4>Stack Trace:</h4>
+                        <pre>${error.stack}</pre>
+                    </div>
+                ` : ``}
+            `)}
 
         <div class="stack">
             <h4>Server Request Payload:</h4>
