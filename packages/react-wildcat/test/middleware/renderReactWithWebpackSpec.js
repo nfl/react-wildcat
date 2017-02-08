@@ -132,7 +132,8 @@ module.exports = (stubs) => {
                             })
                                 .then((result) => {
                                     expect(result)
-                                        .to.have.string(render.expectation);
+                                        .to.be.a("string")
+                                        .that.includes(render.expectation);
 
                                     done();
                                 })
