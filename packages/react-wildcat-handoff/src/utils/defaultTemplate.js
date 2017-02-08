@@ -1,5 +1,3 @@
-const __PROD__ = process.env.NODE_ENV === "production";
-
 module.exports = function defaultTemplate({
     data,
     head,
@@ -10,6 +8,9 @@ module.exports = function defaultTemplate({
             serviceWorker
         },
         generalSettings: {
+            env: {
+                __PROD__
+            },
             staticUrl
         },
         serverSettings: {

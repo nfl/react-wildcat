@@ -7,7 +7,6 @@ var ReactHotLoaderContainer = require("react-hot-loader").AppContainer;
  * @return {Promise}
  */
 module.exports = function clientContext(cfg, headers, renderProps) {
-    /* eslint-disable react/no-multi-comp */
     var ClientContext = React.createClass({
         childContextTypes: {
             headers: React.PropTypes.shape({

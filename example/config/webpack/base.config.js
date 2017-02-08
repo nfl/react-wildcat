@@ -1,7 +1,6 @@
 const fs = require("fs-extra");
 const path = require("path");
 const webpack = require("webpack");
-const nodeEnv = process.env.NODE_ENV || "development";
 const nodeExternals = require("webpack-node-externals");
 const HappyPack = require("happypack");
 const ProgressBarPlugin = require("progress-bar-webpack-plugin");
@@ -10,12 +9,17 @@ const root = path.resolve(__dirname, "../..");
 
 const {
     generalSettings: {
+        env: {
+            __DEV__,
+            __TEST__,
+            NODE_ENV = "development"
+        },
         staticUrl
     }
 } = require("react-wildcat/src/utils/getWildcatConfig")(root);
 
 const CACHE_DIR = ".cache";
-const CACHE_ENV_DIR = path.join(root, CACHE_DIR, nodeEnv);
+const CACHE_ENV_DIR = path.join(root, CACHE_DIR, NODE_ENV);
 fs.ensureDirSync(CACHE_ENV_DIR);
 
 const src = path.resolve(root, "src");
@@ -130,7 +134,8 @@ exports.minimalStats = {
     warnings: true
 };
 
-exports.nodeEnv = nodeEnv;
+exports.__DEV__ = __DEV__;
+exports.__TEST__ = __TEST__;
 
 exports.output = {
     path: path.resolve(root, "bundles"),
@@ -165,7 +170,7 @@ exports.uglifyOptions = {
 exports.plugins = [
     new webpack.DefinePlugin({
         "process.env": {
-            NODE_ENV: JSON.stringify(nodeEnv)
+            NODE_ENV: JSON.stringify(NODE_ENV)
         }
     }),
 

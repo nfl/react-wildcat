@@ -170,6 +170,9 @@ exports.cookieParserWithAlias = {
 
 exports.wildcatConfig = {
     generalSettings: {
+        env: {
+            __PROD__: process.env.NODE_ENV === "production"
+        },
         staticUrl: "https://localhost:4000"
     },
     clientSettings: {

@@ -258,7 +258,6 @@ describe("staticServer", () => {
                                     }
                                 }
                             ]);
-
                         },
                         "./utils/logger": stubs.NullConsoleLogger
                     });

@@ -359,11 +359,6 @@ describe("appServer", () => {
                             expect(result)
                                 .to.exist;
 
-                            expect(result)
-                                .to.be.an("object")
-                                .that.has.property("env")
-                                .that.equals(process.env.NODE_ENV);
-
                             expect(appServerSettings[lifecycle].calledOnce)
                                 .to.be.true;
 

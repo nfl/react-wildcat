@@ -1,9 +1,9 @@
 const path = require("path");
 const nodeExternals = require("webpack-node-externals");
 
-const __TEST__ = process.env.BABEL_ENV === "test";
-
 const {
+    __TEST__,
+
     context,
     nodeEnv,
     output,

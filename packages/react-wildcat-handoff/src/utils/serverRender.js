@@ -2,7 +2,7 @@ const ReactDOM = require("react-dom/server");
 const Router = require("react-router");
 const serverContext = require("./serverContext.js");
 
-const Helmet = require("react-helmet");
+const Helmet = require("react-helmet"); // eslint-disable-line import/no-unresolved
 const defaultTemplate = require("./defaultTemplate.js");
 
 const match = Router.match;
