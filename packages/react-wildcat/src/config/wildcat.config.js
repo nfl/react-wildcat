@@ -9,12 +9,28 @@ const defaultServerKey = getDefaultSSLFile("server.key");
 const defaultServerCert = getDefaultSSLFile("server.crt");
 const defaultServerCA = getDefaultSSLFile("server.csr");
 
-const __TEST__ = (process.env.NODE_ENV === "test") || (process.env.BABEL_ENV === "test");
-const __PROD__ = (process.env.NODE_ENV === "production");
+const {
+    BABEL_ENV,
+    DEBUG,
+    NODE_ENV
+} = process.env;
+
+const __TEST__ = (BABEL_ENV === "test");
+const __PROD__ = (NODE_ENV === "production");
+const __DEV__ = (NODE_ENV === "development");
 
 /* istanbul ignore next */
 const wildcatConfig = {
     generalSettings: {
+        env: {
+            __DEV__,
+            __PROD__,
+            __TEST__,
+            BABEL_ENV,
+            DEBUG,
+            NODE_ENV
+        },
+
         seleniumAddress: undefined,
 
         // Project name
@@ -70,7 +86,7 @@ const wildcatConfig = {
         // The target element id where React will be injected
         reactRootElementID: "content",
 
-        webpackDev: () => ({
+        webpackDevSettings: () => ({
             devMiddleware: {},
             hotMiddleware: {},
             devConfig: {}
@@ -105,7 +121,7 @@ const wildcatConfig = {
         // One of "renderToString" | "renderToStaticMarkup" | a function that returns either of the two strings
         renderType: "renderToString",
 
-        webpackDev: () => ({}),
+        webpackDevSettings: () => ({}),
 
         // config options for the app server
         appServer: {
