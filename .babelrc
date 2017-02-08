@@ -7,6 +7,9 @@
             "sourceMaps": false
         },
         "test": {
+            "plugins": [
+                "istanbul"
+            ],
             "sourceMaps": "inline",
         }
     },
@@ -24,7 +27,7 @@
             "targets": {
                 "browsers": ["last 1 versions", "ie >= 11"]
             },
-            "modules": "commonjs",
+            "modules": false,
             "loose": true,
             "useBuiltIns": true
         }],
