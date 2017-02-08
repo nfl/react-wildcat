@@ -3,7 +3,7 @@ import yawn from "./yawn.js";
 import {argv} from "yargs";
 import {testEnv} from "./envFlags.js";
 
-const SERVER_AVAILABLE_STRING = "server is running";
+const SERVER_AVAILABLE_STRING = "Node server is running";
 
 /**
  * Starts a local server in production mode
@@ -11,6 +11,10 @@ const SERVER_AVAILABLE_STRING = "server is running";
  */
 export default async function startLocalServer() {
     console.info(chalk.grey("No server found. Starting one now."));
+
+    await yawn(`${testEnv} npm run preprod`, {
+        printStdout: argv.verbose
+    });
 
     return yawn(`${testEnv} wildcat`, {
         resolveWhenLineIncludes: SERVER_AVAILABLE_STRING,
