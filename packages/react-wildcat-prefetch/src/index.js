@@ -1,7 +1,7 @@
-import React from "react";
-import ExecutionEnvironment from "exenv";
-import invariant from "invariant";
-import hoistStatics from "hoist-non-react-statics";
+const React = require("react");
+const ExecutionEnvironment = require("exenv");
+const invariant = require("invariant");
+const hoistStatics = require("hoist-non-react-statics");
 
 const __DEFAULT_INITIAL_DATA_KEY__ = "__INITIAL_DATA__";
 const __DEFAULT_ASYNC_DATA_KEY__ = "asyncData";
