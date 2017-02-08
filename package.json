@@ -48,7 +48,6 @@
     "isomorphic-fetch": "^2.2.1",
     "istanbul": "https://github.com/nfl/istanbul/tarball/0.4.5/source-map-resolve",
     "istanbul-combine": "^0.3.0",
-    "istanbul-instrumenter-loader": "^1.2.0",
     "istanbul-merge": "^1.1.1",
     "karma": "^1.3.0",
     "karma-chrome-launcher": "^2.0.0",

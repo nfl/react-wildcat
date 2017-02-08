@@ -90,13 +90,6 @@ module.exports = function (karmaConfig) {
                             }
                         }
                     ]
-                }, {
-                    test: /\.js/,
-                    enforce: "post",
-                    exclude: /(lib|test|node_modules)/,
-                    use: [
-                        "istanbul-instrumenter-loader"
-                    ]
                 }]
             },
             resolve: {
@@ -121,7 +114,6 @@ module.exports = function (karmaConfig) {
         },
 
         plugins: [
-            require("istanbul-instrumenter-loader"),
             require("karma-coverage"),
             require("karma-mocha"),
             require("karma-mocha-reporter"),
