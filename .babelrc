@@ -27,7 +27,7 @@
             "targets": {
                 "browsers": ["last 1 versions", "ie >= 11"]
             },
-            "modules": false,
+            "modules": "commonjs",
             "loose": true,
             "useBuiltIns": true
         }],

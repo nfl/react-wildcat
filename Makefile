@@ -19,7 +19,7 @@ clean-coverage:
 combine-coverage:
 	./shell/combine-coverage.sh
 
-install: clean bootstrap install-example test-cov test-example
+install: bootstrap install-example test-cov test-example
 
 install-example:
 	node ./shell/install-example.js
