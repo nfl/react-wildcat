@@ -12,10 +12,6 @@ const SERVER_AVAILABLE_STRING = "Node server is running";
 export default async function startLocalServer() {
     console.info(chalk.grey("No server found. Starting one now."));
 
-    await yawn(`${testEnv} npm run preprod`, {
-        printStdout: argv.verbose
-    });
-
     return yawn(`${testEnv} wildcat`, {
         resolveWhenLineIncludes: SERVER_AVAILABLE_STRING,
         printStdout: argv.verbose

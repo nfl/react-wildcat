@@ -95,7 +95,7 @@
     "lint": "eslint src/**/*.js",
     "predev": "npm run build:precache && npm run bundle:bootstrap",
     "preprod": "npm run build:precache && npm run clean:prod && npm run bundle:prod",
-    "pretest:e2e": "npm run clean:e2e",
+    "pretest:e2e": "npm run clean:e2e && npm run preprod",
     "pretest:unit": "npm run clean:unit",
     "prod": "env NODE_ENV=production wildcat",
     "prod-local": "env BABEL_ENV=test concurrently -k -r 'npm run prod' 'npm run prod-static'",

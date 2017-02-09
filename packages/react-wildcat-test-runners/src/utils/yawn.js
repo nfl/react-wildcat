@@ -8,7 +8,7 @@ const childProcesses = new Set();
  * @param  {Object}  options Options to pass to the spawner (https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options)
  * @return {Promise}         Returns a promise, resolves when the process is complete
  */
-export default async function yawn(command, options = {
+export default function yawn(command, options = {
     stdio: "inherit"
 }) {
     const [cmd, ...npmArgs] = command.trim().split(" ");
