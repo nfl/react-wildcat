@@ -18,11 +18,5 @@ ls("packages").forEach((loc) => {
     exec(`yarn install`);
     exec(`yarn link --force`);
 
-    if (pkgDir.endsWith("react-wildcat-handoff")) {
-        // Fix a bug where Webpack does not dedupe node_modules in linked packages
-        exec(`rm -fr node_modules/react-helmet`);
-        exec(`ln -sfv ../../example/node_modules/react-helmet ./node_modules/react-helmet`);
-    }
-
     cd(cwd);
 });
