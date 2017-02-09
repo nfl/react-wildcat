@@ -86,11 +86,7 @@ const wildcatConfig = {
         // The target element id where React will be injected
         reactRootElementID: "content",
 
-        webpackDevSettings: () => ({
-            devMiddleware: {},
-            hotMiddleware: {},
-            devConfig: {}
-        })
+        webpackDevSettings: ""
     },
 
     serverSettings: {
@@ -121,7 +117,7 @@ const wildcatConfig = {
         // One of "renderToString" | "renderToStaticMarkup" | a function that returns either of the two strings
         renderType: "renderToString",
 
-        webpackDevSettings: () => ({}),
+        webpackDevSettings: "",
 
         // config options for the app server
         appServer: {

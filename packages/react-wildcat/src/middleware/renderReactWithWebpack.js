@@ -64,7 +64,7 @@ module.exports = function renderReactWithWebpack(root, options) {
     if (__DEV__) {
         const w = require("webpack");
 
-        const compiler = w(webpackDevSettings());
+        const compiler = w(require(path.resolve(root, webpackDevSettings)));
         const watcher = compiler.watch({}, (err, stats) => {
             webpack.ready({
                 err,

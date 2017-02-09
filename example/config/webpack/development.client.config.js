@@ -14,7 +14,7 @@ const {
     webpackPlugins
 } = require("./base.config.js");
 
-module.exports = () => ({
+module.exports = {
     devMiddleware: {
         compress: true,
         publicPath: "/bundles/",
@@ -56,4 +56,4 @@ module.exports = () => ({
                 })
         )
     }
-});
+};

@@ -10,7 +10,7 @@ const {
     webpackPlugins
 } = require("./base.config.js");
 
-module.exports = () => ({
+module.exports = {
     // The configuration for the server-side rendering
     cache: true,
     context,
@@ -36,4 +36,4 @@ module.exports = () => ({
         minify: false
     }),
     stats: minimalStats
-});
+};

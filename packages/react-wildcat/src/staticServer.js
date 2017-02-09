@@ -7,6 +7,7 @@ const compress = require("koa-compress");
 const serve = require("koa-file-server");
 
 const cwd = process.cwd();
+const path = require("path");
 
 const http = require("http");
 const http2 = require("spdy");
@@ -142,7 +143,7 @@ function start() {
                     devConfig,
                     devMiddleware,
                     hotMiddleware
-                } = webpackDevSettings();
+                } = require(path.resolve(cwd, webpackDevSettings));
 
                 const compiler = webpack(devConfig);
 
