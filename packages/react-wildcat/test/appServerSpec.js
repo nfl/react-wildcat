@@ -45,7 +45,6 @@ describe("appServer", () => {
                 "Node server is running at"
             ],
             "production": [
-                "Proxy",
                 "Node server is running"
             ]
         };
