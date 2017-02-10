@@ -14,7 +14,14 @@
         },
         "test": {
             "plugins": [
-                "istanbul"
+                ["istanbul", {
+                    "exclude": [
+                        "**/node_modules/**",
+                        "**/packages/**",
+                        "**/test/**",
+                        "**/Test*"
+                    ]
+                }]
             ],
             "sourceMaps": "inline"
         }
