@@ -2215,7 +2215,7 @@ fresh@^0.3.0:
 
 fs-exists-sync@^0.1.0:
   version "0.1.0"
-  resolved "http://registry.npmjs.org/fs-exists-sync/-/fs-exists-sync-0.1.0.tgz#982d6893af918e72d08dec9e8673ff2b5a8d6add"
+  resolved "https://registry.npmjs.org/fs-exists-sync/-/fs-exists-sync-0.1.0.tgz#982d6893af918e72d08dec9e8673ff2b5a8d6add"
 
 fs-extra@0.27.0:
   version "0.27.0"
@@ -2962,7 +2962,7 @@ istanbul-lib-instrument@^1.4.2:
 
 istanbul@^0.4.0, "istanbul@https://github.com/nfl/istanbul/tarball/0.4.5/source-map-resolve":
   version "0.4.5"
-  resolved "https://github.com/nfl/istanbul/tarball/0.4.5/source-map-resolve#ee02ad2cdc028c3b8f324687648fda5c6da3e17c"
+  resolved "https://github.com/nfl/istanbul/tarball/0.4.5/source-map-resolve#d106f9397cbe07cac9b6720222a1cef72b151bde"
   dependencies:
     abbrev "1.0.x"
     async "1.x"
@@ -3626,7 +3626,11 @@ loud-rejection@^1.0.0:
     currently-unhandled "^0.4.1"
     signal-exit "^3.0.0"
 
-lru-cache@2, lru-cache@2.2.x:
+lru-cache@2:
+  version "2.7.3"
+  resolved "https://registry.npmjs.org/lru-cache/-/lru-cache-2.7.3.tgz#6d4524e8b955f95d4f5b58851ce21dd72fb4e952"
+
+lru-cache@2.2.x:
   version "2.2.4"
   resolved "https://registry.npmjs.org/lru-cache/-/lru-cache-2.2.4.tgz#6c658619becf14031d0d0b594b16042ce4dc063d"
 
@@ -4699,7 +4703,7 @@ regenerator-runtime@^0.10.0:
 
 regex-cache@^0.4.2:
   version "0.4.3"
-  resolved "https://registry.npmjs.org/regex-cache/-/regex-cache-0.4.3.tgz#9b1a6c35d4d0dfcef5711ae651e8e9d3d7114145"
+  resolved "http://registry.npmjs.org/regex-cache/-/regex-cache-0.4.3.tgz#9b1a6c35d4d0dfcef5711ae651e8e9d3d7114145"
   dependencies:
     is-equal-shallow "^0.1.3"
     is-primitive "^2.0.0"
@@ -4798,11 +4802,11 @@ resolve-path@^1.0.0, resolve-path@^1.3.1:
     http-errors "~1.5.0"
     path-is-absolute "1.0.1"
 
-resolve@1.1.x, resolve@^1.1.7:
+resolve@1.1.x:
   version "1.1.7"
   resolved "https://registry.npmjs.org/resolve/-/resolve-1.1.7.tgz#203114d82ad2c5ed9e8e0411b3932875e889e97b"
 
-resolve@^1.1.6, resolve@^1.2.0:
+resolve@^1.1.6, resolve@^1.1.7, resolve@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/resolve/-/resolve-1.2.0.tgz#9589c3f2f6149d1417a40becc1663db6ec6bc26c"
 
@@ -5304,7 +5308,13 @@ systemjs-builder@0.15.34, systemjs-builder@^0.15.0:
     traceur "0.0.105"
     uglify-js "^2.6.1"
 
-systemjs@^0.19.41, "systemjs@https://github.com/nfl/systemjs/tarball/0.19.41/fetch-support":
+systemjs@^0.19.41:
+  version "0.19.46"
+  resolved "https://registry.npmjs.org/systemjs/-/systemjs-0.19.46.tgz#c04574b3335f052a0e3c7a00ee4188c6e4c1e38e"
+  dependencies:
+    when "^3.7.5"
+
+"systemjs@https://github.com/nfl/systemjs/tarball/0.19.41/fetch-support":
   version "0.19.41"
   resolved "https://github.com/nfl/systemjs/tarball/0.19.41/fetch-support#2f8af7646c5e401b77e619687b51d4076416e65e"
   dependencies:
@@ -5398,13 +5408,13 @@ tmp@0.0.24:
   version "0.0.24"
   resolved "https://registry.npmjs.org/tmp/-/tmp-0.0.24.tgz#d6a5e198d14a9835cc6f2d7c3d9e302428c8cf12"
 
-tmp@0.0.28, tmp@0.0.x:
+tmp@0.0.28:
   version "0.0.28"
   resolved "https://registry.npmjs.org/tmp/-/tmp-0.0.28.tgz#172735b7f614ea7af39664fa84cf0de4e515d120"
   dependencies:
     os-tmpdir "~1.0.1"
 
-tmp@0.0.30:
+tmp@0.0.30, tmp@0.0.x:
   version "0.0.30"
   resolved "https://registry.npmjs.org/tmp/-/tmp-0.0.30.tgz#72419d4a8be7d6ce75148fd8b324e593a711c2ed"
   dependencies:

@@ -1138,7 +1138,7 @@ isstream@~0.1.2:
 
 "istanbul@https://github.com/nfl/istanbul/tarball/0.4.5/source-map-resolve":
   version "0.4.5"
-  resolved "https://github.com/nfl/istanbul/tarball/0.4.5/source-map-resolve#ee02ad2cdc028c3b8f324687648fda5c6da3e17c"
+  resolved "https://github.com/nfl/istanbul/tarball/0.4.5/source-map-resolve#d106f9397cbe07cac9b6720222a1cef72b151bde"
   dependencies:
     abbrev "1.0.x"
     async "1.x"
@@ -1708,7 +1708,7 @@ regenerator-runtime@^0.10.0:
 
 regex-cache@^0.4.2:
   version "0.4.3"
-  resolved "https://registry.npmjs.org/regex-cache/-/regex-cache-0.4.3.tgz#9b1a6c35d4d0dfcef5711ae651e8e9d3d7114145"
+  resolved "http://registry.npmjs.org/regex-cache/-/regex-cache-0.4.3.tgz#9b1a6c35d4d0dfcef5711ae651e8e9d3d7114145"
   dependencies:
     is-equal-shallow "^0.1.3"
     is-primitive "^2.0.0"
@@ -1768,9 +1768,13 @@ requires-port@1.x.x:
   version "1.0.0"
   resolved "https://registry.npmjs.org/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
 
-resolve@1.1.x, resolve@^1.1.6:
+resolve@1.1.x:
   version "1.1.7"
   resolved "https://registry.npmjs.org/resolve/-/resolve-1.1.7.tgz#203114d82ad2c5ed9e8e0411b3932875e889e97b"
+
+resolve@^1.1.6:
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/resolve/-/resolve-1.2.0.tgz#9589c3f2f6149d1417a40becc1663db6ec6bc26c"
 
 right-align@^0.1.1:
   version "0.1.3"
