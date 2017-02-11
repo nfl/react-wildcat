@@ -764,12 +764,12 @@ bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
   resolved "https://registry.npmjs.org/bn.js/-/bn.js-4.11.6.tgz#53344adb14617a13f6e8dd2ce28905d1c0ba3215"
 
 body-parser@^1.12.4:
-  version "1.16.0"
-  resolved "https://registry.npmjs.org/body-parser/-/body-parser-1.16.0.tgz#924a5e472c6229fb9d69b85a20d5f2532dec788b"
+  version "1.16.1"
+  resolved "https://registry.npmjs.org/body-parser/-/body-parser-1.16.1.tgz#51540d045adfa7a0c6995a014bb6b1ed9b802329"
   dependencies:
     bytes "2.4.0"
     content-type "~1.0.2"
-    debug "2.6.0"
+    debug "2.6.1"
     depd "~1.1.0"
     http-errors "~1.5.1"
     iconv-lite "0.4.15"
@@ -1373,9 +1373,9 @@ dateformat@^1.0.6:
     get-stdin "^4.0.1"
     meow "^3.3.0"
 
-debug@*, debug@2, debug@2.6.0, debug@^2.1.1, debug@^2.2.0, debug@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.npmjs.org/debug/-/debug-2.6.0.tgz#bc596bcabe7617f11d9fa15361eded5608b8499b"
+debug@*, debug@2, debug@2.6.1, debug@^2.1.1, debug@^2.2.0, debug@^2.6.0:
+  version "2.6.1"
+  resolved "https://registry.npmjs.org/debug/-/debug-2.6.1.tgz#79855090ba2c4e3115cc7d8769491d58f0491351"
   dependencies:
     ms "0.7.2"
 
@@ -3327,8 +3327,8 @@ koa-static@^2.0.0:
     koa-send "^3.3.0"
 
 koa@^1.2.0:
-  version "1.2.4"
-  resolved "https://registry.npmjs.org/koa/-/koa-1.2.4.tgz#6ef6d17a7bea8ec778a8572b55a0d0562e488654"
+  version "1.2.5"
+  resolved "https://registry.npmjs.org/koa/-/koa-1.2.5.tgz#2b1bf59dc1f2fdd7b756e8a4f11a55eb57db6a09"
   dependencies:
     accepts "^1.2.2"
     co "^4.4.0"
@@ -3800,11 +3800,11 @@ mocha@^3.2.0:
     supports-color "3.1.2"
 
 morgan@^1.6.1:
-  version "1.8.0"
-  resolved "https://registry.npmjs.org/morgan/-/morgan-1.8.0.tgz#7884d7816b7e5a22db11a9e3a572b197a0e5566c"
+  version "1.8.1"
+  resolved "https://registry.npmjs.org/morgan/-/morgan-1.8.1.tgz#f93023d3887bd27b78dfd6023cea7892ee27a4b1"
   dependencies:
     basic-auth "~1.1.0"
-    debug "2.6.0"
+    debug "2.6.1"
     depd "~1.1.0"
     on-finished "~2.3.0"
     on-headers "~1.0.1"
@@ -5524,7 +5524,7 @@ ultron@1.0.x:
 
 unc-path-regex@^0.1.0:
   version "0.1.2"
-  resolved "http://registry.npmjs.org/unc-path-regex/-/unc-path-regex-0.1.2.tgz#e73dd3d7b0d7c5ed86fbac6b0ae7d8c6a69d50fa"
+  resolved "https://registry.npmjs.org/unc-path-regex/-/unc-path-regex-0.1.2.tgz#e73dd3d7b0d7c5ed86fbac6b0ae7d8c6a69d50fa"
 
 underscore@~1.4.4:
   version "1.4.4"
@@ -5535,8 +5535,8 @@ unpipe@1.0.0, unpipe@~1.0.0:
   resolved "https://registry.npmjs.org/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"
 
 urijs@^1.16.1:
-  version "1.18.5"
-  resolved "https://registry.npmjs.org/urijs/-/urijs-1.18.5.tgz#d709e2238c549f65230f4fc3535806a589689ac5"
+  version "1.18.6"
+  resolved "https://registry.npmjs.org/urijs/-/urijs-1.18.6.tgz#333ad964ff6ef951fea8d04bec342641550c6125"
 
 url-loader@^0.5.7:
   version "0.5.7"
