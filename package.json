@@ -21,7 +21,7 @@
     "babel-runtime": "^6.6.1",
     "chai": "^3.5.0",
     "co": "^4.6.0",
-    "codecov.io": "^0.1.6",
+    "codecov": "^1.0.1",
     "conventional-changelog-cli": "^1.1.1",
     "cz-conventional-changelog": "^1.2.0",
     "eslint": "^3.8.1",
