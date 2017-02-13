@@ -2154,7 +2154,7 @@ fs-access@^1.0.0:
 
 fs-exists-sync@^0.1.0:
   version "0.1.0"
-  resolved "http://registry.npmjs.org/fs-exists-sync/-/fs-exists-sync-0.1.0.tgz#982d6893af918e72d08dec9e8673ff2b5a8d6add"
+  resolved "https://registry.npmjs.org/fs-exists-sync/-/fs-exists-sync-0.1.0.tgz#982d6893af918e72d08dec9e8673ff2b5a8d6add"
 
 fs-extra@~1.0.0:
   version "1.0.0"
@@ -2926,7 +2926,7 @@ jspm-registry@^0.4.0:
 
 jspm-resolve@^2.1.0:
   version "2.1.0"
-  resolved "http://registry.npmjs.org/jspm-resolve/-/jspm-resolve-2.1.0.tgz#fbac85a6fb38a5376bed7ea4f450454284a2b58d"
+  resolved "https://registry.npmjs.org/jspm-resolve/-/jspm-resolve-2.1.0.tgz#fbac85a6fb38a5376bed7ea4f450454284a2b58d"
   dependencies:
     find-root "^1.0.0"
     jspm "^0.16.32"
@@ -4554,7 +4554,7 @@ ultron@1.0.x:
 
 unc-path-regex@^0.1.0:
   version "0.1.2"
-  resolved "http://registry.npmjs.org/unc-path-regex/-/unc-path-regex-0.1.2.tgz#e73dd3d7b0d7c5ed86fbac6b0ae7d8c6a69d50fa"
+  resolved "https://registry.npmjs.org/unc-path-regex/-/unc-path-regex-0.1.2.tgz#e73dd3d7b0d7c5ed86fbac6b0ae7d8c6a69d50fa"
 
 unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"
