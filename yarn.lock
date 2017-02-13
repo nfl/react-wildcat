@@ -486,12 +486,6 @@ babel-plugin-transform-cjs-system-wrapper@^0.2.1:
     babel-plugin-transform-cjs-system-require "^0.1.1"
     babel-template "^6.9.0"
 
-babel-plugin-transform-cjs-system-wrapper@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.npmjs.org/babel-plugin-transform-cjs-system-wrapper/-/babel-plugin-transform-cjs-system-wrapper-0.3.0.tgz#f5759f29becd356faab7af52c99cde8e7bad0b21"
-  dependencies:
-    babel-template "^6.9.0"
-
 babel-plugin-transform-class-constructor-call@^6.22.0:
   version "6.22.0"
   resolved "https://registry.npmjs.org/babel-plugin-transform-class-constructor-call/-/babel-plugin-transform-class-constructor-call-6.22.0.tgz#11a4d2216abb5b0eef298b493748f4f2f4869120"
@@ -1020,6 +1014,10 @@ braces@^1.8.2:
     expand-range "^1.8.1"
     preserve "^0.2.0"
     repeat-element "^1.1.2"
+
+buffer-crc32@~0.2.3:
+  version "0.2.13"
+  resolved "https://registry.npmjs.org/buffer-crc32/-/buffer-crc32-0.2.13.tgz#0d333e3f00eac50aa1454abd30ef8c2a5d9a7242"
 
 buffer-peek-stream@^1.0.1:
   version "1.0.1"
@@ -2154,7 +2152,7 @@ fs-access@^1.0.0:
 
 fs-exists-sync@^0.1.0:
   version "0.1.0"
-  resolved "https://registry.npmjs.org/fs-exists-sync/-/fs-exists-sync-0.1.0.tgz#982d6893af918e72d08dec9e8673ff2b5a8d6add"
+  resolved "http://registry.npmjs.org/fs-exists-sync/-/fs-exists-sync-0.1.0.tgz#982d6893af918e72d08dec9e8673ff2b5a8d6add"
 
 fs-extra@~1.0.0:
   version "1.0.0"
@@ -2673,7 +2671,7 @@ is-path-inside@^1.0.0:
 
 is-posix-bracket@^0.1.0:
   version "0.1.1"
-  resolved "https://registry.npmjs.org/is-posix-bracket/-/is-posix-bracket-0.1.1.tgz#3334dc79774368e92f016e6fbc0a88f5cd6e6bc4"
+  resolved "http://registry.npmjs.org/is-posix-bracket/-/is-posix-bracket-0.1.1.tgz#3334dc79774368e92f016e6fbc0a88f5cd6e6bc4"
 
 is-primitive@^2.0.0:
   version "2.0.0"
@@ -2768,26 +2766,7 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.npmjs.org/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
 
-istanbul@^0.4.0:
-  version "0.4.5"
-  resolved "https://registry.npmjs.org/istanbul/-/istanbul-0.4.5.tgz#65c7d73d4c4da84d4f3ac310b918fb0b8033733b"
-  dependencies:
-    abbrev "1.0.x"
-    async "1.x"
-    escodegen "1.8.x"
-    esprima "2.7.x"
-    glob "^5.0.15"
-    handlebars "^4.0.1"
-    js-yaml "3.x"
-    mkdirp "0.5.x"
-    nopt "3.x"
-    once "1.x"
-    resolve "1.1.x"
-    supports-color "^3.1.0"
-    which "^1.1.1"
-    wordwrap "^1.0.0"
-
-"istanbul@https://github.com/nfl/istanbul/tarball/0.4.5/source-map-resolve":
+istanbul@^0.4.0, "istanbul@https://github.com/nfl/istanbul/tarball/0.4.5/source-map-resolve":
   version "0.4.5"
   resolved "https://github.com/nfl/istanbul/tarball/0.4.5/source-map-resolve#d106f9397cbe07cac9b6720222a1cef72b151bde"
   dependencies:
@@ -2926,38 +2905,13 @@ jspm-registry@^0.4.0:
 
 jspm-resolve@^2.1.0:
   version "2.1.0"
-  resolved "https://registry.npmjs.org/jspm-resolve/-/jspm-resolve-2.1.0.tgz#fbac85a6fb38a5376bed7ea4f450454284a2b58d"
+  resolved "http://registry.npmjs.org/jspm-resolve/-/jspm-resolve-2.1.0.tgz#fbac85a6fb38a5376bed7ea4f450454284a2b58d"
   dependencies:
     find-root "^1.0.0"
     jspm "^0.16.32"
     resolve "^1.1.7"
 
-jspm@^0.16.32:
-  version "0.16.52"
-  resolved "https://registry.npmjs.org/jspm/-/jspm-0.16.52.tgz#6b1847e08f131ac9bd267cc58974979ae7675d2e"
-  dependencies:
-    chalk "^1.1.1"
-    core-js "^1.2.6"
-    glob "^6.0.1"
-    graceful-fs "^4.1.2"
-    jspm-github "^0.13.17"
-    jspm-npm "^0.26.12"
-    jspm-registry "^0.4.0"
-    liftoff "^2.2.0"
-    minimatch "^3.0.0"
-    mkdirp "~0.5.1"
-    ncp "^2.0.0"
-    proper-lockfile "^1.1.2"
-    request "^2.67.0"
-    rimraf "^2.4.4"
-    rsvp "^3.1.0"
-    semver "^5.1.0"
-    systemjs "0.19.46"
-    systemjs-builder "0.15.35"
-    traceur "0.0.105"
-    uglify-js "^2.6.1"
-
-"jspm@https://github.com/nfl/jspm-cli/tarball/0.16.48/fetch-support":
+jspm@^0.16.32, "jspm@https://github.com/nfl/jspm-cli/tarball/0.16.48/fetch-support":
   version "0.16.48"
   resolved "https://github.com/nfl/jspm-cli/tarball/0.16.48/fetch-support#6881c36a3ff8a11736e1a0699fba869ea4b6129c"
   dependencies:
@@ -3896,7 +3850,7 @@ regenerator-transform@0.9.8:
 
 regex-cache@^0.4.2:
   version "0.4.3"
-  resolved "https://registry.npmjs.org/regex-cache/-/regex-cache-0.4.3.tgz#9b1a6c35d4d0dfcef5711ae651e8e9d3d7114145"
+  resolved "http://registry.npmjs.org/regex-cache/-/regex-cache-0.4.3.tgz#9b1a6c35d4d0dfcef5711ae651e8e9d3d7114145"
   dependencies:
     is-equal-shallow "^0.1.3"
     is-primitive "^2.0.0"
@@ -4320,7 +4274,7 @@ supports-color@^3.1.0:
   dependencies:
     has-flag "^1.0.0"
 
-systemjs-builder@0.15.34:
+systemjs-builder@0.15.34, systemjs-builder@^0.15.0:
   version "0.15.34"
   resolved "https://registry.npmjs.org/systemjs-builder/-/systemjs-builder-0.15.34.tgz#6f1b7437e681e395bbdadb2e0b9d4bfd86f1ce56"
   dependencies:
@@ -4340,33 +4294,7 @@ systemjs-builder@0.15.34:
     traceur "0.0.105"
     uglify-js "^2.6.1"
 
-systemjs-builder@0.15.35, systemjs-builder@^0.15.0:
-  version "0.15.35"
-  resolved "https://registry.npmjs.org/systemjs-builder/-/systemjs-builder-0.15.35.tgz#5ab7f9627aec4857b3123c1da07030ea1cdd068f"
-  dependencies:
-    babel-core "^6.9.0"
-    babel-plugin-transform-cjs-system-wrapper "^0.3.0"
-    babel-plugin-transform-es2015-modules-systemjs "^6.6.5"
-    babel-plugin-transform-global-system-wrapper "0.0.1"
-    babel-plugin-transform-system-register "0.0.1"
-    bluebird "^3.3.4"
-    data-uri-to-buffer "0.0.4"
-    es6-template-strings "^2.0.0"
-    glob "^7.0.3"
-    mkdirp "^0.5.1"
-    rollup "^0.36.3"
-    source-map "^0.5.3"
-    systemjs "^0.19.43"
-    traceur "0.0.105"
-    uglify-js "^2.6.1"
-
-systemjs@0.19.46, systemjs@^0.19.41, systemjs@^0.19.43:
-  version "0.19.46"
-  resolved "https://registry.npmjs.org/systemjs/-/systemjs-0.19.46.tgz#c04574b3335f052a0e3c7a00ee4188c6e4c1e38e"
-  dependencies:
-    when "^3.7.5"
-
-"systemjs@https://github.com/nfl/systemjs/tarball/0.19.41/fetch-support":
+systemjs@^0.19.41, "systemjs@https://github.com/nfl/systemjs/tarball/0.19.41/fetch-support":
   version "0.19.41"
   resolved "https://github.com/nfl/systemjs/tarball/0.19.41/fetch-support#2f8af7646c5e401b77e619687b51d4076416e65e"
   dependencies:
@@ -4554,7 +4482,7 @@ ultron@1.0.x:
 
 unc-path-regex@^0.1.0:
   version "0.1.2"
-  resolved "https://registry.npmjs.org/unc-path-regex/-/unc-path-regex-0.1.2.tgz#e73dd3d7b0d7c5ed86fbac6b0ae7d8c6a69d50fa"
+  resolved "http://registry.npmjs.org/unc-path-regex/-/unc-path-regex-0.1.2.tgz#e73dd3d7b0d7c5ed86fbac6b0ae7d8c6a69d50fa"
 
 unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"
@@ -4694,10 +4622,17 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
-yauzl@2.4.1, yauzl@^2.3.1:
+yauzl@2.4.1:
   version "2.4.1"
   resolved "https://registry.npmjs.org/yauzl/-/yauzl-2.4.1.tgz#9528f442dab1b2284e58b4379bb194e22e0c4005"
   dependencies:
+    fd-slicer "~1.0.1"
+
+yauzl@^2.3.1:
+  version "2.7.0"
+  resolved "https://registry.npmjs.org/yauzl/-/yauzl-2.7.0.tgz#e21d847868b496fc29eaec23ee87fdd33e9b2bce"
+  dependencies:
+    buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
 yeast@0.1.2:
