@@ -7,16 +7,18 @@ const ProgressBarPlugin = require("progress-bar-webpack-plugin");
 
 const root = path.resolve(__dirname, "../..");
 
+const wildcatConfig = require("react-wildcat/src/utils/getWildcatConfig")(root);
+
 const {
     generalSettings: {
         env: {
-            __DEV__,
             __TEST__,
+            BABEL_ENV,
             NODE_ENV = "development"
         },
         staticUrl
     }
-} = require("react-wildcat/src/utils/getWildcatConfig")(root);
+} = wildcatConfig;
 
 const CACHE_DIR = ".cache";
 const CACHE_ENV_DIR = path.join(root, CACHE_DIR, NODE_ENV);
@@ -100,42 +102,26 @@ exports.resolve = {
 };
 
 exports.minimalStats = {
-    // Add asset Information
     assets: false,
-    // Add information about cached (not built) modules
     cached: false,
-    // Add children information
     children: false,
-    // Add chunk information (setting this to `false` allows for a less verbose output)
     chunks: false,
-    // Add built modules information to chunk information
     chunkModules: false,
-    // Add the origins of chunks and chunk merging info
     chunkOrigins: false,
-    // Add errors
     errors: true,
-    // Add details to errors (like resolving log)
     errorDetails: true,
-    // Add the hash of the compilation
     hash: false,
-    // Add built modules information
     modules: false,
-    // Add public path information
     publicPath: false,
-    // Add information about the reasons why modules are included
     reasons: false,
-    // Add the source code of modules
     source: false,
-    // Add timing information
     timings: true,
-    // Add webpack version information
     version: false,
-    // Add warnings
     warnings: true
 };
 
-exports.__DEV__ = __DEV__;
-exports.__TEST__ = __TEST__;
+exports.isTestEnv = __TEST__;
+exports.nodeEnv = NODE_ENV;
 
 exports.output = {
     path: path.resolve(root, "bundles"),
@@ -199,6 +185,23 @@ exports.webpackPlugins = ({
                 ],
 
                 // customize as needed, see Configuration below
+
+                // An object that is used to invalidate the cache between runs
+                // based on whatever variables that might affect the transformation
+                // of your sources, like NODE_ENV for example.
+                cacheContext: {
+                    BABEL_ENV,
+                    NODE_ENV,
+
+                    babelRc: JSON.parse(fs.readFileSync(path.resolve(root, ".babelrc"), "utf8")),
+                    nodeVersion: fs.readFileSync(path.resolve(root, ".node-version"), "utf8"),
+                    packageJSON: require(path.resolve(root, "package.json")),
+                    yarnLock: fs.readFileSync(path.resolve(root, "yarn.lock"), "utf8"),
+
+                    karmaConfig: require(path.resolve(root, "karma.config.js")),
+                    protractorConfig: require(path.resolve(root, "protractor.config.js")),
+                    wildcatConfig
+                },
                 threads,
                 tempDir: path.resolve(CACHE_ENV_DIR, "happypack"),
                 verbose: false

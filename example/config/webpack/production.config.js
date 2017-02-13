@@ -2,9 +2,8 @@ const path = require("path");
 const nodeExternals = require("webpack-node-externals");
 
 const {
-    __TEST__,
-
     context,
+    isTestEnv,
     nodeEnv,
     output,
     resolve,
@@ -12,6 +11,9 @@ const {
     webpackEntry,
     webpackPlugins
 } = require("./base.config.js");
+
+const {MINIFY} = process.env;
+const __MINIFY__ = (MINIFY === "true" || MINIFY === "1") || !isTestEnv;
 
 module.exports = [
     {
@@ -24,14 +26,15 @@ module.exports = [
         module: {
             rules
         },
-        output: Object.assign({}, output, __TEST__ ? {} : {
+        output: Object.assign({}, output, __MINIFY__ ? {
             chunkFilename: "[chunkhash].bundle.js"
-        }),
+        } : {}),
         performance: {
             hints: "warning"
         },
         plugins: webpackPlugins({
-            minify: !__TEST__
+            minify: __MINIFY__,
+            progress: true
         }),
         resolve,
         target: "web"
@@ -58,9 +61,29 @@ module.exports = [
             libraryTarget: "commonjs2"
         },
         plugins: webpackPlugins({
+            minify: false,
             optimize: false,
-            minify: false
+            progress: true
         }),
+        stats: {
+            assets: false,
+            cached: false,
+            children: false,
+            chunks: false,
+            chunkModules: false,
+            chunkOrigins: true,
+            colors: true,
+            errors: true,
+            errorDetails: true,
+            hash: true,
+            modules: false,
+            publicPath: true,
+            reasons: true,
+            source: false,
+            timings: true,
+            version: false,
+            warnings: true
+        },
         target: "node"
     }
 ];
