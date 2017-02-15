@@ -1,3 +1,13 @@
+<a name="6.2.1"></a>
+# [6.2.1](https://github.com/nfl/react-wildcat/compare/6.2.0...v6.2.1) (2017-02-14)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Fix domain resolution bug ([#188](https://github.com/nfl/react-wildcat/issues/188)) ([c331a13](https://github.com/nfl/react-wildcat/commit/c331a13))
+
+
+
 <a name="6.2.0"></a>
 # [6.2.0](https://github.com/nfl/react-wildcat/compare/6.1.0...v6.2.0) (2017-01-18)
 

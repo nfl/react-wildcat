@@ -84,7 +84,7 @@ System.config({
     "react-transform-catch-errors": "npm:react-transform-catch-errors@1.0.2",
     "react-transform-jspm-hmr": "npm:react-transform-jspm-hmr@1.0.1",
     "react-wildcat-ensure": "npm:react-wildcat-ensure@6.2.0",
-    "react-wildcat-handoff": "npm:react-wildcat-handoff@6.2.0",
+    "react-wildcat-handoff": "npm:react-wildcat-handoff@6.2.1",
     "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@6.2.0",
     "react-wildcat-prefetch": "npm:react-wildcat-prefetch@6.2.0",
     "redbox-react": "npm:redbox-react@1.3.3",
@@ -686,6 +686,12 @@ System.config({
       "shallowequal": "npm:shallowequal@0.2.2",
       "warning": "npm:warning@3.0.0"
     },
+    "npm:react-helmet@4.0.0": {
+      "deep-equal": "npm:deep-equal@1.0.1",
+      "object-assign": "npm:object-assign@4.1.0",
+      "react": "npm:react@15.4.2",
+      "react-side-effect": "npm:react-side-effect@1.1.0"
+    },
     "npm:react-metrics@2.2.3": {
       "deep-equal": "npm:deep-equal@1.0.1",
       "eventemitter3": "npm:eventemitter3@1.2.0",
@@ -709,14 +715,27 @@ System.config({
       "react": "npm:react@15.4.2",
       "warning": "npm:warning@3.0.0"
     },
+    "npm:react-router@3.0.2": {
+      "history": "npm:history@3.2.1",
+      "hoist-non-react-statics": "npm:hoist-non-react-statics@1.2.0",
+      "invariant": "npm:invariant@2.2.2",
+      "loose-envify": "npm:loose-envify@1.3.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "react": "npm:react@15.4.2",
+      "warning": "npm:warning@3.0.0"
+    },
     "npm:react-side-effect@1.0.2": {
       "fbjs": "npm:fbjs@0.1.0-alpha.10"
+    },
+    "npm:react-side-effect@1.1.0": {
+      "exenv": "npm:exenv@1.2.1",
+      "shallowequal": "npm:shallowequal@0.2.2"
     },
     "npm:react-transform-jspm-hmr@1.0.1": {
       "global": "npm:global@4.3.1",
       "react-proxy": "npm:react-proxy@1.1.8"
     },
-    "npm:react-wildcat-handoff@6.2.0": {
+    "npm:react-wildcat-handoff@6.2.1": {
       "cookie": "npm:cookie@0.3.1",
       "cookies-js": "npm:cookies-js@1.2.3",
       "history": "npm:history@3.2.1",
@@ -724,8 +743,8 @@ System.config({
       "parse-domain": "npm:parse-domain@1.0.0",
       "react": "npm:react@15.4.2",
       "react-dom": "npm:react-dom@15.4.2",
-      "react-helmet": "npm:react-helmet@3.2.2",
-      "react-router": "npm:react-router@3.0.0",
+      "react-helmet": "npm:react-helmet@4.0.0",
+      "react-router": "npm:react-router@3.0.2",
       "react-wildcat-hot-reloader": "npm:react-wildcat-hot-reloader@6.2.0"
     },
     "npm:react-wildcat-hot-reloader@6.2.0": {
