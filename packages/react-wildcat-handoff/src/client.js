@@ -9,7 +9,9 @@ var useRouterHistory = require("react-router").useRouterHistory;
 
 function completeRender(cfg, routes) {
     if (routes) {
-        cfg.routes = routes;
+        cfg = Object.assign({}, cfg, {
+            routes: routes
+        });
     }
 
     return clientRender(cfg);
