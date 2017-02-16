@@ -32,6 +32,7 @@ describe("appServer", () => {
         require("./utils/getMorganOptionsSpec.js")(stubs);
         require("./utils/getWildcatConfigSpec.js")(stubs);
         require("./utils/loggerSpec.js")(stubs);
+        require("./utils/webpackBundleValidationSpec.js")(stubs);
     });
 
     context("middleware", () => {

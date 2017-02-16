@@ -111,23 +111,24 @@ function start() {
 
             lifecycleHook("onStart");
 
-            // enable cors
-            app.use(cors({
-                origin: function origin(ctx) {
-                    for (let i = 0, j = allowedOrigins.length; i < j; i++) {
-                        const allowedOrigin = allowedOrigins[i];
-                        const hostname = ctx.header.host.split(":")[0];
+            /* istanbul ignore next */
+            if (allowedOrigins) {
+                // enable cors
+                app.use(cors({
+                    origin: function origin(ctx) {
+                        for (let i = 0, j = allowedOrigins.length; i < j; i++) {
+                            const allowedOrigin = allowedOrigins[i];
+                            const hostname = ctx.header.host.split(":")[0];
 
-                        /* istanbul ignore else */
-                        if (hostname.includes(allowedOrigin)) {
-                            return "*";
+                            if (hostname.includes(allowedOrigin)) {
+                                return "*";
+                            }
                         }
-                    }
 
-                    /* istanbul ignore next */
-                    return false;
-                }
-            }));
+                        return false;
+                    }
+                }));
+            }
 
             // add gzip
             app.use(compress());

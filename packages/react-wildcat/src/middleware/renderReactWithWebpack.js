@@ -1,6 +1,5 @@
 module.exports = function renderReactWithWebpack(root, options) {
     const path = require("path");
-    const clearRequire = require("clear-require");
 
     const blueBoxOfDeath = require("../utils/blueBoxOfDeath");
     const Convert = require("ansi-to-html");
@@ -24,59 +23,15 @@ module.exports = function renderReactWithWebpack(root, options) {
         }
     } = wildcatConfig;
 
-    const webpack = {
-        _err: undefined,
-        _handlers: [],
-        _stats: undefined,
-        _watcher: undefined,
-
-        onReady(callback) {
-            if (!__DEV__ || (this._watcher && !this._watcher.invalid)) {
-                return callback.call(callback, this._err, this._stats);
-            }
-
-            logger.info(`webpack: wait until bundle finished`);
-            return this._handlers.push(callback);
-        },
-
-        ready({
-            err,
-            stats,
-            watcher
-        }) {
-            this._err = err;
-            this._stats = stats;
-            this._watcher = watcher;
-
-            // Clear require caches and re-import
-            for (const asset in stats.compilation.assets) { // eslint-disable-line guard-for-in
-                clearRequire(stats.compilation.assets[asset].existsAt);
-            }
-
-            this._handlers.forEach(handler => {
-                handler.call(handler, err, stats);
-            });
-
-            this._handlers = [];
-        }
-    };
-
-    if (__DEV__) {
-        const w = require("webpack");
-
-        const compiler = w(require(path.resolve(root, webpackDevSettings)));
-        const watcher = compiler.watch({}, (err, stats) => {
-            webpack.ready({
-                err,
-                stats,
-                watcher
-            });
-        });
-    }
+    const validate = require("../utils/webpackBundleValidation")(root, {
+        __DEV__,
+        logger,
+        webpackDevSettings
+    });
 
     function pageHandler(request, cookies) {
         return new Promise((resolve, reject) => {
-            webpack.onReady((err, stats) => {
+            validate.onReady((err, stats) => {
                 if (err) {
                     return reject(err);
                 }
@@ -130,7 +85,7 @@ module.exports = function renderReactWithWebpack(root, options) {
 
         const reply = yield pageHandler(request, cookies);
 
-        this.status = reply.status || response.status;
+        this.status = reply.status;
 
         if (reply.redirect === true) {
             const {

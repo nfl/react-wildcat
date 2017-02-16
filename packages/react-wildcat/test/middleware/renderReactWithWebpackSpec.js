@@ -6,7 +6,7 @@ chai.use(sinonChai);
 
 const co = require("co");
 const deepmerge = require("deepmerge");
-const proxyquire = require("proxyquire");
+const proxyquire = require("proxyquire").noPreserveCache();
 const webpack = require("webpack");
 
 module.exports = (stubs) => {
@@ -75,86 +75,39 @@ module.exports = (stubs) => {
             console.warn.restore();
         });
 
-        context("with asynchronous entry path", () => {
-            const renderTypes = [{
-                name: "renders HTML",
-                expectation: `<title data-react-helmet="true">Index Example</title>`,
-                fresh: false,
-                url: "/"
-            }, {
-                name: "renders HTML on subsequent requests",
-                expectation: `<title data-react-helmet="true">Index Example</title>`,
-                fresh: false,
-                url: "/"
-            }, {
-                name: "returns error payload",
-                expectation: "Not found",
-                fresh: false,
-                url: "/error"
-            }, {
-                name: "redirects the page",
-                expectation: "",
-                fresh: false,
-                url: "/redirect"
-            }];
+        const renderTypes = [{
+            name: "renders HTML",
+            expectation: `<title data-react-helmet="true">Index Example</title>`,
+            fresh: false,
+            url: "/"
+        }, {
+            name: "renders HTML on subsequent requests",
+            expectation: `<title data-react-helmet="true">Index Example</title>`,
+            fresh: false,
+            url: "/"
+        }, {
+            name: "returns error payload",
+            expectation: "Not found",
+            fresh: false,
+            url: "/error"
+        }, {
+            name: "redirects the page",
+            expectation: "",
+            fresh: false,
+            url: "/redirect"
+        }];
 
-            ["development", "production"].forEach(currentEnv => {
-                context(currentEnv, () => {
-                    const isCurrentlyProd = (currentEnv === "production");
+        ["development", "production"].forEach(currentEnv => {
+            context(currentEnv, () => {
+                const isCurrentlyProd = (currentEnv === "production");
 
-                    renderTypes.forEach((render) => {
-                        it(render.name, (done) => {
-                            const renderReactWithWebpack = require("../../src/middleware/renderReactWithWebpack")(stubs.exampleDir, {
-                                logger: stubs.logger,
-                                wildcatConfig: deepmerge(wildcatConfig, stubs.getEnvironment({
-                                    NODE_ENV: currentEnv
-                                }))
-                            });
-
-                            co(function* () {
-                                return yield renderReactWithWebpack.call({
-                                    request: {
-                                        header: {
-                                            host: wildcatConfig.generalSettings.originUrl,
-                                            "user-agent": "Mozilla/5.0"
-                                        },
-                                        fresh: render.fresh,
-                                        url: render.url
-                                    },
-                                    redirect: () => "",
-                                    response: {
-                                        get: () => Date.now(),
-                                        status: null,
-                                        type: "text/html",
-                                        lastModified: null
-                                    }
-                                });
-                            })
-                                .then((result) => {
-                                    expect(result)
-                                        .to.be.a("string")
-                                        .that.includes(render.expectation);
-
-                                    done();
-                                })
-                                .catch(done);
-                        });
-                    });
-
-                    it("handles server errors", (done) => {
+                renderTypes.forEach((render) => {
+                    it(render.name, (done) => {
                         const renderReactWithWebpack = require("../../src/middleware/renderReactWithWebpack")(stubs.exampleDir, {
                             logger: stubs.logger,
-                            wildcatConfig: deepmerge.all([
-                                wildcatConfig,
-                                stubs.getEnvironment({
-                                    NODE_ENV: currentEnv
-                                }),
-                                {
-                                    serverSettings: {
-                                        displayBlueBoxOfDeath: !isCurrentlyProd
-                                    }
-                                }
-                            ])
+                            wildcatConfig: deepmerge(wildcatConfig, stubs.getEnvironment({
+                                NODE_ENV: currentEnv
+                            }))
                         });
 
                         co(function* () {
@@ -164,8 +117,8 @@ module.exports = (stubs) => {
                                         host: wildcatConfig.generalSettings.originUrl,
                                         "user-agent": "Mozilla/5.0"
                                     },
-                                    fresh: false,
-                                    url: "/error-example"
+                                    fresh: render.fresh,
+                                    url: render.url
                                 },
                                 redirect: () => "",
                                 response: {
@@ -179,14 +132,155 @@ module.exports = (stubs) => {
                             .then((result) => {
                                 expect(result)
                                     .to.be.a("string")
-                                    .that.includes("TypeError: this.props is not a function");
+                                    .that.includes(render.expectation);
 
                                 done();
                             })
                             .catch(done);
                     });
                 });
+
+                it("handles server errors", (done) => {
+                    const renderReactWithWebpack = require("../../src/middleware/renderReactWithWebpack")(stubs.exampleDir, {
+                        logger: stubs.logger,
+                        wildcatConfig: deepmerge.all([
+                            wildcatConfig,
+                            stubs.getEnvironment({
+                                NODE_ENV: currentEnv
+                            }),
+                            {
+                                serverSettings: {
+                                    displayBlueBoxOfDeath: !isCurrentlyProd
+                                }
+                            }
+                        ])
+                    });
+
+                    co(function* () {
+                        return yield renderReactWithWebpack.call({
+                            request: {
+                                header: {
+                                    host: wildcatConfig.generalSettings.originUrl,
+                                    "user-agent": "Mozilla/5.0"
+                                },
+                                fresh: false,
+                                url: "/error-example"
+                            },
+                            redirect: () => "",
+                            response: {
+                                get: () => Date.now(),
+                                status: null,
+                                type: "text/html",
+                                lastModified: null
+                            }
+                        });
+                    })
+                        .then((result) => {
+                            expect(result)
+                                .to.be.a("string")
+                                .that.includes("TypeError: this.props is not a function");
+
+                            done();
+                        })
+                        .catch(done);
+                });
+
+                it("handles validation errors", (done) => {
+                    const renderReactWithWebpack = proxyquire("../../src/middleware/renderReactWithWebpack", {
+                        "../utils/webpackBundleValidation": () => ({
+                            onReady: (cb) => cb(stubs.errorStub)
+                        })
+                    })(stubs.exampleDir, {
+                        logger: stubs.logger,
+                        wildcatConfig: deepmerge.all([
+                            wildcatConfig,
+                            stubs.getEnvironment({
+                                NODE_ENV: currentEnv
+                            }),
+                            {
+                                serverSettings: {
+                                    displayBlueBoxOfDeath: !isCurrentlyProd
+                                }
+                            }
+                        ])
+                    });
+
+                    co(function* () {
+                        return yield renderReactWithWebpack.call({
+                            request: {
+                                header: {
+                                    host: wildcatConfig.generalSettings.originUrl,
+                                    "user-agent": "Mozilla/5.0"
+                                },
+                                fresh: false,
+                                url: "/"
+                            },
+                            redirect: () => "",
+                            response: {
+                                get: () => Date.now(),
+                                status: null,
+                                type: "text/html",
+                                lastModified: null
+                            }
+                        });
+                    })
+                        .then((result) => {
+                            expect(result)
+                                .to.include(stubs.errorStub.message);
+
+                            done();
+                        })
+                        .catch(done);
+                });
             });
+        });
+
+        it("handles Webpack bundle errors", (done) => {
+            const renderReactWithWebpack = proxyquire("../../src/middleware/renderReactWithWebpack", {
+                "../utils/webpackBundleValidation": () => ({
+                    onReady: (cb) => cb(null, stubs.statsWithErrors)
+                })
+            })(stubs.exampleDir, {
+                logger: stubs.logger,
+                wildcatConfig: deepmerge.all([
+                    wildcatConfig,
+                    stubs.getEnvironment({
+                        NODE_ENV: "development"
+                    }),
+                    {
+                        serverSettings: {
+                            displayBlueBoxOfDeath: true
+                        }
+                    }
+                ])
+            });
+
+            co(function* () {
+                return yield renderReactWithWebpack.call({
+                    request: {
+                        header: {
+                            host: wildcatConfig.generalSettings.originUrl,
+                            "user-agent": "Mozilla/5.0"
+                        },
+                        fresh: false,
+                        url: "/"
+                    },
+                    redirect: () => "",
+                    response: {
+                        get: () => Date.now(),
+                        status: null,
+                        type: "text/html",
+                        lastModified: null
+                    }
+                });
+            })
+                .then((result) => {
+                    expect(result)
+                        .to.include(stubs.errorStub.message);
+
+                    done();
+                })
+                .catch(done);
         });
     });
 };

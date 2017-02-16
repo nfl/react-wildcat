@@ -29,7 +29,7 @@ module.exports = (stubs) => {
 
         it("adds webpack hot middleware", (done) => {
             const webpackHotMiddleware = require("../../src/middleware/webpackHotMiddleware");
-            const webpackDevSettings = stubs.devConfigFile;
+            const webpackDevSettings = stubs.devClientConfigFile;
             const {
                 devConfig,
                 hotMiddleware

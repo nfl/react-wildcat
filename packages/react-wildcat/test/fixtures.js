@@ -32,11 +32,40 @@ exports.getPublicPath = getPublicPath;
 const exampleDir = path.join(cwd, "example");
 exports.exampleDir = exampleDir;
 
-const devConfigFile = path.join(exampleDir, "config/webpack/development.client.config.js");
-exports.devConfigFile = devConfigFile;
+const errorStub = new Error("test error");
+exports.errorStub = errorStub;
+
+const devClientConfigFile = path.join(exampleDir, "config/webpack/development.client.config.js");
+exports.devClientConfigFile = devClientConfigFile;
+
+const devServerConfigFile = path.join(exampleDir, "config/webpack/development.server.config.js");
+exports.devServerConfigFile = devServerConfigFile;
 
 const prodConfigFile = path.join(exampleDir, "config/webpack/production.config.js");
 exports.prodConfigFile = prodConfigFile;
+
+const webpackFileStub = "webpack-stub.js";
+exports.webpackFileStub = webpackFileStub;
+
+const stats = {
+    compilation: {
+        assets: {}
+    }
+};
+exports.stats = stats;
+
+const statsWithErrors = Object.assign({}, stats, {
+    compilation: {
+        errors: [{
+            error: errorStub.message,
+            module: {
+                id: 1
+            }
+        }]
+    },
+    hasErrors: () => true
+});
+exports.statsWithErrors = statsWithErrors;
 
 const getEnvironment = ({
     BABEL_ENV = undefined,
@@ -103,9 +132,6 @@ const mapLogMethods = {
     "warn": "error"
 };
 exports.mapLogMethods = mapLogMethods;
-
-const errorStub = new Error("test error");
-exports.errorStub = errorStub;
 
 const errorArrayStub = [
     {
