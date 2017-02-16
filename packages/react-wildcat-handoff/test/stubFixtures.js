@@ -17,6 +17,14 @@ exports.requests = {
         url: "/"
     },
 
+    basic2: {
+        header: {
+            host: "www.exampleuk.com",
+            "user-agent": exports.stubUserAgent
+        },
+        url: "/"
+    },
+
     ephemeral: {
         header: {
             host: "www-staging.example.com",
@@ -28,6 +36,14 @@ exports.requests = {
     err: {
         header: {
             host: "err.example.com",
+            "user-agent": exports.stubUserAgent
+        },
+        url: "/"
+    },
+
+    hostname: {
+        header: {
+            host: "example",
             "user-agent": exports.stubUserAgent
         },
         url: "/"
@@ -328,9 +344,7 @@ exports.domainAliases = {
             "example",
             "127.0.0.1"
         ],
-        "dev": [
-            "127.0.0.2"
-        ]
+        "dev": "127.0.0.2"
     }
 };
 
@@ -345,6 +359,17 @@ exports.domainAliasesNoSubdomain = {
         "127.0.0.2"
     ]
 };
+
+exports.domainAliasesUndefined = {
+    "example": {
+        "www": [undefined]
+    }
+};
+
+exports.domainAliasesStringOnly = {
+    "example": "127.0.0.1"
+};
+
 
 exports.domains = {
     async: {
@@ -362,7 +387,22 @@ exports.domains = {
             domainAliases: exports.domainAliases,
             example: exports.subdomains.sync
         }
+    },
+
+    domainAliasesUndefined: {
+        domains: {
+            domainAliases: exports.domainAliasesUndefined,
+            example: exports.subdomains.sync
+        }
+    },
+
+    domainAliasesStringOnly: {
+        domains: {
+            domainAliases: exports.domainAliasesStringOnly,
+            example: exports.subdomains.sync
+        }
     }
+
 };
 
 exports.domainsWithoutAliasedSubdomains = {

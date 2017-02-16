@@ -7,6 +7,10 @@ function getLeadingLeafDomain(subdomain) {
 }
 
 function mapDomainToAlias(host, domainAliases) {
+    if (!domainAliases) {
+        return host;
+    }
+
     var resolvedHost = host;
 
     if (typeof domainAliases === "object") {
@@ -16,10 +20,25 @@ function mapDomainToAlias(host, domainAliases) {
 
                 if (Array.isArray(possibleHosts)) {
                     possibleHosts.forEach(function withPossibleHost(possibleHost) {
-                        if (host.startsWith(possibleHost)) {
+                        if (String(host) === String(possibleHost)) {
                             resolvedHost = alias;
                         }
                     });
+                } else if (typeof possibleHosts === "object") {
+                    var hasHost = Object
+                        .keys(possibleHosts)
+                        .reduce(function mergeArrays(acc, possibleHost) {
+                            return acc.concat(possibleHosts[possibleHost]);
+                        }, [])
+                        .reduce(function checkHost(acc, possibleHost) {
+                            return typeof acc === "boolean" ?
+                                acc || String(possibleHost) === String(resolvedHost) :
+                                String(acc) === String(resolvedHost);
+                        });
+
+                    if (hasHost) {
+                        resolvedHost = alias;
+                    }
                 } else {
                     resolvedHost = alias;
                 }
