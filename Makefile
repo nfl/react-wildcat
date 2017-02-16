@@ -25,7 +25,7 @@ install-example:
 	node ./shell/install-example.js
 
 lint:
-	node node_modules/.bin/eslint packages/* --ext .js --cache true
+	node node_modules/.bin/eslint packages/* --ext .js --cache --cache-location .cache/.eslintcache
 
 publish: lint
 	./shell/publish.sh
