@@ -17,7 +17,7 @@ describe("react-wildcat-handoff/server", () => {
 
     context("response", () => {
         it("returns 301 when a redirect is detected", (done) => {
-            const serverHandoff = server(stubs.routes);
+            const serverHandoff = server(stubs.routes.sync);
 
             expect(serverHandoff)
                 .to.be.a("function")
@@ -59,7 +59,7 @@ describe("react-wildcat-handoff/server", () => {
         });
 
         it("returns 404 when a route is not found", (done) => {
-            const serverHandoff = server(stubs.routes);
+            const serverHandoff = server(stubs.routes.sync);
 
             expect(serverHandoff)
                 .to.be.a("function")
@@ -87,7 +87,7 @@ describe("react-wildcat-handoff/server", () => {
         });
 
         it("returns 500 when an unknown error occurs", (done) => {
-            const serverHandoff = server(stubs.invalidRoutes);
+            const serverHandoff = server(stubs.invalidRoutes.sync);
 
             expect(serverHandoff)
                 .to.be.a("function")
@@ -112,7 +112,7 @@ describe("react-wildcat-handoff/server", () => {
 
         context("markup", () => {
             it("returns HTML on a valid route", (done) => {
-                const serverHandoff = server(stubs.routes);
+                const serverHandoff = server(stubs.routes.sync);
 
                 expect(serverHandoff)
                     .to.be.a("function")
@@ -135,7 +135,7 @@ describe("react-wildcat-handoff/server", () => {
             });
 
             it("returns HTML as static markup", (done) => {
-                const serverHandoff = server(stubs.routes);
+                const serverHandoff = server(stubs.routes.sync);
 
                 expect(serverHandoff)
                     .to.be.a("function")
@@ -160,27 +160,56 @@ describe("react-wildcat-handoff/server", () => {
     });
 
     context("routing", () => {
-        it("matches routes", (done) => {
-            const serverHandoff = server(stubs.routes);
+        context("matches routes", () => {
+            ["async", "sync"].forEach((timing) => {
+                it(timing, (done) => {
+                    const serverHandoff = server(stubs.routes[timing]);
 
-            expect(serverHandoff)
-                .to.be.a("function")
-                .that.has.property("name")
-                .that.equals("serverHandoff");
+                    expect(serverHandoff)
+                        .to.be.a("function")
+                        .that.has.property("name")
+                        .that.equals("serverHandoff");
 
-            const result = serverHandoff(stubs.requests.basic, stubs.cookieParser, stubs.wildcatConfig)
-                .then(response => {
-                    expect(response)
-                        .to.be.an("object")
-                        .that.has.property("html")
-                        .that.is.a("string");
+                    const result = serverHandoff(stubs.requests.basic, stubs.cookieParser, stubs.wildcatConfig)
+                        .then(response => {
+                            expect(response)
+                                .to.be.an("object")
+                                .that.has.property("html")
+                                .that.is.a("string");
 
-                    done();
-                })
-                .catch(error => done(error));
+                            done();
+                        })
+                        .catch(error => done(error));
 
-            expect(result)
-                .to.be.an.instanceof(Promise);
+                    expect(result)
+                        .to.be.an.instanceof(Promise);
+                });
+            });
+
+            it("handles async route errors", (done) => {
+                const serverHandoff = server(stubs.invalidRoutes.async);
+
+                expect(serverHandoff)
+                    .to.be.a("function")
+                    .that.has.property("name")
+                    .that.equals("serverHandoff");
+
+                const result = serverHandoff(stubs.requests.basic, stubs.cookieParser, stubs.wildcatConfig)
+                    .then(null, error => {
+                        expect(error)
+                            .to.exist;
+
+                        expect(error)
+                            .to.be.an("error")
+                            .that.equals(stubs.callbackError);
+
+                        done();
+                    })
+                    .catch(error => done(error));
+
+                expect(result)
+                    .to.be.an.instanceof(Promise);
+            });
         });
 
         context("matches subdomains", () => {
