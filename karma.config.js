@@ -46,7 +46,7 @@ module.exports = function (karmaConfig) {
             pattern: "./node_modules/babel-polyfill/dist/polyfill.js",
             watched: false
         }, {
-            pattern: "./tests/tests.js"
+            pattern: "./test/test.js"
         }],
 
         // frameworks to use
@@ -58,13 +58,13 @@ module.exports = function (karmaConfig) {
 
         // level of logging
         // possible values: karmaConfig.LOG_DISABLE || karmaConfig.LOG_ERROR || karmaConfig.LOG_WARN || karmaConfig.LOG_INFO || karmaConfig.LOG_DEBUG
-        logLevel: karmaConfig.LOG_INFO,
+        logLevel: karmaConfig.LOG_DEBUG,
 
         // web server port
         port: 9876,
 
         preprocessors: {
-            "./tests/tests.js": ["webpack"]
+            "./test/test.js": ["webpack"]
         },
 
         // test results reporter to use
@@ -86,7 +86,18 @@ module.exports = function (karmaConfig) {
                         {
                             loader: "babel-loader",
                             options: {
-                                cacheDirectory: true
+                                cacheDirectory: true,
+                                plugins: [
+                                    ["istanbul", {
+                                        "exclude": [
+                                            "**/node_modules/**",
+                                            "**/test/**",
+                                            "**/Test*",
+                                            "**/defaultTemplate.js",
+                                            "**/getDomainRoutes.js"
+                                        ]
+                                    }]
+                                ]
                             }
                         }
                     ]
