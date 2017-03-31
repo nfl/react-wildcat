@@ -41,7 +41,7 @@ class PrefetchExample extends React.Component {
                                     <tr key={superBowl.year}>
                                         <th scope="row">{superBowl.year}</th>
                                         <td>{superBowl.romanNumeral}</td>
-                                        <td scope="row">{`${team1.location} ${team1.name} vs ${team2.location} ${team2.name}`}</td>
+                                        <td>{`${team1.location} ${team1.name} vs ${team2.location} ${team2.name}`}</td>
                                     </tr>
                                 );
                             })}

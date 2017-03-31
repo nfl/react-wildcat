@@ -3,5 +3,3 @@ bundles
 public
 node_modules
 vendor
-jspm_packages
-system.config.js

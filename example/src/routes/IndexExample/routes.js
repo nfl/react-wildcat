@@ -1,8 +1,5 @@
-import ensure from "react-wildcat-ensure";
-
 // Lazy loaded components
 export function getComponent(location, cb) {
-    return ensure("./IndexExample.js", module, function ensureResult(err, module) {
-        return cb(err, module);
-    });
+    import("./IndexExample.js")
+        .then(module => cb(null, module.default), cb);
 }

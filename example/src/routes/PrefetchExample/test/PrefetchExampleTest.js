@@ -2,6 +2,7 @@ import "isomorphic-fetch";
 
 import React from "react";
 import {mount} from "enzyme";
+import {expect} from "chai";
 
 import PrefetchExample from "../PrefetchExample.js";
 import * as prefetchExampleRoutes from "../routes.js";
@@ -14,34 +15,29 @@ describe("Prefetch Example", () => {
     });
 
     context("prefetch", () => {
-        it("prefetches data", async (done) => {
-            try {
-                expect(PrefetchExample)
-                    .itself.to.have.property("prefetch");
+        it("prefetches data", async () => {
+            expect(PrefetchExample)
+                .itself.to.have.property("prefetch");
 
-                const {prefetch} = PrefetchExample;
+            const {prefetch} = PrefetchExample;
 
-                expect(prefetch)
-                    .to.respondTo("getKey");
+            expect(prefetch)
+                .to.respondTo("getKey");
 
-                expect(prefetch.getKey())
-                    .to.equal("asyncData");
+            expect(prefetch.getKey())
+                .to.equal("asyncData");
 
-                expect(prefetch)
-                    .to.respondTo("run");
+            expect(prefetch)
+                .to.respondTo("run");
 
-                const asyncData = await prefetch.run();
-                expect(asyncData).to.exist;
+            const asyncData = await prefetch.run();
 
-                PrefetchExample.prefetch = {
-                    ...PrefetchExample.prefetch,
-                    asyncData
-                };
+            PrefetchExample.prefetch = {
+                ...PrefetchExample.prefetch,
+                asyncData
+            };
 
-                done();
-            } catch (e) {
-                done(e);
-            }
+            expect(asyncData).to.exist;
         });
     });
 
@@ -96,4 +92,3 @@ describe("Prefetch Example", () => {
         });
     });
 });
-

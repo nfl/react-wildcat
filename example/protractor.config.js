@@ -1,5 +1,3 @@
-"use strict";
-
 const cwd = process.cwd();
 const url = require("url");
 const path = require("path");
@@ -18,22 +16,6 @@ const originUrl = url.format({
     protocol: appServerSettings.protocol.replace("http2", "https"),
     hostname: appServerSettings.hostname,
     port: appServerSettings.port
-});
-
-if (!global._babelPolyfill) {
-    require("babel-polyfill");
-}
-
-require("babel-register")({
-    resolveModuleSource(importPath) {
-        if (/^src/.test(importPath)) {
-            importPath = path.join(cwd, importPath);
-        }
-
-        return importPath;
-    },
-    retainLines: true,
-    sourceRoot: __dirname
 });
 
 const timeout = 30000;
@@ -77,6 +59,20 @@ exports.config = {
     }],
 
     onPrepare() {
+        require("babel-polyfill");
+        require("babel-register")({
+            "presets": [
+                ["env", {
+                    "targets": {
+                        "node": 6.9
+                    },
+                    "modules": "commonjs",
+                    "loose": true,
+                    "useBuiltIns": true
+                }]
+            ]
+        });
+
         const chai = require("chai/index.js");
         const chaiAsPromised = require("chai-as-promised");
 

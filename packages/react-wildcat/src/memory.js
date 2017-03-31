@@ -1,4 +1,3 @@
-"use strict";
 const memwatch = require("memwatch-next");
 
 function memory(logger) {

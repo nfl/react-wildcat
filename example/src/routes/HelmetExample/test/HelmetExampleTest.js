@@ -1,5 +1,6 @@
 import React from "react";
 import {shallow} from "enzyme";
+import {expect} from "chai";
 
 import HelmetExample from "../HelmetExample.js";
 import * as helmetExampleRoutes from "../routes.js";
@@ -55,4 +56,3 @@ describe("Helmet Example", () => {
         });
     });
 });
-

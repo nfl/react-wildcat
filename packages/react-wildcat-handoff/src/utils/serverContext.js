@@ -1,12 +1,9 @@
-"use strict";
-
 const React = require("react");
 const Router = require("react-router");
 
 const RouterContext = Router.RouterContext;
 
 module.exports = function serverContext(request, headers, renderProps) {
-    /* eslint-disable react/no-multi-comp */
     const ServerContext = React.createClass({
         childContextTypes: {
             headers: React.PropTypes.shape({

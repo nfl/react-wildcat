@@ -9,7 +9,11 @@ export const wildcatConfig = {
         reactRootElementID: "content",
         renderHandler: "react-wildcat-handoff/client"
     },
-    serverSettings: {}
+    serverSettings: {
+        appServer: {
+            protocol: "http"
+        }
+    }
 };
 
 export const prefetchedDataKey = "stubData";

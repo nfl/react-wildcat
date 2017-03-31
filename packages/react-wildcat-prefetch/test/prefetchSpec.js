@@ -1,5 +1,3 @@
-"use strict";
-
 const React = require("react");
 const ReactDOMServer = require("react-dom/server");
 const Prefetch = require("../lib/index.js"); // eslint-disable-line import/default

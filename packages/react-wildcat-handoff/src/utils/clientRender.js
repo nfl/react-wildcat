@@ -1,5 +1,3 @@
-"use strict";
-
 var ReactDOM = require("react-dom");
 var Router = require("react-router");
 var clientContext = require("./clientContext.js");

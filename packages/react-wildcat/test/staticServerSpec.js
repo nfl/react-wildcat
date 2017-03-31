@@ -1,5 +1,3 @@
-"use strict";
-
 const fs = require("fs-extra");
 const cp = require("child_process");
 
@@ -12,6 +10,7 @@ const path = require("path");
 const os = require("os");
 
 const cluster = require("cluster");
+const deepmerge = require("deepmerge");
 const proxyquire = require("proxyquire");
 
 describe("staticServer", () => {
@@ -19,26 +18,17 @@ describe("staticServer", () => {
 
     before(() => {
         [
-            stubs.binDir,
             stubs.publicDir
         ].forEach(fs.removeSync);
 
         process.chdir(stubs.exampleDir);
     });
 
-    context("utils", () => {
-        require("./utils/createImportableModuleSpec.js")(stubs);
-        require("./utils/startWebSocketServerSpec.js")(stubs);
-        require("./utils/createTranspiledModuleSpec.js")(stubs);
-    });
-
     context("middleware", () => {
-        require("./middleware/babelDevTranspilerSpec.js")(stubs);
+        require("./middleware/webpackHotMiddlewareSpec.js")(stubs);
     });
 
     context("static server", () => {
-        const nodeEnv = process.env.NODE_ENV;
-
         const expectations = {
             "development": [
                 "Static server is running at"
@@ -60,10 +50,6 @@ describe("staticServer", () => {
 
         ["development", "production"].forEach(currentEnv => {
             context(currentEnv, () => {
-                before(() => {
-                    process.env.NODE_ENV = currentEnv;
-                });
-
                 it("starts the server via cli", (done) => {
                     const currentExpectations = expectations[currentEnv];
                     let currentExpectationCount = 0;
@@ -116,9 +102,21 @@ describe("staticServer", () => {
                                 },
                                 "./utils/getWildcatConfig": () => {
                                     const defaultConfig = require("../src/utils/getWildcatConfig")();
-                                    defaultConfig.serverSettings.staticServer.protocol = currentProtocol;
-
-                                    return defaultConfig;
+                                    return deepmerge.all([
+                                        defaultConfig,
+                                        stubs.getEnvironment({
+                                            NODE_ENV: currentEnv
+                                        }),
+                                        {
+                                            serverSettings: {
+                                                staticServer: {
+                                                    minClusterCpuCount: 1,
+                                                    maxClusterCpuCount: 1,
+                                                    protocol: currentProtocol
+                                                }
+                                            }
+                                        }
+                                    ]);
                                 },
                                 "./utils/logger": (() => {
                                     function Logger() {}
@@ -151,17 +149,17 @@ describe("staticServer", () => {
                                     expect(result)
                                         .to.be.an("object")
                                         .that.has.property("env")
-                                        .that.equals(process.env.NODE_ENV);
+                                        .that.equals(currentEnv);
 
                                     staticServer.close();
                                     done();
+                                })
+                                .catch(err => {
+                                    staticServer.close();
+                                    done(err);
                                 });
                         });
                     });
-                });
-
-                after(() => {
-                    process.env.NODE_ENV = nodeEnv;
                 });
             });
         });
@@ -175,11 +173,9 @@ describe("staticServer", () => {
             ];
 
             lifecycleTests.forEach(lifecycle => {
-                it(lifecycle, (done) => {
-                    const wildcatConfig = require("../src/utils/getWildcatConfig")();
-                    const staticServerSettings = wildcatConfig.serverSettings.staticServer;
-                    staticServerSettings[lifecycle] = sinon.spy();
+                let wildcatConfig = require("../src/utils/getWildcatConfig")();
 
+                it(lifecycle, (done) => {
                     const server = proxyquire("../src/staticServer.js", {
                         "cluster": {
                             isMaster: false,
@@ -187,7 +183,20 @@ describe("staticServer", () => {
                                 id: 1
                             }
                         },
-                        "./utils/getWildcatConfig": () => wildcatConfig,
+                        "./utils/getWildcatConfig": () => {
+                            wildcatConfig = deepmerge.all([
+                                wildcatConfig,
+                                {
+                                    serverSettings: {
+                                        staticServer: {
+                                            [lifecycle]: sinon.spy()
+                                        }
+                                    }
+                                }
+                            ]);
+
+                            return wildcatConfig;
+                        },
                         "./utils/logger": stubs.NullConsoleLogger
                     });
 
@@ -205,12 +214,7 @@ describe("staticServer", () => {
                             expect(result)
                                 .to.exist;
 
-                            expect(result)
-                                .to.be.an("object")
-                                .that.has.property("env")
-                                .that.equals(process.env.NODE_ENV);
-
-                            expect(staticServerSettings[lifecycle].calledOnce)
+                            expect(wildcatConfig.serverSettings.staticServer[lifecycle].calledOnce)
                                 .to.be.true;
 
                             server.close();
@@ -244,8 +248,16 @@ describe("staticServer", () => {
                     server = proxyquire("../src/staticServer.js", {
                         "./utils/getWildcatConfig": () => {
                             const defaultConfig = require("../src/utils/getWildcatConfig")();
-                            defaultConfig.serverSettings.staticServer.maxClusterCpuCount = 1;
-                            return defaultConfig;
+                            return deepmerge.all([
+                                defaultConfig,
+                                {
+                                    serverSettings: {
+                                        staticServer: {
+                                            maxClusterCpuCount: 1
+                                        }
+                                    }
+                                }
+                            ]);
                         },
                         "./utils/logger": stubs.NullConsoleLogger
                     });
@@ -264,11 +276,17 @@ describe("staticServer", () => {
                     server = proxyquire("../src/staticServer.js", {
                         "./utils/getWildcatConfig": () => {
                             const defaultConfig = require("../src/utils/getWildcatConfig")();
-                            defaultConfig.serverSettings.staticServer.maxClusterCpuCount = 2;
-
-                            defaultConfig.__ClusterServerTest__ = true;
-
-                            return defaultConfig;
+                            return deepmerge.all([
+                                defaultConfig,
+                                {
+                                    __ClusterServerTest__: true,
+                                    serverSettings: {
+                                        staticServer: {
+                                            maxClusterCpuCount: 2
+                                        }
+                                    }
+                                }
+                            ]);
                         },
                         "./utils/logger": stubs.NullConsoleLogger
                     });
@@ -276,10 +294,10 @@ describe("staticServer", () => {
                     server.start()
                         .then(result => {
                             expect(result.clusterForksCount).to.equal(2);
-
                             sinon.assert.callCount(clusterForkStub, 2);
                         })
-                        .then(done, done);
+                        .then(done)
+                        .catch(done);
                 });
 
 
@@ -287,9 +305,17 @@ describe("staticServer", () => {
                     server = proxyquire("../src/staticServer.js", {
                         "./utils/getWildcatConfig": () => {
                             const defaultConfig = require("../src/utils/getWildcatConfig")();
-                            defaultConfig.serverSettings.staticServer.maxClusterCpuCount = Infinity;
-                            defaultConfig.__ClusterServerTest__ = true;
-                            return defaultConfig;
+                            return deepmerge.all([
+                                defaultConfig,
+                                {
+                                    __ClusterServerTest__: true,
+                                    serverSettings: {
+                                        staticServer: {
+                                            maxClusterCpuCount: Infinity
+                                        }
+                                    }
+                                }
+                            ]);
                         },
                         "./utils/logger": stubs.NullConsoleLogger
                     });
@@ -297,11 +323,11 @@ describe("staticServer", () => {
                     server.start()
                         .then(result => {
                             expect(result.clusterForksCount).to.equal(os.cpus().length);
-
                             sinon.assert.callCount(clusterForkStub, os.cpus().length);
 
                             done();
-                        }, done);
+                        })
+                        .catch(done);
                 });
             });
         });

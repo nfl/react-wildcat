@@ -1,5 +1,3 @@
-"use strict";
-
 const defaultTemplate = require("./defaultTemplate.js");
 
 module.exports = function serverRender({

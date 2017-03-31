@@ -40,36 +40,6 @@ function upgradeReactNpm(pkg) {
     });
 }
 
-function upgradeReactJspm(pkg) {
-    const jspmPkg = pkg.jspm || {};
-    const jspmDependencies = jspmPkg.dependencies || {};
-    const jspmDevDependencies = jspmPkg.devDependencies || {};
-
-    REACT_PACKAGES.forEach(reactPkg => {
-        const JSPM_REACT_VERSION = `npm:${reactPkg}@${REACT_VERSION}`;
-
-        if (
-            (jspmDependencies[reactPkg] && jspmDependencies[reactPkg] !== JSPM_REACT_VERSION) ||
-            (jspmDevDependencies[reactPkg] && jspmDevDependencies[reactPkg] !== JSPM_REACT_VERSION)
-        ) {
-            console.log();
-            console.log(`upgrading jspm package ${JSPM_REACT_VERSION} in ${pkg.name}`);
-            exec(`jspm install "${JSPM_REACT_VERSION}" --log warn`);
-        }
-    });
-
-    REACT_PACKAGES.forEach(reactPkg => {
-        const JSPM_REACT_VERSION = `npm:${reactPkg}@${REACT_VERSION}`;
-
-        if (jspmDependencies[reactPkg] || jspmDevDependencies[reactPkg]) {
-            console.log();
-            console.log(`resolving jspm package ${JSPM_REACT_VERSION} in ${pkg.name}`);
-            exec(`jspm resolve --only "${JSPM_REACT_VERSION}"`);
-            exec(`jspm clean`);
-        }
-    });
-}
-
 ls("packages")
     .map(pkg => path.join("packages", pkg))
     .concat([
@@ -78,12 +48,10 @@ ls("packages")
     ])
     .forEach((loc) => {
         const pkgPath = path.resolve(cwd, path.join(loc, "package.json"));
-        const systemConfigPath = path.resolve(cwd, path.join(loc, "system.config.js"));
 
         const isNpmPackage = fs.existsSync(pkgPath);
-        const isJspmPackage = fs.existsSync(systemConfigPath);
 
-        if (!isNpmPackage && !isJspmPackage) {
+        if (!isNpmPackage) {
             return;
         }
 
@@ -91,10 +59,6 @@ ls("packages")
 
         if (isNpmPackage) {
             upgradeReactNpm(require(pkgPath));
-        }
-
-        if (isJspmPackage) {
-            upgradeReactJspm(require(pkgPath));
         }
 
         cd(cwd);

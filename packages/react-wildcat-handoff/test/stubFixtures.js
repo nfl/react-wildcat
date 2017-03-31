@@ -186,6 +186,9 @@ exports.cookieParserWithAlias = {
 
 exports.wildcatConfig = {
     generalSettings: {
+        env: {
+            __PROD__: process.env.NODE_ENV === "production"
+        },
         staticUrl: "https://localhost:4000"
     },
     clientSettings: {
@@ -245,41 +248,59 @@ exports.Application = React.createClass({
     }
 });
 
+const routes = React.createElement(
+    Router.Route, {
+        path: "/",
+        component: exports.Application
+    },
+
+    React.createElement(Router.Redirect, {
+        from: "/redirect",
+        to: "/"
+    }),
+
+    React.createElement(Router.Redirect, {
+        from: "/context.html",
+        to: "/"
+    })
+);
+
 exports.routes = {
-    routes: React.createElement(
-        Router.Route, {
-            path: "/",
-            component: exports.Application
-        },
-
-        React.createElement(Router.Redirect, {
-            from: "/redirect",
-            to: "/"
-        }),
-
-        React.createElement(Router.Redirect, {
-            from: "/context.html",
-            to: "/"
-        })
-    )
+    async: {
+        routes: function getRoutes(location, cb) {
+            return setTimeout(() => cb(null, routes), 0);
+        }
+    },
+    sync: {
+        routes
+    }
 };
 
 exports.callbackError = new Error("Fake Error!");
 
-exports.invalidRoutes = {
-    routes: React.createElement(
-        Router.Route, {
-            path: "/",
-            getComponent: (location, cb) => {
-                return cb(exports.callbackError);
-            }
-        },
+const invalidRoutes = React.createElement(
+    Router.Route, {
+        path: "/",
+        getComponent: (location, cb) => {
+            return cb(exports.callbackError);
+        }
+    },
 
-        React.createElement(Router.Redirect, {
-            from: "/context.html",
-            to: "/"
-        })
-    )
+    React.createElement(Router.Redirect, {
+        from: "/context.html",
+        to: "/"
+    })
+);
+
+exports.invalidRoutes = {
+    async: {
+        routes: function getRoutes(location, cb) {
+            return setTimeout(() => cb(exports.callbackError), 0);
+        }
+    },
+    sync: {
+        routes: invalidRoutes
+    }
 };
 
 exports.subdomains = {
@@ -289,14 +310,14 @@ exports.subdomains = {
                 return setTimeout(() => cb(exports.callbackError, null), 0);
             },
             www: function getWWWRoutes(location, cb) {
-                return setTimeout(() => cb(null, exports.routes.routes), 0);
+                return setTimeout(() => cb(null, routes), 0);
             }
         }
     },
 
     sync: {
         domains: {
-            www: exports.routes.routes
+            www: routes
         }
     }
 };
@@ -307,12 +328,12 @@ exports.unwrappedSubdomains = {
             return setTimeout(() => cb(exports.callbackError, null), 0);
         },
         www: function getWWWRoutes(location, cb) {
-            return setTimeout(() => cb(null, exports.routes.routes), 0);
+            return setTimeout(() => cb(null, routes), 0);
         }
     },
 
     sync: {
-        www: exports.routes.routes
+        www: routes
     }
 };
 

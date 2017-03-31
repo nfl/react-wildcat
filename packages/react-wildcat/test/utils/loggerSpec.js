@@ -8,8 +8,6 @@ const chalk = require("chalk");
 const proxyquire = require("proxyquire").noPreserveCache();
 
 module.exports = (stubs) => {
-    "use strict";
-
     describe("logger", () => {
         const wildcatConfig = require("../../src/utils/getWildcatConfig")(stubs.exampleDir);
 

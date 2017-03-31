@@ -56,9 +56,7 @@ export default (async () => {
         if (shouldStartStaticServer) {
             promises = [
                 ...promises,
-                startStaticServer({
-                    clean: false
-                })
+                startStaticServer()
             ];
         }
 

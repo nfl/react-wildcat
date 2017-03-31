@@ -1,6 +1,7 @@
 import React from "react";
 import {shallow} from "enzyme";
 import {TestMode} from "radium";
+import {expect} from "chai";
 
 import FlexboxExample from "../FlexboxExample.js";
 import * as flexboxExampleRoutes from "../routes.js";
@@ -64,4 +65,3 @@ describe("Flexbox Example", () => {
         });
     });
 });
-

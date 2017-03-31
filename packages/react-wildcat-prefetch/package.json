@@ -1,6 +1,6 @@
 {
   "name": "react-wildcat-prefetch",
-  "version": "6.2.0",
+  "version": "7.0.0",
   "description": "A React decorator to prefetch component data.",
   "main": "lib/index.js",
   "dependencies": {
@@ -13,13 +13,6 @@
     "babel-cli": "^6.8.0",
     "react-dom": "15.4.2",
     "rimraf": "^2.5.2"
-  },
-  "jspm": {
-    "format": "cjs",
-    "directories": {
-      "lib": "lib"
-    },
-    "main": "index.js"
   },
   "scripts": {
     "build": "npm run clean && npm run compile",

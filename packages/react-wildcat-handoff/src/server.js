@@ -1,5 +1,3 @@
-"use strict";
-
 const serverRender = require("./utils/serverRender.js");
 const getDomainRoutes = require("./utils/getDomainRoutes.js");
 const cookie = require("cookie");
@@ -9,7 +7,9 @@ const useRouterHistory = require("react-router").useRouterHistory;
 
 function completeRender(cfg, routes) {
     if (routes) {
-        cfg.routes = routes;
+        cfg = Object.assign({}, cfg, {
+            routes
+        });
     }
 
     return serverRender(cfg);
@@ -39,6 +39,18 @@ function render(cfg) {
             request,
             wildcatConfig
         });
+
+        if (typeof cfg.routes === "function") {
+            return new Promise(function routePromise(resolve, reject) {
+                cfg.routes(cfg.location, function renderCallback(err, routes) {
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    return resolve(completeRender(cfg, routes));
+                });
+            });
+        }
 
         if (!cfg.routes && cfg.domains) {
             return new Promise((resolve, reject) => {

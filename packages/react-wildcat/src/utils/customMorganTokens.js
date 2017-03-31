@@ -1,6 +1,4 @@
 module.exports = function customMorganTokens(morgan, id) {
-    "use strict";
-
     const chalk = require("chalk");
 
     morgan.token("id", function getIdToken() {

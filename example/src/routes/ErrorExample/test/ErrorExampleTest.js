@@ -1,5 +1,6 @@
 import React from "react";
 import {shallow} from "enzyme";
+import {expect} from "chai";
 
 import ErrorExample from "../ErrorExample.js";
 import * as errorExampleRoutes from "../routes.js";
@@ -47,4 +48,3 @@ describe("Error Example", () => {
         });
     });
 });
-

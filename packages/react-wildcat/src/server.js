@@ -21,20 +21,30 @@ require("./utils/customMorganTokens")(morgan, "🏈");
 const Logger = require("./utils/logger");
 const logger = new Logger("🏈");
 
-const renderReactWithJspm = require("./middleware/renderReactWithJspm");
+const renderReactWithWebpack = require("./middleware/renderReactWithWebpack");
 
 let server;
 
 function start() {
     const wildcatConfig = require("./utils/getWildcatConfig")(cwd);
-    if (process.env.DEBUG && process.env.DEBUG.includes("wildcat")) {
-        require("./memory")(logger);
-    }
 
     const {
-        generalSettings,
+        generalSettings: {
+            env: {
+                __PROD__,
+                __TEST__,
+                DEBUG,
+                NODE_ENV
+            },
+            logLevel,
+            originUrl
+        },
         serverSettings
     } = wildcatConfig;
+
+    if (DEBUG && DEBUG.includes("wildcat")) {
+        require("./memory")(logger);
+    }
 
     const {
         appServer: appServerSettings
@@ -53,11 +63,7 @@ function start() {
 
     lifecycleHook("onBeforeStart");
 
-    const morganOptions = getMorganOptions(generalSettings.logLevel, serverSettings);
-
-    const __PROD__ = (process.env.NODE_ENV === "production");
-    const __TEST__ = (process.env.BABEL_ENV === "test");
-
+    const morganOptions = getMorganOptions(logLevel, serverSettings);
     let cpuCount = appServerSettings.maxClusterCpuCount;
 
     if (cpuCount === Infinity) {
@@ -131,7 +137,7 @@ function start() {
                 }));
             });
 
-            // Allow custom middleware priority over react/jspm/render from below
+            // Allow custom middleware priority over react/render from below
             // otherwise server-only routes will receive 404's.
             if (appServerSettings.middleware && appServerSettings.middleware.length) {
                 appServerSettings.middleware.forEach(function eachCustomAppMiddleware(middlewareConfigFunction, index) {
@@ -147,7 +153,7 @@ Middleware at serverSettings.appServer.middleware[${index}] could not be correcl
                 });
             }
 
-            app.use(renderReactWithJspm(cwd, {
+            app.use(renderReactWithWebpack(cwd, {
                 logger,
                 wildcatConfig
             }));
@@ -185,13 +191,13 @@ Middleware at serverSettings.appServer.middleware[${index}] could not be correcl
                     if (__PROD__) {
                         logger.ok("Node server is running on pid", process.pid);
                     } else {
-                        logger.ok(`Node server is running at ${generalSettings.originUrl} on pid`, process.pid);
+                        logger.ok(`Node server is running at ${originUrl} on pid`, process.pid);
                     }
 
                     lifecycleHook("onAfterStart");
 
                     resolve({
-                        env: process.env.NODE_ENV,
+                        env: NODE_ENV,
                         server
                     });
                 }

@@ -1,8 +1,8 @@
+.cache
 .idea
 *.gz
 bin/
 bundles/
-jspm_packages/
 newrelic_agent.log
 node_modules/
 npm-debug.log

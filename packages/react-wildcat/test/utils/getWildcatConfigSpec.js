@@ -7,8 +7,6 @@ chai.use(sinonChai);
 const proxyquire = require("proxyquire").noPreserveCache();
 
 module.exports = (stubs) => {
-    "use strict";
-
     describe("getWildcatConfig", () => {
         it("returns a Wildcat configuration object", () => {
             const getWildcatConfig = require("../../src/utils/getWildcatConfig");

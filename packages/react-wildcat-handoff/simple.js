@@ -1,1 +1,1 @@
-module.exports = require("./lib/simple.js");
+module.exports = require("./src/simple.js");

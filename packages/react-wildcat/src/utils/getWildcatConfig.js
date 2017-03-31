@@ -4,7 +4,7 @@ module.exports = function getWildcatConfig(cwd = process.cwd()) {
     const path = require("path");
     const merge = require("deepmerge");
 
-    const defaultConfig = require("./templates/wildcat.config.js");
+    const defaultConfig = require("../config/wildcat.config.js");
     const projectConfigFile = path.join(cwd, "wildcat.config.js");
 
     let wildcatConfig = defaultConfig;

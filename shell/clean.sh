@@ -4,9 +4,7 @@ set -u
 
 # Remove root node modules
 rm -fr node_modules;
-
-# Remove root jspm packages
-rm -fr jspm_packages;
+rm -f yarn.lock;
 
 # Set up links
 for directory in packages/*; do
@@ -19,9 +17,7 @@ for directory in packages/*; do
 
             # Remove node modules
             rm -fr node_modules;
-
-            # Remove jspm packages
-            rm -fr jspm_packages;
+            rm -f yarn.lock;
         )
     fi
 done

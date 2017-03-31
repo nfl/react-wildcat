@@ -4,8 +4,6 @@ const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 
 module.exports = (stubs) => {
-    "use strict";
-
     describe("blueBoxOfDeath", () => {
         it("returns an HTML template", () => {
             const blueBoxOfDeath = require("../../src/utils/blueBoxOfDeath");
@@ -37,6 +35,16 @@ module.exports = (stubs) => {
 
                 expect(template)
                     .to.contain(test.content);
+            });
+        });
+
+        it("handles a Webpack error", () => {
+            const blueBoxOfDeath = require("../../src/utils/blueBoxOfDeath");
+            const template = blueBoxOfDeath(stubs.errorArrayStub, stubs.failedRequest);
+
+            stubs.errorArrayStub.forEach(errorStub => {
+                expect(template)
+                    .to.contain(errorStub.message);
             });
         });
 

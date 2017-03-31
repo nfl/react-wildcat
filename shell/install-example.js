@@ -12,8 +12,9 @@ cd(example);
 // Install node modules
 exec(`yarn install`);
 
-// Install jspm packages
-exec(`jspm install --log warn -y`);
+// Fix a bug where Webpack does not dedupe node_modules in linked packages
+exec(`rm -fr ./node_modules/react-helmet`);
+exec(`ln -sfv ./react-wildcat-handoff/node_modules/react-helmet ./node_modules/react-helmet`);
 
 cd(cwd);
 
@@ -32,12 +33,6 @@ ls("packages").forEach((loc) => {
     // Link package to npm
     exec(`yarn install`);
     exec(`yarn link --force ${pkg.name}`);
-
-    if (pkg.name !== "react-wildcat" && pkg.name !== "react-wildcat-test-runners") {
-        // Link package to jspm
-        console.log(`jspm install --link npm:${pkg.name}@${pkg.version} --log warn -y`);
-        exec(`jspm install --link npm:${pkg.name}@${pkg.version} --log warn -y`);
-    }
 
     cd(cwd);
 });

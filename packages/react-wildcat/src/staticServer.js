@@ -6,10 +6,8 @@ const cors = require("koa-cors");
 const compress = require("koa-compress");
 const serve = require("koa-file-server");
 
-const fs = require("fs-extra");
 const cwd = process.cwd();
 const path = require("path");
-const pathExists = require("path-exists");
 
 const http = require("http");
 const http2 = require("spdy");
@@ -22,15 +20,25 @@ require("./utils/customMorganTokens")(morgan, "☁️");
 const Logger = require("./utils/logger");
 const logger = new Logger("☁️");
 
-const babelDevTranspiler = require("./middleware/babelDevTranspiler");
-
 let server;
 
 function start() {
     const wildcatConfig = require("./utils/getWildcatConfig")(cwd);
 
     const {
-        generalSettings,
+        generalSettings: {
+            env: {
+                __DEV__,
+                __PROD__,
+                __TEST__,
+                NODE_ENV
+            },
+            logLevel,
+            staticUrl
+        },
+        clientSettings: {
+            webpackDevSettings
+        },
         serverSettings
     } = wildcatConfig;
 
@@ -50,13 +58,7 @@ function start() {
 
     lifecycleHook("onBeforeStart");
 
-    const morganOptions = getMorganOptions(generalSettings.logLevel, serverSettings);
-
-    const __PROD__ = (process.env.NODE_ENV === "production");
-    const __TEST__ = (process.env.BABEL_ENV === "test");
-
-    let babelOptions = {};
-
+    const morganOptions = getMorganOptions(logLevel, serverSettings);
     let cpuCount = staticServerSettings.maxClusterCpuCount;
 
     if (cpuCount === Infinity) {
@@ -64,12 +66,6 @@ function start() {
     }
 
     if (!__PROD__ || __TEST__) {
-        const babelRcPath = path.join(cwd, ".babelrc");
-
-        if (pathExists.sync(babelRcPath)) {
-            babelOptions = JSON.parse(fs.readFileSync(babelRcPath));
-        }
-
         https.globalAgent.options.rejectUnauthorized = false;
 
         if (!wildcatConfig.__ClusterServerTest__) {
@@ -115,44 +111,45 @@ function start() {
 
             lifecycleHook("onStart");
 
-            // enable cors
-            app.use(cors({
-                origin: function origin(ctx) {
-                    for (let i = 0, j = allowedOrigins.length; i < j; i++) {
-                        const allowedOrigin = allowedOrigins[i];
-                        const hostname = ctx.header.host.split(":")[0];
+            /* istanbul ignore next */
+            if (allowedOrigins) {
+                // enable cors
+                app.use(cors({
+                    origin: function origin(ctx) {
+                        for (let i = 0, j = allowedOrigins.length; i < j; i++) {
+                            const allowedOrigin = allowedOrigins[i];
+                            const hostname = ctx.header.host.split(":")[0];
 
-                        /* istanbul ignore else */
-                        if (hostname.includes(allowedOrigin)) {
-                            return "*";
+                            if (hostname.includes(allowedOrigin)) {
+                                return "*";
+                            }
                         }
-                    }
 
-                    /* istanbul ignore next */
-                    return false;
-                }
-            }));
+                        return false;
+                    }
+                }));
+            }
 
             // add gzip
             app.use(compress());
 
             app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
 
-            if (!__PROD__ || __TEST__) {
-                app.use(babelDevTranspiler(cwd, {
-                    babelOptions,
-                    binDir: serverSettings.binDir,
-                    coverage: generalSettings.coverage,
-                    coverageSettings: generalSettings.coverageSettings,
-                    extensions: [".es6", ".js", ".es", ".jsx"],
-                    logger,
-                    logLevel: generalSettings.logLevel,
-                    origin: generalSettings.staticUrl,
-                    outDir: serverSettings.publicDir,
-                    sourceDir: serverSettings.sourceDir,
-                    minify: serverSettings.minifyTranspilerOutput,
-                    minifySettings: serverSettings.minifySettings
-                }));
+            if (__DEV__) {
+                const webpack = require("webpack");
+                const webpackDevMiddleware = require("koa-webpack-dev-middleware");
+                const webpackHotMiddleware = require("./middleware/webpackHotMiddleware");
+
+                const {
+                    devConfig,
+                    devMiddleware,
+                    hotMiddleware
+                } = require(path.resolve(cwd, webpackDevSettings));
+
+                const compiler = webpack(devConfig);
+
+                app.use(webpackDevMiddleware(compiler, devMiddleware));
+                app.use(webpackHotMiddleware(compiler, hotMiddleware));
             }
 
             // serve statics
@@ -185,37 +182,19 @@ function start() {
                 server = serverType.createServer(secureSettings, app.callback());
             }
 
-            if (!__PROD__) {
-                const startWebSocketServer = require("./utils/startWebSocketServer");
-
-                startWebSocketServer(cwd, {
-                    cache: fileServer.cache,
-                    server,
-                    watchOptions: {
-                        awaitWriteFinish: {
-                            pollInterval: 100,
-                            stabilityThreshold: 250
-                        },
-                        ignored: /\.(git|gz|map)|node_modules|jspm_packages|src/,
-                        ignoreInitial: true,
-                        persistent: true
-                    }
-                });
-            }
-
             server.listen(port, function serverListener() {
                 /* istanbul ignore else */
                 if (cluster.worker.id === cpuCount) {
                     if (__PROD__) {
                         logger.ok("Static server is running on pid", process.pid);
                     } else {
-                        logger.ok(`Static server is running at ${generalSettings.staticUrl} on pid`, process.pid);
+                        logger.ok(`Static server is running at ${staticUrl} on pid`, process.pid);
                     }
 
                     lifecycleHook("onAfterStart");
 
                     resolve({
-                        env: process.env.NODE_ENV,
+                        env: NODE_ENV,
                         server
                     });
                 }

@@ -1,12 +1,12 @@
 var React = require("react");
 var Router = require("react-router").Router;
+var ReactHotLoaderContainer = require("react-hot-loader").AppContainer;
 
 /**
  * Client Router is used to handle client routing
  * @return {Promise}
  */
 module.exports = function clientContext(cfg, headers, renderProps) {
-    /* eslint-disable react/no-multi-comp */
     var ClientContext = React.createClass({
         childContextTypes: {
             headers: React.PropTypes.shape({
@@ -39,5 +39,9 @@ module.exports = function clientContext(cfg, headers, renderProps) {
         }
     });
 
-    return React.createElement(ClientContext);
+    return React.createElement(
+        ReactHotLoaderContainer,
+        null,
+        React.createElement(ClientContext)
+    );
 };

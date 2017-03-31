@@ -6,8 +6,6 @@ chai.use(sinonChai);
 const chalk = require("chalk");
 
 module.exports = (stubs) => {
-    "use strict";
-
     describe("customMorganTokens", () => {
         const morgan = require("koa-morgan");
 

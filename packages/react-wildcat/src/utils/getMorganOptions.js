@@ -1,8 +1,6 @@
 const chalk = require("chalk");
 
 module.exports = function getMorganOptions(logLevel, serverSettings) {
-    "use strict";
-
     let skip = null;
     let logger, env;
 
@@ -30,8 +28,6 @@ module.exports = function getMorganOptions(logLevel, serverSettings) {
     let graylogData;
 
     const graylog = (req, res) => {
-        "use strict";
-
         if (logger && env) {
             graylogData = {
                 "HTTP_host": req.headers.host,
@@ -48,8 +44,6 @@ module.exports = function getMorganOptions(logLevel, serverSettings) {
         skip: graylog,
         stream: {
             write: (data) => {
-                "use strict";
-
                 if (logger && env) {
                     logger.debug(chalk.stripColor(data), graylogData);
                 }
