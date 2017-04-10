@@ -7,7 +7,7 @@ module.exports = {
     target: "web",
     devtool: false,
     output: {
-        path: "./dist",
+        path: `${__dirname}/dist`,
         filename: "[name].js",
         library: "react-wildcat-handoff",
         libraryTarget: "commonjs2"
