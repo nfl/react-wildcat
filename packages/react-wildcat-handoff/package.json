@@ -1,6 +1,6 @@
 {
   "name": "react-wildcat-handoff",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "Default client/server rendering for react-wildcat",
   "dependencies": {
     "cookie": "^0.3.1",

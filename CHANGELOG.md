@@ -1,3 +1,26 @@
+<a name="7.0.1"></a>
+# [7.0.1](https://github.com/nfl/react-wildcat/compare/7.0.0...v7.0.1) (2017-04-10)
+
+
+### Bug Fixes
+
+* **react-wildcat:** Remove uws dependency
+
+<a name="7.0.0"></a>
+# [7.0.0](https://github.com/nfl/react-wildcat/compare/6.2.0...7.0.0) (2017-04-10)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Fix domain resolution bug ([#188](https://github.com/nfl/react-wildcat/issues/188)) ([c331a13](https://github.com/nfl/react-wildcat/commit/c331a13))
+
+
+### Features
+
+* Webpack 2 ([#194](https://github.com/nfl/react-wildcat/issues/194)) ([92a7000](https://github.com/nfl/react-wildcat/commit/92a7000))
+
+
+
 <a name="6.2.1"></a>
 # [6.2.1](https://github.com/nfl/react-wildcat/compare/6.2.0...v6.2.1) (2017-02-14)
 
