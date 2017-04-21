@@ -71,8 +71,8 @@ function mapSubdomainToAlias(host, domainAliases) {
         var subdomainAliases = {
             "local": defaultSubdomain
         };
-        var result = subdomainAliases[subdomain] || defaultSubdomain;
-        return result;
+
+        return subdomainAliases[subdomain] || subdomain || defaultSubdomain;
     }
 
     return getLeadingLeafDomain(resolvedHost) || defaultSubdomain;
@@ -80,7 +80,6 @@ function mapSubdomainToAlias(host, domainAliases) {
 
 function getDomainDataFromHost(host, domains) {
     var hostExcludingPort = (host || "").split(":")[0];
-    var resolvedSubdomain = mapSubdomainToAlias(host, domains.domainAliases);
 
     var url = parseDomain(host, {
         customTlds: [
@@ -92,13 +91,17 @@ function getDomainDataFromHost(host, domains) {
         ]
     }) || {
         domain: hostExcludingPort,
-        subdomain: resolvedSubdomain,
+        subdomain: undefined,
         tld: undefined
     };
 
     var resolvedDomain = mapDomainToAlias(url.domain, domains.domainAliases);
-    url.domain = resolvedDomain;
-    url.subdomain = url.subdomain.length ? url.subdomain : defaultSubdomain;
+    var resolvedSubdomain = url.subdomain ? mapSubdomainToAlias(host, domains.domainAliases) : null;
+
+    url = Object.assign({}, url, {
+        domain: resolvedDomain,
+        subdomain: resolvedSubdomain || url.subdomain || defaultSubdomain
+    });
 
     return url;
 }
