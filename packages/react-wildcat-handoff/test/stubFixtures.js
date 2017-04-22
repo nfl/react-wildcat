@@ -341,6 +341,7 @@ exports.domainAliases = {
     "example": {
         "www": [
             "localhost",
+            "example",
             "www.example",
             "127.0.0.1"
         ],
