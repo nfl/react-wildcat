@@ -488,6 +488,60 @@ describe("react-wildcat-handoff/server", () => {
             });
         });
 
+        context("matches correct alias with multiple domain aliases", () => {
+            ["async", "sync"].forEach((timing) => {
+                it(timing, (done) => {
+                    const serverHandoff = server(stubs.domainsWithMultipleAliases[timing]);
+
+                    expect(serverHandoff)
+                        .to.be.a("function")
+                        .that.has.property("name")
+                        .that.equals("serverHandoff");
+
+                    const result = serverHandoff(stubs.requests.basic, stubs.cookieParser, stubs.wildcatConfig)
+                        .then(response => {
+                            expect(response)
+                                .to.be.an("object")
+                                .that.has.property("html")
+                                .that.is.a("string");
+
+                            done();
+                        })
+                        .catch(error => done(error));
+
+                    expect(result)
+                        .to.be.an.instanceof(Promise);
+                });
+            });
+        });
+
+        context("matches correct alias with multiple domain aliases", () => {
+            ["async", "sync"].forEach((timing) => {
+                it(timing, (done) => {
+                    const serverHandoff = server(stubs.domainsWithMultipleAliases[timing]);
+
+                    expect(serverHandoff)
+                        .to.be.a("function")
+                        .that.has.property("name")
+                        .that.equals("serverHandoff");
+
+                    const result = serverHandoff(stubs.requests.external, stubs.cookieParser, stubs.wildcatConfig)
+                        .then(response => {
+                            expect(response)
+                                .to.be.an("object")
+                                .that.has.property("html")
+                                .that.is.a("string");
+
+                            done();
+                        })
+                        .catch(error => done(error));
+
+                    expect(result)
+                        .to.be.an.instanceof(Promise);
+                });
+            });
+        });
+
         context("matches domain aliases with host name", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
@@ -547,6 +601,29 @@ describe("react-wildcat-handoff/server", () => {
                 .that.equals("serverHandoff");
 
             const result = serverHandoff(stubs.requests.ip, stubs.cookieParser, stubs.wildcatConfig)
+                .then(response => {
+                    expect(response)
+                        .to.be.an("object")
+                        .that.has.property("html")
+                        .that.is.a("string");
+
+                    done();
+                })
+                .catch(error => done(error));
+
+            expect(result)
+                .to.be.an.instanceof(Promise);
+        });
+
+        it("resolves to host with a string domain alias", (done) => {
+            const serverHandoff = server(stubs.domainsWithMultipleAliases.sync);
+
+            expect(serverHandoff)
+                .to.be.a("function")
+                .that.has.property("name")
+                .that.equals("serverHandoff");
+
+            const result = serverHandoff(stubs.requests.external, stubs.cookieParser, stubs.wildcatConfig)
                 .then(response => {
                     expect(response)
                         .to.be.an("object")

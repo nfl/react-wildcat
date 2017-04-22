@@ -14,10 +14,10 @@ function mapDomainToAlias(host, domainAliases) {
     var resolvedHost = host;
 
     if (typeof domainAliases === "object") {
-        Object.keys(domainAliases)
+        Object
+            .keys(domainAliases)
             .forEach(function withAlias(alias) {
                 var possibleHosts = domainAliases[alias];
-
                 if (Array.isArray(possibleHosts)) {
                     possibleHosts.forEach(function withPossibleHost(possibleHost) {
                         if (String(host) === String(possibleHost)) {
@@ -25,20 +25,23 @@ function mapDomainToAlias(host, domainAliases) {
                         }
                     });
                 } else if (typeof possibleHosts === "object") {
-                    var hasHost = Object
+                    Object
                         .keys(possibleHosts)
-                        .reduce(function mergeArrays(acc, possibleHost) {
-                            return acc.concat(possibleHosts[possibleHost]);
-                        }, [])
-                        .reduce(function checkHost(acc, possibleHost) {
-                            return typeof acc === "boolean" ?
-                                acc || String(possibleHost) === String(resolvedHost) :
-                                String(acc) === String(resolvedHost);
-                        });
+                        .forEach(possibleHost => {
+                            const possibleHostAlias = possibleHosts[possibleHost];
+                            if (Array.isArray(possibleHostAlias)) {
+                                let currentHost = resolvedHost;
+                                possibleHostAlias
+                                    .filter(hostAlias => hostAlias)
+                                    .forEach(hostAlias => {
+                                        if (hostAlias.endsWith(resolvedHost)) {
+                                            currentHost = alias;
+                                        }
+                                    });
 
-                    if (hasHost) {
-                        resolvedHost = alias;
-                    }
+                                resolvedHost = currentHost;
+                            }
+                        });
                 } else {
                     resolvedHost = alias;
                 }

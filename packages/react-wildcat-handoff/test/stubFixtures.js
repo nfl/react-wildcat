@@ -41,6 +41,14 @@ exports.requests = {
         url: "/"
     },
 
+    external: {
+        header: {
+            host: "www.aliastoexternal.com",
+            "user-agent": exports.stubUserAgent
+        },
+        url: "/"
+    },
+
     hostname: {
         header: {
             host: "example",
@@ -349,6 +357,21 @@ exports.domainAliases = {
     }
 };
 
+exports.domainAliasesMultiple = {
+    "internal": {
+        "foo": [
+            "www.aliastointernal",
+            "www.otheraliastointernal"
+        ]
+    },
+    "example": {
+        "www": ["127.0.0.1"]
+    },
+    "external": {
+        "test": ["www.aliastoexternal"]
+    }
+};
+
 exports.domainAliasesNoSubdomain = {
     "example": [
         "localhost",
@@ -400,10 +423,43 @@ exports.domains = {
     domainAliasesStringOnly: {
         domains: {
             domainAliases: exports.domainAliasesStringOnly,
-            example: exports.subdomains.sync
+            example: exports.subdomains.sync,
+            external: {
+                test: routes
+            }
         }
     }
 
+};
+
+exports.domainsWithMultipleAliases = {
+    async: {
+        domains: {
+            domainAliases: exports.domainAliasesMultiple,
+            example: function getExampleRoutes(location, cb) {
+                return setTimeout(() => cb(null, exports.subdomains.async), 0);
+            },
+            external: function getExternalRoutes(location, cb) {
+                return setTimeout(() => cb(null, {
+                    domains: {
+                        test: function getWWWRoutes(location2, cb2) {
+                            return setTimeout(() => cb2(null, routes), 0);
+                        }
+                    }
+                }), 0);
+            }
+        }
+    },
+
+    sync: {
+        domains: {
+            domainAliases: exports.domainAliasesMultiple,
+            example: exports.subdomains.sync,
+            external: {
+                test: routes
+            }
+        }
+    }
 };
 
 exports.domainsWithoutAliasedSubdomains = {
