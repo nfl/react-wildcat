@@ -180,3 +180,5 @@ module.exports = function getDomainRoutes(domains, headers, cb) {
 
     return resolveDomain(host, cb);
 };
+module.exports.mapDomainToAlias = mapDomainToAlias;
+module.exports.mapSubdomainToAlias = mapSubdomainToAlias;
