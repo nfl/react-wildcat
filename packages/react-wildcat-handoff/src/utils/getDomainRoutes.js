@@ -28,9 +28,9 @@ function mapDomainToAlias(host, domainAliases) {
                     Object
                         .keys(possibleHosts)
                         .forEach(function withPossibleHost(possibleHost) {
-                            const possibleHostAlias = possibleHosts[possibleHost];
+                            var possibleHostAlias = possibleHosts[possibleHost];
                             if (Array.isArray(possibleHostAlias)) {
-                                let currentHost = resolvedHost;
+                                var currentHost = resolvedHost;
                                 possibleHostAlias
                                     .filter(function filterHostAlias(hostAlias) {
                                         return hostAlias;
