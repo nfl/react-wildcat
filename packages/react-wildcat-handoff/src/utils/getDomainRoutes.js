@@ -27,13 +27,15 @@ function mapDomainToAlias(host, domainAliases) {
                 } else if (typeof possibleHosts === "object") {
                     Object
                         .keys(possibleHosts)
-                        .forEach(possibleHost => {
+                        .forEach(function withPossibleHost(possibleHost) {
                             const possibleHostAlias = possibleHosts[possibleHost];
                             if (Array.isArray(possibleHostAlias)) {
                                 let currentHost = resolvedHost;
                                 possibleHostAlias
-                                    .filter(hostAlias => hostAlias)
-                                    .forEach(hostAlias => {
+                                    .filter(function filterHostAlias(hostAlias) {
+                                        return hostAlias;
+                                    })
+                                    .forEach(function withHostAlias(hostAlias) {
                                         if (hostAlias.endsWith(resolvedHost)) {
                                             currentHost = alias;
                                         }
