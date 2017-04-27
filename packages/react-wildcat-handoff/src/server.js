@@ -25,6 +25,7 @@ function render(cfg) {
             pathname: request.url,
             protocol: request.protocol,
             referrer: request.header.referer,
+            search: request.url.split("?")[1] || "",
             userAgent: request.header["user-agent"] || "*"
         };
 

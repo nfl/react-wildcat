@@ -26,6 +26,7 @@ function render(cfg) {
         pathname: window.location.pathname,
         protocol: window.location.protocol,
         referrer: document.referrer,
+        search: window.location.search,
         userAgent: window.navigator.userAgent
     };
 
