@@ -1,3 +1,12 @@
+<a name="7.0.2"></a>
+## [7.0.2](https://github.com/nfl/react-wildcat/compare/6.2.0...7.0.2) (2017-04-22)
+
+
+### Bug Fixes
+
+* **getDomainRoutes:** Fix domain resolution bug ([#188](https://github.com/nfl/react-wildcat/issues/188)) ([c331a13](https://github.com/nfl/react-wildcat/commit/c331a13))
+* **react-wildcat-handoff:** Handle subdomain aliases in getDomainRoutes ([#197](https://github.com/nfl/react-wildcat/issues/197)) ([7fdbe60](https://github.com/nfl/react-wildcat/commit/7fdbe60))
+
 <a name="7.0.1"></a>
 # [7.0.1](https://github.com/nfl/react-wildcat/compare/7.0.0...v7.0.1) (2017-04-10)
 
