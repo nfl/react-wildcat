@@ -20,6 +20,9 @@ function render(cfg) {
         const headers = {
             cookies: cookie.parse(request.header.cookie || ""),
             host: request.header.host,
+            href: `${request.protocol}://${request.header.host}${request.url}`,
+            method: request.method,
+            pathname: request.url,
             protocol: request.protocol,
             referrer: request.header.referer,
             userAgent: request.header["user-agent"] || "*"

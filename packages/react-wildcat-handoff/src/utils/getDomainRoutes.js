@@ -129,7 +129,7 @@ function resolveSubdomain(domains, subdomain) {
 }
 
 function completeGetDomainRoutes(resolveOptions, cb) {
-    var host = resolveOptions.host;
+    var headers = resolveOptions.headers;
     var domainRoutes = resolveOptions.domainRoutes;
     var subdomain = resolveOptions.subdomain;
 
@@ -140,7 +140,7 @@ function completeGetDomainRoutes(resolveOptions, cb) {
         return cb(null, subdomainResult);
     }
 
-    return subdomainResult(host, cb);
+    return subdomainResult(headers, cb);
 }
 
 module.exports = function getDomainRoutes(domains, headers, cb) {
@@ -153,6 +153,7 @@ module.exports = function getDomainRoutes(domains, headers, cb) {
 
     if (domains[domain]) {
         var resolveOptions = {
+            headers: headers,
             subdomain: subdomain,
             host: host
         };
@@ -164,7 +165,7 @@ module.exports = function getDomainRoutes(domains, headers, cb) {
             return completeGetDomainRoutes(resolveOptions, cb);
         }
 
-        return resolveDomain(host, function getSubDomainRoutes(error, domainRoutes) {
+        return resolveDomain(headers, function getSubDomainRoutes(error, domainRoutes) {
             if (error) {
                 return cb(error);
             }
@@ -180,7 +181,7 @@ module.exports = function getDomainRoutes(domains, headers, cb) {
         return cb(null, resolveDomain);
     }
 
-    return resolveDomain(host, cb);
+    return resolveDomain(headers, cb);
 };
 module.exports.mapDomainToAlias = mapDomainToAlias;
 module.exports.mapSubdomainToAlias = mapSubdomainToAlias;
