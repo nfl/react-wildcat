@@ -1,3 +1,13 @@
+<a name="7.1.1"></a>
+## [7.1.1](https://github.com/nfl/react-wildcat/compare/7.1.0...7.1.1) (2017-05-09)
+
+
+### Bug Fixes
+
+* **react-wildcat-prefetch:** Support custom initial data keys. ([9baead8](https://github.com/nfl/react-wildcat/commit/9baead8))
+
+
+
 <a name="7.0.1"></a>
 # [7.0.1](https://github.com/nfl/react-wildcat/compare/7.0.0...v7.0.1) (2017-04-10)
 

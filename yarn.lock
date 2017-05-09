@@ -3727,11 +3727,7 @@ loud-rejection@^1.0.0:
     currently-unhandled "^0.4.1"
     signal-exit "^3.0.0"
 
-lru-cache@2:
-  version "2.7.3"
-  resolved "https://registry.npmjs.org/lru-cache/-/lru-cache-2.7.3.tgz#6d4524e8b955f95d4f5b58851ce21dd72fb4e952"
-
-lru-cache@2.2.x:
+lru-cache@2, lru-cache@2.2.x:
   version "2.2.4"
   resolved "https://registry.npmjs.org/lru-cache/-/lru-cache-2.2.4.tgz#6c658619becf14031d0d0b594b16042ce4dc063d"
 
@@ -4677,9 +4673,9 @@ react-dom@15.4.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
 
-react-wildcat-prefetch@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.npmjs.org/react-wildcat-prefetch/-/react-wildcat-prefetch-6.2.0.tgz#4d7423561461eb1e6a168462226f71ee367a14a7"
+react-wildcat-prefetch@^7.1.1:
+  version "7.1.1"
+  resolved "https://registry.npmjs.org/react-wildcat-prefetch/-/react-wildcat-prefetch-7.1.1.tgz#7945dbee28a56d3a5d19fcf4f11cab4b645aa818"
   dependencies:
     exenv "^1.2.1"
     hoist-non-react-statics "^1.0.5"

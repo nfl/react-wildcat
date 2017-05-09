@@ -67,9 +67,11 @@ function getDisplayName(Comp) {
  */
 function prefetchWrap(action, options) {
     var key;
+    var initialDataKey;
 
     options = options || {};
     key = options.key || (typeof options === "string" ? options : __DEFAULT_ASYNC_DATA_KEY__);
+    initialDataKey = options.initialDataKey || __DEFAULT_INITIAL_DATA_KEY__;
 
     return function prefetchWrapper(ComposedComponent) {
         action = action || ComposedComponent[__DEFAULT_STATIC_METHOD__];
@@ -77,7 +79,7 @@ function prefetchWrap(action, options) {
 
         var Prefetch = React.createClass({
             propTypes: {
-                [__DEFAULT_INITIAL_DATA_KEY__]: React.PropTypes.string
+                [initialDataKey]: React.PropTypes.string
             },
 
             componentWillMount: function componentWillMount() {
@@ -85,7 +87,7 @@ function prefetchWrap(action, options) {
 
                 /* istanbul ignore else */
                 if (canUseDOM) {
-                    var initialDataID = this.props[__DEFAULT_INITIAL_DATA_KEY__] || __DEFAULT_INITIAL_DATA_KEY__;
+                    var initialDataID = this.props[initialDataKey] || initialDataKey;
 
                     var initialData = window[initialDataID] ? {
                         ...window[initialDataID]
