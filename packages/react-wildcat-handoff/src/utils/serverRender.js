@@ -136,10 +136,9 @@ function getHtmlNotFoundTemplate(serverSettings) {
             status: 404,
             html: htmlNotFoundTemplate
         };
-    } else {
-        return {
-            error: 'Not found',
-            status: 404
-        };
     }
+    return {
+        error: "Not found",
+        status: 404
+    };
 }
