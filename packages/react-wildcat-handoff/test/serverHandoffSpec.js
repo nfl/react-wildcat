@@ -86,6 +86,34 @@ describe("react-wildcat-handoff/server", () => {
                 .to.be.an.instanceof(Promise);
         });
 
+        it("returns custom 404 when a route is not found", (done) => {
+            const serverHandoff = server(stubs.routes.sync);
+
+            expect(serverHandoff)
+                .to.be.a("function")
+                .that.has.property("name")
+                .that.equals("serverHandoff");
+
+            const result = serverHandoff(stubs.requests.invalid, stubs.cookieParser, stubs.wildcatConfigWithHtmlNotFoundTemplate)
+                .then(response => {
+                    expect(response)
+                        .to.be.an("object")
+                        .that.has.property("html")
+                        .that.equals("<html><h1>Custom 404 Template</h1></html>");
+
+                    expect(response)
+                        .to.be.an("object")
+                        .that.has.property("status")
+                        .that.equals(404);
+
+                    done();
+                })
+                .catch(error => done(error));
+
+            expect(result)
+                .to.be.an.instanceof(Promise);
+        });
+
         it("returns 404 with an undefined ip address alias", (done) => {
             const serverHandoff = server(stubs.domains.domainAliasesUndefined);
 
