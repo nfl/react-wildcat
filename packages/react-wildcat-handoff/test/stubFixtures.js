@@ -227,6 +227,18 @@ exports.wildcatConfigRenderType = Object.assign({}, exports.wildcatConfig, {
     }
 });
 
+exports.wildcatConfigWithHtmlNotFoundTemplate = Object.assign({}, exports.wildcatConfig, {
+    serverSettings: {
+        hotReload: true,
+        hotReloader: "react-wildcat-hot-reloader",
+        renderType: "renderToString",
+        appServer: {
+            protocol: "https"
+        },
+        htmlNotFoundTemplate: "<html><h1>Custom 404 Template</h1></html>"
+    }
+});
+
 exports.wildcatConfigServiceWorkerEnabled = Object.assign({}, exports.wildcatConfig, {
     clientSettings: {
         serviceWorker: true

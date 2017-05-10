@@ -33,10 +33,7 @@ module.exports = function serverRender(cfg) {
                     status: 301
                 };
             } else if (!renderProps) {
-                result = {
-                    error: "Not found",
-                    status: 404
-                };
+                result = getHtmlNotFoundTemplate(wildcatConfig.serverSettings);
             } else {
                 let initialData = null;
 
@@ -131,3 +128,18 @@ module.exports = function serverRender(cfg) {
         });
     });
 };
+
+function getHtmlNotFoundTemplate(serverSettings) {
+    const {htmlNotFoundTemplate} = serverSettings;
+    if (htmlNotFoundTemplate) {
+        return {
+            status: 404,
+            html: htmlNotFoundTemplate
+        };
+    } else {
+        return {
+            error: 'Not found',
+            status: 404
+        };
+    }
+}

@@ -95,6 +95,9 @@ const wildcatConfig = {
         // BYO-HTML template
         // htmlTemplate: require("./customHtmlTemplate.js"),
 
+        // BYO-HTML 404 template
+        // htmlNotFoundTemplate: require("./customHtmlNotFoundTemplate.js"),
+
         // Graylog config options for the node server
         // https://www.npmjs.com/package/gelf-pro#configuration
         // graylog: {},
