@@ -1,3 +1,11 @@
+<a name="7.2.0"></a>
+## [7.2.0](https://github.com/nfl/react-wildcat/compare/7.1.1...7.2.0) (2017-05-10)
+
+
+### Features
+
+* **react-wildcat-handoff:** Custom 404 Error template support. ([77f3497](https://github.com/nfl/react-wildcat/commit/77f3497))
+
 <a name="7.1.1"></a>
 ## [7.1.1](https://github.com/nfl/react-wildcat/compare/7.1.0...7.1.1) (2017-05-09)
 
