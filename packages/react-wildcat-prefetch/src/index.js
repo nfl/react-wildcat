@@ -69,8 +69,7 @@ function prefetchWrap(action, options = {}) {
     const key =
         options.key ||
         (typeof options === "string" ? options : __DEFAULT_ASYNC_DATA_KEY__);
-    const initialDataKey =
-        options.initialDataKey || __DEFAULT_INITIAL_DATA_KEY__;
+    let initialDataKey = options.initialDataKey || __DEFAULT_INITIAL_DATA_KEY__;
 
     return function prefetchWrapper(ComposedComponent) {
         action = action || ComposedComponent[__DEFAULT_STATIC_METHOD__];
@@ -93,6 +92,12 @@ function prefetchWrap(action, options = {}) {
 
                 getKey: function getKey() {
                     return key;
+                },
+
+                setInitialDataKey: function setInitialDataKey(
+                    customInitialDataKey
+                ) {
+                    initialDataKey = customInitialDataKey;
                 }
             };
 
