@@ -1,3 +1,14 @@
+<a name="7.0.1"></a>
+## [7.0.1](https://github.com/nfl/react-wildcat/compare/7.1.1...7.0.1) (2017-05-11)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** getHtmlNotFoundTemplate now expects a function not a string ([4ee3345](https://github.com/nfl/react-wildcat/commit/4ee3345))
+* **react-wildcat-prefetch:** Add static method to override initial data key ([#205](https://github.com/nfl/react-wildcat/issues/205)) ([6f60448](https://github.com/nfl/react-wildcat/commit/6f60448))
+
+
+
 <a name="7.2.0"></a>
 # [7.2.0](https://github.com/nfl/react-wildcat/compare/7.1.1...7.2.0) (2017-05-11)
 

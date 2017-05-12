@@ -235,7 +235,7 @@ exports.wildcatConfigWithHtmlNotFoundTemplate = Object.assign({}, exports.wildca
         appServer: {
             protocol: "https"
         },
-        htmlNotFoundTemplate: "<html><h1>Custom 404 Template</h1></html>"
+        htmlNotFoundTemplate: () => "<html><h1>Custom 404 Template</h1></html>"
     }
 });
 
