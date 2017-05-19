@@ -711,6 +711,32 @@ describe("react-wildcat-handoff/server", () => {
         });
     });
 
+    context("not-found", () => {
+        it("returns a 404 status", (done) => {
+            const serverHandoff = server(stubs.notFoundRoute);
+
+            expect(serverHandoff)
+                .to.be.a("function")
+                .that.has.property("name")
+                .that.equals("serverHandoff");
+
+            const result = serverHandoff(stubs.requests.basic, stubs.cookieParser, stubs.wildcatConfig)
+                .then(response => {
+                    expect(response)
+                        .to.be.an("object")
+                        .that.has.property("status")
+                        .that.is.a("number")
+                        .that.equals(404);
+
+                    done();
+                })
+                .catch(error => done(error));
+
+            expect(result)
+                .to.be.an.instanceof(Promise);
+        });
+    });
+
     context("service worker", () => {
         it("renders when it's enabled under https", (done) => {
             const serverHandoff = server(stubs.prefetchedRoutes);

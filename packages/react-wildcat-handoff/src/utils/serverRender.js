@@ -37,6 +37,8 @@ module.exports = function serverRender(cfg) {
             } else {
                 let initialData = null;
 
+                const has404Status = has404StatusRouterProperty(renderProps.components);
+
                 return Promise.all(
                     renderProps.components
                         .filter(function renderPropsFilter(component) {
@@ -92,7 +94,7 @@ module.exports = function serverRender(cfg) {
 
                         result = Object.assign({}, result, {
                             html: html,
-                            status: 200
+                            status: has404Status? 404: 200
                         });
 
                         // Delete stored object
@@ -141,4 +143,8 @@ function getHtmlNotFoundTemplate(serverSettings) {
         error: "Not found",
         status: 404
     };
+}
+
+function has404StatusRouterProperty(components) {
+    return components.some(component => component.routerProps && component.routerProps.status === 404);
 }

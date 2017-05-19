@@ -268,6 +268,9 @@ exports.Application = React.createClass({
     }
 });
 
+const NotFoundApplication = exports.Application;
+NotFoundApplication.routerProps = {status: 404};
+
 const routes = React.createElement(
     Router.Route, {
         path: "/",
@@ -294,6 +297,15 @@ exports.routes = {
     sync: {
         routes
     }
+};
+
+exports.notFoundRoute = {
+    routes: React.createElement(
+        Router.Route, {
+            path: "/",
+            component: NotFoundApplication
+        }
+    )
 };
 
 exports.callbackError = new Error("Fake Error!");
