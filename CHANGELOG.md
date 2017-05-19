@@ -1,3 +1,13 @@
+<a name="7.3.0"></a>
+## [7.3.0](https://github.com/nfl/react-wildcat/compare/7.2.1...7.3.0) (2017-05-19)
+
+
+### Features
+
+* **handoff:** React components can be configured to return an http 404 status ([349ee8a](https://github.com/nfl/react-wildcat/commit/349ee8a))
+
+
+
 <a name="7.2.1"></a>
 ## [7.2.1](https://github.com/nfl/react-wildcat/compare/7.1.1...7.2.1) (2017-05-12)
 
