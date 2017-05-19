@@ -37,8 +37,16 @@ module.exports = function serverRender(cfg) {
             } else {
                 let initialData = null;
 
+                let httpStatusCode = 200;
+
                 return Promise.all(
                     renderProps.components
+                        .map(function updateHttpStatusCode(component) {
+                            if (component.routerProps && component.routerProps.status !== "undefined") {
+                                httpStatusCode = component.routerProps.status;
+                            }
+                            return component;
+                        })
                         .filter(function renderPropsFilter(component) {
                             return component.prefetch;
                         })
@@ -92,7 +100,7 @@ module.exports = function serverRender(cfg) {
 
                         result = Object.assign({}, result, {
                             html: html,
-                            status: 200
+                            status: httpStatusCode
                         });
 
                         // Delete stored object
