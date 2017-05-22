@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import radium from "radium";
 import {Link as RawLink} from "react-router";
 import {metrics} from "react-metrics";
@@ -13,7 +14,7 @@ const Link = radium(RawLink);
 
 class Application extends React.Component {
     static propTypes = {
-        children: React.PropTypes.node
+        children: PropTypes.node
     };
 
     render() {
@@ -23,21 +24,24 @@ class Application extends React.Component {
                     <header>
                         <nav role="navigation">
                             <ul>
-                                {links.map((link) => {
+                                {links.map(link => {
                                     const {text, ...rest} = link;
                                     return (
                                         <li key={text}>
-                                            <Link
-                                                style={styles.a}
-                                                {...rest}
-                                            >
+                                            <Link style={styles.a} {...rest}>
                                                 {text}
                                             </Link>
                                         </li>
                                     );
                                 })}
                                 <li>
-                                    <a href="not-found-route" key={404} style={styles.a}>404 Handling</a>
+                                    <a
+                                        href="not-found-route"
+                                        key={404}
+                                        style={styles.a}
+                                    >
+                                        404 Handling
+                                    </a>
                                 </li>
                             </ul>
                         </nav>
@@ -52,6 +56,4 @@ class Application extends React.Component {
 }
 
 export {Application as ApplicationComponent};
-export default metrics(metricsConfig)(
-    radium(Application)
-);
+export default metrics(metricsConfig)(radium(Application));

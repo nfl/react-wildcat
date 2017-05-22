@@ -1,4 +1,5 @@
 const React = require("react");
+const PropTypes = require("prop-types");
 const ExecutionEnvironment = require("exenv");
 const invariant = require("invariant");
 const hoistStatics = require("hoist-non-react-statics");
@@ -79,9 +80,9 @@ function prefetchWrap(action, options = {}) {
             state = {};
 
             static propTypes = {
-                [initialDataKey]: React.PropTypes.string,
-                location: React.PropTypes.shape({
-                    pathname: React.PropTypes.string.isRequired
+                [initialDataKey]: PropTypes.string,
+                location: PropTypes.shape({
+                    pathname: PropTypes.string.isRequired
                 }).isRequired
             };
 

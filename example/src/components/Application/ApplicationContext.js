@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import radium, {StyleRoot} from "radium";
 // import prefixAll from "radium-plugin-prefix-all";
 
@@ -6,14 +7,14 @@ import Application from "./Application.js";
 
 class ApplicationContext extends React.Component {
     static contextTypes = {
-        headers: React.PropTypes.shape({
-            host: React.PropTypes.string,
-            userAgent: React.PropTypes.string
+        headers: PropTypes.shape({
+            host: PropTypes.string,
+            userAgent: PropTypes.string
         })
     };
 
     static propTypes = {
-        children: React.PropTypes.any
+        children: PropTypes.any
     };
 
     render() {

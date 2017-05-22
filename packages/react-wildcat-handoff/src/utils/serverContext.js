@@ -1,4 +1,5 @@
 const React = require("react");
+const PropTypes = require("prop-types");
 const Router = require("react-router");
 
 const RouterContext = Router.RouterContext;
@@ -6,11 +7,11 @@ const RouterContext = Router.RouterContext;
 module.exports = function serverContext(request, headers, renderProps) {
     const ServerContext = React.createClass({
         childContextTypes: {
-            headers: React.PropTypes.shape({
-                cookies: React.PropTypes.object,
-                host: React.PropTypes.string,
-                referrer: React.PropTypes.string,
-                userAgent: React.PropTypes.string
+            headers: PropTypes.shape({
+                cookies: PropTypes.object,
+                host: PropTypes.string,
+                referrer: PropTypes.string,
+                userAgent: PropTypes.string
             })
         },
 
@@ -28,10 +29,15 @@ module.exports = function serverContext(request, headers, renderProps) {
         render() {
             const createElement = this.createElement;
 
-            return (
-                React.createElement(RouterContext, Object.assign({
-                    createElement
-                }, this.props, renderProps))
+            return React.createElement(
+                RouterContext,
+                Object.assign(
+                    {
+                        createElement
+                    },
+                    this.props,
+                    renderProps
+                )
             );
         }
     });

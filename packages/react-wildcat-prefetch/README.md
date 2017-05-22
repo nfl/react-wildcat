@@ -43,7 +43,7 @@ import prefetch from "react-wildcat-prefetch";
 @prefetch("https://example.com/data.json", {key: "asyncData"})
 class PrefetchExample extends React.Component {
     static propTypes = {
-        asyncData: React.PropTypes.object.isRequired
+        asyncData: PropTypes.object.isRequired
     };
 
     static defaultProps = {
