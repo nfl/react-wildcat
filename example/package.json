@@ -6,6 +6,7 @@
     "koa-favicon": "^1.2.1",
     "koa-route": "^2.4.2",
     "koa-static": "^2.0.0",
+    "prop-types": "^15.5.10",
     "radium": "^0.18.1",
     "react-dom": "^15.4.2",
     "react-helmet": "^4.0.0",

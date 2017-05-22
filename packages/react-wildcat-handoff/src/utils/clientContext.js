@@ -1,4 +1,5 @@
 var React = require("react");
+var PropTypes = require("prop-types");
 var Router = require("react-router").Router;
 var ReactHotLoaderContainer = require("react-hot-loader").AppContainer;
 
@@ -9,11 +10,11 @@ var ReactHotLoaderContainer = require("react-hot-loader").AppContainer;
 module.exports = function clientContext(cfg, headers, renderProps) {
     var ClientContext = React.createClass({
         childContextTypes: {
-            headers: React.PropTypes.shape({
-                cookies: React.PropTypes.object,
-                host: React.PropTypes.string,
-                referrer: React.PropTypes.string,
-                userAgent: React.PropTypes.string
+            headers: PropTypes.shape({
+                cookies: PropTypes.object,
+                host: PropTypes.string,
+                referrer: PropTypes.string,
+                userAgent: PropTypes.string
             })
         },
 
@@ -31,10 +32,15 @@ module.exports = function clientContext(cfg, headers, renderProps) {
         render: function render() {
             var createElement = this.createElement;
 
-            return (
-                React.createElement(Router, Object.assign({
-                    createElement: createElement
-                }, cfg, renderProps))
+            return React.createElement(
+                Router,
+                Object.assign(
+                    {
+                        createElement: createElement
+                    },
+                    cfg,
+                    renderProps
+                )
             );
         }
     });

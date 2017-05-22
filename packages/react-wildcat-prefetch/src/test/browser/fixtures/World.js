@@ -1,12 +1,13 @@
 /* eslint-disable react/prefer-es6-class, react/sort-comp */
 import React from "react";
+import PropTypes from "prop-types";
 
 const World = React.createClass({
     displayName: "World Component",
 
     propTypes: {
-        count: React.PropTypes.number,
-        title: React.PropTypes.string
+        count: PropTypes.number,
+        title: PropTypes.string
     },
 
     statics: {
