@@ -1,8 +1,9 @@
 /* eslint-disable react/prefer-es6-class, react/sort-comp */
 import React from "react";
 import PropTypes from "prop-types";
+import createReactClass from "create-react-class";
 
-const World = React.createClass({
+const World = createReactClass({
     displayName: "World Component",
 
     propTypes: {

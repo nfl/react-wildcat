@@ -4,6 +4,7 @@
   "description": "Default client/server rendering for react-wildcat",
   "dependencies": {
     "cookie": "^0.3.1",
+    "create-react-class": "^15.5.3",
     "history": "^3.2.1",
     "isomorphic-fetch": "^2.2.1",
     "parse-domain": "^1.0.0",
