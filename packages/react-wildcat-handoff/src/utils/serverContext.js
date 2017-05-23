@@ -1,11 +1,12 @@
 const React = require("react");
 const PropTypes = require("prop-types");
 const Router = require("react-router");
+const createReactClass = require("create-react-class");
 
 const RouterContext = Router.RouterContext;
 
 module.exports = function serverContext(request, headers, renderProps) {
-    const ServerContext = React.createClass({
+    const ServerContext = createReactClass({
         childContextTypes: {
             headers: PropTypes.shape({
                 cookies: PropTypes.object,

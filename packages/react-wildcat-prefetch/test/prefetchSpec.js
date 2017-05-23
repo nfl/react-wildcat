@@ -2,6 +2,7 @@ const React = require("react");
 const PropTypes = require("prop-types");
 const ReactDOMServer = require("react-dom/server");
 const Prefetch = require("../lib/index.js"); // eslint-disable-line import/default
+const createReactClass = require("create-react-class");
 
 const chai = require("chai");
 const expect = chai.expect;
@@ -13,7 +14,7 @@ describe("react-wildcat-prefetch", () => {
     context("data hydration", () => {
         context("hydration", () => {
             it("hydrates React components with server data", done => {
-                const MemoryHydrationTest = React.createClass({
+                const MemoryHydrationTest = createReactClass({
                     propTypes: {
                         asyncData: PropTypes.object
                     },

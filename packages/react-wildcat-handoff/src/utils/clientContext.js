@@ -2,13 +2,14 @@ var React = require("react");
 var PropTypes = require("prop-types");
 var Router = require("react-router").Router;
 var ReactHotLoaderContainer = require("react-hot-loader").AppContainer;
+var createReactClass = require("create-react-class");
 
 /**
  * Client Router is used to handle client routing
  * @return {Promise}
  */
 module.exports = function clientContext(cfg, headers, renderProps) {
-    var ClientContext = React.createClass({
+    var ClientContext = createReactClass({
         childContextTypes: {
             headers: PropTypes.shape({
                 cookies: PropTypes.object,

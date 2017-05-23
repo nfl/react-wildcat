@@ -4,6 +4,7 @@ const React = require("react");
 const Router = require("react-router");
 const prefetch = require("react-wildcat-prefetch");
 const cookie = require("cookie");
+const createReactClass = require("create-react-class");
 
 exports.stubUserAgent = "Mozilla/5.0";
 exports.rawCookie = "FOO=1; BAR=2";
@@ -261,7 +262,7 @@ exports.wildcatConfigServiceWorkerEnabledNoHttps = Object.assign({}, exports.wil
     }
 });
 
-exports.Application = React.createClass({
+exports.Application = createReactClass({
     displayName: "Application",
     render: function render() {
         return React.createElement("div");
