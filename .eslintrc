@@ -1,13 +1,17 @@
 {
-    "extends": "eslint-config-nfl",
+    "extends": ["eslint-config-nfl", "prettier"],
     "env": {
         "node": true,
         "mocha": true
     },
+    "plugins": [
+        "prettier"
+    ],
     "rules": {
         "prefer-arrow-callback": [2, {
             "allowNamedFunctions": true
-        }]
+        }],
+        "prettier/prettier": "error"
     },
     "globals": {
         "$": true,
