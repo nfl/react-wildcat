@@ -3,21 +3,9 @@ module.exports = function defaultTemplate({
     head,
     html,
     wildcatConfig: {
-        clientSettings: {
-            reactRootElementID,
-            serviceWorker
-        },
-        generalSettings: {
-            env: {
-                __PROD__
-            },
-            staticUrl
-        },
-        serverSettings: {
-            appServer: {
-                protocol
-            }
-        }
+        clientSettings: {reactRootElementID, serviceWorker},
+        generalSettings: {env: {__PROD__}, staticUrl},
+        serverSettings: {appServer: {protocol}}
     }
 }) {
     const helmetTags = Object.keys(head)
@@ -36,16 +24,20 @@ module.exports = function defaultTemplate({
     <body>
         <div id="${reactRootElementID}">${html}</div>
 
-        ${serviceWorker && protocol !== "http" ? `<script src="/register-sw.js"></script>` : ``}
+        ${serviceWorker && protocol !== "http"
+            ? `<script src="/register-sw.js"></script>`
+            : ``}
         <script>
             __INITIAL_DATA__ = ${JSON.stringify(data)};
             __REACT_ROOT_ID__ = "${reactRootElementID}";
         </script>
 
-        ${__PROD__ ? `
+        ${__PROD__
+            ? `
         <script defer src="${staticUrl}/bundles/manifest.bundle.js"></script>
         <script defer src="${staticUrl}/bundles/bootstrap.bundle.js"></script>
-        ` : `
+        `
+            : `
         <script defer src="${staticUrl}/bundles/dependencies.bundle.js"></script>
         `}
         <script defer src="${staticUrl}/bundles/app.bundle.js"></script>

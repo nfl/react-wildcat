@@ -7,7 +7,7 @@ const generalSettings = wildcatConfig.generalSettings;
 const coverageSettings = generalSettings.coverageSettings;
 
 // Karma configuration
-module.exports = function (karmaConfig) {
+module.exports = function(karmaConfig) {
     const unitReportDir = coverageSettings.unit.reporting.dir;
     const unitInstrumentation = coverageSettings.unit.instrumentation;
 
@@ -59,24 +59,25 @@ module.exports = function (karmaConfig) {
         // list of files to exclude
         exclude: [],
 
-        files: [{
-            pattern: "./node_modules/babel-polyfill/dist/polyfill.js",
-            included: true,
-            watched: false
-        }, {
-            pattern: "./src/test/unit/phantomShims.js",
-            included: true,
-            watched: false
-        }, {
-            pattern: "./src/test/unit/tests.js"
-        }],
+        files: [
+            {
+                pattern: "./node_modules/babel-polyfill/dist/polyfill.js",
+                included: true,
+                watched: false
+            },
+            {
+                pattern: "./src/test/unit/phantomShims.js",
+                included: true,
+                watched: false
+            },
+            {
+                pattern: "./src/test/unit/tests.js"
+            }
+        ],
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: [
-            "phantomjs-shim",
-            "mocha"
-        ],
+        frameworks: ["phantomjs-shim", "mocha"],
 
         // level of logging
         // possible values: karmaConfig.LOG_DISABLE || karmaConfig.LOG_ERROR || karmaConfig.LOG_WARN || karmaConfig.LOG_INFO || karmaConfig.LOG_DEBUG

@@ -8,9 +8,12 @@ const childProcesses = new Set();
  * @param  {Object}  options Options to pass to the spawner (https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options)
  * @return {Promise}         Returns a promise, resolves when the process is complete
  */
-export default function yawn(command, options = {
-    stdio: "inherit"
-}) {
+export default function yawn(
+    command,
+    options = {
+        stdio: "inherit"
+    }
+) {
     const [cmd, ...npmArgs] = command.trim().split(" ");
     const {resolveWhenLineIncludes} = options;
 
@@ -36,8 +39,12 @@ export default function yawn(command, options = {
                     process.stdout.write(string);
                 }
 
-                string.split("\n").forEach(line => { // eslint-disable-line consistent-return
-                    if (!foundMatch && line.trim().includes(resolveWhenLineIncludes)) {
+                string.split("\n").forEach(line => {
+                    // eslint-disable-line consistent-return
+                    if (
+                        !foundMatch &&
+                        line.trim().includes(resolveWhenLineIncludes)
+                    ) {
                         foundMatch = true;
 
                         process.stdout.write("\n");
@@ -48,7 +55,7 @@ export default function yawn(command, options = {
                 return undefined;
             });
         } else {
-            child.on("exit", (code) => {
+            child.on("exit", code => {
                 if (code !== 0) {
                     return reject(code);
                 }
@@ -57,7 +64,7 @@ export default function yawn(command, options = {
                 return resolve();
             });
 
-            child.on("error", (e) => {
+            child.on("error", e => {
                 childProcesses.delete(child);
                 return reject(e);
             });
@@ -66,7 +73,6 @@ export default function yawn(command, options = {
         childProcesses.add(child);
     });
 }
-
 
 /**
  * Kills all tracked child processes
@@ -79,7 +85,7 @@ function killAllChildProcesses(signal) {
 
 process.on("exit", () => process.emit("SIGINT"));
 process.on("SIGINT", () => killAllChildProcesses("SIGINT"));
-process.on("uncaughtException", (e) => {
+process.on("uncaughtException", e => {
     killAllChildProcesses("SIGINT");
     throw e;
 });

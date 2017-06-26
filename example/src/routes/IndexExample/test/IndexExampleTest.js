@@ -12,20 +12,15 @@ describe("Index Example", () => {
 
     context("render", () => {
         it("renders correctly", () => {
-            const indexExample = shallow(
-                <IndexExample />
-            );
+            const indexExample = shallow(<IndexExample />);
 
             expect(indexExample).to.exist;
         });
 
         it("renders #index element", () => {
-            const indexExample = shallow(
-                <IndexExample />
-            );
+            const indexExample = shallow(<IndexExample />);
 
-            expect(indexExample.find(`#index`))
-                .to.have.length.of(1);
+            expect(indexExample.find(`#index`)).to.have.length.of(1);
         });
     });
 
@@ -34,11 +29,10 @@ describe("Index Example", () => {
             expect(indexExampleRoutes).to.exist;
 
             // Index routes should not have a path
-            expect(indexExampleRoutes)
-                .to.not.have.property("path");
+            expect(indexExampleRoutes).to.not.have.property("path");
         });
 
-        it("asynchronously fetches component", (done) => {
+        it("asynchronously fetches component", done => {
             expect(indexExampleRoutes).to.exist;
             expect(indexExampleRoutes).to.respondTo("getComponent");
 

@@ -5,8 +5,8 @@
  */
 export default async (currentUrl, timeout = 10000) => {
     return await browser.wait(() => {
-        return browser.getCurrentUrl().then((url) => {
-            return (url !== currentUrl);
+        return browser.getCurrentUrl().then(url => {
+            return url !== currentUrl;
         });
     }, timeout);
 };

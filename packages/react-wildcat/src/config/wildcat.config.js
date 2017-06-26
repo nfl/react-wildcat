@@ -9,15 +9,11 @@ const defaultServerKey = getDefaultSSLFile("server.key");
 const defaultServerCert = getDefaultSSLFile("server.crt");
 const defaultServerCA = getDefaultSSLFile("server.csr");
 
-const {
-    BABEL_ENV,
-    DEBUG,
-    NODE_ENV
-} = process.env;
+const {BABEL_ENV, DEBUG, NODE_ENV} = process.env;
 
-const __TEST__ = (BABEL_ENV === "test");
-const __PROD__ = (NODE_ENV === "production");
-const __DEV__ = (NODE_ENV === "development");
+const __TEST__ = BABEL_ENV === "test";
+const __PROD__ = NODE_ENV === "production";
+const __DEV__ = NODE_ENV === "development";
 
 /* istanbul ignore next */
 const wildcatConfig = {
@@ -188,9 +184,7 @@ const wildcatConfig = {
         // config options for the static server
         staticServer: {
             // An array of domains to allow for cross-origin requests
-            corsOrigins: [
-                "localhost"
-            ],
+            corsOrigins: ["localhost"],
 
             // Server gzipped assets?
             gzip: __PROD__ && !__TEST__,

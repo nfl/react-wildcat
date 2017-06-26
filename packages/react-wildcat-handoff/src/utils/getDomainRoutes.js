@@ -14,40 +14,38 @@ function mapDomainToAlias(host, domainAliases) {
     var resolvedHost = host;
 
     if (typeof domainAliases === "object") {
-        Object
-            .keys(domainAliases)
-            .forEach(function withAlias(alias) {
-                var possibleHosts = domainAliases[alias];
-                if (Array.isArray(possibleHosts)) {
-                    possibleHosts.forEach(function withPossibleHost(possibleHost) {
-                        if (String(host) === String(possibleHost)) {
-                            resolvedHost = alias;
-                        }
-                    });
-                } else if (typeof possibleHosts === "object") {
-                    Object
-                        .keys(possibleHosts)
-                        .forEach(function withPossibleHost(possibleHost) {
-                            var possibleHostAlias = possibleHosts[possibleHost];
-                            if (Array.isArray(possibleHostAlias)) {
-                                var currentHost = resolvedHost;
-                                possibleHostAlias
-                                    .filter(function filterHostAlias(hostAlias) {
-                                        return hostAlias;
-                                    })
-                                    .forEach(function withHostAlias(hostAlias) {
-                                        if (hostAlias.endsWith(resolvedHost)) {
-                                            currentHost = alias;
-                                        }
-                                    });
+        Object.keys(domainAliases).forEach(function withAlias(alias) {
+            var possibleHosts = domainAliases[alias];
+            if (Array.isArray(possibleHosts)) {
+                possibleHosts.forEach(function withPossibleHost(possibleHost) {
+                    if (String(host) === String(possibleHost)) {
+                        resolvedHost = alias;
+                    }
+                });
+            } else if (typeof possibleHosts === "object") {
+                Object.keys(possibleHosts).forEach(function withPossibleHost(
+                    possibleHost
+                ) {
+                    var possibleHostAlias = possibleHosts[possibleHost];
+                    if (Array.isArray(possibleHostAlias)) {
+                        var currentHost = resolvedHost;
+                        possibleHostAlias
+                            .filter(function filterHostAlias(hostAlias) {
+                                return hostAlias;
+                            })
+                            .forEach(function withHostAlias(hostAlias) {
+                                if (hostAlias.endsWith(resolvedHost)) {
+                                    currentHost = alias;
+                                }
+                            });
 
-                                resolvedHost = currentHost;
-                            }
-                        });
-                } else {
-                    resolvedHost = alias;
-                }
-            });
+                        resolvedHost = currentHost;
+                    }
+                });
+            } else {
+                resolvedHost = alias;
+            }
+        });
     }
 
     return resolvedHost;
@@ -57,24 +55,23 @@ function mapSubdomainToAlias(host, domainAliases) {
     var resolvedHost = host;
 
     if (typeof domainAliases === "object") {
-        Object.keys(domainAliases)
-            .forEach(function withAlias(alias) {
-                var possibleHosts = domainAliases[alias];
+        Object.keys(domainAliases).forEach(function withAlias(alias) {
+            var possibleHosts = domainAliases[alias];
 
-                if (Array.isArray(possibleHosts)) {
-                    possibleHosts.forEach(function withPossibleHost(possibleHost) {
-                        if (host.startsWith(possibleHost)) {
-                            resolvedHost = alias;
-                        }
-                    });
-                } else {
-                    resolvedHost = mapSubdomainToAlias(host, possibleHosts);
-                }
-            });
+            if (Array.isArray(possibleHosts)) {
+                possibleHosts.forEach(function withPossibleHost(possibleHost) {
+                    if (host.startsWith(possibleHost)) {
+                        resolvedHost = alias;
+                    }
+                });
+            } else {
+                resolvedHost = mapSubdomainToAlias(host, possibleHosts);
+            }
+        });
     } else {
         var subdomain = getLeadingLeafDomain(resolvedHost || defaultSubdomain);
         var subdomainAliases = {
-            "local": defaultSubdomain
+            local: defaultSubdomain
         };
 
         return subdomainAliases[subdomain] || subdomain || defaultSubdomain;
@@ -87,13 +84,7 @@ function getDomainDataFromHost(host, domains) {
     var hostExcludingPort = (host || "").split(":")[0];
 
     var url = parseDomain(host, {
-        customTlds: [
-            "dev",
-            "example",
-            "invalid",
-            "localhost",
-            "test"
-        ]
+        customTlds: ["dev", "example", "invalid", "localhost", "test"]
     }) || {
         domain: hostExcludingPort,
         subdomain: undefined,
@@ -101,7 +92,9 @@ function getDomainDataFromHost(host, domains) {
     };
 
     var resolvedDomain = mapDomainToAlias(url.domain, domains.domainAliases);
-    var resolvedSubdomain = url.subdomain ? mapSubdomainToAlias(host, domains.domainAliases) : null;
+    var resolvedSubdomain = url.subdomain
+        ? mapSubdomainToAlias(host, domains.domainAliases)
+        : null;
 
     url = Object.assign({}, url, {
         domain: resolvedDomain,
@@ -118,12 +111,14 @@ function resolveSubdomain(domains, subdomain) {
 
     var possibleSubdomains = Object.keys(domains);
 
-    var partialSubdomainMatch = possibleSubdomains.filter(function possibleSubdomain(sub) {
-        var leadingLeafDomain = getLeadingLeafDomain(subdomain);
-        return leadingLeafDomain.split("-").some(function domainPart(part) {
-            return part === sub;
-        });
-    })[0];
+    var partialSubdomainMatch = possibleSubdomains.filter(
+        function possibleSubdomain(sub) {
+            var leadingLeafDomain = getLeadingLeafDomain(subdomain);
+            return leadingLeafDomain.split("-").some(function domainPart(part) {
+                return part === sub;
+            });
+        }
+    )[0];
 
     return domains[partialSubdomainMatch];
 }
@@ -165,7 +160,10 @@ module.exports = function getDomainRoutes(domains, headers, cb) {
             return completeGetDomainRoutes(resolveOptions, cb);
         }
 
-        return resolveDomain(headers, function getSubDomainRoutes(error, domainRoutes) {
+        return resolveDomain(headers, function getSubDomainRoutes(
+            error,
+            domainRoutes
+        ) {
             if (error) {
                 return cb(error);
             }

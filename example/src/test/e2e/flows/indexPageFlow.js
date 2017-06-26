@@ -13,7 +13,7 @@ describe("Index Page", () => {
     const prefetchPage = new PrefetchPageObject();
     const helmetPage = new HelmetPageObject();
 
-    it("setup", async (done) => {
+    it("setup", async done => {
         try {
             await indexPage.getLocation();
 
@@ -31,7 +31,7 @@ describe("Index Page", () => {
 
     context("navigation", () => {
         context("server load", () => {
-            it("/ route", async (done) => {
+            it("/ route", async done => {
                 try {
                     await indexPage.sleepUntilPageAvailable();
 
@@ -46,7 +46,7 @@ describe("Index Page", () => {
         });
 
         context("browser load", () => {
-            it("/flexbox-example route", async (done) => {
+            it("/flexbox-example route", async done => {
                 try {
                     await flexboxPage.getNavigationLink().click();
                     await flexboxPage.sleepUntilPageAvailable();
@@ -60,7 +60,7 @@ describe("Index Page", () => {
                 }
             });
 
-            it("/prefetch-example route", async (done) => {
+            it("/prefetch-example route", async done => {
                 try {
                     await prefetchPage.getNavigationLink().click();
                     await prefetchPage.sleepUntilPageAvailable();
@@ -74,7 +74,7 @@ describe("Index Page", () => {
                 }
             });
 
-            it("/helmet-example route", async (done) => {
+            it("/helmet-example route", async done => {
                 try {
                     await helmetPage.getNavigationLink().click();
                     await helmetPage.sleepUntilPageAvailable();
@@ -88,7 +88,7 @@ describe("Index Page", () => {
                 }
             });
 
-            it("/ route", async (done) => {
+            it("/ route", async done => {
                 try {
                     await indexPage.getNavigationLink().click();
                     await indexPage.sleepUntilPageAvailable();

@@ -21,20 +21,29 @@ module.exports = function getWildcatConfig(cwd = process.cwd()) {
     } = wildcatConfig;
 
     // Add some convenience aliases
-    wildcatConfig = merge({
-        generalSettings: {
-            originUrl: url.format({
-                protocol: appServerSettings.protocol.replace("http2", "https"),
-                hostname: appServerSettings.hostname,
-                port: appServerSettings.port
-            }),
-            staticUrl: url.format({
-                protocol: staticServerSettings.protocol.replace("http2", "https"),
-                hostname: staticServerSettings.hostname,
-                port: staticServerSettings.port
-            })
-        }
-    }, wildcatConfig);
+    wildcatConfig = merge(
+        {
+            generalSettings: {
+                originUrl: url.format({
+                    protocol: appServerSettings.protocol.replace(
+                        "http2",
+                        "https"
+                    ),
+                    hostname: appServerSettings.hostname,
+                    port: appServerSettings.port
+                }),
+                staticUrl: url.format({
+                    protocol: staticServerSettings.protocol.replace(
+                        "http2",
+                        "https"
+                    ),
+                    hostname: staticServerSettings.hostname,
+                    port: staticServerSettings.port
+                })
+            }
+        },
+        wildcatConfig
+    );
 
     return wildcatConfig;
 };

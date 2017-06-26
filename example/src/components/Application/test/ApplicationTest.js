@@ -22,26 +22,26 @@ describe("Application", () => {
             const application = shallow(
                 <ApplicationContext>
                     <Application />
-                </ApplicationContext>
-            , {
-                context: {
-                    headers: {
-                        host: window.location.host,
-                        userAgent: window.navigator.userAgent
+                </ApplicationContext>,
+                {
+                    context: {
+                        headers: {
+                            host: window.location.host,
+                            userAgent: window.navigator.userAgent
+                        }
                     }
                 }
-            });
+            );
 
             expect(application).to.exist;
         });
 
         it("renders a list of links", () => {
-            const application = shallow(
-                <Application />
-            );
+            const application = shallow(<Application />);
 
-            expect(application.find(`nav[role="navigation"]`))
-                .to.have.length.of(1);
+            expect(
+                application.find(`nav[role="navigation"]`)
+            ).to.have.length.of(1);
         });
 
         it("renders children when passed in", () => {
@@ -51,10 +51,7 @@ describe("Application", () => {
                 </Application>
             );
 
-            expect(
-                application.contains(<div>{testChildText}</div>)
-            )
-                .to.be.true;
+            expect(application.contains(<div>{testChildText}</div>)).to.be.true;
         });
 
         after(() => {

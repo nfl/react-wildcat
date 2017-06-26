@@ -46,7 +46,10 @@ function getAction(action, ComposedComponent) {
 function invariantCheck(exists, key, action, ComposedComponent) {
     invariant(
         exists,
-        `Prefetch did not retrieve any data with key ${key} for component ${ComposedComponent.displayName}. This either means an error occurred attempting to reach the provided data endpoint${typeof action === "string" ? " " + action : ""}, or this component is a child of a route component. The Prefetch decorator can only be used on top-level route components.`
+        `Prefetch did not retrieve any data with key ${key} for component ${ComposedComponent.displayName}. This either means an error occurred attempting to reach the provided data endpoint${typeof action ===
+            "string"
+            ? " " + action
+            : ""}, or this component is a child of a route component. The Prefetch decorator can only be used on top-level route components.`
     );
 }
 
@@ -103,7 +106,9 @@ function prefetchWrap(action, options = {}) {
             };
 
             static WrappedComponent = ComposedComponent;
-            static displayName = `Prefetch(${getDisplayName(ComposedComponent)})`;
+            static displayName = `Prefetch(${getDisplayName(
+                ComposedComponent
+            )})`;
 
             componentWillMount() {
                 const canUseDOM = typeof options.canUseDOM !== "undefined"

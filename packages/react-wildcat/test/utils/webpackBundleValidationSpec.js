@@ -6,7 +6,7 @@ chai.use(sinonChai);
 
 const proxyquire = require("proxyquire");
 
-module.exports = (stubs) => {
+module.exports = stubs => {
     describe("webpackBundleValidation", () => {
         it("returns a validation object", () => {
             const webpackBundleValidation = require("../../src/utils/webpackBundleValidation");
@@ -16,28 +16,27 @@ module.exports = (stubs) => {
                 webpackDevSettings: stubs.devServerConfigFile
             });
 
-            expect(validate)
-                .to.exist;
+            expect(validate).to.exist;
 
-            expect(validate)
-                .to.be.an("object");
+            expect(validate).to.be.an("object");
 
-            expect(validate)
-                .to.respondTo("onReady");
+            expect(validate).to.respondTo("onReady");
 
-            expect(validate)
-                .to.respondTo("ready");
+            expect(validate).to.respondTo("ready");
         });
 
         context("onReady()", () => {
             it("waits for Webpack to be ready when the current bundle is invalid", () => {
                 const loggerStub = sinon.stub(stubs.logger, "info").returns();
 
-                const webpackBundleValidation = proxyquire("../../src/utils/webpackBundleValidation", {
-                    "webpack": () => ({
-                        watch() {}
-                    })
-                });
+                const webpackBundleValidation = proxyquire(
+                    "../../src/utils/webpackBundleValidation",
+                    {
+                        webpack: () => ({
+                            watch() {}
+                        })
+                    }
+                );
 
                 const validate = webpackBundleValidation(stubs.exampleDir, {
                     __DEV__: true,
@@ -52,31 +51,33 @@ module.exports = (stubs) => {
                 function onReadyHandler() {}
                 validate.onReady(onReadyHandler);
 
-                expect(validate)
-                    .to.have.property("_handlers")
+                expect(validate).to.have
+                    .property("_handlers")
                     .that.is.an("array")
                     .that.includes(onReadyHandler);
 
-                expect(loggerStub)
-                    .to.have.been.calledWith(
-                        "webpack: wait until bundle finished"
-                    );
+                expect(loggerStub).to.have.been.calledWith(
+                    "webpack: wait until bundle finished"
+                );
 
                 stubs.logger.info.restore();
             });
 
-            it("validates the current bundle when ready", (done) => {
+            it("validates the current bundle when ready", done => {
                 const loggerStub = sinon.stub(stubs.logger, "info").returns();
 
-                const webpackBundleValidation = proxyquire("../../src/utils/webpackBundleValidation", {
-                    "webpack": () => ({
-                        watch(opts, cb) {
-                            setTimeout(() => {
-                                cb(null, stubs.stats);
-                            });
-                        }
-                    })
-                });
+                const webpackBundleValidation = proxyquire(
+                    "../../src/utils/webpackBundleValidation",
+                    {
+                        webpack: () => ({
+                            watch(opts, cb) {
+                                setTimeout(() => {
+                                    cb(null, stubs.stats);
+                                });
+                            }
+                        })
+                    }
+                );
 
                 const validate = webpackBundleValidation(stubs.exampleDir, {
                     __DEV__: true,
@@ -89,31 +90,28 @@ module.exports = (stubs) => {
                 };
 
                 function onReadyHandler(err, stats) {
-                    expect(err)
-                        .to.not.exist;
+                    expect(err).to.not.exist;
 
-                    expect(stats)
-                        .to.be.an("object");
+                    expect(stats).to.be.an("object");
 
                     done();
                 }
 
                 validate.onReady(onReadyHandler);
 
-                expect(validate)
-                    .to.have.property("_handlers")
+                expect(validate).to.have
+                    .property("_handlers")
                     .that.is.an("array")
                     .that.includes(onReadyHandler);
 
-                expect(loggerStub)
-                    .to.have.been.calledWith(
-                        "webpack: wait until bundle finished"
-                    );
+                expect(loggerStub).to.have.been.calledWith(
+                    "webpack: wait until bundle finished"
+                );
 
                 stubs.logger.info.restore();
             });
 
-            it("returns callback in production mode", (done) => {
+            it("returns callback in production mode", done => {
                 const webpackBundleValidation = require("../../src/utils/webpackBundleValidation");
 
                 const validate = webpackBundleValidation(stubs.exampleDir, {
@@ -125,11 +123,9 @@ module.exports = (stubs) => {
                 validate._stats = {};
 
                 function onReadyHandler(err, stats) {
-                    expect(err)
-                        .to.not.exist;
+                    expect(err).to.not.exist;
 
-                    expect(stats)
-                        .to.exist;
+                    expect(stats).to.exist;
 
                     done();
                 }
@@ -139,16 +135,19 @@ module.exports = (stubs) => {
         });
 
         context("ready()", () => {
-            it("clears require cache of all Webpack-generated files", (done) => {
-                const webpackBundleValidation = proxyquire("../../src/utils/webpackBundleValidation", {
-                    "clear-require": (moduleName) => {
-                        expect(moduleName)
-                            .to.be.a("string")
-                            .that.equals(stubs.webpackFileStub);
+            it("clears require cache of all Webpack-generated files", done => {
+                const webpackBundleValidation = proxyquire(
+                    "../../src/utils/webpackBundleValidation",
+                    {
+                        "clear-require": moduleName => {
+                            expect(moduleName).to.be
+                                .a("string")
+                                .that.equals(stubs.webpackFileStub);
 
-                        done();
+                            done();
+                        }
                     }
-                });
+                );
 
                 const validate = webpackBundleValidation(stubs.exampleDir, {
                     __DEV__: false,
@@ -172,7 +171,7 @@ module.exports = (stubs) => {
                 });
             });
 
-            it("calls all pending handlers", (done) => {
+            it("calls all pending handlers", done => {
                 const webpackBundleValidation = require("../../src/utils/webpackBundleValidation");
                 let handlerCount = 0;
 
@@ -185,30 +184,23 @@ module.exports = (stubs) => {
                 function firstHandlerStub() {
                     handlerCount++;
 
-
-                    expect(handlerCount)
-                        .to.equal(1);
+                    expect(handlerCount).to.equal(1);
                 }
 
                 function secondHandlerStub() {
                     handlerCount++;
 
-                    expect(handlerCount)
-                        .to.equal(2);
+                    expect(handlerCount).to.equal(2);
 
                     setTimeout(() => {
-                        expect(validate._handlers)
-                            .to.be.an("array")
-                            .that.is.empty;
+                        expect(validate._handlers).to.be.an("array").that.is
+                            .empty;
 
                         done();
                     });
                 }
 
-                validate._handlers = [
-                    firstHandlerStub,
-                    secondHandlerStub
-                ];
+                validate._handlers = [firstHandlerStub, secondHandlerStub];
 
                 validate.ready({
                     err: undefined,

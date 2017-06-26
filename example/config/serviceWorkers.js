@@ -3,16 +3,9 @@ const path = require("path");
 const replace = require("replace");
 const swPrecache = require("sw-precache");
 const {
-    clientSettings: {
-        serviceWorker
-    },
-    generalSettings: {
-        name
-    },
-    serverSettings: {
-        appServer,
-        staticServer
-    }
+    clientSettings: {serviceWorker},
+    generalSettings: {name},
+    serverSettings: {appServer, staticServer}
 } = require("../wildcat.config.js");
 
 const swDirectory = `${__dirname}/../static`;
@@ -42,29 +35,34 @@ if (usePort) {
 
 const appHostRegex = new RegExp(appHost);
 
-swPrecache.write(serviceWorkerPath, {
-    cacheId: name,
-    staticFileGlobs: [
-        "bundles/*.js",
-        "public/**/*"
-    ],
-    runtimeCaching: [{
-        urlPattern: /\/$/,
-        handler: "fastest"
-    }, {
-        urlPattern: new RegExp(`^${staticHostRegex.source}`),
-        handler: "cacheFirst"
-    }, {
-        urlPattern: new RegExp(`^${appHostRegex.source}`),
-        handler: "cacheFirst"
-    }],
-    ignoreUrlParametersMatching: /./
-}, () => {
-    replace({
-        regex: "self.location",
-        replacement: `"${staticHost}"`,
-        paths: [serviceWorkerPath],
-        recursive: false,
-        silent: true
-    });
-});
+swPrecache.write(
+    serviceWorkerPath,
+    {
+        cacheId: name,
+        staticFileGlobs: ["bundles/*.js", "public/**/*"],
+        runtimeCaching: [
+            {
+                urlPattern: /\/$/,
+                handler: "fastest"
+            },
+            {
+                urlPattern: new RegExp(`^${staticHostRegex.source}`),
+                handler: "cacheFirst"
+            },
+            {
+                urlPattern: new RegExp(`^${appHostRegex.source}`),
+                handler: "cacheFirst"
+            }
+        ],
+        ignoreUrlParametersMatching: /./
+    },
+    () => {
+        replace({
+            regex: "self.location",
+            replacement: `"${staticHost}"`,
+            paths: [serviceWorkerPath],
+            recursive: false,
+            silent: true
+        });
+    }
+);

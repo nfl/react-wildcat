@@ -24,8 +24,7 @@ const sourceDir = serverSettings.sourceDir;
 exports.sourceDir = sourceDir;
 
 function getPublicPath(source) {
-    return source
-        .replace(sourceDir, publicDir);
+    return source.replace(sourceDir, publicDir);
 }
 exports.getPublicPath = getPublicPath;
 
@@ -35,13 +34,22 @@ exports.exampleDir = exampleDir;
 const errorStub = new Error("test error");
 exports.errorStub = errorStub;
 
-const devClientConfigFile = path.join(exampleDir, "config/webpack/development.client.config.js");
+const devClientConfigFile = path.join(
+    exampleDir,
+    "config/webpack/development.client.config.js"
+);
 exports.devClientConfigFile = devClientConfigFile;
 
-const devServerConfigFile = path.join(exampleDir, "config/webpack/development.server.config.js");
+const devServerConfigFile = path.join(
+    exampleDir,
+    "config/webpack/development.server.config.js"
+);
 exports.devServerConfigFile = devServerConfigFile;
 
-const prodConfigFile = path.join(exampleDir, "config/webpack/production.config.js");
+const prodConfigFile = path.join(
+    exampleDir,
+    "config/webpack/production.config.js"
+);
 exports.prodConfigFile = prodConfigFile;
 
 const webpackFileStub = "webpack-stub.js";
@@ -56,22 +64,22 @@ exports.stats = stats;
 
 const statsWithErrors = Object.assign({}, stats, {
     compilation: {
-        errors: [{
-            error: errorStub.message,
-            module: {
-                id: 1
+        errors: [
+            {
+                error: errorStub.message,
+                module: {
+                    id: 1
+                }
             }
-        }]
+        ]
     },
     hasErrors: () => true
 });
 exports.statsWithErrors = statsWithErrors;
 
-const getEnvironment = ({
-    BABEL_ENV = undefined,
-    DEBUG = undefined,
-    NODE_ENV = undefined
-} = {}) => ({
+const getEnvironment = (
+    {BABEL_ENV = undefined, DEBUG = undefined, NODE_ENV = undefined} = {}
+) => ({
     generalSettings: {
         env: {
             __DEV__: NODE_ENV === "development",
@@ -104,32 +112,32 @@ const NullConsoleLogger = (() => {
 exports.NullConsoleLogger = NullConsoleLogger;
 
 const logMethods = {
-    "error": "error",
-    "info": "info",
-    "log": "log",
-    "meta": "log",
-    "ok": "log",
-    "warn": "warn"
+    error: "error",
+    info: "info",
+    log: "log",
+    meta: "log",
+    ok: "log",
+    warn: "warn"
 };
 exports.logMethods = logMethods;
 
 const logColors = {
-    "error": "red",
-    "info": "magenta",
-    "log": null,
-    "meta": "gray",
-    "ok": "green",
-    "warn": "yellow"
+    error: "red",
+    info: "magenta",
+    log: null,
+    meta: "gray",
+    ok: "green",
+    warn: "yellow"
 };
 exports.logColors = logColors;
 
 const mapLogMethods = {
-    "error": "error",
-    "info": "info",
-    "log": "info",
-    "meta": "info",
-    "ok": "info",
-    "warn": "error"
+    error: "error",
+    info: "info",
+    log: "info",
+    meta: "info",
+    ok: "info",
+    warn: "error"
 };
 exports.mapLogMethods = mapLogMethods;
 

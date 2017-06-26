@@ -11,11 +11,7 @@ const wildcatConfig = require("react-wildcat/src/utils/getWildcatConfig")(root);
 
 const {
     generalSettings: {
-        env: {
-            __TEST__,
-            BABEL_ENV,
-            NODE_ENV = "development"
-        },
+        env: {__TEST__, BABEL_ENV, NODE_ENV = "development"},
         staticUrl
     }
 } = wildcatConfig;
@@ -30,9 +26,7 @@ const include = [
     src // important for performance!
 ];
 
-const exclude = [
-    /lib|node_modules/
-];
+const exclude = [/lib|node_modules/];
 
 const hotEntries = [
     "react-hot-loader/patch",
@@ -47,18 +41,10 @@ const hotEntries = [
 
 exports.hotEntries = hotEntries;
 
-exports.webpackEntry = ({
-    hot = false
-} = {}) => ({
-    bootstrap: [
-        "react",
-        "react-dom"
-    ],
+exports.webpackEntry = ({hot = false} = {}) => ({
+    bootstrap: ["react", "react-dom"],
 
-    app: [
-        ...(hot ? hotEntries : []),
-        "./src/client.js"
-    ]
+    app: [...(hot ? hotEntries : []), "./src/client.js"]
 });
 
 exports.context = root;
@@ -72,33 +58,34 @@ exports.rules = [
         test: /\.js$/,
         include,
         exclude,
-        use: [{
-            loader: "happypack/loader"
-        }]
+        use: [
+            {
+                loader: "happypack/loader"
+            }
+        ]
     },
     {
         test: /\.(css|png|jpg|jpeg|gif|svg)$/,
         include,
         exclude,
-        use: [{
-            loader: "url-loader"
-        }]
+        use: [
+            {
+                loader: "url-loader"
+            }
+        ]
     }
 ];
 
 exports.resolve = {
     alias: {
         // dedupe React
-        "react": path.resolve(root, "node_modules", "react"),
+        react: path.resolve(root, "node_modules", "react"),
         // dedupe React DOM
         "react-dom": path.resolve(root, "node_modules", "react-dom"),
         // dedupe React Helmet
         "react-helmet": path.resolve(root, "node_modules", "react-helmet")
     },
-    modules: [
-        src,
-        "node_modules"
-    ]
+    modules: [src, "node_modules"]
 };
 
 exports.minimalStats = {
@@ -160,100 +147,129 @@ exports.plugins = [
         }
     }),
 
-    new webpack.ContextReplacementPlugin((/moment[\/|\\]locale$/), (/de|fr|hu/)),
+    new webpack.ContextReplacementPlugin(/moment[\/|\\]locale$/, /de|fr|hu/),
 
     new webpack.IgnorePlugin(/^\.\/lang$/, /moment$/),
     new webpack.IgnorePlugin(/\/iconv-loader$/)
 ];
 
-exports.webpackPlugins = ({
-    hot = false,
-    optimize = true,
-    limit = undefined,
-    minify = true,
-    progress = false,
-    threads = 4
-} = {}) => (
+exports.webpackPlugins = (
+    {
+        hot = false,
+        optimize = true,
+        limit = undefined,
+        minify = true,
+        progress = false,
+        threads = 4
+    } = {}
+) =>
     exports.plugins
         .concat(
-            threads ? new HappyPack({
-                // loaders is the only required parameter:
-                loaders: [
-                    {
-                        loader: "babel-loader"
-                    }
-                ],
+            threads
+                ? new HappyPack({
+                      // loaders is the only required parameter:
+                      loaders: [
+                          {
+                              loader: "babel-loader"
+                          }
+                      ],
 
-                // customize as needed, see Configuration below
+                      // customize as needed, see Configuration below
 
-                // An object that is used to invalidate the cache between runs
-                // based on whatever variables that might affect the transformation
-                // of your sources, like NODE_ENV for example.
-                cacheContext: {
-                    BABEL_ENV,
-                    NODE_ENV,
+                      // An object that is used to invalidate the cache between runs
+                      // based on whatever variables that might affect the transformation
+                      // of your sources, like NODE_ENV for example.
+                      cacheContext: {
+                          BABEL_ENV,
+                          NODE_ENV,
 
-                    babelRc: JSON.parse(fs.readFileSync(path.resolve(root, ".babelrc"), "utf8")),
-                    nodeVersion: fs.readFileSync(path.resolve(root, ".node-version"), "utf8"),
-                    packageJSON: require(path.resolve(root, "package.json")),
-                    yarnLock: fs.readFileSync(path.resolve(root, "yarn.lock"), "utf8"),
+                          babelRc: JSON.parse(
+                              fs.readFileSync(
+                                  path.resolve(root, ".babelrc"),
+                                  "utf8"
+                              )
+                          ),
+                          nodeVersion: fs.readFileSync(
+                              path.resolve(root, ".node-version"),
+                              "utf8"
+                          ),
+                          packageJSON: require(path.resolve(
+                              root,
+                              "package.json"
+                          )),
+                          yarnLock: fs.readFileSync(
+                              path.resolve(root, "yarn.lock"),
+                              "utf8"
+                          ),
 
-                    karmaConfig: require(path.resolve(root, "karma.config.js")),
-                    protractorConfig: require(path.resolve(root, "protractor.config.js")),
-                    wildcatConfig
-                },
-                threads,
-                tempDir: path.resolve(CACHE_ENV_DIR, "happypack"),
-                verbose: false
-            }) : []
+                          karmaConfig: require(path.resolve(
+                              root,
+                              "karma.config.js"
+                          )),
+                          protractorConfig: require(path.resolve(
+                              root,
+                              "protractor.config.js"
+                          )),
+                          wildcatConfig
+                      },
+                      threads,
+                      tempDir: path.resolve(CACHE_ENV_DIR, "happypack"),
+                      verbose: false
+                  })
+                : []
         )
         .concat(
-            hot ? [
-                new webpack.HotModuleReplacementPlugin(),
-                // enable HMR globally
+            hot
+                ? [
+                      new webpack.HotModuleReplacementPlugin(),
+                      // enable HMR globally
 
-                new webpack.NamedModulesPlugin(),
-                // prints more readable module names in the browser console on HMR updates
+                      new webpack.NamedModulesPlugin(),
+                      // prints more readable module names in the browser console on HMR updates
 
-                new webpack.NoEmitOnErrorsPlugin()
-            ] : []
+                      new webpack.NoEmitOnErrorsPlugin()
+                  ]
+                : []
         )
         .concat(
-            optimize ? [
-                // // This plugin prevents Webpack from creating chunks
-                // // that would be too small to be worth loading separately
-                // new webpack.optimize.MinChunkSizePlugin({
-                //     minChunkSize: 51200 // ~50kb
-                // }),
-                //
-                new webpack.optimize.CommonsChunkPlugin({
-                    names: ["bootstrap", "manifest"] // Specify the common bundle's name.
-                }),
+            optimize
+                ? [
+                      // // This plugin prevents Webpack from creating chunks
+                      // // that would be too small to be worth loading separately
+                      // new webpack.optimize.MinChunkSizePlugin({
+                      //     minChunkSize: 51200 // ~50kb
+                      // }),
+                      //
+                      new webpack.optimize.CommonsChunkPlugin({
+                          names: ["bootstrap", "manifest"] // Specify the common bundle's name.
+                      }),
 
-                new webpack.optimize.CommonsChunkPlugin({
-                    async: true,
-                    children: true
-                })
-            ] : []
+                      new webpack.optimize.CommonsChunkPlugin({
+                          async: true,
+                          children: true
+                      })
+                  ]
+                : []
         )
         .concat(
-            minify ? [
-                new webpack.LoaderOptionsPlugin({
-                    minimize: true,
-                    debug: false
-                }),
+            minify
+                ? [
+                      new webpack.LoaderOptionsPlugin({
+                          minimize: true,
+                          debug: false
+                      }),
 
-                new webpack.optimize.UglifyJsPlugin(exports.uglifyOptions)
-            ] : []
+                      new webpack.optimize.UglifyJsPlugin(exports.uglifyOptions)
+                  ]
+                : []
         )
+        .concat(progress ? new ProgressBarPlugin() : [])
         .concat(
-            progress ? new ProgressBarPlugin() : []
-        )
-        .concat(
-            limit ? [
-                new webpack.optimize.LimitChunkCountPlugin({
-                    maxChunks: limit
-                })
-            ] : []
-        )
-);
+            limit
+                ? [
+                      new webpack.optimize.LimitChunkCountPlugin({
+                          maxChunks: limit
+                      })
+                  ]
+                : []
+        );

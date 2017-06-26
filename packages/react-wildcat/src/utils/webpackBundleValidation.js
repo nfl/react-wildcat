@@ -1,15 +1,16 @@
-module.exports = function webpackBundleValidation(root, {
-    __DEV__,
-    logger,
-    webpackDevSettings
-}) {
+module.exports = function webpackBundleValidation(
+    root,
+    {__DEV__, logger, webpackDevSettings}
+) {
     const path = require("path");
     const clearRequire = require("clear-require");
 
     if (__DEV__) {
         const webpack = require("webpack");
 
-        const compiler = webpack(require(path.resolve(root, webpackDevSettings)));
+        const compiler = webpack(
+            require(path.resolve(root, webpackDevSettings))
+        );
         const watcher = compiler.watch({}, (err, stats) => {
             validate.ready({
                 err,
@@ -34,17 +35,14 @@ module.exports = function webpackBundleValidation(root, {
             return this._handlers.push(callback);
         },
 
-        ready({
-            err,
-            stats,
-            watcher
-        }) {
+        ready({err, stats, watcher}) {
             this._err = err;
             this._stats = stats;
             this._watcher = watcher;
 
             // Clear require caches and re-import
-            for (const asset in stats.compilation.assets) { // eslint-disable-line guard-for-in
+            for (const asset in stats.compilation.assets) {
+                // eslint-disable-line guard-for-in
                 clearRequire(stats.compilation.assets[asset].existsAt);
             }
 

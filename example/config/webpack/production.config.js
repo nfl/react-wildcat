@@ -13,7 +13,7 @@ const {
 } = require("./base.config.js");
 
 const {MINIFY} = process.env;
-const __MINIFY__ = (MINIFY === "true" || MINIFY === "1") || !isTestEnv;
+const __MINIFY__ = MINIFY === "true" || MINIFY === "1" || !isTestEnv;
 
 module.exports = [
     {
@@ -26,9 +26,15 @@ module.exports = [
         module: {
             rules
         },
-        output: Object.assign({}, output, __MINIFY__ ? {
-            chunkFilename: "[chunkhash].bundle.js"
-        } : {}),
+        output: Object.assign(
+            {},
+            output,
+            __MINIFY__
+                ? {
+                      chunkFilename: "[chunkhash].bundle.js"
+                  }
+                : {}
+        ),
         performance: {
             hints: "warning"
         },

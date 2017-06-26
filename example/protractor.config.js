@@ -48,28 +48,33 @@ exports.config = {
         reporter: "spec"
     },
 
-    multiCapabilities: [{
-        acceptSslCerts: true,
-        browserName: "chrome",
-        "chrome-switches": [
-            "--disable-web-security",
-            "--disable-background-timer-throttling",
-            "--user-data-dir=/tmp/protractor"
-        ]
-    }],
+    multiCapabilities: [
+        {
+            acceptSslCerts: true,
+            browserName: "chrome",
+            "chrome-switches": [
+                "--disable-web-security",
+                "--disable-background-timer-throttling",
+                "--user-data-dir=/tmp/protractor"
+            ]
+        }
+    ],
 
     onPrepare() {
         require("babel-polyfill");
         require("babel-register")({
-            "presets": [
-                ["env", {
-                    "targets": {
-                        "node": 6.9
-                    },
-                    "modules": "commonjs",
-                    "loose": true,
-                    "useBuiltIns": true
-                }]
+            presets: [
+                [
+                    "env",
+                    {
+                        targets: {
+                            node: 6.9
+                        },
+                        modules: "commonjs",
+                        loose: true,
+                        useBuiltIns: true
+                    }
+                ]
             ]
         });
 
@@ -98,20 +103,18 @@ exports.config = {
         originUrl
     },
 
-    plugins: [{
-        package: "protractor-console",
-        logLevels: [
-            "severe",
-            "warning",
-            "debug",
-            "info"
-        ]
-    }, {
-        package: "protractor-istanbul-plugin",
-        logAssertions: true,
-        failAssertions: true,
-        outputPath: e2eReportDir
-    }],
+    plugins: [
+        {
+            package: "protractor-console",
+            logLevels: ["severe", "warning", "debug", "info"]
+        },
+        {
+            package: "protractor-istanbul-plugin",
+            logAssertions: true,
+            failAssertions: true,
+            outputPath: e2eReportDir
+        }
+    ],
 
     rootElement: `#${clientSettings.reactRootElementID}`,
 

@@ -57,7 +57,10 @@ function render(cfg) {
 
     if (!cfg.routes && cfg.domains) {
         return new Promise(function renderPromise(resolve, reject) {
-            getDomainRoutes(cfg.domains, headers, function renderCallback(err, routes) {
+            getDomainRoutes(cfg.domains, headers, function renderCallback(
+                err,
+                routes
+            ) {
                 if (err) {
                     return reject(new Error(err));
                 }

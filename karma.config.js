@@ -2,7 +2,7 @@ const cwd = process.cwd();
 const path = require("path");
 
 // Karma configuration
-module.exports = function (karmaConfig) {
+module.exports = function(karmaConfig) {
     const timeout = process.env.TIMEOUT || 10000;
 
     karmaConfig.set({
@@ -39,22 +39,23 @@ module.exports = function (karmaConfig) {
             dir: "coverage/browser"
         },
 
-        files: [{
-            pattern: "./node_modules/whatwg-fetch/fetch.js",
-            watched: false
-        }, {
-            pattern: "./node_modules/babel-polyfill/dist/polyfill.js",
-            watched: false
-        }, {
-            pattern: "./test/test.js"
-        }],
+        files: [
+            {
+                pattern: "./node_modules/whatwg-fetch/fetch.js",
+                watched: false
+            },
+            {
+                pattern: "./node_modules/babel-polyfill/dist/polyfill.js",
+                watched: false
+            },
+            {
+                pattern: "./test/test.js"
+            }
+        ],
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: [
-            "phantomjs-shim",
-            "mocha"
-        ],
+        frameworks: ["phantomjs-shim", "mocha"],
 
         // level of logging
         // possible values: karmaConfig.LOG_DISABLE || karmaConfig.LOG_ERROR || karmaConfig.LOG_WARN || karmaConfig.LOG_INFO || karmaConfig.LOG_DEBUG
@@ -79,40 +80,43 @@ module.exports = function (karmaConfig) {
 
             // webpack configuration
             module: {
-                rules: [{
-                    test: /\.js/,
-                    exclude: /lib|node_modules/,
-                    use: [
-                        {
-                            loader: "babel-loader",
-                            options: {
-                                cacheDirectory: true,
-                                plugins: [
-                                    ["istanbul", {
-                                        "exclude": [
-                                            "**/node_modules/**",
-                                            "**/test/**",
-                                            "**/Test*",
-                                            "**/defaultTemplate.js",
-                                            "**/getDomainRoutes.js"
+                rules: [
+                    {
+                        test: /\.js/,
+                        exclude: /lib|node_modules/,
+                        use: [
+                            {
+                                loader: "babel-loader",
+                                options: {
+                                    cacheDirectory: true,
+                                    plugins: [
+                                        [
+                                            "istanbul",
+                                            {
+                                                exclude: [
+                                                    "**/node_modules/**",
+                                                    "**/test/**",
+                                                    "**/Test*",
+                                                    "**/defaultTemplate.js",
+                                                    "**/getDomainRoutes.js"
+                                                ]
+                                            }
                                         ]
-                                    }]
-                                ]
+                                    ]
+                                }
                             }
-                        }
-                    ]
-                }]
+                        ]
+                    }
+                ]
             },
             resolve: {
                 alias: {
                     // dedupe React
-                    "react": path.resolve(cwd, "node_modules", "react"),
+                    react: path.resolve(cwd, "node_modules", "react"),
                     // dedupe React DOM
                     "react-dom": path.resolve(cwd, "node_modules", "react-dom")
                 },
-                modules: [
-                    "node_modules"
-                ]
+                modules: ["node_modules"]
             }
         },
 

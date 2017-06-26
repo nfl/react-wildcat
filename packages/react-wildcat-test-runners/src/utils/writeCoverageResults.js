@@ -13,7 +13,10 @@ const cwd = process.cwd();
  */
 export default async function writeCoverageResults(coverageEnvSettings) {
     return new Promise((resolve, reject) => {
-        const reporterConfig = configuration.loadFile(null, coverageEnvSettings);
+        const reporterConfig = configuration.loadFile(
+            null,
+            coverageEnvSettings
+        );
 
         const reportingSettings = coverageEnvSettings.reporting;
         const reportDir = reportingSettings.dir;

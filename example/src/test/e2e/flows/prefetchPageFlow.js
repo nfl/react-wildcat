@@ -11,7 +11,7 @@ describe("Prefetch Page", () => {
     const prefetchPage = new PrefetchPageObject();
     const helmetPage = new HelmetPageObject();
 
-    it("setup", async (done) => {
+    it("setup", async done => {
         try {
             await prefetchPage.getLocation();
 
@@ -26,7 +26,7 @@ describe("Prefetch Page", () => {
 
     context("navigation", () => {
         context("server load", () => {
-            it("/prefetch-example route", async (done) => {
+            it("/prefetch-example route", async done => {
                 try {
                     await prefetchPage.sleepUntilPageAvailable();
 
@@ -41,7 +41,7 @@ describe("Prefetch Page", () => {
         });
 
         context("browser load", () => {
-            it("/flexbox-example route", async (done) => {
+            it("/flexbox-example route", async done => {
                 try {
                     await flexboxPage.getNavigationLink().click();
                     await flexboxPage.sleepUntilPageAvailable();
@@ -55,7 +55,7 @@ describe("Prefetch Page", () => {
                 }
             });
 
-            it("/ route", async (done) => {
+            it("/ route", async done => {
                 try {
                     await indexPage.getNavigationLink().click();
                     await indexPage.sleepUntilPageAvailable();
@@ -69,7 +69,7 @@ describe("Prefetch Page", () => {
                 }
             });
 
-            it("/helmet-example route", async (done) => {
+            it("/helmet-example route", async done => {
                 try {
                     await helmetPage.getNavigationLink().click();
                     await helmetPage.sleepUntilPageAvailable();
@@ -83,7 +83,7 @@ describe("Prefetch Page", () => {
                 }
             });
 
-            it("/prefetch-example route", async (done) => {
+            it("/prefetch-example route", async done => {
                 try {
                     await prefetchPage.getNavigationLink().click();
                     await prefetchPage.sleepUntilPageAvailable();

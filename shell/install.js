@@ -5,7 +5,7 @@ const fs = require("fs");
 const cwd = process.cwd();
 const path = require("path");
 
-ls("packages").forEach((loc) => {
+ls("packages").forEach(loc => {
     const pkgDir = path.join(cwd, "packages", loc);
     const pkgPath = path.join(pkgDir, "package.json");
 

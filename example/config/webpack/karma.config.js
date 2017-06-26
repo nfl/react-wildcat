@@ -1,9 +1,4 @@
-const {
-    context,
-    resolve,
-    rules,
-    webpackPlugins
-} = require("./base.config.js");
+const {context, resolve, rules, webpackPlugins} = require("./base.config.js");
 
 module.exports = {
     cache: true,
