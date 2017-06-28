@@ -115,6 +115,6 @@
     "prod-static": "env NODE_ENV=production wildcat-static-server",
     "test": "npm run lint && npm run test:unit && npm run test:e2e",
     "test:e2e": "env BABEL_ENV=test COVERAGE=e2e wildcat-protractor-runner",
-    "test:unit": "env BABEL_ENV=test jest --no-cache"
+    "test:unit": "env BABEL_ENV=test jest"
   }
 }
