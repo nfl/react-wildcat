@@ -3,6 +3,7 @@
   "description": "An example Wildcat project.",
   "version": "7.1.1",
   "dependencies": {
+    "babel-jest": "^20.0.3",
     "koa-favicon": "^1.2.1",
     "koa-route": "^2.4.2",
     "koa-static": "^2.0.0",
@@ -20,6 +21,7 @@
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.10",
+    "babel-plugin-dynamic-import-node": "^1.0.2",
     "babel-plugin-flow-runtime": "^0.3.0",
     "babel-plugin-istanbul": "^3.1.2",
     "babel-plugin-module-resolver": "^2.5.0",
@@ -32,6 +34,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.22.0",
     "babel-plugin-transform-remove-strict-mode": "^0.0.2",
     "babel-polyfill": "^6.16.0",
+    "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.16.0",
     "babel-preset-react-optimize": "^1.0.1",
     "babel-register": "^6.22.0",
@@ -56,16 +59,8 @@
     "happypack": "^3.0.2",
     "isomorphic-fetch": "^2.2.1",
     "istanbul": "https://github.com/nfl/istanbul/tarball/0.4.5/source-map-resolve",
-    "karma": "^1.3.0",
-    "karma-cli": "^1.0.1",
-    "karma-coverage": "^1.1.1",
-    "karma-mocha": "^1.3.0",
-    "karma-mocha-reporter": "^2.2.0",
-    "karma-phantomjs-launcher": "^1.0.2",
-    "karma-phantomjs-shim": "^1.4.0",
-    "karma-sourcemap-loader": "^0.3.7",
+    "jest": "^20.0.4",
     "mocha": "^3.2.0",
-    "phantomjs-prebuilt": "^2.1.13",
     "progress-bar-webpack-plugin": "^1.9.3",
     "protractor": "^5.1.0",
     "protractor-console": "^2.0.1",
@@ -82,6 +77,19 @@
     "webpack-hot-middleware": "^2.16.1",
     "webpack-node-externals": "^1.5.4",
     "webpack-visualizer-plugin": "^0.1.10"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "html"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg)$": "<rootDir>/src/test/mocks/fileMock.js"
+    },
+    "testRegex": "/src/.*Test\\.js$"
   },
   "scripts": {
     "build:precache": "node ./config/serviceWorkers.js",
@@ -107,6 +115,6 @@
     "prod-static": "env NODE_ENV=production wildcat-static-server",
     "test": "npm run lint && npm run test:unit && npm run test:e2e",
     "test:e2e": "env BABEL_ENV=test COVERAGE=e2e wildcat-protractor-runner",
-    "test:unit": "env BABEL_ENV=test COVERAGE=unit wildcat-karma-runner"
+    "test:unit": "env BABEL_ENV=test jest --no-cache"
   }
 }
