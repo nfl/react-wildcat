@@ -198,7 +198,6 @@ exports.webpackPlugins = ({
                     packageJSON: require(path.resolve(root, "package.json")),
                     yarnLock: fs.readFileSync(path.resolve(root, "yarn.lock"), "utf8"),
 
-                    karmaConfig: require(path.resolve(root, "karma.config.js")),
                     protractorConfig: require(path.resolve(root, "protractor.config.js")),
                     wildcatConfig
                 },
