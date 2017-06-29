@@ -1,3 +1,4 @@
+/*  eslint-disable indent */
 const React = require("react");
 const PropTypes = require("prop-types");
 const ExecutionEnvironment = require("exenv");
@@ -122,8 +123,8 @@ function prefetchWrap(action, options = {}) {
 
                     const initialData = window[initialDataID]
                         ? {
-                            ...window[initialDataID]
-                        }
+                              ...window[initialDataID]
+                          }
                         : undefined;
 
                     const newState = {};

@@ -40,7 +40,6 @@ export default function yawn(
                 }
 
                 string.split("\n").forEach(line => {
-                    // eslint-disable-line consistent-return
                     if (
                         !foundMatch &&
                         line.trim().includes(resolveWhenLineIncludes)
@@ -48,7 +47,7 @@ export default function yawn(
                         foundMatch = true;
 
                         process.stdout.write("\n");
-                        return resolve();
+                        resolve();
                     }
                 });
 
