@@ -12,15 +12,15 @@
             "allowNamedFunctions": true
         }],
         "prettier/prettier": ["error", {
-            printWidth: 80,
-            tabWidth: 4,
-            singleQuote: false,
-            trailingComma: "none",
-            bracketSpacing: false,
-            semi: true,
-            useTabs: false,
-            parser: "babylon",
-            jsxBracketSameLine: false
+            "printWidth": 80,
+            "tabWidth": 4,
+            "singleQuote": false,
+            "trailingComma": "none",
+            "bracketSpacing": false,
+            "semi": true,
+            "useTabs": false,
+            "parser": "babylon",
+            "jsxBracketSameLine": false
         }]
     },
     "globals": {

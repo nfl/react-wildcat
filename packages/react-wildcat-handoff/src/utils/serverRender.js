@@ -1,8 +1,9 @@
+/*  eslint-disable indent */
 const ReactDOM = require("react-dom/server");
 const Router = require("react-router");
 const serverContext = require("./serverContext.js");
-
 const Helmet = require("react-helmet"); // eslint-disable-line import/no-unresolved
+
 const defaultTemplate = require("./defaultTemplate.js");
 
 const match = Router.match;
@@ -86,11 +87,11 @@ module.exports = function serverRender(cfg) {
                             const getRenderType = typeof renderType ===
                                 "function"
                                 ? renderType({
-                                    wildcatConfig,
-                                    request,
-                                    headers,
-                                    renderProps
-                                })
+                                      wildcatConfig,
+                                      request,
+                                      headers,
+                                      renderProps
+                                  })
                                 : renderType;
 
                             const reactMarkup = ReactDOM[getRenderType](
