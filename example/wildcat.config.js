@@ -56,16 +56,6 @@ const wildcatConfig = {
                     dir: "coverage/e2e",
                     reports: ["lcov", "html"]
                 }
-            },
-
-            unit: {
-                instrumentation: {
-                    excludes
-                },
-
-                reporting: {
-                    dir: "coverage/unit"
-                }
             }
         },
 
