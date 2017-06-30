@@ -48,7 +48,7 @@ function invariantCheck(exists, key, action, ComposedComponent) {
     invariant(
         exists,
         `Prefetch did not retrieve any data with key ${key} for component ${ComposedComponent.displayName}. This either means an error occurred attempting to reach the provided data endpoint${typeof action ===
-            "string"
+        "string"
             ? " " + action
             : ""}, or this component is a child of a route component. The Prefetch decorator can only be used on top-level route components.`
     );
@@ -112,9 +112,10 @@ function prefetchWrap(action, options = {}) {
             )})`;
 
             componentWillMount() {
-                const canUseDOM = typeof options.canUseDOM !== "undefined"
-                    ? options.canUseDOM
-                    : ExecutionEnvironment.canUseDOM;
+                const canUseDOM =
+                    typeof options.canUseDOM !== "undefined"
+                        ? options.canUseDOM
+                        : ExecutionEnvironment.canUseDOM;
 
                 /* istanbul ignore else */
                 if (canUseDOM) {
