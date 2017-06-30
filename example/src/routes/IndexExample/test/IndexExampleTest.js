@@ -10,7 +10,7 @@ describe("Index Example", () => {
         expect(IndexExample).to.exist;
     });
 
-    context("render", () => {
+    describe("render", () => {
         it("renders correctly", () => {
             const indexExample = shallow(<IndexExample />);
 
@@ -24,7 +24,7 @@ describe("Index Example", () => {
         });
     });
 
-    context("routes", () => {
+    describe("routes", () => {
         it("has a defined path", () => {
             expect(indexExampleRoutes).to.exist;
 

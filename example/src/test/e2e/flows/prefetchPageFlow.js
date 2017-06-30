@@ -24,8 +24,8 @@ describe("Prefetch Page", () => {
         }
     });
 
-    context("navigation", () => {
-        context("server load", () => {
+    describe("navigation", () => {
+        describe("server load", () => {
             it("/prefetch-example route", async done => {
                 try {
                     await prefetchPage.sleepUntilPageAvailable();
@@ -40,7 +40,7 @@ describe("Prefetch Page", () => {
             });
         });
 
-        context("browser load", () => {
+        describe("browser load", () => {
             it("/flexbox-example route", async done => {
                 try {
                     await flexboxPage.getNavigationLink().click();

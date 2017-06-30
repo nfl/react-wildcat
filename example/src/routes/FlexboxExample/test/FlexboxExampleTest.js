@@ -13,8 +13,8 @@ describe("Flexbox Example", () => {
         expect(FlexboxExample).to.exist;
     });
 
-    context("render", () => {
-        before(() => {
+    describe("render", () => {
+        beforeAll(() => {
             TestMode.enable();
         });
 
@@ -30,12 +30,12 @@ describe("Flexbox Example", () => {
             expect(flexboxExample.find(`#flexbox`)).to.have.length.of(1);
         });
 
-        after(() => {
+        afterAll(() => {
             TestMode.disable();
         });
     });
 
-    context("routes", () => {
+    describe("routes", () => {
         it("has a defined path", () => {
             expect(flexboxExampleRoutes).to.exist;
             expect(flexboxExampleRoutes).to.have

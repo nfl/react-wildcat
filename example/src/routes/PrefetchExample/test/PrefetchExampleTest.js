@@ -14,7 +14,7 @@ describe("Prefetch Example", () => {
         expect(PrefetchExample).to.exist;
     });
 
-    context("prefetch", () => {
+    describe("prefetch", () => {
         it("prefetches data", async () => {
             expect(PrefetchExample).itself.to.have.property("prefetch");
 
@@ -37,8 +37,8 @@ describe("Prefetch Example", () => {
         });
     });
 
-    context("render", () => {
-        before(() => {
+    describe("render", () => {
+        beforeAll(() => {
             expect(PrefetchExample).itself.to.have.property("WrappedComponent");
 
             expect(PrefetchExample.WrappedComponent).to.exist;
@@ -57,7 +57,7 @@ describe("Prefetch Example", () => {
         });
     });
 
-    context("routes", () => {
+    describe("routes", () => {
         it("has a defined path", () => {
             expect(prefetchExampleRoutes).to.exist;
             expect(prefetchExampleRoutes).to.have

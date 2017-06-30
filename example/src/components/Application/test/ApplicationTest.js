@@ -14,8 +14,8 @@ describe("Application", () => {
         expect(Application).to.exist;
     });
 
-    context("render", () => {
-        before(() => {
+    describe("render", () => {
+        beforeAll(() => {
             TestMode.enable();
         });
 
@@ -63,7 +63,7 @@ describe("Application", () => {
             ).to.be.true;
         });
 
-        after(() => {
+        afterAll(() => {
             TestMode.disable();
         });
     });

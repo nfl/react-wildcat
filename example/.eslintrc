@@ -2,7 +2,7 @@
     "extends": ["eslint-config-nfl", "prettier"],
     "env": {
         "browser": true,
-        "mocha": true
+        "jasmine": true
     },
     "globals": {
         "$": true,

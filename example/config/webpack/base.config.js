@@ -202,10 +202,6 @@ exports.webpackPlugins = (
                               "utf8"
                           ),
 
-                          karmaConfig: require(path.resolve(
-                              root,
-                              "karma.config.js"
-                          )),
                           protractorConfig: require(path.resolve(
                               root,
                               "protractor.config.js"

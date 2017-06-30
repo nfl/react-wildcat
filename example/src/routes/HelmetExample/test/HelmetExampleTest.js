@@ -12,7 +12,7 @@ describe("Helmet Example", () => {
         expect(HelmetExample).to.exist;
     });
 
-    context("render", () => {
+    describe("render", () => {
         it("renders correctly", () => {
             const helmetExample = shallow(<HelmetExample />);
 
@@ -26,7 +26,7 @@ describe("Helmet Example", () => {
         });
     });
 
-    context("routes", () => {
+    describe("routes", () => {
         it("has a defined path", () => {
             expect(helmetExampleRoutes).to.exist;
             expect(helmetExampleRoutes).to.have

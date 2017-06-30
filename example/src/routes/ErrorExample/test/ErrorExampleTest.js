@@ -12,7 +12,7 @@ describe("Error Example", () => {
         expect(ErrorExample).to.exist;
     });
 
-    context("render", () => {
+    describe("render", () => {
         const errorRender = () => shallow(<ErrorExample />);
 
         it("throws a render error", () => {
@@ -20,7 +20,7 @@ describe("Error Example", () => {
         });
     });
 
-    context("routes", () => {
+    describe("routes", () => {
         it("has a defined path", () => {
             expect(errorExampleRoutes).to.exist;
             expect(errorExampleRoutes).to.have
