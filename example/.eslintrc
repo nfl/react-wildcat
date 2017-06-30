@@ -2,8 +2,7 @@
     "extends": "eslint-config-nfl",
     "env": {
         "browser": true,
-        "jasmine": true,
-        "mocha": true
+        "jasmine": true
     },
     "globals": {
         "$": true,
