@@ -84,15 +84,15 @@ module.exports = function serverRender(cfg) {
 
                             const renderType =
                                 wildcatConfig.serverSettings.renderType;
-                            const getRenderType = typeof renderType ===
-                                "function"
-                                ? renderType({
-                                      wildcatConfig,
-                                      request,
-                                      headers,
-                                      renderProps
-                                  })
-                                : renderType;
+                            const getRenderType =
+                                typeof renderType === "function"
+                                    ? renderType({
+                                          wildcatConfig,
+                                          request,
+                                          headers,
+                                          renderProps
+                                      })
+                                    : renderType;
 
                             const reactMarkup = ReactDOM[getRenderType](
                                 component
