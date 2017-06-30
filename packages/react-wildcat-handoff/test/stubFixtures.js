@@ -158,7 +158,6 @@ exports.headers = {
     }
 };
 
-
 exports.cookieData = {
     alias: {
         clientSize: "desktop"
@@ -186,11 +185,11 @@ exports.cookieParser = {
 };
 
 exports.cookieParserWithValues = {
-    get: (key) => exports.cookieData.values[key]
+    get: key => exports.cookieData.values[key]
 };
 
 exports.cookieParserWithAlias = {
-    get: (key) => exports.cookieData.alias[key]
+    get: key => exports.cookieData.alias[key]
 };
 
 exports.wildcatConfig = {
@@ -228,39 +227,56 @@ exports.wildcatConfigRenderType = Object.assign({}, exports.wildcatConfig, {
     }
 });
 
-exports.wildcatConfigWithHtmlNotFoundTemplate = Object.assign({}, exports.wildcatConfig, {
-    serverSettings: {
-        hotReload: true,
-        hotReloader: "react-wildcat-hot-reloader",
-        renderType: "renderToString",
-        appServer: {
-            protocol: "https"
-        },
-        htmlNotFoundTemplate: () => "<html><h1>Custom 404 Template</h1></html>"
-    }
-});
-
-exports.wildcatConfigServiceWorkerEnabled = Object.assign({}, exports.wildcatConfig, {
-    clientSettings: {
-        serviceWorker: true
-    }
-});
-exports.wildcatConfigServiceWorkerDisabled = Object.assign({}, exports.wildcatConfig, {
-    clientSettings: {
-        serviceWorker: false
-    }
-});
-exports.wildcatConfigServiceWorkerEnabledNoHttps = Object.assign({}, exports.wildcatConfig, {
-    clientSettings: {
-        serviceWorker: true
-    },
-    serverSettings: {
-        renderType: () => "renderToStaticMarkup",
-        appServer: {
-            protocol: "http"
+exports.wildcatConfigWithHtmlNotFoundTemplate = Object.assign(
+    {},
+    exports.wildcatConfig,
+    {
+        serverSettings: {
+            hotReload: true,
+            hotReloader: "react-wildcat-hot-reloader",
+            renderType: "renderToString",
+            appServer: {
+                protocol: "https"
+            },
+            htmlNotFoundTemplate: () =>
+                "<html><h1>Custom 404 Template</h1></html>"
         }
     }
-});
+);
+
+exports.wildcatConfigServiceWorkerEnabled = Object.assign(
+    {},
+    exports.wildcatConfig,
+    {
+        clientSettings: {
+            serviceWorker: true
+        }
+    }
+);
+exports.wildcatConfigServiceWorkerDisabled = Object.assign(
+    {},
+    exports.wildcatConfig,
+    {
+        clientSettings: {
+            serviceWorker: false
+        }
+    }
+);
+exports.wildcatConfigServiceWorkerEnabledNoHttps = Object.assign(
+    {},
+    exports.wildcatConfig,
+    {
+        clientSettings: {
+            serviceWorker: true
+        },
+        serverSettings: {
+            renderType: () => "renderToStaticMarkup",
+            appServer: {
+                protocol: "http"
+            }
+        }
+    }
+);
 
 exports.Application = createReactClass({
     displayName: "Application",
@@ -273,16 +289,15 @@ const NotFoundApplication = exports.Application;
 NotFoundApplication.routerProps = {status: 404};
 
 const routes = React.createElement(
-    Router.Route, {
+    Router.Route,
+    {
         path: "/",
         component: exports.Application
     },
-
     React.createElement(Router.Redirect, {
         from: "/redirect",
         to: "/"
     }),
-
     React.createElement(Router.Redirect, {
         from: "/context.html",
         to: "/"
@@ -301,24 +316,22 @@ exports.routes = {
 };
 
 exports.notFoundRoute = {
-    routes: React.createElement(
-        Router.Route, {
-            path: "/",
-            component: NotFoundApplication
-        }
-    )
+    routes: React.createElement(Router.Route, {
+        path: "/",
+        component: NotFoundApplication
+    })
 };
 
 exports.callbackError = new Error("Fake Error!");
 
 const invalidRoutes = React.createElement(
-    Router.Route, {
+    Router.Route,
+    {
         path: "/",
         getComponent: (location, cb) => {
             return cb(exports.callbackError);
         }
     },
-
     React.createElement(Router.Redirect, {
         from: "/context.html",
         to: "/"
@@ -371,54 +384,38 @@ exports.unwrappedSubdomains = {
 };
 
 exports.domainAliases = {
-    "example": {
-        "www": [
-            "localhost",
-            "example",
-            "www.example",
-            "127.0.0.1"
-        ],
-        "dev": "127.0.0.2"
+    example: {
+        www: ["localhost", "example", "www.example", "127.0.0.1"],
+        dev: "127.0.0.2"
     }
 };
 
 exports.domainAliasesMultiple = {
-    "internal": {
-        "foo": [
-            "www.aliastointernal",
-            "www.otheraliastointernal"
-        ]
+    internal: {
+        foo: ["www.aliastointernal", "www.otheraliastointernal"]
     },
-    "example": {
-        "www": ["127.0.0.1"]
+    example: {
+        www: ["127.0.0.1"]
     },
-    "external": {
-        "test": ["www.aliastoexternal"]
+    external: {
+        test: ["www.aliastoexternal"]
     }
 };
 
 exports.domainAliasesNoSubdomain = {
-    "example": [
-        "localhost",
-        "127.0.0.1",
-        "example"
-    ],
-    "dev": [
-        "test.com",
-        "127.0.0.2"
-    ]
+    example: ["localhost", "127.0.0.1", "example"],
+    dev: ["test.com", "127.0.0.2"]
 };
 
 exports.domainAliasesUndefined = {
-    "example": {
-        "www": [undefined]
+    example: {
+        www: [undefined]
     }
 };
 
 exports.domainAliasesStringOnly = {
-    "example": "127.0.0.1"
+    example: "127.0.0.1"
 };
-
 
 exports.domains = {
     async: {
@@ -454,7 +451,6 @@ exports.domains = {
             }
         }
     }
-
 };
 
 exports.domainsWithMultipleAliases = {
@@ -465,13 +461,20 @@ exports.domainsWithMultipleAliases = {
                 return setTimeout(() => cb(null, exports.subdomains.async), 0);
             },
             external: function getExternalRoutes(location, cb) {
-                return setTimeout(() => cb(null, {
-                    domains: {
-                        test: function getWWWRoutes(location2, cb2) {
-                            return setTimeout(() => cb2(null, routes), 0);
-                        }
-                    }
-                }), 0);
+                return setTimeout(
+                    () =>
+                        cb(null, {
+                            domains: {
+                                test: function getWWWRoutes(location2, cb2) {
+                                    return setTimeout(
+                                        () => cb2(null, routes),
+                                        0
+                                    );
+                                }
+                            }
+                        }),
+                    0
+                );
             }
         }
     },
@@ -512,11 +515,17 @@ exports.unwrappedDomains = {
             domainAliases: exports.domainAliases,
 
             example: function getUnwrappedExampleRoutes(location, cb) {
-                return setTimeout(() => cb(null, exports.unwrappedSubdomains.async), 0);
+                return setTimeout(
+                    () => cb(null, exports.unwrappedSubdomains.async),
+                    0
+                );
             },
 
             localhost: function getUnwrappedLocalhostRoutes(location, cb) {
-                return setTimeout(() => cb(null, exports.unwrappedSubdomains.async), 0);
+                return setTimeout(
+                    () => cb(null, exports.unwrappedSubdomains.async),
+                    0
+                );
             }
         }
     },
@@ -550,7 +559,7 @@ exports.invalidDomains = {
 exports.prefetchedDataKey = "stubData";
 
 exports.prefetchedData = {
-    "stub": true
+    stub: true
 };
 
 exports.fetchPromise = () => Promise.resolve(exports.prefetchedData);
@@ -560,16 +569,16 @@ exports.PrefetchedApplication = prefetch(exports.fetchPromise, {
 })(exports.Application);
 
 exports.prefetchedRoutes = {
-    routes: React.createElement(
-        Router.Route, {
-            path: "/",
-            component: exports.PrefetchedApplication
-        }
-    )
+    routes: React.createElement(Router.Route, {
+        path: "/",
+        component: exports.PrefetchedApplication
+    })
 };
 
 exports.developmentPayload = `System.import("react-wildcat-hot-reloader")`;
-exports.hydratedPayload = `__INITIAL_DATA__ = {"${exports.prefetchedDataKey}":${JSON.stringify(exports.prefetchedData)}};`;
+exports.hydratedPayload = `__INITIAL_DATA__ = {"${exports.prefetchedDataKey}":${JSON.stringify(
+    exports.prefetchedData
+)}};`;
 exports.serviceWorkerPayload = `<script src="/register-sw.js">`;
 
 exports.__REACT_ROOT_ID__ = "__REACT_ROOT_ID__";

@@ -16,19 +16,15 @@ describe("Prefetch Example", () => {
 
     describe("prefetch", () => {
         it("prefetches data", async () => {
-            expect(PrefetchExample)
-                .itself.to.have.property("prefetch");
+            expect(PrefetchExample).itself.to.have.property("prefetch");
 
             const {prefetch} = PrefetchExample;
 
-            expect(prefetch)
-                .to.respondTo("getKey");
+            expect(prefetch).to.respondTo("getKey");
 
-            expect(prefetch.getKey())
-                .to.equal("asyncData");
+            expect(prefetch.getKey()).to.equal("asyncData");
 
-            expect(prefetch)
-                .to.respondTo("run");
+            expect(prefetch).to.respondTo("run");
 
             const asyncData = await prefetch.run();
 
@@ -43,40 +39,34 @@ describe("Prefetch Example", () => {
 
     describe("render", () => {
         beforeAll(() => {
-            expect(PrefetchExample)
-                .itself.to.have.property("WrappedComponent");
+            expect(PrefetchExample).itself.to.have.property("WrappedComponent");
 
             expect(PrefetchExample.WrappedComponent).to.exist;
         });
 
         it("renders correctly", () => {
-            const prefetchExample = mount(
-                <PrefetchExample />
-            );
+            const prefetchExample = mount(<PrefetchExample />);
 
             expect(prefetchExample).to.exist;
         });
 
         it("renders #prefetch element", () => {
-            const prefetchExample = mount(
-                <PrefetchExample />
-            );
+            const prefetchExample = mount(<PrefetchExample />);
 
-            expect(prefetchExample.find(`#prefetch`))
-                .to.have.length.of(1);
+            expect(prefetchExample.find(`#prefetch`)).to.have.length.of(1);
         });
     });
 
     describe("routes", () => {
         it("has a defined path", () => {
             expect(prefetchExampleRoutes).to.exist;
-            expect(prefetchExampleRoutes)
-                .to.have.property("path")
+            expect(prefetchExampleRoutes).to.have
+                .property("path")
                 .that.is.a("string")
                 .that.equals(prefetchExamplePath);
         });
 
-        it("asynchronously fetches component", (done) => {
+        it("asynchronously fetches component", done => {
             expect(prefetchExampleRoutes).to.exist;
             expect(prefetchExampleRoutes).to.respondTo("getComponent");
 

@@ -6,17 +6,15 @@ chai.use(sinonChai);
 
 const proxyquire = require("proxyquire").noPreserveCache();
 
-module.exports = (stubs) => {
+module.exports = stubs => {
     describe("getWildcatConfig", () => {
         it("returns a Wildcat configuration object", () => {
             const getWildcatConfig = require("../../src/utils/getWildcatConfig");
             const wildcatConfig = getWildcatConfig(stubs.exampleDir);
 
-            expect(wildcatConfig)
-                .to.exist;
+            expect(wildcatConfig).to.exist;
 
-            expect(wildcatConfig)
-                .to.be.an("object");
+            expect(wildcatConfig).to.be.an("object");
         });
 
         context("with specified config values", () => {
@@ -24,17 +22,22 @@ module.exports = (stubs) => {
 
             before(() => {
                 const customCwd = path.resolve(__dirname, "../fixtures");
-                wildcatConfig = proxyquire("../../src/utils/getWildcatConfig.js", {})(customCwd);
+                wildcatConfig = proxyquire(
+                    "../../src/utils/getWildcatConfig.js",
+                    {}
+                )(customCwd);
             });
 
             it(`uses specified originUrl`, () => {
-                expect(wildcatConfig.generalSettings.originUrl)
-                    .to.equal("http://mytestorigin.com");
+                expect(wildcatConfig.generalSettings.originUrl).to.equal(
+                    "http://mytestorigin.com"
+                );
             });
 
             it(`uses specified staticUrl`, () => {
-                expect(wildcatConfig.generalSettings.staticUrl)
-                    .to.equal("http://myteststatic.com");
+                expect(wildcatConfig.generalSettings.staticUrl).to.equal(
+                    "http://myteststatic.com"
+                );
             });
         });
 
@@ -42,17 +45,22 @@ module.exports = (stubs) => {
             let wildcatConfig;
 
             before(() => {
-                wildcatConfig = proxyquire("../../src/utils/getWildcatConfig.js", {})();
+                wildcatConfig = proxyquire(
+                    "../../src/utils/getWildcatConfig.js",
+                    {}
+                )();
             });
 
             it(`uses calculated originUrl`, () => {
-                expect(wildcatConfig.generalSettings.originUrl)
-                    .to.equal("https://localhost:3000");
+                expect(wildcatConfig.generalSettings.originUrl).to.equal(
+                    "https://localhost:3000"
+                );
             });
 
             it(`uses calculated staticUrl`, () => {
-                expect(wildcatConfig.generalSettings.staticUrl)
-                    .to.equal("https://localhost:4000");
+                expect(wildcatConfig.generalSettings.staticUrl).to.equal(
+                    "https://localhost:4000"
+                );
             });
         });
     });

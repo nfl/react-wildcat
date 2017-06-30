@@ -5,9 +5,7 @@
  */
 export default async (currentUrl, timeout = 10000) => {
     return await browser.wait(
-        protractor.ExpectedConditions.visibilityOf(
-            $("[data-react-available]")
-        ),
+        protractor.ExpectedConditions.visibilityOf($("[data-react-available]")),
         timeout
     );
 };

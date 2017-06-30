@@ -17,9 +17,7 @@ describe("staticServer", () => {
     const stubs = require("./fixtures");
 
     before(() => {
-        [
-            stubs.publicDir
-        ].forEach(fs.removeSync);
+        [stubs.publicDir].forEach(fs.removeSync);
 
         process.chdir(stubs.exampleDir);
     });
@@ -30,12 +28,8 @@ describe("staticServer", () => {
 
     context("static server", () => {
         const expectations = {
-            "development": [
-                "Static server is running at"
-            ],
-            "production": [
-                "Static server is running"
-            ]
+            development: ["Static server is running at"],
+            production: ["Static server is running"]
         };
 
         before(() => {
@@ -50,36 +44,46 @@ describe("staticServer", () => {
 
         ["development", "production"].forEach(currentEnv => {
             context(currentEnv, () => {
-                it("starts the server via cli", (done) => {
+                it("starts the server via cli", done => {
                     const currentExpectations = expectations[currentEnv];
                     let currentExpectationCount = 0;
                     let cli;
 
                     try {
-                        cli = cp.spawn("node", [
-                            path.join(cwd, "packages/react-wildcat/cli/wildcatStaticServer.js")
-                        ], {
-                            stdio: "pipe"
-                        });
+                        cli = cp.spawn(
+                            "node",
+                            [
+                                path.join(
+                                    cwd,
+                                    "packages/react-wildcat/cli/wildcatStaticServer.js"
+                                )
+                            ],
+                            {
+                                stdio: "pipe"
+                            }
+                        );
 
                         cli.stdout.setEncoding("utf8");
 
-                        cli.stdout.on("data", (data) => {
-                            const expectationMatch = currentExpectations.some(exp => data.includes(exp));
+                        cli.stdout.on("data", data => {
+                            const expectationMatch = currentExpectations.some(
+                                exp => data.includes(exp)
+                            );
 
                             if (expectationMatch) {
                                 expect(expectationMatch).to.be.true;
                                 currentExpectationCount++;
                             }
 
-                            expect(cli.killed)
-                                .to.be.false;
+                            expect(cli.killed).to.be.false;
 
-                            if (currentExpectationCount >= currentExpectations.length) {
+                            if (
+                                currentExpectationCount >=
+                                currentExpectations.length
+                            ) {
                                 cli.kill("SIGINT");
 
-                                expect(cli.killed)
-                                    .to.be.true;
+                                expect(cli.killed).to.be.true;
 
                                 setTimeout(() => done(), 250);
                             }
@@ -92,62 +96,62 @@ describe("staticServer", () => {
 
                 ["http2", "https", "http"].forEach(currentProtocol => {
                     context(currentProtocol, () => {
-                        it("starts the server programmatically", (done) => {
-                            const staticServer = proxyquire("../src/staticServer.js", {
-                                "cluster": {
-                                    isMaster: false,
-                                    worker: {
-                                        id: 1
-                                    }
-                                },
-                                "./utils/getWildcatConfig": () => {
-                                    const defaultConfig = require("../src/utils/getWildcatConfig")();
-                                    return deepmerge.all([
-                                        defaultConfig,
-                                        stubs.getEnvironment({
-                                            NODE_ENV: currentEnv
-                                        }),
-                                        {
-                                            serverSettings: {
-                                                staticServer: {
-                                                    minClusterCpuCount: 1,
-                                                    maxClusterCpuCount: 1,
-                                                    protocol: currentProtocol
+                        it("starts the server programmatically", done => {
+                            const staticServer = proxyquire(
+                                "../src/staticServer.js",
+                                {
+                                    cluster: {
+                                        isMaster: false,
+                                        worker: {
+                                            id: 1
+                                        }
+                                    },
+                                    "./utils/getWildcatConfig": () => {
+                                        const defaultConfig = require("../src/utils/getWildcatConfig")();
+                                        return deepmerge.all([
+                                            defaultConfig,
+                                            stubs.getEnvironment({
+                                                NODE_ENV: currentEnv
+                                            }),
+                                            {
+                                                serverSettings: {
+                                                    staticServer: {
+                                                        minClusterCpuCount: 1,
+                                                        maxClusterCpuCount: 1,
+                                                        protocol: currentProtocol
+                                                    }
                                                 }
                                             }
-                                        }
-                                    ]);
-                                },
-                                "./utils/logger": (() => {
-                                    function Logger() {}
+                                        ]);
+                                    },
+                                    "./utils/logger": (() => {
+                                        function Logger() {}
 
-                                    Logger.prototype = {
-                                        info: () => {},
-                                        meta: () => {},
-                                        ok: () => {},
-                                        warn: () => {}
-                                    };
+                                        Logger.prototype = {
+                                            info: () => {},
+                                            meta: () => {},
+                                            ok: () => {},
+                                            warn: () => {}
+                                        };
 
-                                    return Logger;
-                                })()
-                            });
+                                        return Logger;
+                                    })()
+                                }
+                            );
 
-                            expect(staticServer)
-                                .to.exist;
+                            expect(staticServer).to.exist;
 
-                            expect(staticServer)
-                                .to.respondTo("start");
+                            expect(staticServer).to.respondTo("start");
 
-                            expect(staticServer.start)
-                                .to.be.a("function");
+                            expect(staticServer.start).to.be.a("function");
 
-                            staticServer.start()
-                                .then((result) => {
-                                    expect(result)
-                                        .to.exist;
+                            staticServer
+                                .start()
+                                .then(result => {
+                                    expect(result).to.exist;
 
-                                    expect(result)
-                                        .to.be.an("object")
+                                    expect(result).to.be
+                                        .an("object")
                                         .that.has.property("env")
                                         .that.equals(currentEnv);
 
@@ -175,9 +179,9 @@ describe("staticServer", () => {
             lifecycleTests.forEach(lifecycle => {
                 let wildcatConfig = require("../src/utils/getWildcatConfig")();
 
-                it(lifecycle, (done) => {
+                it(lifecycle, done => {
                     const server = proxyquire("../src/staticServer.js", {
-                        "cluster": {
+                        cluster: {
                             isMaster: false,
                             worker: {
                                 id: 1
@@ -200,22 +204,22 @@ describe("staticServer", () => {
                         "./utils/logger": stubs.NullConsoleLogger
                     });
 
-                    expect(server)
-                        .to.exist;
+                    expect(server).to.exist;
 
-                    expect(server)
-                        .to.respondTo("start");
+                    expect(server).to.respondTo("start");
 
-                    expect(server.start)
-                        .to.be.a("function");
+                    expect(server.start).to.be.a("function");
 
-                    server.start()
-                        .then((result) => {
-                            expect(result)
-                                .to.exist;
+                    server
+                        .start()
+                        .then(result => {
+                            expect(result).to.exist;
 
-                            expect(wildcatConfig.serverSettings.staticServer[lifecycle].calledOnce)
-                                .to.be.true;
+                            expect(
+                                wildcatConfig.serverSettings.staticServer[
+                                    lifecycle
+                                ].calledOnce
+                            ).to.be.true;
 
                             server.close();
                             done();
@@ -229,107 +233,115 @@ describe("staticServer", () => {
         });
 
         context("cluster", () => {
-            context("When attempting to start a cluster of static servers", function () {
-                this.timeout(30000);
+            context(
+                "When attempting to start a cluster of static servers",
+                function() {
+                    this.timeout(30000);
 
-                let clusterForkStub;
-                let server;
+                    let clusterForkStub;
+                    let server;
 
-                beforeEach(() => {
-                    clusterForkStub = sinon.stub(cluster, "fork");
-                });
-
-                afterEach(() => {
-                    clusterForkStub.restore();
-                    server && server.close && server.close();
-                });
-
-                it(`maxClusterCpuCount defined as 1 should only start one server`, (done) => {
-                    server = proxyquire("../src/staticServer.js", {
-                        "./utils/getWildcatConfig": () => {
-                            const defaultConfig = require("../src/utils/getWildcatConfig")();
-                            return deepmerge.all([
-                                defaultConfig,
-                                {
-                                    serverSettings: {
-                                        staticServer: {
-                                            maxClusterCpuCount: 1
-                                        }
-                                    }
-                                }
-                            ]);
-                        },
-                        "./utils/logger": stubs.NullConsoleLogger
+                    beforeEach(() => {
+                        clusterForkStub = sinon.stub(cluster, "fork");
                     });
 
-                    server.start()
-                        .then(result => {
+                    afterEach(() => {
+                        clusterForkStub.restore();
+                        server && server.close && server.close();
+                    });
+
+                    it(`maxClusterCpuCount defined as 1 should only start one server`, done => {
+                        server = proxyquire("../src/staticServer.js", {
+                            "./utils/getWildcatConfig": () => {
+                                const defaultConfig = require("../src/utils/getWildcatConfig")();
+                                return deepmerge.all([
+                                    defaultConfig,
+                                    {
+                                        serverSettings: {
+                                            staticServer: {
+                                                maxClusterCpuCount: 1
+                                            }
+                                        }
+                                    }
+                                ]);
+                            },
+                            "./utils/logger": stubs.NullConsoleLogger
+                        });
+
+                        server.start().then(result => {
                             expect(result.clusterForksCount).to.equal(1);
 
                             sinon.assert.callCount(clusterForkStub, 1);
 
                             done();
                         }, done);
-                });
-
-                it(`maxClusterCpuCount=2 should start 2 servers`, (done) => {
-                    server = proxyquire("../src/staticServer.js", {
-                        "./utils/getWildcatConfig": () => {
-                            const defaultConfig = require("../src/utils/getWildcatConfig")();
-                            return deepmerge.all([
-                                defaultConfig,
-                                {
-                                    __ClusterServerTest__: true,
-                                    serverSettings: {
-                                        staticServer: {
-                                            maxClusterCpuCount: 2
-                                        }
-                                    }
-                                }
-                            ]);
-                        },
-                        "./utils/logger": stubs.NullConsoleLogger
                     });
 
-                    server.start()
-                        .then(result => {
-                            expect(result.clusterForksCount).to.equal(2);
-                            sinon.assert.callCount(clusterForkStub, 2);
-                        })
-                        .then(done)
-                        .catch(done);
-                });
-
-
-                it(`maxClusterCpuCount defined as Infinity should start as many servers as machine CPUs`, (done) => {
-                    server = proxyquire("../src/staticServer.js", {
-                        "./utils/getWildcatConfig": () => {
-                            const defaultConfig = require("../src/utils/getWildcatConfig")();
-                            return deepmerge.all([
-                                defaultConfig,
-                                {
-                                    __ClusterServerTest__: true,
-                                    serverSettings: {
-                                        staticServer: {
-                                            maxClusterCpuCount: Infinity
+                    it(`maxClusterCpuCount=2 should start 2 servers`, done => {
+                        server = proxyquire("../src/staticServer.js", {
+                            "./utils/getWildcatConfig": () => {
+                                const defaultConfig = require("../src/utils/getWildcatConfig")();
+                                return deepmerge.all([
+                                    defaultConfig,
+                                    {
+                                        __ClusterServerTest__: true,
+                                        serverSettings: {
+                                            staticServer: {
+                                                maxClusterCpuCount: 2
+                                            }
                                         }
                                     }
-                                }
-                            ]);
-                        },
-                        "./utils/logger": stubs.NullConsoleLogger
+                                ]);
+                            },
+                            "./utils/logger": stubs.NullConsoleLogger
+                        });
+
+                        server
+                            .start()
+                            .then(result => {
+                                expect(result.clusterForksCount).to.equal(2);
+                                sinon.assert.callCount(clusterForkStub, 2);
+                            })
+                            .then(done)
+                            .catch(done);
                     });
 
-                    server.start()
-                        .then(result => {
-                            expect(result.clusterForksCount).to.equal(os.cpus().length);
-                            sinon.assert.callCount(clusterForkStub, os.cpus().length);
+                    it(`maxClusterCpuCount defined as Infinity should start as many servers as machine CPUs`, done => {
+                        server = proxyquire("../src/staticServer.js", {
+                            "./utils/getWildcatConfig": () => {
+                                const defaultConfig = require("../src/utils/getWildcatConfig")();
+                                return deepmerge.all([
+                                    defaultConfig,
+                                    {
+                                        __ClusterServerTest__: true,
+                                        serverSettings: {
+                                            staticServer: {
+                                                maxClusterCpuCount: Infinity
+                                            }
+                                        }
+                                    }
+                                ]);
+                            },
+                            "./utils/logger": stubs.NullConsoleLogger
+                        });
 
-                            done();
-                        })
-                        .catch(done);
-                });
-            });
+                        server
+                            .start()
+                            .then(result => {
+                                expect(result.clusterForksCount).to.equal(
+                                    os.cpus().length
+                                );
+                                sinon.assert.callCount(
+                                    clusterForkStub,
+                                    os.cpus().length
+                                );
+
+                                done();
+                            })
+                            .catch(done);
+                    });
+                }
+            );
         });
     });
 

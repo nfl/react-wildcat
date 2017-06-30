@@ -1,7 +1,4 @@
-import {
-    globals,
-    mediaQueries
-} from "./globals.js";
+import {globals, mediaQueries} from "./globals.js";
 
 const {tablet, desktop, largeDesktop} = mediaQueries;
 
@@ -42,6 +39,5 @@ const styles = {
         }
     }
 };
-
 
 export default styles;

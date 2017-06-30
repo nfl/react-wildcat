@@ -9,19 +9,21 @@ const deepmerge = require("deepmerge");
 const proxyquire = require("proxyquire").noPreserveCache();
 const webpack = require("webpack");
 
-module.exports = (stubs) => {
-    describe("renderReactWithWebpack", function () {
+module.exports = stubs => {
+    describe("renderReactWithWebpack", function() {
         this.timeout(30000);
 
-        const wildcatConfig = require("../../src/utils/getWildcatConfig")(stubs.exampleDir);
+        const wildcatConfig = require("../../src/utils/getWildcatConfig")(
+            stubs.exampleDir
+        );
         let staticServer;
 
         const loggerStub = {};
 
-        before((done) => {
+        before(done => {
             const compiler = webpack(require(stubs.prodConfigFile));
 
-            compiler.run((err) => {
+            compiler.run(err => {
                 if (err) {
                     done(err);
                 }
@@ -34,7 +36,7 @@ module.exports = (stubs) => {
                 sinon.stub(console, "info").returns();
 
                 staticServer = proxyquire("../../src/staticServer", {
-                    "cluster": {
+                    cluster: {
                         isMaster: false,
                         worker: {
                             id: 1
@@ -52,12 +54,11 @@ module.exports = (stubs) => {
                     })
                 });
 
-                staticServer.start()
-                    .then(() => done());
+                staticServer.start().then(() => done());
             });
         });
 
-        after((done) => {
+        after(done => {
             Object.keys(stubs.logMethods).forEach(method => {
                 loggerStub[method].restore();
             });
@@ -75,46 +76,59 @@ module.exports = (stubs) => {
             console.warn.restore();
         });
 
-        const renderTypes = [{
-            name: "renders HTML",
-            expectation: `<title data-react-helmet="true">Index Example</title>`,
-            fresh: false,
-            url: "/"
-        }, {
-            name: "renders HTML on subsequent requests",
-            expectation: `<title data-react-helmet="true">Index Example</title>`,
-            fresh: false,
-            url: "/"
-        }, {
-            name: "returns error payload",
-            expectation: "Not found",
-            fresh: false,
-            url: "/error"
-        }, {
-            name: "redirects the page",
-            expectation: "",
-            fresh: false,
-            url: "/redirect"
-        }];
+        const renderTypes = [
+            {
+                name: "renders HTML",
+                expectation: `<title data-react-helmet="true">Index Example</title>`,
+                fresh: false,
+                url: "/"
+            },
+            {
+                name: "renders HTML on subsequent requests",
+                expectation: `<title data-react-helmet="true">Index Example</title>`,
+                fresh: false,
+                url: "/"
+            },
+            {
+                name: "returns error payload",
+                expectation: "Not found",
+                fresh: false,
+                url: "/error"
+            },
+            {
+                name: "redirects the page",
+                expectation: "",
+                fresh: false,
+                url: "/redirect"
+            }
+        ];
 
         ["development", "production"].forEach(currentEnv => {
             context(currentEnv, () => {
-                const isCurrentlyProd = (currentEnv === "production");
+                const isCurrentlyProd = currentEnv === "production";
 
-                renderTypes.forEach((render) => {
-                    it(render.name, (done) => {
-                        const renderReactWithWebpack = require("../../src/middleware/renderReactWithWebpack")(stubs.exampleDir, {
-                            logger: stubs.logger,
-                            wildcatConfig: deepmerge(wildcatConfig, stubs.getEnvironment({
-                                NODE_ENV: currentEnv
-                            }))
-                        });
+                renderTypes.forEach(render => {
+                    it(render.name, done => {
+                        const renderReactWithWebpack = require("../../src/middleware/renderReactWithWebpack")(
+                            stubs.exampleDir,
+                            {
+                                logger: stubs.logger,
+                                wildcatConfig: deepmerge(
+                                    wildcatConfig,
+                                    stubs.getEnvironment({
+                                        NODE_ENV: currentEnv
+                                    })
+                                )
+                            }
+                        );
 
-                        co(function* () {
+                        co(function*() {
                             return yield renderReactWithWebpack.call({
                                 request: {
                                     header: {
-                                        host: wildcatConfig.generalSettings.originUrl,
+                                        host:
+                                            wildcatConfig.generalSettings
+                                                .originUrl,
                                         "user-agent": "Mozilla/5.0"
                                     },
                                     fresh: render.fresh,
@@ -129,9 +143,9 @@ module.exports = (stubs) => {
                                 }
                             });
                         })
-                            .then((result) => {
-                                expect(result)
-                                    .to.be.a("string")
+                            .then(result => {
+                                expect(result).to.be
+                                    .a("string")
                                     .that.includes(render.expectation);
 
                                 done();
@@ -140,27 +154,31 @@ module.exports = (stubs) => {
                     });
                 });
 
-                it("handles server errors", (done) => {
-                    const renderReactWithWebpack = require("../../src/middleware/renderReactWithWebpack")(stubs.exampleDir, {
-                        logger: stubs.logger,
-                        wildcatConfig: deepmerge.all([
-                            wildcatConfig,
-                            stubs.getEnvironment({
-                                NODE_ENV: currentEnv
-                            }),
-                            {
-                                serverSettings: {
-                                    displayBlueBoxOfDeath: !isCurrentlyProd
+                it("handles server errors", done => {
+                    const renderReactWithWebpack = require("../../src/middleware/renderReactWithWebpack")(
+                        stubs.exampleDir,
+                        {
+                            logger: stubs.logger,
+                            wildcatConfig: deepmerge.all([
+                                wildcatConfig,
+                                stubs.getEnvironment({
+                                    NODE_ENV: currentEnv
+                                }),
+                                {
+                                    serverSettings: {
+                                        displayBlueBoxOfDeath: !isCurrentlyProd
+                                    }
                                 }
-                            }
-                        ])
-                    });
+                            ])
+                        }
+                    );
 
-                    co(function* () {
+                    co(function*() {
                         return yield renderReactWithWebpack.call({
                             request: {
                                 header: {
-                                    host: wildcatConfig.generalSettings.originUrl,
+                                    host:
+                                        wildcatConfig.generalSettings.originUrl,
                                     "user-agent": "Mozilla/5.0"
                                 },
                                 fresh: false,
@@ -175,22 +193,27 @@ module.exports = (stubs) => {
                             }
                         });
                     })
-                        .then((result) => {
-                            expect(result)
-                                .to.be.a("string")
-                                .that.includes("TypeError: this.props is not a function");
+                        .then(result => {
+                            expect(result).to.be
+                                .a("string")
+                                .that.includes(
+                                    "TypeError: this.props is not a function"
+                                );
 
                             done();
                         })
                         .catch(done);
                 });
 
-                it("handles validation errors", (done) => {
-                    const renderReactWithWebpack = proxyquire("../../src/middleware/renderReactWithWebpack", {
-                        "../utils/webpackBundleValidation": () => ({
-                            onReady: (cb) => cb(stubs.errorStub)
-                        })
-                    })(stubs.exampleDir, {
+                it("handles validation errors", done => {
+                    const renderReactWithWebpack = proxyquire(
+                        "../../src/middleware/renderReactWithWebpack",
+                        {
+                            "../utils/webpackBundleValidation": () => ({
+                                onReady: cb => cb(stubs.errorStub)
+                            })
+                        }
+                    )(stubs.exampleDir, {
                         logger: stubs.logger,
                         wildcatConfig: deepmerge.all([
                             wildcatConfig,
@@ -205,11 +228,12 @@ module.exports = (stubs) => {
                         ])
                     });
 
-                    co(function* () {
+                    co(function*() {
                         return yield renderReactWithWebpack.call({
                             request: {
                                 header: {
-                                    host: wildcatConfig.generalSettings.originUrl,
+                                    host:
+                                        wildcatConfig.generalSettings.originUrl,
                                     "user-agent": "Mozilla/5.0"
                                 },
                                 fresh: false,
@@ -224,9 +248,8 @@ module.exports = (stubs) => {
                             }
                         });
                     })
-                        .then((result) => {
-                            expect(result)
-                                .to.include(stubs.errorStub.message);
+                        .then(result => {
+                            expect(result).to.include(stubs.errorStub.message);
 
                             done();
                         })
@@ -235,12 +258,15 @@ module.exports = (stubs) => {
             });
         });
 
-        it("handles Webpack bundle errors", (done) => {
-            const renderReactWithWebpack = proxyquire("../../src/middleware/renderReactWithWebpack", {
-                "../utils/webpackBundleValidation": () => ({
-                    onReady: (cb) => cb(null, stubs.statsWithErrors)
-                })
-            })(stubs.exampleDir, {
+        it("handles Webpack bundle errors", done => {
+            const renderReactWithWebpack = proxyquire(
+                "../../src/middleware/renderReactWithWebpack",
+                {
+                    "../utils/webpackBundleValidation": () => ({
+                        onReady: cb => cb(null, stubs.statsWithErrors)
+                    })
+                }
+            )(stubs.exampleDir, {
                 logger: stubs.logger,
                 wildcatConfig: deepmerge.all([
                     wildcatConfig,
@@ -255,7 +281,7 @@ module.exports = (stubs) => {
                 ])
             });
 
-            co(function* () {
+            co(function*() {
                 return yield renderReactWithWebpack.call({
                     request: {
                         header: {
@@ -274,9 +300,8 @@ module.exports = (stubs) => {
                     }
                 });
             })
-                .then((result) => {
-                    expect(result)
-                        .to.include(stubs.errorStub.message);
+                .then(result => {
+                    expect(result).to.include(stubs.errorStub.message);
 
                     done();
                 })

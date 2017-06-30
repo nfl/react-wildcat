@@ -47,7 +47,8 @@ module.exports = {
             optimize: false,
             minify: false
         }).concat(
-            fs.readdirSync(cacheEnvDir)
+            fs
+                .readdirSync(cacheEnvDir)
                 .filter(file => file.endsWith("-manifest.json"))
                 .map(file => {
                     return new webpack.DllReferencePlugin({

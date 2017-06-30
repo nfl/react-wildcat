@@ -1,16 +1,16 @@
 exports.prefetchedData = {
-    "asyncData": {
-        "stub": true
+    asyncData: {
+        stub: true
     },
 
-    "asyncArrayData": [1, 2, 3],
+    asyncArrayData: [1, 2, 3],
 
-    "firstData": {
-        "first": true
+    firstData: {
+        first: true
     },
 
-    "secondData": {
-        "second": true
+    secondData: {
+        second: true
     }
 };
 

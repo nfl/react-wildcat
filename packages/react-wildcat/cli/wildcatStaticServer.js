@@ -14,13 +14,9 @@ function killAllChildProcesses(signal) {
     childProcesses.forEach(childProcess => childProcess.kill(signal));
 }
 
-program
-    .version(pkg.version)
-    .parse(process.argv);
+program.version(pkg.version).parse(process.argv);
 
-const server = cp.spawn("node", [
-    path.resolve(__dirname, "../staticServer")
-], {
+const server = cp.spawn("node", [path.resolve(__dirname, "../staticServer")], {
     stdio: "inherit"
 });
 

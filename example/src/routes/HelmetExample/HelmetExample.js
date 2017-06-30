@@ -9,19 +9,34 @@ class HelmetExample extends React.Component {
          * these properties can even come from a constants file
          */
         const meta = [
-            {"name": "viewport", "content": "width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"},
-            {"name": "description", "content": "Helmet Example"},
-            {"property": "og:type", "content": "article"}
+            {
+                name: "viewport",
+                content:
+                    "width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+            },
+            {name: "description", content: "Helmet Example"},
+            {property: "og:type", content: "article"}
         ];
 
         const link = [
-            {"rel": "canonical", "href": "http://mysite.com/example"},
-            {"rel": "apple-touch-icon", "href": "http://mysite.com/img/apple-touch-icon-57x57.png"},
-            {"rel": "apple-touch-icon", "sizes": "72x72", "href": "http://mysite.com/img/apple-touch-icon-72x72.png"},
-            {"rel": "apple-touch-icon", "sizes": "114x114", "href": "http://mysite.com/img/apple-touch-icon-114x114.png"}
+            {rel: "canonical", href: "http://mysite.com/example"},
+            {
+                rel: "apple-touch-icon",
+                href: "http://mysite.com/img/apple-touch-icon-57x57.png"
+            },
+            {
+                rel: "apple-touch-icon",
+                sizes: "72x72",
+                href: "http://mysite.com/img/apple-touch-icon-72x72.png"
+            },
+            {
+                rel: "apple-touch-icon",
+                sizes: "114x114",
+                href: "http://mysite.com/img/apple-touch-icon-114x114.png"
+            }
         ];
 
-        const htmlAttributes = {"lang": "en-US"};
+        const htmlAttributes = {lang: "en-US"};
 
         return (
             <div id="helmet">
@@ -33,12 +48,17 @@ class HelmetExample extends React.Component {
                 />
                 <Helmet
                     link={[
-                        {"rel": "apple-touch-icon", "href": "http://mysite.com/img/nested-apple-touch-icon.png"},
-                        {"rel": "canonical", "href": "http://mysite.com/example/nested"}
+                        {
+                            rel: "apple-touch-icon",
+                            href:
+                                "http://mysite.com/img/nested-apple-touch-icon.png"
+                        },
+                        {
+                            rel: "canonical",
+                            href: "http://mysite.com/example/nested"
+                        }
                     ]}
-                    meta={[
-                        {"name": "description", "content": "Nested Example"}
-                    ]}
+                    meta={[{name: "description", content: "Nested Example"}]}
                     title="Nested Example"
                 />
 
@@ -46,9 +66,17 @@ class HelmetExample extends React.Component {
 
                 <p>Please note:</p>
                 <ul>
-                    <li>1) The second Helmet component is overriding the meta description</li>
-                    <li>2) The first Helmet component can specify duplicate tags</li>
-                    <li>3) The second Helmet component can still override duplicate tags and will replace them all.</li>
+                    <li>
+                        1) The second Helmet component is overriding the meta
+                        description
+                    </li>
+                    <li>
+                        2) The first Helmet component can specify duplicate tags
+                    </li>
+                    <li>
+                        3) The second Helmet component can still override
+                        duplicate tags and will replace them all.
+                    </li>
                 </ul>
 
                 <p>The head in your source should contain these tags:</p>

@@ -26,7 +26,9 @@ export default (async () => {
         await yawn(`karma start karma.config.js ${args}`);
 
         if (coverage) {
-            glob.sync(`${unitReportDir}/*/index.html`).forEach(pathname => open(pathname));
+            glob
+                .sync(`${unitReportDir}/*/index.html`)
+                .forEach(pathname => open(pathname));
         }
 
         process.exit();

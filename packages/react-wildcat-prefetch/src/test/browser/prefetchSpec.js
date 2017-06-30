@@ -376,7 +376,11 @@ describe("react-wildcat-prefetch", () => {
 
                         done();
 
-                        return <div>{Object.keys(this.props)}</div>;
+                        return (
+                            <div>
+                                {Object.keys(this.props)}
+                            </div>
+                        );
                     }
                 }
 
@@ -405,7 +409,11 @@ describe("react-wildcat-prefetch", () => {
 
                         done();
 
-                        return <div>{Object.keys(this.props)}</div>;
+                        return (
+                            <div>
+                                {Object.keys(this.props)}
+                            </div>
+                        );
                     }
                 }
 
@@ -440,7 +448,11 @@ describe("react-wildcat-prefetch", () => {
                         }
 
                         renderCount++;
-                        return <div>{Object.keys(this.props)}</div>;
+                        return (
+                            <div>
+                                {Object.keys(this.props)}
+                            </div>
+                        );
                     }
                 }
 
@@ -463,7 +475,11 @@ describe("react-wildcat-prefetch", () => {
                         }
 
                         renderCount++;
-                        return <div>{Object.keys(this.props)}</div>;
+                        return (
+                            <div>
+                                {Object.keys(this.props)}
+                            </div>
+                        );
                     }
                 }
 
@@ -524,7 +540,11 @@ describe("react-wildcat-prefetch", () => {
 
                             done();
 
-                            return <div>{Object.keys(this.props)}</div>;
+                            return (
+                                <div>
+                                    {Object.keys(this.props)}
+                                </div>
+                            );
                         }
                     }
 
@@ -558,7 +578,11 @@ describe("react-wildcat-prefetch", () => {
 
                             done();
 
-                            return <div>{Object.keys(this.props)}</div>;
+                            return (
+                                <div>
+                                    {Object.keys(this.props)}
+                                </div>
+                            );
                         }
                     }
 
@@ -589,7 +613,11 @@ describe("react-wildcat-prefetch", () => {
 
                         done();
 
-                        return <div>{Object.keys(this.props)}</div>;
+                        return (
+                            <div>
+                                {Object.keys(this.props)}
+                            </div>
+                        );
                     }
                 }
 
@@ -633,7 +661,11 @@ describe("react-wildcat-prefetch", () => {
 
                         done();
 
-                        return <div>{Object.keys(this.props)}</div>;
+                        return (
+                            <div>
+                                {Object.keys(this.props)}
+                            </div>
+                        );
                     }
                 }
 
@@ -688,7 +720,11 @@ describe("react-wildcat-prefetch", () => {
                             done();
                         }
 
-                        return <div>{Object.keys(this.props)}</div>;
+                        return (
+                            <div>
+                                {Object.keys(this.props)}
+                            </div>
+                        );
                     }
                 }
 
@@ -721,7 +757,11 @@ describe("react-wildcat-prefetch", () => {
                             done();
                         }
 
-                        return <div>{Object.keys(this.props)}</div>;
+                        return (
+                            <div>
+                                {Object.keys(this.props)}
+                            </div>
+                        );
                     }
                 }
 
@@ -765,7 +805,11 @@ describe("react-wildcat-prefetch", () => {
                             totalRenderCount++;
                         }
 
-                        return <div>{Object.keys(this.props)}</div>;
+                        return (
+                            <div>
+                                {Object.keys(this.props)}
+                            </div>
+                        );
                     }
                 }
 
@@ -795,7 +839,11 @@ describe("react-wildcat-prefetch", () => {
                             totalRenderCount++;
                         }
 
-                        return <div>{Object.keys(this.props)}</div>;
+                        return (
+                            <div>
+                                {Object.keys(this.props)}
+                            </div>
+                        );
                     }
                 }
 

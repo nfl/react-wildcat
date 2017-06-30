@@ -8,8 +8,10 @@ if (module && module.hot) {
 export function getRoutes() {
     client({
         routes(location, cb) {
-            import("./routes.config.js")
-                .then((routes) => cb(null, routes.default), cb);
+            import("./routes.config.js").then(
+                routes => cb(null, routes.default),
+                cb
+            );
         }
     });
 }

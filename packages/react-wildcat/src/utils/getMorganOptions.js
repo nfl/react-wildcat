@@ -21,7 +21,8 @@ module.exports = function getMorganOptions(logLevel, serverSettings) {
             break;
 
         case 3:
-            skip = (req, res) => !req.url.startsWith("/public") || res.statusCode >= 400;
+            skip = (req, res) =>
+                !req.url.startsWith("/public") || res.statusCode >= 400;
             break;
     }
 
@@ -30,10 +31,10 @@ module.exports = function getMorganOptions(logLevel, serverSettings) {
     const graylog = (req, res) => {
         if (logger && env) {
             graylogData = {
-                "HTTP_host": req.headers.host,
-                "HTTP_method": req.method,
-                "HTTP_response_code": res.statusCode,
-                "HTTP_URI": req.url
+                HTTP_host: req.headers.host,
+                HTTP_method: req.method,
+                HTTP_response_code: res.statusCode,
+                HTTP_URI: req.url
             };
         }
 
@@ -43,7 +44,7 @@ module.exports = function getMorganOptions(logLevel, serverSettings) {
     return {
         skip: graylog,
         stream: {
-            write: (data) => {
+            write: data => {
                 if (logger && env) {
                     logger.debug(chalk.stripColor(data), graylogData);
                 }

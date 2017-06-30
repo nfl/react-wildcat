@@ -13,26 +13,23 @@ describe("Error Example", () => {
     });
 
     describe("render", () => {
-        const errorRender = () => shallow(
-            <ErrorExample />
-        );
+        const errorRender = () => shallow(<ErrorExample />);
 
         it("throws a render error", () => {
-            expect(errorRender)
-                .to.throw(TypeError, "this.props");
+            expect(errorRender).to.throw(TypeError, "this.props");
         });
     });
 
     describe("routes", () => {
         it("has a defined path", () => {
             expect(errorExampleRoutes).to.exist;
-            expect(errorExampleRoutes)
-                .to.have.property("path")
+            expect(errorExampleRoutes).to.have
+                .property("path")
                 .that.is.a("string")
                 .that.equals(errorExamplePath);
         });
 
-        it("asynchronously fetches component", (done) => {
+        it("asynchronously fetches component", done => {
             expect(errorExampleRoutes).to.exist;
             expect(errorExampleRoutes).to.respondTo("getComponent");
 

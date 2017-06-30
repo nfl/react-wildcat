@@ -29,9 +29,7 @@ class HelmetPageObject {
         return Promise.all([
             sleepUntilReactAvailable(),
             browser.wait(
-                protractor.ExpectedConditions.visibilityOf(
-                    this[dom].container
-                ),
+                protractor.ExpectedConditions.visibilityOf(this[dom].container),
                 maxTimeout
             )
         ]);

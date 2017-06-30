@@ -12,47 +12,26 @@ class FlexboxExample extends React.Component {
                 <Helmet title="Flexbox Example" />
 
                 <h3>Flexbox Example</h3>
-                <div
-                    key="container"
-                    style={styles.container}
-                >
-                    <header
-                        key="header"
-                        style={styles.header}
-                    >
+                <div key="container" style={styles.container}>
+                    <header key="header" style={styles.header}>
                         header
                     </header>
 
-                    <div
-                        key="main"
-                        style={styles.main}
-                    >
-                        <article
-                            key="article"
-                            style={styles.article}
-                        >
+                    <div key="main" style={styles.main}>
+                        <article key="article" style={styles.article}>
                             article
                         </article>
 
-                        <nav
-                            key="nav"
-                            style={styles.nav}
-                        >
+                        <nav key="nav" style={styles.nav}>
                             nav
                         </nav>
 
-                        <aside
-                            key="aside"
-                            style={styles.aside}
-                        >
+                        <aside key="aside" style={styles.aside}>
                             aside
                         </aside>
                     </div>
 
-                    <footer
-                        key="footer"
-                        style={styles.footer}
-                    >
+                    <footer key="footer" style={styles.footer}>
                         footer
                     </footer>
                 </div>

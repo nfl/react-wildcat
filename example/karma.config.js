@@ -1,9 +1,15 @@
 const cwd = process.cwd();
 const path = require("path");
 
+const wildcatConfig = require(path.join(cwd, "wildcat.config.js"));
+
+const generalSettings = wildcatConfig.generalSettings;
+const coverageSettings = generalSettings.coverageSettings;
+
 // Karma configuration
 module.exports = function(karmaConfig) {
-    const timeout = process.env.TIMEOUT || 10000;
+    const unitReportDir = coverageSettings.unit.reporting.dir;
+    const unitInstrumentation = coverageSettings.unit.instrumentation;
 
     karmaConfig.set({
         // enable / disable watching file and executing tests whenever any file changes
@@ -26,8 +32,7 @@ module.exports = function(karmaConfig) {
             mocha: {
                 bail: true,
                 reporter: "html",
-                slow: timeout / 2,
-                timeout
+                timeout: 30000
             }
         },
 
@@ -35,21 +40,38 @@ module.exports = function(karmaConfig) {
         colors: true,
 
         coverageReporter: {
-            type: "json",
-            dir: "coverage/browser"
+            dir: unitReportDir,
+            includeAllSources: true,
+            reporters: [
+                {
+                    type: "html"
+                },
+                {
+                    type: "text"
+                }
+            ]
         },
+
+        instrumenterOptions: {
+            istanbul: unitInstrumentation
+        },
+
+        // list of files to exclude
+        exclude: [],
 
         files: [
             {
-                pattern: "./node_modules/whatwg-fetch/fetch.js",
-                watched: false
-            },
-            {
                 pattern: "./node_modules/babel-polyfill/dist/polyfill.js",
+                included: true,
                 watched: false
             },
             {
-                pattern: "./test/test.js"
+                pattern: "./src/test/unit/phantomShims.js",
+                included: true,
+                watched: false
+            },
+            {
+                pattern: "./src/test/unit/tests.js"
             }
         ],
 
@@ -59,66 +81,23 @@ module.exports = function(karmaConfig) {
 
         // level of logging
         // possible values: karmaConfig.LOG_DISABLE || karmaConfig.LOG_ERROR || karmaConfig.LOG_WARN || karmaConfig.LOG_INFO || karmaConfig.LOG_DEBUG
-        logLevel: karmaConfig.LOG_DEBUG,
+        logLevel: karmaConfig.LOG_INFO,
 
         // web server port
         port: 9876,
 
         preprocessors: {
-            "./test/test.js": ["webpack"]
+            "./src/test/unit/tests.js": ["webpack"]
         },
+
+        proxyValidateSSL: false,
 
         // test results reporter to use
         // possible values: "dots", "progress"
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
         reporters: ["coverage", "mocha"],
 
-        webpack: {
-            cache: true,
-            target: "web",
-            devtool: "inline-source-map",
-
-            // webpack configuration
-            module: {
-                rules: [
-                    {
-                        test: /\.js/,
-                        exclude: /lib|node_modules/,
-                        use: [
-                            {
-                                loader: "babel-loader",
-                                options: {
-                                    cacheDirectory: true,
-                                    plugins: [
-                                        [
-                                            "istanbul",
-                                            {
-                                                exclude: [
-                                                    "**/node_modules/**",
-                                                    "**/test/**",
-                                                    "**/Test*",
-                                                    "**/defaultTemplate.js",
-                                                    "**/getDomainRoutes.js"
-                                                ]
-                                            }
-                                        ]
-                                    ]
-                                }
-                            }
-                        ]
-                    }
-                ]
-            },
-            resolve: {
-                alias: {
-                    // dedupe React
-                    react: path.resolve(cwd, "node_modules", "react"),
-                    // dedupe React DOM
-                    "react-dom": path.resolve(cwd, "node_modules", "react-dom")
-                },
-                modules: ["node_modules"]
-            }
-        },
+        webpack: require("./config/webpack/karma.config.js"),
 
         webpackMiddleware: {
             // webpack-dev-middleware configuration

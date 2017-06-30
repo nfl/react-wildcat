@@ -1,3 +1,4 @@
+/*  eslint-disable indent */
 import React from "react";
 import {shallow} from "enzyme";
 import {TestMode} from "radium";
@@ -22,39 +23,44 @@ describe("Application", () => {
             const application = shallow(
                 <ApplicationContext>
                     <Application />
-                </ApplicationContext>
-            , {
-                context: {
-                    headers: {
-                        host: window.location.host,
-                        userAgent: window.navigator.userAgent
+                </ApplicationContext>,
+                {
+                    context: {
+                        headers: {
+                            host: window.location.host,
+                            userAgent: window.navigator.userAgent
+                        }
                     }
                 }
-            });
+            );
 
             expect(application).to.exist;
         });
 
         it("renders a list of links", () => {
-            const application = shallow(
-                <Application />
-            );
+            const application = shallow(<Application />);
 
-            expect(application.find(`nav[role="navigation"]`))
-                .to.have.length.of(1);
+            expect(
+                application.find(`nav[role="navigation"]`)
+            ).to.have.length.of(1);
         });
 
         it("renders children when passed in", () => {
             const application = shallow(
                 <Application>
-                    <div>{testChildText}</div>
+                    <div>
+                        {testChildText}
+                    </div>
                 </Application>
             );
 
             expect(
-                application.contains(<div>{testChildText}</div>)
-            )
-                .to.be.true;
+                application.contains(
+                    <div>
+                        {testChildText}
+                    </div>
+                )
+            ).to.be.true;
         });
 
         afterAll(() => {

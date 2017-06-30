@@ -19,20 +19,15 @@ describe("Flexbox Example", () => {
         });
 
         it("renders correctly", () => {
-            const flexboxExample = shallow(
-                <FlexboxExample />
-            );
+            const flexboxExample = shallow(<FlexboxExample />);
 
             expect(flexboxExample).to.exist;
         });
 
         it("renders #flexbox element", () => {
-            const flexboxExample = shallow(
-                <FlexboxExample />
-            );
+            const flexboxExample = shallow(<FlexboxExample />);
 
-            expect(flexboxExample.find(`#flexbox`))
-                .to.have.length.of(1);
+            expect(flexboxExample.find(`#flexbox`)).to.have.length.of(1);
         });
 
         afterAll(() => {
@@ -43,13 +38,13 @@ describe("Flexbox Example", () => {
     describe("routes", () => {
         it("has a defined path", () => {
             expect(flexboxExampleRoutes).to.exist;
-            expect(flexboxExampleRoutes)
-                .to.have.property("path")
+            expect(flexboxExampleRoutes).to.have
+                .property("path")
                 .that.is.a("string")
                 .that.equals(flexboxExamplePath);
         });
 
-        it("asynchronously fetches component", (done) => {
+        it("asynchronously fetches component", done => {
             expect(flexboxExampleRoutes).to.exist;
             expect(flexboxExampleRoutes).to.respondTo("getComponent");
 

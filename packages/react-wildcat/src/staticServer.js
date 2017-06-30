@@ -27,30 +27,19 @@ function start() {
 
     const {
         generalSettings: {
-            env: {
-                __DEV__,
-                __PROD__,
-                __TEST__,
-                NODE_ENV
-            },
+            env: {__DEV__, __PROD__, __TEST__, NODE_ENV},
             logLevel,
             staticUrl
         },
-        clientSettings: {
-            webpackDevSettings
-        },
+        clientSettings: {webpackDevSettings},
         serverSettings
     } = wildcatConfig;
 
-    const {
-        staticServer: staticServerSettings
-    } = serverSettings;
+    const {staticServer: staticServerSettings} = serverSettings;
 
-    const {
-        secureSettings
-    } = staticServerSettings;
+    const {secureSettings} = staticServerSettings;
 
-    const lifecycleHook = (lifecycle) => {
+    const lifecycleHook = lifecycle => {
         if (typeof staticServerSettings[lifecycle] === "function") {
             staticServerSettings[lifecycle].call(this, wildcatConfig);
         }
@@ -74,7 +63,9 @@ function start() {
     }
     const port = Number(staticServerSettings.port);
 
-    const allowedOrigins = (staticServerSettings.corsOrigins).concat([staticServerSettings.host]);
+    const allowedOrigins = staticServerSettings.corsOrigins.concat([
+        staticServerSettings.host
+    ]);
 
     const fileServer = serve({
         root: cwd,
@@ -93,7 +84,10 @@ function start() {
             }
 
             cluster.on("exit", function clusterExit(worker, code, signal) {
-                logger.warn(`worker ${worker.process.pid} has died (code: ${code}) (signal: ${signal})`);
+                logger.warn(
+                    `worker ${worker.process
+                        .pid} has died (code: ${code}) (signal: ${signal})`
+                );
 
                 if (staticServerSettings.reconnectOnWorkerDisconnect === true) {
                     logger.warn(`Starting a new worker`);
@@ -114,26 +108,37 @@ function start() {
             /* istanbul ignore next */
             if (allowedOrigins) {
                 // enable cors
-                app.use(cors({
-                    origin: function origin(ctx) {
-                        for (let i = 0, j = allowedOrigins.length; i < j; i++) {
-                            const allowedOrigin = allowedOrigins[i];
-                            const hostname = ctx.header.host.split(":")[0];
+                app.use(
+                    cors({
+                        origin: function origin(ctx) {
+                            for (
+                                let i = 0, j = allowedOrigins.length;
+                                i < j;
+                                i++
+                            ) {
+                                const allowedOrigin = allowedOrigins[i];
+                                const hostname = ctx.header.host.split(":")[0];
 
-                            if (hostname.includes(allowedOrigin)) {
-                                return "*";
+                                if (hostname.includes(allowedOrigin)) {
+                                    return "*";
+                                }
                             }
-                        }
 
-                        return false;
-                    }
-                }));
+                            return false;
+                        }
+                    })
+                );
             }
 
             // add gzip
             app.use(compress());
 
-            app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
+            app.use(
+                morgan.middleware(
+                    ":id :status :method :url :res[content-length] - :response-time ms",
+                    morganOptions
+                )
+            );
 
             if (__DEV__) {
                 const webpack = require("webpack");
@@ -179,16 +184,25 @@ function start() {
             if (staticServerSettings.protocol === "http") {
                 server = serverType.createServer(app.callback());
             } else {
-                server = serverType.createServer(secureSettings, app.callback());
+                server = serverType.createServer(
+                    secureSettings,
+                    app.callback()
+                );
             }
 
             server.listen(port, function serverListener() {
                 /* istanbul ignore else */
                 if (cluster.worker.id === cpuCount) {
                     if (__PROD__) {
-                        logger.ok("Static server is running on pid", process.pid);
+                        logger.ok(
+                            "Static server is running on pid",
+                            process.pid
+                        );
                     } else {
-                        logger.ok(`Static server is running at ${staticUrl} on pid`, process.pid);
+                        logger.ok(
+                            `Static server is running at ${staticUrl} on pid`,
+                            process.pid
+                        );
                     }
 
                     lifecycleHook("onAfterStart");

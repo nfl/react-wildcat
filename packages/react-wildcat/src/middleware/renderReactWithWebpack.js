@@ -5,22 +5,11 @@ module.exports = function renderReactWithWebpack(root, options) {
     const Convert = require("ansi-to-html");
     const convert = new Convert();
 
-    const {
-        logger,
-        wildcatConfig
-    } = options;
+    const {logger, wildcatConfig} = options;
 
     const {
-        generalSettings: {
-            env: {
-                __DEV__
-            }
-        },
-        serverSettings: {
-            displayBlueBoxOfDeath,
-            entry,
-            webpackDevSettings
-        }
+        generalSettings: {env: {__DEV__}},
+        serverSettings: {displayBlueBoxOfDeath, entry, webpackDevSettings}
     } = wildcatConfig;
 
     const validate = require("../utils/webpackBundleValidation")(root, {
@@ -38,10 +27,13 @@ module.exports = function renderReactWithWebpack(root, options) {
 
                 if (displayBlueBoxOfDeath && stats && stats.hasErrors()) {
                     return resolve({
-                        error: blueBoxOfDeath(stats.compilation.errors.map(e => ({
-                            message: convert.toHtml(e.error),
-                            id: e.module.id
-                        })), request),
+                        error: blueBoxOfDeath(
+                            stats.compilation.errors.map(e => ({
+                                message: convert.toHtml(e.error),
+                                id: e.module.id
+                            })),
+                            request
+                        ),
                         status: 500
                     });
                 }
@@ -55,30 +47,25 @@ module.exports = function renderReactWithWebpack(root, options) {
                     reply
                 );
             });
-        })
-            .catch(err => {
-                logger.error(err);
+        }).catch(err => {
+            logger.error(err);
 
-                if (displayBlueBoxOfDeath) {
-                    return {
-                        error: blueBoxOfDeath(err, request),
-                        status: 500
-                    };
-                }
-
+            if (displayBlueBoxOfDeath) {
                 return {
-                    error: err.stack,
+                    error: blueBoxOfDeath(err, request),
                     status: 500
                 };
-            });
+            }
+
+            return {
+                error: err.stack,
+                status: 500
+            };
+        });
     }
 
     return function* render() {
-        const {
-            cookies,
-            request,
-            response
-        } = this;
+        const {cookies, request, response} = this;
 
         response.status = 200;
         response.type = "text/html";
@@ -88,16 +75,16 @@ module.exports = function renderReactWithWebpack(root, options) {
         this.status = reply.status;
 
         if (reply.redirect === true) {
-            const {
-                redirectLocation
-            } = reply;
-            return this.redirect(`${redirectLocation.pathname}${redirectLocation.search}`);
+            const {redirectLocation} = reply;
+            return this.redirect(
+                `${redirectLocation.pathname}${redirectLocation.search}`
+            );
         }
 
         if (reply.error) {
-            return this.body = reply.error;
+            return (this.body = reply.error);
         }
 
-        return this.body = reply.html;
+        return (this.body = reply.html);
     };
 };

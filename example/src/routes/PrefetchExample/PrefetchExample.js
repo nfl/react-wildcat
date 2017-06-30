@@ -1,3 +1,4 @@
+/*  eslint-disable indent */
 import React from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
@@ -40,9 +41,15 @@ class PrefetchExample extends React.Component {
 
                                 return (
                                     <tr key={superBowl.year}>
-                                        <th scope="row">{superBowl.year}</th>
-                                        <td>{superBowl.romanNumeral}</td>
-                                        <td >{`${team1.location} ${team1.name} vs ${team2.location} ${team2.name}`}</td>
+                                        <th scope="row">
+                                            {superBowl.year}
+                                        </th>
+                                        <td>
+                                            {superBowl.romanNumeral}
+                                        </td>
+                                        <td>
+                                            {" "}{`${team1.location} ${team1.name} vs ${team2.location} ${team2.name}`}{" "}
+                                        </td>
                                     </tr>
                                 );
                             })}

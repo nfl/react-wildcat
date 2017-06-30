@@ -14,11 +14,13 @@ exec(`yarn install`);
 
 // Fix a bug where Webpack does not dedupe node_modules in linked packages
 exec(`rm -fr ./node_modules/react-helmet`);
-exec(`ln -sfv ./react-wildcat-handoff/node_modules/react-helmet ./node_modules/react-helmet`);
+exec(
+    `ln -sfv ./react-wildcat-handoff/node_modules/react-helmet ./node_modules/react-helmet`
+);
 
 cd(cwd);
 
-ls("packages").forEach((loc) => {
+ls("packages").forEach(loc => {
     const pkgDir = path.join(cwd, "packages", loc);
     const pkgPath = path.join(pkgDir, "package.json");
 
