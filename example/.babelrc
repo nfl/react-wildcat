@@ -21,7 +21,8 @@
                         "**/test/**",
                         "**/Test*"
                     ]
-                }]
+                }],
+                "dynamic-import-node"
             ],
             "sourceMaps": "inline"
         }
@@ -47,7 +48,8 @@
             "loose": true,
             "useBuiltIns": true
         }],
-        "react"
+        "react",
+        "es2015"
     ],
     "sourceMaps": "inline"
 }
