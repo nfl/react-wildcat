@@ -41,8 +41,8 @@ module.exports = function webpackBundleValidation(
             this._watcher = watcher;
 
             // Clear require caches and re-import
+            // eslint-disable-next-line guard-for-in
             for (const asset in stats.compilation.assets) {
-                // eslint-disable-line guard-for-in
                 clearRequire(stats.compilation.assets[asset].existsAt);
             }
 
