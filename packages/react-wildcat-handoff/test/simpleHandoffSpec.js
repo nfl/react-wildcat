@@ -15,7 +15,7 @@ describe("react-wildcat-handoff/simple", () => {
             .that.equals("simple");
     });
 
-    context("response", () => {
+    describe("response", () => {
         it("returns HTML on a route", (done) => {
             const simpleHandoff = simple(stubs.routes.sync);
 
