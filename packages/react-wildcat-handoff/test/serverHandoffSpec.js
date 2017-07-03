@@ -15,7 +15,7 @@ describe("react-wildcat-handoff/server", () => {
             .that.equals("server");
     });
 
-    context("response", () => {
+    describe("response", () => {
         it("returns 301 when a redirect is detected", (done) => {
             const serverHandoff = server(stubs.routes.sync);
 
@@ -166,7 +166,7 @@ describe("react-wildcat-handoff/server", () => {
                 .to.be.an.instanceof(Promise);
         });
 
-        context("markup", () => {
+        describe("markup", () => {
             it("returns HTML on a valid route", (done) => {
                 const serverHandoff = server(stubs.routes.sync);
 
@@ -215,8 +215,8 @@ describe("react-wildcat-handoff/server", () => {
         });
     });
 
-    context("routing", () => {
-        context("matches routes", () => {
+    describe("routing", () => {
+        describe("matches routes", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
                     const serverHandoff = server(stubs.routes[timing]);
@@ -268,7 +268,7 @@ describe("react-wildcat-handoff/server", () => {
             });
         });
 
-        context("matches subdomains", () => {
+        describe("matches subdomains", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
                     const serverHandoff = server(stubs.subdomains[timing]);
@@ -295,7 +295,7 @@ describe("react-wildcat-handoff/server", () => {
             });
         });
 
-        context("matches multi subdomains", () => {
+        describe("matches multi subdomains", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
                     const serverHandoff = server(stubs.subdomains[timing]);
@@ -322,7 +322,7 @@ describe("react-wildcat-handoff/server", () => {
             });
         });
 
-        context("matches ephemeral subdomains", () => {
+        describe("matches ephemeral subdomains", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
                     const serverHandoff = server(stubs.subdomains[timing]);
@@ -349,7 +349,7 @@ describe("react-wildcat-handoff/server", () => {
             });
         });
 
-        context("handles subdomain matching errors", () => {
+        describe("handles subdomain matching errors", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
                     const serverHandoff = server(stubs.subdomains[timing]);
@@ -381,7 +381,7 @@ describe("react-wildcat-handoff/server", () => {
             });
         });
 
-        context("defaults to www when no subdomain is provided", () => {
+        describe("defaults to www when no subdomain is provided", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
                     const serverHandoff = server(stubs.subdomains[timing]);
@@ -408,7 +408,7 @@ describe("react-wildcat-handoff/server", () => {
             });
         });
 
-        context("handles unwrapped subdomains", () => {
+        describe("handles unwrapped subdomains", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
                     const serverHandoff = server(stubs.unwrappedDomains[timing]);
@@ -435,7 +435,7 @@ describe("react-wildcat-handoff/server", () => {
             });
         });
 
-        context("handles non-aliased subdomains", () => {
+        describe("handles non-aliased subdomains", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
                     const serverHandoff = server(stubs.domainsWithoutAliasedSubdomains[timing]);
@@ -462,7 +462,7 @@ describe("react-wildcat-handoff/server", () => {
             });
         });
 
-        context("matches domains", () => {
+        describe("matches domains", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
                     const serverHandoff = server(stubs.domains[timing]);
@@ -489,7 +489,7 @@ describe("react-wildcat-handoff/server", () => {
             });
         });
 
-        context("matches domain aliases", () => {
+        describe("matches domain aliases", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
                     const serverHandoff = server(stubs.domains[timing]);
@@ -516,7 +516,7 @@ describe("react-wildcat-handoff/server", () => {
             });
         });
 
-        context("matches correct alias with multiple domain aliases", () => {
+        describe("matches correct alias with multiple domain aliases", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
                     const serverHandoff = server(stubs.domainsWithMultipleAliases[timing]);
@@ -543,7 +543,7 @@ describe("react-wildcat-handoff/server", () => {
             });
         });
 
-        context("matches correct alias with multiple domain aliases", () => {
+        describe("matches correct alias with multiple domain aliases", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
                     const serverHandoff = server(stubs.domainsWithMultipleAliases[timing]);
@@ -570,7 +570,7 @@ describe("react-wildcat-handoff/server", () => {
             });
         });
 
-        context("matches domain aliases with host name", () => {
+        describe("matches domain aliases with host name", () => {
             ["async", "sync"].forEach((timing) => {
                 it(timing, (done) => {
                     const serverHandoff = server(stubs.domains[timing]);
@@ -685,7 +685,7 @@ describe("react-wildcat-handoff/server", () => {
         });
     });
 
-    context("prefetch", () => {
+    describe("prefetch", () => {
         it("returns a hydrated HTML payload", (done) => {
             const serverHandoff = server(stubs.prefetchedRoutes);
 
@@ -711,7 +711,7 @@ describe("react-wildcat-handoff/server", () => {
         });
     });
 
-    context("not-found", () => {
+    describe("not-found", () => {
         it("returns a 404 status", (done) => {
             const serverHandoff = server(stubs.notFoundRoute);
 
@@ -737,7 +737,7 @@ describe("react-wildcat-handoff/server", () => {
         });
     });
 
-    context("service worker", () => {
+    describe("service worker", () => {
         it("renders when it's enabled under https", (done) => {
             const serverHandoff = server(stubs.prefetchedRoutes);
 
