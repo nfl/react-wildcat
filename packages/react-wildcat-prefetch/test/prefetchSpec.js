@@ -11,8 +11,8 @@ const stubs = require("./fixtures/stubData.js");
 
 /* eslint-disable max-nested-callbacks, react/no-multi-comp */
 describe("react-wildcat-prefetch", () => {
-    context("data hydration", () => {
-        context("hydration", () => {
+    describe("data hydration", () => {
+        describe("hydration", () => {
             it("hydrates React components with server data", done => {
                 const MemoryHydrationTest = createReactClass({
                     propTypes: {
