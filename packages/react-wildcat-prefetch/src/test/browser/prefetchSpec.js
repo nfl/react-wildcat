@@ -16,8 +16,8 @@ import {expect} from "chai";
 
 /* eslint-disable max-nested-callbacks, react/no-multi-comp */
 describe("react-wildcat-prefetch", () => {
-    context("@prefetch", () => {
-        context("plain React component", () => {
+    describe("@prefetch", () => {
+        describe("plain React component", () => {
             it("has two properties", () => {
                 const Component = ReactTestUtils.renderIntoDocument(
                     <Hello title={"Test Title"} />
@@ -31,10 +31,10 @@ describe("react-wildcat-prefetch", () => {
             });
         });
 
-        context("higher-order component", () => {
+        describe("higher-order component", () => {
             let WrappedPrefetch;
 
-            context("es5", () => {
+            describe("es5", () => {
                 beforeEach(() => {
                     WrappedPrefetch = Prefetch(stubs.fetchPromise)(World);
                 });
@@ -66,7 +66,7 @@ describe("react-wildcat-prefetch", () => {
                 });
             });
 
-            context("es6", () => {
+            describe("es6", () => {
                 beforeEach(() => {
                     WrappedPrefetch = Prefetch(stubs.fetchPromise)(Hello);
                 });
@@ -98,7 +98,7 @@ describe("react-wildcat-prefetch", () => {
                 });
             });
 
-            context("es7", () => {
+            describe("es7", () => {
                 beforeEach(() => {
                     WrappedPrefetch = Prefetch(stubs.fetchPromise)(HelloES7);
                 });
@@ -132,14 +132,14 @@ describe("react-wildcat-prefetch", () => {
         });
     });
 
-    context("data fetching", () => {
+    describe("data fetching", () => {
         let WrappedPrefetch;
 
         beforeEach(() => {
             WrappedPrefetch = Prefetch(stubs.fetchPromise)(World);
         });
 
-        context("happy path", () => {
+        describe("happy path", () => {
             beforeEach(() => {
                 sinon.stub(window, "fetch");
 
@@ -245,7 +245,7 @@ describe("react-wildcat-prefetch", () => {
             });
         });
 
-        context("sad path", () => {
+        describe("sad path", () => {
             it("returns error payload on an invalid url", done => {
                 WrappedPrefetch = Prefetch(stubs.prefetchInvalidUrl)(World);
 
@@ -305,7 +305,7 @@ describe("react-wildcat-prefetch", () => {
             expect(key).to.equal("asyncData");
         });
 
-        context("unique key", () => {
+        describe("unique key", () => {
             it("as string", () => {
                 WrappedPrefetch = Prefetch(
                     stubs.fetchPromise,
@@ -337,8 +337,8 @@ describe("react-wildcat-prefetch", () => {
         });
     });
 
-    context("data hydration", () => {
-        context("hydration", () => {
+    describe("data hydration", () => {
+        describe("hydration", () => {
             beforeEach(() => {
                 document.body.innerHTML = stubs.defaultTemplate({
                     data: stubs.prefetchedData,
@@ -500,7 +500,7 @@ describe("react-wildcat-prefetch", () => {
                 );
             });
 
-            context("setting a custom key", () => {
+            describe("setting a custom key", () => {
                 beforeEach(() => {
                     document.body.innerHTML = stubs.defaultTemplate({
                         data: stubs.prefetchedData,
@@ -698,7 +698,7 @@ describe("react-wildcat-prefetch", () => {
             });
         });
 
-        context("rehydration", () => {
+        describe("rehydration", () => {
             it("rehydrates React components", done => {
                 let renderCount = 1;
 
