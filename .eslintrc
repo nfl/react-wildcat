@@ -29,7 +29,8 @@
         "browser": true,
         "by": true,
         "element": true,
-        "protractor": true
+        "protractor": true,
+        "beforeAll": true
     },
     "settings": {
         "import/ignore": [
