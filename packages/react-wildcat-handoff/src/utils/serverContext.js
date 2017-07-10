@@ -5,7 +5,11 @@ const createReactClass = require("create-react-class");
 
 const RouterContext = Router.RouterContext;
 
-module.exports = function serverContext(request, headers, renderProps) {
+module.exports = function serverContext(
+    {request, response}, // eslint-disable-line react/prop-types
+    headers,
+    renderProps
+) {
     const ServerContext = createReactClass({
         childContextTypes: {
             headers: PropTypes.shape({
@@ -13,13 +17,17 @@ module.exports = function serverContext(request, headers, renderProps) {
                 host: PropTypes.string,
                 referrer: PropTypes.string,
                 userAgent: PropTypes.string
-            })
+            }),
+            request: PropTypes.object,
+            response: PropTypes.object
         },
 
         getChildContext() {
             // Pass user agent to Radium
             return {
-                headers
+                headers,
+                request,
+                response
             };
         },
 
