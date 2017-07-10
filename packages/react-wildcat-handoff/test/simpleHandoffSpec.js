@@ -26,6 +26,7 @@ describe("react-wildcat-handoff/simple", () => {
 
             const result = simpleHandoff(
                 stubs.requests.basic,
+                stubs.response,
                 stubs.cookieParser,
                 stubs.wildcatConfig
             )
