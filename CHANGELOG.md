@@ -1,3 +1,20 @@
+<a name="7.4.0"></a>
+# [7.4.0](https://github.com/nfl/react-wildcat/compare/7.3.0...7.4.0) (2017-07-10)
+
+
+### Bug Fixes
+
+* **react-wildcat:** pass response data to page handler ([c077a09](https://github.com/nfl/react-wildcat/commit/c077a09))
+* Update tests ([92d460e](https://github.com/nfl/react-wildcat/commit/92d460e))
+* **react-wildcat-handoff:** Pass response into simple template ([67b61de](https://github.com/nfl/react-wildcat/commit/67b61de))
+
+
+### Features
+
+* **react-wildcat-handoff:** Pass server request / response data to React as context ([c7eb782](https://github.com/nfl/react-wildcat/commit/c7eb782))
+
+
+
 <a name="7.3.0"></a>
 ## [7.3.0](https://github.com/nfl/react-wildcat/compare/7.2.1...7.3.0) (2017-05-19)
 

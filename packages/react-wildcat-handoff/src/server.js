@@ -16,7 +16,7 @@ function completeRender(cfg, routes) {
 }
 
 function render(cfg) {
-    return function serverHandoff(request, cookies, wildcatConfig) {
+    return function serverHandoff(request, response, cookies, wildcatConfig) {
         const headers = {
             cookies: cookie.parse(request.header.cookie || ""),
             host: request.header.host,
@@ -41,6 +41,7 @@ function render(cfg) {
             history: serverHistory,
             location: serverLocation,
             request,
+            response,
             wildcatConfig
         });
 

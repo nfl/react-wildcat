@@ -18,7 +18,7 @@ module.exports = function renderReactWithWebpack(root, options) {
         webpackDevSettings
     });
 
-    function pageHandler(request, cookies) {
+    function pageHandler(request, response, cookies) {
         return new Promise((resolve, reject) => {
             validate.onReady((err, stats) => {
                 if (err) {
@@ -40,7 +40,7 @@ module.exports = function renderReactWithWebpack(root, options) {
 
                 // Load the server files from the current file system
                 const render = require(path.resolve(root, entry)).default;
-                const reply = render(request, cookies, wildcatConfig);
+                const reply = render(request, response, cookies, wildcatConfig);
 
                 return resolve(
                     // Return the original reply
@@ -52,7 +52,7 @@ module.exports = function renderReactWithWebpack(root, options) {
 
             if (displayBlueBoxOfDeath) {
                 return {
-                    error: blueBoxOfDeath(err, request),
+                    error: blueBoxOfDeath(err, request, response),
                     status: 500
                 };
             }
@@ -70,7 +70,7 @@ module.exports = function renderReactWithWebpack(root, options) {
         response.status = 200;
         response.type = "text/html";
 
-        const reply = yield pageHandler(request, cookies);
+        const reply = yield pageHandler(request, response, cookies);
 
         this.status = reply.status;
 

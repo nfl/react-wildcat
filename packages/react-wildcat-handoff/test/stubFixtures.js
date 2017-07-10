@@ -107,6 +107,13 @@ exports.requests = {
     }
 };
 
+exports.response = {
+    "access-control-allow-origin": "*",
+    "access-control-allow-methods": "GET,HEAD,PUT,POST,DELETE",
+    vary: "Accept-Encoding",
+    "content-type": "text/html; charset=utf-8"
+};
+
 exports.headers = {
     basic: {
         cookies: cookie.parse(exports.rawCookie),
