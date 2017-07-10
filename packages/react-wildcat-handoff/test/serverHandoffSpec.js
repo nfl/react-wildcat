@@ -26,6 +26,7 @@ describe("react-wildcat-handoff/server", () => {
 
             const result = serverHandoff(
                 stubs.requests.redirect,
+                stubs.response,
                 stubs.cookieParser,
                 stubs.wildcatConfig
             )
@@ -70,6 +71,7 @@ describe("react-wildcat-handoff/server", () => {
 
             const result = serverHandoff(
                 stubs.requests.invalid,
+                stubs.response,
                 stubs.cookieParser,
                 stubs.wildcatConfig
             )
@@ -101,6 +103,7 @@ describe("react-wildcat-handoff/server", () => {
 
             const result = serverHandoff(
                 stubs.requests.invalid,
+                stubs.response,
                 stubs.cookieParser,
                 stubs.wildcatConfigWithHtmlNotFoundTemplate
             )
@@ -134,6 +137,7 @@ describe("react-wildcat-handoff/server", () => {
 
             const result = serverHandoff(
                 stubs.requests.ip,
+                stubs.response,
                 stubs.cookieParser,
                 stubs.wildcatConfig
             )
@@ -165,6 +169,7 @@ describe("react-wildcat-handoff/server", () => {
 
             const result = serverHandoff(
                 stubs.requests.basic,
+                stubs.response,
                 stubs.cookieParser,
                 stubs.wildcatConfig
             ).catch(error => {
@@ -191,6 +196,7 @@ describe("react-wildcat-handoff/server", () => {
 
                 const result = serverHandoff(
                     stubs.requests.basic,
+                    stubs.response,
                     stubs.cookieParser,
                     stubs.wildcatConfig
                 )
@@ -217,6 +223,7 @@ describe("react-wildcat-handoff/server", () => {
 
                 const result = serverHandoff(
                     stubs.requests.basic,
+                    stubs.response,
                     stubs.cookieParser,
                     stubs.wildcatConfigRenderType
                 )
@@ -248,6 +255,7 @@ describe("react-wildcat-handoff/server", () => {
 
                     const result = serverHandoff(
                         stubs.requests.basic,
+                        stubs.response,
                         stubs.cookieParser,
                         stubs.wildcatConfig
                     )
@@ -275,6 +283,7 @@ describe("react-wildcat-handoff/server", () => {
 
                 const result = serverHandoff(
                     stubs.requests.basic,
+                    stubs.response,
                     stubs.cookieParser,
                     stubs.wildcatConfig
                 )
@@ -305,6 +314,7 @@ describe("react-wildcat-handoff/server", () => {
 
                     const result = serverHandoff(
                         stubs.requests.basic,
+                        stubs.response,
                         stubs.cookieParser,
                         stubs.wildcatConfig
                     )
@@ -335,6 +345,7 @@ describe("react-wildcat-handoff/server", () => {
 
                     const result = serverHandoff(
                         stubs.requests.multiSubdomain,
+                        stubs.response,
                         stubs.cookieParser,
                         stubs.wildcatConfig
                     )
@@ -365,6 +376,7 @@ describe("react-wildcat-handoff/server", () => {
 
                     const result = serverHandoff(
                         stubs.requests.ephemeral,
+                        stubs.response,
                         stubs.cookieParser,
                         stubs.wildcatConfig
                     )
@@ -395,6 +407,7 @@ describe("react-wildcat-handoff/server", () => {
 
                     const result = serverHandoff(
                         stubs.requests.invalidSubdomain,
+                        stubs.response,
                         stubs.cookieParser,
                         stubs.wildcatConfig
                     )
@@ -430,6 +443,7 @@ describe("react-wildcat-handoff/server", () => {
 
                     const result = serverHandoff(
                         stubs.requests.noSubdomain,
+                        stubs.response,
                         stubs.cookieParser,
                         stubs.wildcatConfig
                     )
@@ -462,6 +476,7 @@ describe("react-wildcat-handoff/server", () => {
 
                     const result = serverHandoff(
                         stubs.requests.noSubdomain,
+                        stubs.response,
                         stubs.cookieParser,
                         stubs.wildcatConfig
                     )
@@ -494,6 +509,7 @@ describe("react-wildcat-handoff/server", () => {
 
                     const result = serverHandoff(
                         stubs.requests.noSubdomain,
+                        stubs.response,
                         stubs.cookieParser,
                         stubs.wildcatConfig
                     )
@@ -524,6 +540,7 @@ describe("react-wildcat-handoff/server", () => {
 
                     const result = serverHandoff(
                         stubs.requests.basic,
+                        stubs.response,
                         stubs.cookieParser,
                         stubs.wildcatConfig
                     )
@@ -554,6 +571,7 @@ describe("react-wildcat-handoff/server", () => {
 
                     const result = serverHandoff(
                         stubs.requests.ip,
+                        stubs.response,
                         stubs.cookieParser,
                         stubs.wildcatConfig
                     )
@@ -586,6 +604,7 @@ describe("react-wildcat-handoff/server", () => {
 
                     const result = serverHandoff(
                         stubs.requests.basic,
+                        stubs.response,
                         stubs.cookieParser,
                         stubs.wildcatConfig
                     )
@@ -618,6 +637,7 @@ describe("react-wildcat-handoff/server", () => {
 
                     const result = serverHandoff(
                         stubs.requests.external,
+                        stubs.response,
                         stubs.cookieParser,
                         stubs.wildcatConfig
                     )
@@ -648,6 +668,7 @@ describe("react-wildcat-handoff/server", () => {
 
                     const result = serverHandoff(
                         stubs.requests.hostname,
+                        stubs.response,
                         stubs.cookieParser,
                         stubs.wildcatConfig
                     )
@@ -676,6 +697,7 @@ describe("react-wildcat-handoff/server", () => {
 
             const result = serverHandoff(
                 stubs.requests.basic,
+                stubs.response,
                 stubs.cookieParser,
                 stubs.wildcatConfig
             )
@@ -702,6 +724,7 @@ describe("react-wildcat-handoff/server", () => {
 
             const result = serverHandoff(
                 stubs.requests.ip,
+                stubs.response,
                 stubs.cookieParser,
                 stubs.wildcatConfig
             )
@@ -728,6 +751,7 @@ describe("react-wildcat-handoff/server", () => {
 
             const result = serverHandoff(
                 stubs.requests.external,
+                stubs.response,
                 stubs.cookieParser,
                 stubs.wildcatConfig
             )
@@ -754,6 +778,7 @@ describe("react-wildcat-handoff/server", () => {
 
             const result = serverHandoff(
                 stubs.requests.err,
+                stubs.response,
                 stubs.cookieParser,
                 stubs.wildcatConfig
             ).catch(e => {
@@ -776,6 +801,7 @@ describe("react-wildcat-handoff/server", () => {
 
             const result = serverHandoff(
                 stubs.requests.basic,
+                stubs.response,
                 stubs.cookieParser,
                 stubs.wildcatConfig
             )
@@ -805,6 +831,7 @@ describe("react-wildcat-handoff/server", () => {
 
             const result = serverHandoff(
                 stubs.requests.basic,
+                stubs.response,
                 stubs.cookieParser,
                 stubs.wildcatConfig
             )
@@ -834,6 +861,7 @@ describe("react-wildcat-handoff/server", () => {
 
             const result = serverHandoff(
                 stubs.requests.basic,
+                stubs.response,
                 stubs.cookieParser,
                 stubs.wildcatConfigServiceWorkerEnabled
             )
@@ -860,6 +888,7 @@ describe("react-wildcat-handoff/server", () => {
 
             const result = serverHandoff(
                 stubs.requests.basic,
+                stubs.response,
                 stubs.cookieParser,
                 stubs.wildcatConfigServiceWorkerEnabledNoHttps
             )
@@ -886,6 +915,7 @@ describe("react-wildcat-handoff/server", () => {
 
             const result = serverHandoff(
                 stubs.requests.basic,
+                stubs.response,
                 stubs.cookieParser,
                 stubs.wildcatConfigServiceWorkerDisabled
             )

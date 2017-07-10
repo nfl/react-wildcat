@@ -3419,26 +3419,7 @@ istanbul-reports@^1.1.1:
   dependencies:
     handlebars "^4.0.3"
 
-istanbul@^0.4.0:
-  version "0.4.5"
-  resolved "https://registry.npmjs.org/istanbul/-/istanbul-0.4.5.tgz#65c7d73d4c4da84d4f3ac310b918fb0b8033733b"
-  dependencies:
-    abbrev "1.0.x"
-    async "1.x"
-    escodegen "1.8.x"
-    esprima "2.7.x"
-    glob "^5.0.15"
-    handlebars "^4.0.1"
-    js-yaml "3.x"
-    mkdirp "0.5.x"
-    nopt "3.x"
-    once "1.x"
-    resolve "1.1.x"
-    supports-color "^3.1.0"
-    which "^1.1.1"
-    wordwrap "^1.0.0"
-
-"istanbul@https://github.com/nfl/istanbul/tarball/0.4.5/combine-coverage":
+istanbul@^0.4.0, "istanbul@https://github.com/nfl/istanbul/tarball/0.4.5/combine-coverage":
   version "0.4.5"
   resolved "https://github.com/nfl/istanbul/tarball/0.4.5/combine-coverage#d106f9397cbe07cac9b6720222a1cef72b151bde"
   dependencies:
