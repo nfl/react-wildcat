@@ -9,11 +9,11 @@ chai.use(sinonChai);
 
 module.exports = stubs => {
     describe("webpackHotMiddleware", () => {
-        before(() => {
+        beforeAll(() => {
             sinon.stub(stubs.logger, "meta").returns();
         });
 
-        after(() => {
+        afterAll(() => {
             stubs.logger.meta.restore();
         });
 
