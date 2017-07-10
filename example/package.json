@@ -14,7 +14,7 @@
         "react-metrics": "^2.2.3",
         "react-router": "^3.0.2",
         "react-wildcat": "7.4.0",
-        "react-wildcat-prefetch": "7.1.1",
+        "react-wildcat-prefetch": "7.4.0",
         "rimraf": "^2.5.4"
     },
     "devDependencies": {
