@@ -7,56 +7,61 @@ const sinon = require("sinon");
 const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 
-module.exports = (stubs) => {
+module.exports = stubs => {
     describe("webpackHotMiddleware", () => {
-        before(() => {
+        beforeAll(() => {
             sinon.stub(stubs.logger, "meta").returns();
         });
 
-        after(() => {
+        afterAll(() => {
             stubs.logger.meta.restore();
         });
 
-        const wildcatConfig = require("../../src/utils/getWildcatConfig")(stubs.exampleDir);
+        const wildcatConfig = require("../../src/utils/getWildcatConfig")(
+            stubs.exampleDir
+        );
 
         it("provides a middleware function", () => {
             const webpackHotMiddleware = require("../../src/middleware/webpackHotMiddleware");
-            expect(webpackHotMiddleware)
-                .to.be.a("function")
+            expect(webpackHotMiddleware).to.be
+                .a("function")
                 .that.has.property("name")
                 .that.equals("webpackHotMiddleware");
         });
 
-        it("adds webpack hot middleware", (done) => {
+        it("adds webpack hot middleware", done => {
             const webpackHotMiddleware = require("../../src/middleware/webpackHotMiddleware");
             const webpackDevSettings = stubs.devClientConfigFile;
-            const {
-                devConfig,
-                hotMiddleware
-            } = require(webpackDevSettings);
+            const {devConfig, hotMiddleware} = require(webpackDevSettings);
 
             const compiler = webpack(devConfig);
-            const hotMiddlewareFn = webpackHotMiddleware(compiler, hotMiddleware);
+            const hotMiddlewareFn = webpackHotMiddleware(
+                compiler,
+                hotMiddleware
+            );
 
-            co(function* () {
-                return yield hotMiddlewareFn.call({
-                    req: {
-                        header: {
-                            host: wildcatConfig.generalSettings.originUrl,
-                            "user-agent": "Mozilla/5.0"
+            co(function*() {
+                return yield hotMiddlewareFn.call(
+                    {
+                        req: {
+                            header: {
+                                host: wildcatConfig.generalSettings.originUrl,
+                                "user-agent": "Mozilla/5.0"
+                            },
+                            fresh: false,
+                            url: "/"
                         },
-                        fresh: false,
-                        url: "/"
+                        res: {
+                            get: () => Date.now(),
+                            status: null,
+                            type: "text/html",
+                            lastModified: null
+                        }
                     },
-                    res: {
-                        get: () => Date.now(),
-                        status: null,
-                        type: "text/html",
-                        lastModified: null
-                    }
-                }, (next) => next());
+                    next => next()
+                );
             })
-                .then((result) => {
+                .then(result => {
                     expect(result).to.not.exist;
                     done();
                 })

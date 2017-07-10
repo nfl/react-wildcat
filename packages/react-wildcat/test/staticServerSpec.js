@@ -10,76 +10,87 @@ const path = require("path");
 const os = require("os");
 
 const cluster = require("cluster");
-const deepmerge = require("deepmerge");
-const proxyquire = require("proxyquire");
 
 describe("staticServer", () => {
-    const stubs = require("./fixtures");
+    const mockStubs = require("./fixtures");
 
-    before(() => {
-        [
-            stubs.publicDir
-        ].forEach(fs.removeSync);
+    beforeAll(() => {
+        [mockStubs.publicDir].forEach(fs.removeSync);
 
-        process.chdir(stubs.exampleDir);
+        process.chdir(mockStubs.exampleDir);
     });
 
-    context("middleware", () => {
-        require("./middleware/webpackHotMiddlewareSpec.js")(stubs);
+    describe("middleware", () => {
+        require("./middleware/webpackHotMiddlewareSpec.js")(mockStubs);
     });
 
-    context("static server", () => {
+    describe("static server", () => {
         const expectations = {
-            "development": [
-                "Static server is running at"
-            ],
-            "production": [
-                "Static server is running"
-            ]
+            development: ["Static server is running at"],
+            production: ["Static server is running"]
         };
 
-        before(() => {
-            sinon.stub(console, "info").returns();
-            sinon.stub(stubs.logger, "info").returns();
-        });
+        ["development", "production"].forEach(mockCurrentEnv => {
+            describe(mockCurrentEnv, () => {
+                beforeAll(() => {
+                    jest.resetModules();
 
-        after(() => {
-            console.info.restore();
-            stubs.logger.info.restore();
-        });
+                    jest.mock("../src/utils/logger");
 
-        ["development", "production"].forEach(currentEnv => {
-            context(currentEnv, () => {
-                it("starts the server via cli", (done) => {
-                    const currentExpectations = expectations[currentEnv];
+                    sinon.stub(console, "info").returns();
+                    sinon.stub(mockStubs.logger, "info").returns();
+                });
+
+                afterAll(() => {
+                    jest.unmock("cluster");
+                    jest.unmock("../src/utils/getWildcatConfig");
+                    jest.unmock("../src/memory.js");
+                    jest.unmock("../src/utils/logger.js");
+
+                    console.info.restore();
+                    mockStubs.logger.info.restore();
+                });
+
+                it("starts the server via cli", done => {
+                    const currentExpectations = expectations[mockCurrentEnv];
                     let currentExpectationCount = 0;
                     let cli;
 
                     try {
-                        cli = cp.spawn("node", [
-                            path.join(cwd, "packages/react-wildcat/cli/wildcatStaticServer.js")
-                        ], {
-                            stdio: "pipe"
-                        });
+                        cli = cp.spawn(
+                            "node",
+                            [
+                                path.join(
+                                    cwd,
+                                    "packages/react-wildcat/cli/wildcatStaticServer.js"
+                                )
+                            ],
+                            {
+                                stdio: "pipe"
+                            }
+                        );
 
                         cli.stdout.setEncoding("utf8");
 
-                        cli.stdout.on("data", (data) => {
-                            const expectationMatch = currentExpectations.some(exp => data.includes(exp));
+                        cli.stdout.on("data", data => {
+                            const expectationMatch = currentExpectations.some(
+                                exp => data.includes(exp)
+                            );
 
                             if (expectationMatch) {
                                 expect(expectationMatch).to.be.true;
                                 currentExpectationCount++;
                             }
 
-                            expect(cli.killed)
-                                .to.be.false;
+                            expect(cli.killed).to.be.false;
 
-                            if (currentExpectationCount >= currentExpectations.length) {
+                            if (
+                                currentExpectationCount >=
+                                currentExpectations.length
+                            ) {
                                 cli.kill("SIGINT");
 
-                                expect(cli.killed)
-                                    .to.be.true;
+                                expect(cli.killed).to.be.true;
 
                                 setTimeout(() => done(), 250);
                             }
@@ -90,66 +101,65 @@ describe("staticServer", () => {
                     }
                 });
 
-                ["http2", "https", "http"].forEach(currentProtocol => {
-                    context(currentProtocol, () => {
-                        it("starts the server programmatically", (done) => {
-                            const staticServer = proxyquire("../src/staticServer.js", {
-                                "cluster": {
-                                    isMaster: false,
-                                    worker: {
-                                        id: 1
-                                    }
-                                },
-                                "./utils/getWildcatConfig": () => {
-                                    const defaultConfig = require("../src/utils/getWildcatConfig")();
+                ["http2", "https", "http"].forEach(mockCurrentProtocol => {
+                    describe(mockCurrentProtocol, () => {
+                        it("starts the server programmatically", done => {
+                            jest.mock("cluster", () => {
+                                const cluster = jest.genMockFromModule(
+                                    "cluster"
+                                );
+
+                                cluster.isMaster = false;
+                                cluster.worker = {
+                                    id: 1
+                                };
+
+                                return cluster;
+                            });
+
+                            jest.mock("../src/utils/getWildcatConfig", () => {
+                                const defaultConfig = require("../src/config/wildcat.config.js");
+                                const deepmerge = require("deepmerge");
+
+                                return function() {
                                     return deepmerge.all([
                                         defaultConfig,
-                                        stubs.getEnvironment({
-                                            NODE_ENV: currentEnv
+                                        mockStubs.getEnvironment({
+                                            NODE_ENV: mockCurrentEnv
                                         }),
                                         {
+                                            clientSettings: {
+                                                webpackDevSettings: `config/webpack/${mockCurrentEnv}.client.config.js`
+                                            },
                                             serverSettings: {
                                                 staticServer: {
                                                     minClusterCpuCount: 1,
                                                     maxClusterCpuCount: 1,
-                                                    protocol: currentProtocol
+                                                    protocol: mockCurrentProtocol
                                                 }
                                             }
                                         }
                                     ]);
-                                },
-                                "./utils/logger": (() => {
-                                    function Logger() {}
-
-                                    Logger.prototype = {
-                                        info: () => {},
-                                        meta: () => {},
-                                        ok: () => {},
-                                        warn: () => {}
-                                    };
-
-                                    return Logger;
-                                })()
+                                };
                             });
 
-                            expect(staticServer)
-                                .to.exist;
+                            const staticServer = require("../src/staticServer.js");
 
-                            expect(staticServer)
-                                .to.respondTo("start");
+                            expect(staticServer).to.exist;
 
-                            expect(staticServer.start)
-                                .to.be.a("function");
+                            expect(staticServer).to.respondTo("start");
 
-                            staticServer.start()
-                                .then((result) => {
-                                    expect(result)
-                                        .to.exist;
+                            expect(staticServer.start).to.be.a("function");
 
-                                    expect(result)
-                                        .to.be.an("object")
+                            staticServer
+                                .start()
+                                .then(result => {
+                                    expect(result).to.exist;
+
+                                    expect(result).to.be
+                                        .an("object")
                                         .that.has.property("env")
-                                        .that.equals(currentEnv);
+                                        .that.equals(mockCurrentEnv);
 
                                     staticServer.close();
                                     done();
@@ -164,7 +174,7 @@ describe("staticServer", () => {
             });
         });
 
-        context("lifecycle events", () => {
+        describe("lifecycle events", () => {
             const lifecycleTests = [
                 "onBeforeStart",
                 "onWorkerStart",
@@ -172,50 +182,53 @@ describe("staticServer", () => {
                 "onAfterStart"
             ];
 
-            lifecycleTests.forEach(lifecycle => {
-                let wildcatConfig = require("../src/utils/getWildcatConfig")();
+            lifecycleTests.forEach(mockLifecycle => {
+                it(mockLifecycle, done => {
+                    const mockLifecycleSpy = sinon.spy();
 
-                it(lifecycle, (done) => {
-                    const server = proxyquire("../src/staticServer.js", {
-                        "cluster": {
-                            isMaster: false,
-                            worker: {
-                                id: 1
-                            }
-                        },
-                        "./utils/getWildcatConfig": () => {
-                            wildcatConfig = deepmerge.all([
-                                wildcatConfig,
+                    jest.mock("cluster", () => {
+                        const cluster = jest.genMockFromModule("cluster");
+
+                        cluster.isMaster = false;
+                        cluster.worker = {
+                            id: 1
+                        };
+
+                        return cluster;
+                    });
+
+                    jest.mock("../src/utils/getWildcatConfig", () => {
+                        const defaultConfig = require("../src/config/wildcat.config.js");
+                        const deepmerge = require("deepmerge");
+
+                        return function() {
+                            return deepmerge.all([
+                                defaultConfig,
                                 {
                                     serverSettings: {
                                         staticServer: {
-                                            [lifecycle]: sinon.spy()
+                                            [mockLifecycle]: mockLifecycleSpy
                                         }
                                     }
                                 }
                             ]);
-
-                            return wildcatConfig;
-                        },
-                        "./utils/logger": stubs.NullConsoleLogger
+                        };
                     });
 
-                    expect(server)
-                        .to.exist;
+                    const server = require("../src/staticServer.js");
 
-                    expect(server)
-                        .to.respondTo("start");
+                    expect(server).to.exist;
 
-                    expect(server.start)
-                        .to.be.a("function");
+                    expect(server).to.respondTo("start");
 
-                    server.start()
-                        .then((result) => {
-                            expect(result)
-                                .to.exist;
+                    expect(server.start).to.be.a("function");
 
-                            expect(wildcatConfig.serverSettings.staticServer[lifecycle].calledOnce)
-                                .to.be.true;
+                    server
+                        .start()
+                        .then(result => {
+                            expect(result).to.exist;
+
+                            expect(mockLifecycleSpy.calledOnce);
 
                             server.close();
                             done();
@@ -228,29 +241,49 @@ describe("staticServer", () => {
             });
         });
 
-        context("cluster", () => {
-            context("When attempting to start a cluster of static servers", function () {
-                this.timeout(30000);
+        describe("cluster", () => {
+            describe("When attempting to start a cluster of static servers", function() {
+                jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
+                let mockClusterForkSpy;
 
-                let clusterForkStub;
                 let server;
 
                 beforeEach(() => {
-                    clusterForkStub = sinon.stub(cluster, "fork");
+                    jest.resetModules();
+                    mockClusterForkSpy = sinon.spy();
                 });
 
                 afterEach(() => {
-                    clusterForkStub.restore();
+                    jest.unmock("../src/utils/getWildcatConfig");
+                    mockClusterForkSpy.reset();
+
                     server && server.close && server.close();
                 });
 
-                it(`maxClusterCpuCount defined as 1 should only start one server`, (done) => {
-                    server = proxyquire("../src/staticServer.js", {
-                        "./utils/getWildcatConfig": () => {
-                            const defaultConfig = require("../src/utils/getWildcatConfig")();
+                it(`maxClusterCpuCount defined as 1 should only start one server`, function(
+                    done
+                ) {
+                    jest.mock("cluster", () => {
+                        const cluster = jest.genMockFromModule("cluster");
+
+                        cluster.isMaster = true;
+                        cluster.worker = {
+                            id: 1
+                        };
+
+                        cluster.fork = mockClusterForkSpy;
+
+                        return cluster;
+                    });
+
+                    jest.mock("../src/utils/getWildcatConfig", () => {
+                        const deepmerge = require("deepmerge");
+                        const defaultConfig = require("../src/config/wildcat.config.js");
+                        return function() {
                             return deepmerge.all([
                                 defaultConfig,
                                 {
+                                    __ClusterServerTest__: true,
                                     serverSettings: {
                                         staticServer: {
                                             maxClusterCpuCount: 1
@@ -258,24 +291,39 @@ describe("staticServer", () => {
                                     }
                                 }
                             ]);
-                        },
-                        "./utils/logger": stubs.NullConsoleLogger
+                        };
                     });
 
-                    server.start()
-                        .then(result => {
-                            expect(result.clusterForksCount).to.equal(1);
+                    server = require("../src/staticServer.js");
 
-                            sinon.assert.callCount(clusterForkStub, 1);
+                    server.start().then(result => {
+                        expect(result.clusterForksCount).to.equal(1);
+                        expect(cluster.fork.calledOnce);
 
-                            done();
-                        }, done);
+                        done();
+                    }, done);
                 });
 
-                it(`maxClusterCpuCount=2 should start 2 servers`, (done) => {
-                    server = proxyquire("../src/staticServer.js", {
-                        "./utils/getWildcatConfig": () => {
-                            const defaultConfig = require("../src/utils/getWildcatConfig")();
+                it(`maxClusterCpuCount=2 should start 2 servers`, function(
+                    done
+                ) {
+                    jest.mock("cluster", () => {
+                        const cluster = jest.genMockFromModule("cluster");
+
+                        cluster.isMaster = true;
+                        cluster.worker = {
+                            id: 1
+                        };
+
+                        cluster.fork = mockClusterForkSpy;
+
+                        return cluster;
+                    });
+
+                    jest.mock("../src/utils/getWildcatConfig", () => {
+                        const deepmerge = require("deepmerge");
+                        const defaultConfig = require("../src/config/wildcat.config.js");
+                        return function() {
                             return deepmerge.all([
                                 defaultConfig,
                                 {
@@ -287,24 +335,39 @@ describe("staticServer", () => {
                                     }
                                 }
                             ]);
-                        },
-                        "./utils/logger": stubs.NullConsoleLogger
+                        };
                     });
 
-                    server.start()
+                    server = require("../src/staticServer.js");
+
+                    server
+                        .start()
                         .then(result => {
                             expect(result.clusterForksCount).to.equal(2);
-                            sinon.assert.callCount(clusterForkStub, 2);
+                            expect(cluster.fork.calledTwice);
                         })
                         .then(done)
                         .catch(done);
                 });
 
+                it(`maxClusterCpuCount defined as Infinity should start as many servers as machine CPUs`, done => {
+                    jest.mock("cluster", () => {
+                        const cluster = jest.genMockFromModule("cluster");
 
-                it(`maxClusterCpuCount defined as Infinity should start as many servers as machine CPUs`, (done) => {
-                    server = proxyquire("../src/staticServer.js", {
-                        "./utils/getWildcatConfig": () => {
-                            const defaultConfig = require("../src/utils/getWildcatConfig")();
+                        cluster.isMaster = true;
+                        cluster.worker = {
+                            id: 1
+                        };
+
+                        cluster.fork = mockClusterForkSpy;
+
+                        return cluster;
+                    });
+
+                    jest.mock("../src/utils/getWildcatConfig", () => {
+                        const deepmerge = require("deepmerge");
+                        const defaultConfig = require("../src/config/wildcat.config.js");
+                        return function() {
                             return deepmerge.all([
                                 defaultConfig,
                                 {
@@ -316,14 +379,20 @@ describe("staticServer", () => {
                                     }
                                 }
                             ]);
-                        },
-                        "./utils/logger": stubs.NullConsoleLogger
+                        };
                     });
 
-                    server.start()
+                    server = require("../src/staticServer.js");
+
+                    server
+                        .start()
                         .then(result => {
-                            expect(result.clusterForksCount).to.equal(os.cpus().length);
-                            sinon.assert.callCount(clusterForkStub, os.cpus().length);
+                            expect(result.clusterForksCount).to.equal(
+                                os.cpus().length
+                            );
+                            expect(mockClusterForkSpy.callCount).to.equal(
+                                os.cpus().length
+                            );
 
                             done();
                         })
@@ -333,7 +402,7 @@ describe("staticServer", () => {
         });
     });
 
-    after(() => {
+    afterAll(() => {
         process.chdir(cwd);
     });
 });
