@@ -3,46 +3,52 @@ const expect = chai.expect;
 const sinon = require("sinon");
 const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
-
 const proxyquire = require("proxyquire");
 
-module.exports = (stubs) => {
+module.exports = mockStubs => {
     describe("webpackBundleValidation", () => {
         it("returns a validation object", () => {
             const webpackBundleValidation = require("../../src/utils/webpackBundleValidation");
-            const validate = webpackBundleValidation(stubs.exampleDir, {
+            const validate = webpackBundleValidation(mockStubs.exampleDir, {
                 __DEV__: false,
-                logger: stubs.logger,
-                webpackDevSettings: stubs.devServerConfigFile
+                logger: mockStubs.logger,
+                webpackDevSettings: mockStubs.devServerConfigFile
             });
 
-            expect(validate)
-                .to.exist;
+            expect(validate).to.exist;
 
-            expect(validate)
-                .to.be.an("object");
+            expect(validate).to.be.an("object");
 
-            expect(validate)
-                .to.respondTo("onReady");
+            expect(validate).to.respondTo("onReady");
 
-            expect(validate)
-                .to.respondTo("ready");
+            expect(validate).to.respondTo("ready");
         });
 
-        context("onReady()", () => {
-            it("waits for Webpack to be ready when the current bundle is invalid", () => {
-                const loggerStub = sinon.stub(stubs.logger, "info").returns();
+        describe("onReady()", () => {
+            let loggerStub;
 
-                const webpackBundleValidation = proxyquire("../../src/utils/webpackBundleValidation", {
-                    "webpack": () => ({
+            beforeEach(() => {
+                jest.resetModules();
+                loggerStub = sinon.stub(mockStubs.logger, "info").returns();
+            });
+            afterEach(() => {
+                jest.unmock("webpack");
+                mockStubs.logger.info.restore();
+            });
+
+            it("waits for Webpack to be ready when the current bundle is invalid", () => {
+                jest.mock("webpack", () => {
+                    return () => ({
                         watch() {}
-                    })
+                    });
                 });
 
-                const validate = webpackBundleValidation(stubs.exampleDir, {
+                const webpackBundleValidation = require("../../src/utils/webpackBundleValidation");
+
+                const validate = webpackBundleValidation(mockStubs.exampleDir, {
                     __DEV__: true,
-                    logger: stubs.logger,
-                    webpackDevSettings: stubs.devServerConfigFile
+                    logger: mockStubs.logger,
+                    webpackDevSettings: mockStubs.devServerConfigFile
                 });
 
                 validate._watcher = {
@@ -50,38 +56,36 @@ module.exports = (stubs) => {
                 };
 
                 function onReadyHandler() {}
+
                 validate.onReady(onReadyHandler);
 
-                expect(validate)
-                    .to.have.property("_handlers")
+                expect(validate).to.have
+                    .property("_handlers")
                     .that.is.an("array")
                     .that.includes(onReadyHandler);
 
-                expect(loggerStub)
-                    .to.have.been.calledWith(
-                        "webpack: wait until bundle finished"
-                    );
-
-                stubs.logger.info.restore();
+                expect(loggerStub).to.have.been.calledWith(
+                    "webpack: wait until bundle finished"
+                );
             });
 
-            it("validates the current bundle when ready", (done) => {
-                const loggerStub = sinon.stub(stubs.logger, "info").returns();
-
-                const webpackBundleValidation = proxyquire("../../src/utils/webpackBundleValidation", {
-                    "webpack": () => ({
+            it("validates the current bundle when ready", done => {
+                jest.mock("webpack", () => {
+                    return () => ({
                         watch(opts, cb) {
                             setTimeout(() => {
-                                cb(null, stubs.stats);
+                                cb(null, mockStubs.stats);
                             });
                         }
-                    })
+                    });
                 });
 
-                const validate = webpackBundleValidation(stubs.exampleDir, {
+                const webpackBundleValidation = require("../../src/utils/webpackBundleValidation");
+
+                const validate = webpackBundleValidation(mockStubs.exampleDir, {
                     __DEV__: true,
-                    logger: stubs.logger,
-                    webpackDevSettings: stubs.devServerConfigFile
+                    logger: mockStubs.logger,
+                    webpackDevSettings: mockStubs.devServerConfigFile
                 });
 
                 validate._watcher = {
@@ -89,47 +93,40 @@ module.exports = (stubs) => {
                 };
 
                 function onReadyHandler(err, stats) {
-                    expect(err)
-                        .to.not.exist;
+                    expect(err).to.not.exist;
 
-                    expect(stats)
-                        .to.be.an("object");
+                    expect(stats).to.be.an("object");
 
                     done();
                 }
 
                 validate.onReady(onReadyHandler);
 
-                expect(validate)
-                    .to.have.property("_handlers")
+                expect(validate).to.have
+                    .property("_handlers")
                     .that.is.an("array")
                     .that.includes(onReadyHandler);
 
-                expect(loggerStub)
-                    .to.have.been.calledWith(
-                        "webpack: wait until bundle finished"
-                    );
-
-                stubs.logger.info.restore();
+                expect(loggerStub).to.have.been.calledWith(
+                    "webpack: wait until bundle finished"
+                );
             });
 
-            it("returns callback in production mode", (done) => {
+            it("returns callback in production mode", done => {
                 const webpackBundleValidation = require("../../src/utils/webpackBundleValidation");
 
-                const validate = webpackBundleValidation(stubs.exampleDir, {
+                const validate = webpackBundleValidation(mockStubs.exampleDir, {
                     __DEV__: false,
-                    logger: stubs.logger,
-                    webpackDevSettings: stubs.devServerConfigFile
+                    logger: mockStubs.logger,
+                    webpackDevSettings: mockStubs.devServerConfigFile
                 });
 
                 validate._stats = {};
 
                 function onReadyHandler(err, stats) {
-                    expect(err)
-                        .to.not.exist;
+                    expect(err).to.not.exist;
 
-                    expect(stats)
-                        .to.exist;
+                    expect(stats).to.exist;
 
                     done();
                 }
@@ -138,22 +135,23 @@ module.exports = (stubs) => {
             });
         });
 
-        context("ready()", () => {
-            it("clears require cache of all Webpack-generated files", (done) => {
-                const webpackBundleValidation = proxyquire("../../src/utils/webpackBundleValidation", {
-                    "clear-require": (moduleName) => {
-                        expect(moduleName)
-                            .to.be.a("string")
-                            .that.equals(stubs.webpackFileStub);
+        describe("ready()", () => {
+            it("clears require cache of all Webpack-generated files", done => {
+                const mockExpect = expect;
 
-                        done();
-                    }
+                jest.mock("clear-require", () => {
+                    mockExpect("webpack-stub.js").to.be
+                        .a("string")
+                        .that.equals(mockStubs.webpackFileStub);
+                    return jest.genMockFromModule("clear-require");
                 });
 
-                const validate = webpackBundleValidation(stubs.exampleDir, {
+                const webpackBundleValidation = require("../../src/utils/webpackBundleValidation");
+
+                const validate = webpackBundleValidation(mockStubs.exampleDir, {
                     __DEV__: false,
-                    logger: stubs.logger,
-                    webpackDevSettings: stubs.devServerConfigFile
+                    logger: mockStubs.logger,
+                    webpackDevSettings: mockStubs.devServerConfigFile
                 });
 
                 validate._stats = {};
@@ -164,55 +162,50 @@ module.exports = (stubs) => {
                         compilation: {
                             assets: {
                                 "webpack-stub": {
-                                    existsAt: stubs.webpackFileStub
+                                    existsAt: mockStubs.webpackFileStub
                                 }
                             }
                         }
                     }
                 });
+
+                done();
             });
 
-            it("calls all pending handlers", (done) => {
+            it("calls all pending handlers", done => {
                 const webpackBundleValidation = require("../../src/utils/webpackBundleValidation");
                 let handlerCount = 0;
 
-                const validate = webpackBundleValidation(stubs.exampleDir, {
+                const validate = webpackBundleValidation(mockStubs.exampleDir, {
                     __DEV__: false,
-                    logger: stubs.logger,
-                    webpackDevSettings: stubs.devServerConfigFile
+                    logger: mockStubs.logger,
+                    webpackDevSettings: mockStubs.devServerConfigFile
                 });
 
                 function firstHandlerStub() {
                     handlerCount++;
 
-
-                    expect(handlerCount)
-                        .to.equal(1);
+                    expect(handlerCount).to.equal(1);
                 }
 
                 function secondHandlerStub() {
                     handlerCount++;
 
-                    expect(handlerCount)
-                        .to.equal(2);
+                    expect(handlerCount).to.equal(2);
 
                     setTimeout(() => {
-                        expect(validate._handlers)
-                            .to.be.an("array")
-                            .that.is.empty;
+                        expect(validate._handlers).to.be.an("array").that.is
+                            .empty;
 
                         done();
                     });
                 }
 
-                validate._handlers = [
-                    firstHandlerStub,
-                    secondHandlerStub
-                ];
+                validate._handlers = [firstHandlerStub, secondHandlerStub];
 
                 validate.ready({
                     err: undefined,
-                    stats: stubs.stats
+                    stats: mockStubs.stats
                 });
             });
         });
