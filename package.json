@@ -10,6 +10,7 @@
   "devDependencies": {
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.0.0",
+    "babel-jest": "^20.0.3",
     "babel-loader": "^6.2.10",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-dynamic-import-node": "^1.0.2",
@@ -84,17 +85,18 @@
       "lcov",
       "text",
       "html"
-      ],
+    ],
     "setupFiles": [
       "./test/setupJest.js"
     ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg)$": "<rootDir>/test/mocks/fileMock.js"
     },
-    "testRegex": "./packages/react-wildcat.*/src/test/browser/.*Spec\\.js$"
+      "testRegex": "./packages/react-wildcat/test/appServerSpec.js"
   },
   "scripts": {
     "changelog": "conventional-changelog -k packages/react-wildcat/package.json -p angular -i CHANGELOG.md -s",
+    "test:node": "env BABEL_ENV=test jest --env=node",
     "test:browser": "env BABEL_ENV=test jest"
   },
   "config": {
