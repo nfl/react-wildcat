@@ -18,7 +18,7 @@ module.exports = stubs => {
             expect(customMorganTokens).to.exist;
         });
 
-        context("id", () => {
+        describe("id", () => {
             it("logs custom IDs", () => {
                 const id = stubs.customEmoji;
 
@@ -31,13 +31,12 @@ module.exports = stubs => {
                 expect(result).to.be
                     .a("string")
                     .that.equals(
-                        `${chalk.styles.gray.open}${id}  ~>${chalk.styles.gray
-                            .close}`
+                        `${chalk.styles.gray.open}${id}  ~>${chalk.styles.gray.close}`
                     );
             });
         });
 
-        context("status", () => {
+        describe("status", () => {
             [
                 {code: 200, color: "cyan"},
                 {code: 301, color: "magenta"},
@@ -65,7 +64,7 @@ module.exports = stubs => {
             });
         });
 
-        context("url", () => {
+        describe("url", () => {
             ["originalUrl", "url"].forEach(parameter => {
                 it(`logs requests using req.${parameter}`, () => {
                     const url = "/flexbox-example";

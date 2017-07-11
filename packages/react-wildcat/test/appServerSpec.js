@@ -12,51 +12,56 @@ const path = require("path");
 const os = require("os");
 
 const cluster = require("cluster");
-const deepmerge = require("deepmerge");
-const proxyquire = require("proxyquire");
+const asyncTestErrorHandler = require("../../../test/utils");
 
 describe("appServer", () => {
-    const stubs = require("./fixtures");
+    const mockStubs = require("./fixtures");
 
-    before(() => {
-        [stubs.publicDir].forEach(fs.removeSync);
+    beforeAll(() => {
+        [mockStubs.publicDir].forEach(fs.removeSync);
 
-        process.chdir(stubs.exampleDir);
+        process.chdir(mockStubs.exampleDir);
     });
 
-    context("utils", () => {
-        require("./utils/blueBoxOfDeathSpec.js")(stubs);
-        require("./utils/customMorganTokensSpec.js")(stubs);
-        require("./utils/getMorganOptionsSpec.js")(stubs);
-        require("./utils/getWildcatConfigSpec.js")(stubs);
-        require("./utils/loggerSpec.js")(stubs);
-        require("./utils/webpackBundleValidationSpec.js")(stubs);
+    describe("utils", () => {
+        require("./utils/blueBoxOfDeathSpec.js")(mockStubs);
+        require("./utils/customMorganTokensSpec.js")(mockStubs);
+        require("./utils/getMorganOptionsSpec.js")(mockStubs);
+        require("./utils/getWildcatConfigSpec.js")(mockStubs);
+        require("./utils/loggerSpec.js")(mockStubs);
+        require("./utils/webpackBundleValidationSpec.js")(mockStubs);
     });
 
-    context("middleware", () => {
-        require("./middleware/renderReactWithWebpackSpec.js")(stubs);
+    describe("middleware", () => {
+        require("./middleware/renderReactWithWebpackSpec.js")(mockStubs);
     });
 
-    context("app server", () => {
+    describe("app server", () => {
         const expectations = {
             development: ["Proxy", "Node server is running at"],
             production: ["Node server is running"]
         };
 
-        before(() => {
-            sinon.stub(console, "info").returns();
-            sinon.stub(stubs.logger, "info").returns();
-        });
+        Object.keys(expectations).forEach(mockCurrentEnv => {
+            describe(mockCurrentEnv, () => {
+                beforeEach(() => {
+                    jest.resetModules();
 
-        after(() => {
-            console.info.restore();
-            stubs.logger.info.restore();
-        });
+                    sinon.stub(console, "info").returns();
+                    sinon.stub(mockStubs.logger, "info").returns();
+                });
 
-        Object.keys(expectations).forEach(currentEnv => {
-            context(currentEnv, () => {
+                afterEach(() => {
+                    jest.unmock("cluster");
+                    jest.unmock("../src/utils/getWildcatConfig");
+                    jest.unmock("../src/memory.js");
+
+                    console.info.restore();
+                    mockStubs.logger.info.restore();
+                });
+
                 it("starts the server via cli", done => {
-                    const currentExpectations = expectations[currentEnv];
+                    const currentExpectations = expectations[mockCurrentEnv];
                     let currentExpectationCount = 0;
                     let cli;
 
@@ -106,25 +111,33 @@ describe("appServer", () => {
                 });
 
                 it(`starts the server in debug mode when env DEBUG=wildcat`, done => {
-                    const memorySpy = sinon.spy();
+                    const mockMemorySpy = sinon.spy();
 
-                    const server = proxyquire("../src/server.js", {
-                        cluster: {
+                    jest.mock("cluster", () => {
+                        return {
                             isMaster: false,
                             worker: {
                                 id: 1
                             }
-                        },
-                        "./utils/getWildcatConfig": () => {
-                            const defaultConfig = require("../src/utils/getWildcatConfig")();
+                        };
+                    });
+
+                    jest.mock("../src/utils/getWildcatConfig", () => {
+                        const deepmerge = require("deepmerge");
+                        const defaultConfig = require("../src/config/wildcat.config.js");
+                        return function() {
                             return deepmerge.all([
                                 defaultConfig,
-                                stubs.getEnvironment({
+                                mockStubs.getEnvironment({
                                     DEBUG: "wildcat",
-                                    NODE_ENV: currentEnv
+                                    NODE_ENV: mockCurrentEnv
                                 }),
                                 {
+                                    generalSettings: {
+                                        originUrl: "localhost"
+                                    },
                                     serverSettings: {
+                                        webpackDevSettings: `config/webpack/${mockCurrentEnv}.server.config.js`,
                                         appServer: {
                                             minClusterCpuCount: 1,
                                             maxClusterCpuCount: 1
@@ -132,9 +145,14 @@ describe("appServer", () => {
                                     }
                                 }
                             ]);
-                        },
-                        "./memory": memorySpy
+                        };
                     });
+
+                    jest.mock("../src/memory.js", function() {
+                        return mockMemorySpy;
+                    });
+
+                    const server = require("../src/server.js");
 
                     server
                         .start()
@@ -144,45 +162,56 @@ describe("appServer", () => {
                             expect(result).to.be
                                 .an("object")
                                 .that.has.property("env")
-                                .that.equals(currentEnv);
+                                .that.equals(mockCurrentEnv);
 
-                            expect(memorySpy.called);
+                            expect(mockMemorySpy.called);
 
                             server.close();
                             done();
                         })
-                        .catch(done);
+                        .catch(e => {
+                            server.close();
+                            asyncTestErrorHandler(e, done);
+                        });
                 });
 
-                ["http2", "https", "http"].forEach(currentProtocol => {
-                    it(`starts the server programmatically using ${currentProtocol}`, done => {
-                        const server = proxyquire("../src/server.js", {
-                            cluster: {
+                ["http2", "https", "http"].forEach(mockCurrentProtocol => {
+                    it(`starts the server programmatically using ${mockCurrentProtocol}`, done => {
+                        jest.mock("cluster", () => {
+                            return {
                                 isMaster: false,
                                 worker: {
                                     id: 1
                                 }
-                            },
-                            "./utils/getWildcatConfig": () => {
-                                const defaultConfig = require("../src/utils/getWildcatConfig")();
+                            };
+                        });
+
+                        jest.mock("../src/utils/getWildcatConfig", () => {
+                            const deepmerge = require("deepmerge");
+                            const defaultConfig = require("../src/config/wildcat.config.js");
+                            return function() {
                                 return deepmerge.all([
                                     defaultConfig,
-                                    stubs.getEnvironment({
-                                        NODE_ENV: currentEnv
+                                    mockStubs.getEnvironment({
+                                        NODE_ENV: mockCurrentEnv
                                     }),
                                     {
                                         serverSettings: {
+                                            webpackDevSettings: `config/webpack/${mockCurrentEnv}.server.config.js`,
                                             appServer: {
                                                 maxClusterCpuCount: 1,
                                                 minClusterCpuCount: 1,
-                                                protocol: currentProtocol
+                                                protocol: mockCurrentProtocol
                                             }
                                         }
                                     }
                                 ]);
-                            },
-                            "./utils/logger": stubs.NullConsoleLogger
+                            };
                         });
+
+                        jest.mock("../src/utils/logger.js");
+
+                        const server = require("../src/server.js");
 
                         expect(server).to.exist;
 
@@ -198,94 +227,122 @@ describe("appServer", () => {
                                 expect(result).to.be
                                     .an("object")
                                     .that.has.property("env")
-                                    .that.equals(currentEnv);
+                                    .that.equals(mockCurrentEnv);
 
                                 server.close();
                                 done();
                             })
-                            .catch(done);
+                            .catch(e => {
+                                server.close();
+                                asyncTestErrorHandler(e, done);
+                            });
                     });
                 });
             });
         });
 
-        context("server-only middleware", () => {
-            it(`starts the server and loads custom middleware`, done => {
-                let middlewareSetup;
+        describe("server-only middleware", () => {
+            beforeEach(() => {
+                jest.resetModules();
+            });
 
-                const server = proxyquire("../src/server.js", {
-                    cluster: {
+            afterEach(() => {
+                jest.unmock("cluster");
+                jest.unmock("../src/utils/getWildcatConfig");
+                jest.unmock("../src/utils/logger.js");
+            });
+
+            it(`starts the server and loads custom middleware`, done => {
+                let mockMiddlewareSetup;
+
+                jest.mock("cluster", () => {
+                    return {
                         isMaster: false,
                         worker: {
                             id: 1
                         }
-                    },
-                    "./utils/getWildcatConfig": () => {
-                        const defaultConfig = require("../src/utils/getWildcatConfig")();
+                    };
+                });
+
+                jest.mock("../src/utils/getWildcatConfig", () => {
+                    const defaultConfig = require("../src/config/wildcat.config.js");
+                    return function() {
                         defaultConfig.serverSettings.appServer.middleware = [
                             (app, wildcatConfig) => {
-                                middlewareSetup = {
+                                mockMiddlewareSetup = {
                                     app,
                                     wildcatConfig
                                 };
                             }
                         ];
                         return defaultConfig;
-                    },
-                    "./utils/logger": stubs.NullConsoleLogger
+                    };
                 });
+
+                jest.mock("../src/utils/logger.js");
+
+                const server = require("../src/server.js");
 
                 server
                     .start()
                     .then(() => {
-                        expect(middlewareSetup).to.exist;
+                        expect(mockMiddlewareSetup).to.exist;
 
-                        expect(middlewareSetup.app).to.be.an("object");
+                        expect(mockMiddlewareSetup.app).to.be.an("object");
 
-                        expect(middlewareSetup.app).to.be.instanceof(
+                        expect(mockMiddlewareSetup.app).to.be.instanceof(
                             require("koa")
                         );
 
-                        expect(middlewareSetup.wildcatConfig).to.exist;
+                        expect(mockMiddlewareSetup.wildcatConfig).to.exist;
 
                         server.close();
                         done();
                     })
-                    .catch(done);
+                    .catch(e => {
+                        server.close();
+                        asyncTestErrorHandler(e, done);
+                    });
             });
 
             it(`starts the server and loads incorrectly formed middleware`, done => {
-                const loggerErrorMessages = [];
-                const server = proxyquire("../src/server.js", {
-                    cluster: {
+                const mockLoggerErrorMessages = [];
+
+                jest.mock("cluster", () => {
+                    return {
                         isMaster: false,
                         worker: {
                             id: 1
                         }
-                    },
-                    "./utils/getWildcatConfig": () => {
-                        const defaultConfig = require("../src/utils/getWildcatConfig")();
+                    };
+                });
+
+                jest.mock("../src/utils/getWildcatConfig", () => {
+                    const defaultConfig = require("../src/config/wildcat.config.js");
+                    return function() {
                         defaultConfig.serverSettings.appServer.middleware = [
                             "this is a bad middleware function",
                             null
                         ];
-
                         return defaultConfig;
-                    },
-                    "./utils/logger": (() => {
-                        function Logger() {}
-
-                        Logger.prototype = {
-                            info: () => {},
-                            meta: () => {},
-                            ok: () => {},
-                            warn: () => {},
-                            error: msg => loggerErrorMessages.push(msg)
-                        };
-
-                        return Logger;
-                    })()
+                    };
                 });
+
+                jest.mock("../src/utils/logger.js", () => {
+                    function Logger() {}
+
+                    Logger.prototype = {
+                        info: () => {},
+                        meta: () => {},
+                        ok: () => {},
+                        warn: () => {},
+                        error: msg => mockLoggerErrorMessages.push(msg)
+                    };
+
+                    return Logger;
+                });
+
+                const server = require("../src/server.js");
 
                 const doneDone = err => {
                     try {
@@ -301,31 +358,47 @@ describe("appServer", () => {
                     return done();
                 };
 
-                server.start().then(() => {
-                    try {
-                        expect(loggerErrorMessages.length).to.equal(2);
+                server
+                    .start()
+                    .then(() => {
+                        try {
+                            expect(mockLoggerErrorMessages.length).to.equal(2);
 
-                        expect(loggerErrorMessages[0]).to
-                            .contain(
-                                "Middleware at serverSettings.appServer.middleware[0] could not be correclty initialized."
-                            )
-                            .and.to.contain(
-                                "this is a bad middleware function"
+                            expect(mockLoggerErrorMessages[0]).to
+                                .contain(
+                                    "Middleware at serverSettings.appServer.middleware[0] could not be correclty initialized."
+                                )
+                                .and.to.contain(
+                                    "this is a bad middleware function"
+                                );
+
+                            expect(mockLoggerErrorMessages[1]).to.contain(
+                                "Middleware at serverSettings.appServer.middleware[1] could not be correclty initialized."
                             );
 
-                        expect(loggerErrorMessages[1]).to.contain(
-                            "Middleware at serverSettings.appServer.middleware[1] could not be correclty initialized."
-                        );
-
-                        doneDone();
-                    } catch (error) {
-                        doneDone(error);
-                    }
-                }, doneDone);
+                            doneDone();
+                        } catch (error) {
+                            doneDone(error);
+                        }
+                    })
+                    .catch(e => {
+                        server.close();
+                        asyncTestErrorHandler(e, done);
+                    });
             });
         });
 
-        context("lifecycle events", () => {
+        describe("lifecycle events", () => {
+            beforeEach(() => {
+                jest.resetModules();
+            });
+
+            afterEach(() => {
+                jest.unmock("cluster");
+                jest.unmock("../src/utils/getWildcatConfig");
+                jest.unmock("../src/utils/logger.js");
+            });
+
             const lifecycleTests = [
                 "onBeforeStart",
                 "onWorkerStart",
@@ -340,16 +413,25 @@ describe("appServer", () => {
                         wildcatConfig.serverSettings.appServer;
                     appServerSettings[lifecycle] = sinon.spy();
 
-                    const server = proxyquire("../src/server.js", {
-                        cluster: {
+                    jest.mock("cluster", () => {
+                        return {
                             isMaster: false,
                             worker: {
                                 id: 1
                             }
-                        },
-                        "./utils/getWildcatConfig": () => wildcatConfig,
-                        "./utils/logger": stubs.NullConsoleLogger
+                        };
                     });
+
+                    jest.mock("../src/utils/getWildcatConfig", () => {
+                        const defaultConfig = require("../src/config/wildcat.config.js");
+                        return function() {
+                            return defaultConfig;
+                        };
+                    });
+
+                    jest.mock("../src/utils/logger.js");
+
+                    const server = require("../src/server.js");
 
                     expect(server).to.exist;
 
@@ -368,86 +450,101 @@ describe("appServer", () => {
                             server.close();
                             done();
                         })
-                        .catch(err => {
+                        .catch(e => {
                             server.close();
-                            done(err);
+                            asyncTestErrorHandler(e, done);
                         });
                 });
             });
         });
 
-        context("cluster", () => {
-            context(
-                "When attempting to start a cluster of app servers",
-                function() {
-                    this.timeout(30000);
+        describe("cluster", () => {
+            describe("When attempting to start a cluster of app servers", function() {
+                jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
-                    let clusterForkStub;
-                    let server;
+                let clusterForkStub;
+                let server;
 
-                    beforeEach(() => {
-                        clusterForkStub = sinon.stub(cluster, "fork");
+                beforeEach(() => {
+                    jest.resetModules();
+                    clusterForkStub = sinon.stub(cluster, "fork");
+                });
+
+                afterEach(() => {
+                    clusterForkStub.restore();
+                    server && server.close && server.close();
+
+                    jest.unmock("../src/utils/getWildcatConfig");
+                    jest.unmock("../src/utils/logger.js");
+                });
+
+                it(`maxClusterCpuCount defined as 1 should only start one server`, done => {
+                    jest.mock("../src/utils/getWildcatConfig", () => {
+                        const defaultConfig = require("../src/config/wildcat.config.js");
+                        return function() {
+                            defaultConfig.serverSettings.appServer.maxClusterCpuCount = 1;
+                            return defaultConfig;
+                        };
                     });
 
-                    afterEach(() => {
-                        clusterForkStub.restore();
-                        server && server.close && server.close();
-                    });
+                    jest.mock("../src/utils/logger.js");
 
-                    it(`maxClusterCpuCount defined as 1 should only start one server`, done => {
-                        server = proxyquire("../src/server.js", {
-                            "./utils/getWildcatConfig": () => {
-                                const defaultConfig = require("../src/utils/getWildcatConfig")();
-                                defaultConfig.serverSettings.appServer.maxClusterCpuCount = 1;
-                                return defaultConfig;
-                            },
-                            "./utils/logger": stubs.NullConsoleLogger
-                        });
+                    server = require("../src/server.js");
 
-                        server.start().then(result => {
+                    server
+                        .start()
+                        .then(result => {
                             expect(result.clusterForksCount).to.equal(1);
 
                             sinon.assert.callCount(clusterForkStub, 1);
 
                             done();
-                        }, done);
+                        })
+                        .catch(e => asyncTestErrorHandler(e, done));
+                });
+
+                it(`maxClusterCpuCount=2 should start 2 servers`, done => {
+                    jest.mock("../src/utils/getWildcatConfig", () => {
+                        const defaultConfig = require("../src/config/wildcat.config.js");
+                        return function() {
+                            defaultConfig.serverSettings.appServer.maxClusterCpuCount = 2;
+                            defaultConfig.__ClusterServerTest__ = true;
+                            return defaultConfig;
+                        };
                     });
 
-                    it(`maxClusterCpuCount=2 should start 2 servers`, done => {
-                        server = proxyquire("../src/server.js", {
-                            "./utils/getWildcatConfig": () => {
-                                const defaultConfig = require("../src/utils/getWildcatConfig")();
-                                defaultConfig.serverSettings.appServer.maxClusterCpuCount = 2;
+                    jest.mock("../src/utils/logger.js");
 
-                                defaultConfig.__ClusterServerTest__ = true;
+                    server = require("../src/server.js");
 
-                                return defaultConfig;
-                            },
-                            "./utils/logger": stubs.NullConsoleLogger
-                        });
+                    server
+                        .start()
+                        .then(result => {
+                            expect(result.clusterForksCount).to.equal(2);
 
-                        server
-                            .start()
-                            .then(result => {
-                                expect(result.clusterForksCount).to.equal(2);
+                            sinon.assert.callCount(clusterForkStub, 2);
+                            done();
+                        })
+                        .catch(e => asyncTestErrorHandler(e, done));
+                });
 
-                                sinon.assert.callCount(clusterForkStub, 2);
-                            })
-                            .then(done, done);
+                it(`maxClusterCpuCount defined as Infinity should start as many servers as machine CPUs`, done => {
+                    jest.mock("../src/utils/getWildcatConfig", () => {
+                        const defaultConfig = require("../src/config/wildcat.config.js");
+                        return function() {
+                            defaultConfig.serverSettings.appServer.maxClusterCpuCount = Infinity;
+                            defaultConfig.__ClusterServerTest__ = true;
+                            return defaultConfig;
+                        };
                     });
 
-                    it(`maxClusterCpuCount defined as Infinity should start as many servers as machine CPUs`, done => {
-                        server = proxyquire("../src/server.js", {
-                            "./utils/getWildcatConfig": () => {
-                                const defaultConfig = require("../src/utils/getWildcatConfig")();
-                                defaultConfig.serverSettings.appServer.maxClusterCpuCount = Infinity;
-                                defaultConfig.__ClusterServerTest__ = true;
-                                return defaultConfig;
-                            },
-                            "./utils/logger": stubs.NullConsoleLogger
-                        });
+                    jest.mock("../src/utils/logger.js");
 
-                        server.start().then(result => {
+                    server = require("../src/server.js");
+
+                    server
+                        .start()
+                        .then(result => {
                             expect(result.clusterForksCount).to.equal(
                                 os.cpus().length
                             );
@@ -458,15 +555,15 @@ describe("appServer", () => {
                             );
 
                             done();
-                        }, done);
-                    });
-                }
-            );
+                        })
+                        .catch(e => asyncTestErrorHandler(e, done));
+                });
+            });
         });
     });
 
-    after(() => {
-        [stubs.publicDir].forEach(fs.removeSync);
+    afterAll(() => {
+        [mockStubs.publicDir].forEach(fs.removeSync);
 
         process.chdir(cwd);
     });

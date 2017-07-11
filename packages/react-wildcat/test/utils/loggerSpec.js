@@ -5,16 +5,11 @@ const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 
 const chalk = require("chalk");
-const proxyquire = require("proxyquire").noPreserveCache();
 
 module.exports = stubs => {
     describe("logger", () => {
-        const wildcatConfig = require("../../src/utils/getWildcatConfig")(
-            stubs.exampleDir
-        );
-
         it("bootstraps custom logger", () => {
-            const CustomLogger = proxyquire("../../src/utils/logger.js", {});
+            const CustomLogger = require("../../src/utils/logger.js");
 
             expect(CustomLogger).to.exist;
 
@@ -31,10 +26,7 @@ module.exports = stubs => {
                     .stub(console, stubs.logMethods[method])
                     .returns();
 
-                const CustomLogger = proxyquire(
-                    "../../src/utils/logger.js",
-                    {}
-                );
+                const CustomLogger = require("../../src/utils/logger.js");
                 const customLogger = new CustomLogger(stubs.customEmoji);
 
                 customLogger[method](testLog);
@@ -49,7 +41,7 @@ module.exports = stubs => {
         });
 
         it("logger.error outputs an Error stack trace", () => {
-            const CustomLogger = proxyquire("../../src/utils/logger.js", {});
+            const CustomLogger = require("../../src/utils/logger.js");
 
             const getErrorColor = str => {
                 return chalk.styles.red.open + str + chalk.styles.red.close;
@@ -85,15 +77,23 @@ module.exports = stubs => {
             console.error.restore();
         });
 
-        context("Graylog", () => {
+        describe("Graylog", () => {
             ["development", "production"].forEach(env => {
-                context(env, () => {
+                describe(env, () => {
+                    beforeEach(() => {
+                        jest.resetModules();
+                    });
+
+                    afterEach(() => {
+                        jest.unmock("gelf-pro");
+                        jest.unmock("../../src/utils/getWildcatConfig");
+                    });
+
                     Object.keys(stubs.logMethods).forEach(method => {
-                        it(`sends logger.${method} data to Graylog as an "${stubs
-                            .mapLogMethods[method]}" log`, () => {
+                        it(`sends logger.${method} data to Graylog as an "${stubs.mapLogMethods[method]}" log`, () => {
                             const testLog = `test log`;
-                            const setConfigStub = sinon.stub();
-                            const graylogSettingsStub = {
+                            const mockSetConfigStub = sinon.stub();
+                            const mockGraylogSettingsStub = {
                                 fields: {
                                     app: "example",
                                     env,
@@ -101,23 +101,26 @@ module.exports = stubs => {
                                 }
                             };
 
-                            const CustomLogger = proxyquire(
-                                "../../src/utils/logger.js",
-                                {
-                                    "gelf-pro": {
-                                        setConfig: setConfigStub
-                                    },
-                                    "./getWildcatConfig": () => {
-                                        const config = Object.assign(
-                                            {},
-                                            wildcatConfig
-                                        );
-                                        wildcatConfig.serverSettings.graylog = graylogSettingsStub;
+                            jest.mock("gelf-pro", () => {
+                                const gelfPro = jest.genMockFromModule(
+                                    "gelf-pro"
+                                );
+                                gelfPro.setConfig = mockSetConfigStub;
+                                return gelfPro;
+                            });
 
-                                        return config;
-                                    }
+                            jest.mock(
+                                "../../src/utils/getWildcatConfig",
+                                () => {
+                                    const wildcatConfig = require("../../src/config/wildcat.config.js");
+                                    return function() {
+                                        wildcatConfig.serverSettings.graylog = mockGraylogSettingsStub;
+                                        return wildcatConfig;
+                                    };
                                 }
                             );
+
+                            const CustomLogger = require("../../src/utils/logger.js");
 
                             expect(CustomLogger).to.exist;
 
@@ -137,8 +140,8 @@ module.exports = stubs => {
 
                             customLogger[method](testLog);
 
-                            expect(setConfigStub).to.have.been.calledWith(
-                                graylogSettingsStub
+                            expect(mockSetConfigStub).to.have.been.calledWith(
+                                mockGraylogSettingsStub
                             );
 
                             expect(
