@@ -2,7 +2,8 @@
     "extends": "eslint-config-nfl",
     "env": {
         "node": true,
-        "mocha": true
+        "mocha": true,
+        "jest": true
     },
     "rules": {
         "prefer-arrow-callback": [2, {
@@ -16,7 +17,8 @@
         "by": true,
         "element": true,
         "protractor": true,
-        "beforeAll": true
+        "beforeAll": true,
+        "jasmine": true
     },
     "settings": {
         "import/ignore": [

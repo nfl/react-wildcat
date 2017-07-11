@@ -3,7 +3,6 @@ const expect = chai.expect;
 const sinon = require("sinon");
 const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
-const proxyquire = require("proxyquire");
 
 module.exports = mockStubs => {
     describe("webpackBundleValidation", () => {

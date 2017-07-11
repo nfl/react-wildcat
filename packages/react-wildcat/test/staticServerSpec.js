@@ -105,23 +105,23 @@ describe("staticServer", () => {
                     describe(mockCurrentProtocol, () => {
                         it("starts the server programmatically", done => {
                             jest.mock("cluster", () => {
-                                const cluster = jest.genMockFromModule(
+                                const clusterMock = jest.genMockFromModule(
                                     "cluster"
                                 );
 
-                                cluster.isMaster = false;
-                                cluster.worker = {
+                                clusterMock.isMaster = false;
+                                clusterMock.worker = {
                                     id: 1
                                 };
 
-                                return cluster;
+                                return clusterMock;
                             });
 
                             jest.mock("../src/utils/getWildcatConfig", () => {
                                 const defaultConfig = require("../src/config/wildcat.config.js");
                                 const deepmerge = require("deepmerge");
 
-                                return function() {
+                                return function () {
                                     return deepmerge.all([
                                         defaultConfig,
                                         mockStubs.getEnvironment({
@@ -187,21 +187,21 @@ describe("staticServer", () => {
                     const mockLifecycleSpy = sinon.spy();
 
                     jest.mock("cluster", () => {
-                        const cluster = jest.genMockFromModule("cluster");
+                        const clusterMock = jest.genMockFromModule("cluster");
 
-                        cluster.isMaster = false;
-                        cluster.worker = {
+                        clusterMock.isMaster = false;
+                        clusterMock.worker = {
                             id: 1
                         };
 
-                        return cluster;
+                        return clusterMock;
                     });
 
                     jest.mock("../src/utils/getWildcatConfig", () => {
                         const defaultConfig = require("../src/config/wildcat.config.js");
                         const deepmerge = require("deepmerge");
 
-                        return function() {
+                        return function () {
                             return deepmerge.all([
                                 defaultConfig,
                                 {
@@ -242,7 +242,7 @@ describe("staticServer", () => {
         });
 
         describe("cluster", () => {
-            describe("When attempting to start a cluster of static servers", function() {
+            describe("When attempting to start a cluster of static servers", () => {
                 jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
                 let mockClusterForkSpy;
 
@@ -260,26 +260,24 @@ describe("staticServer", () => {
                     server && server.close && server.close();
                 });
 
-                it(`maxClusterCpuCount defined as 1 should only start one server`, function(
-                    done
-                ) {
+                it(`maxClusterCpuCount defined as 1 should only start one server`, (done) => {
                     jest.mock("cluster", () => {
-                        const cluster = jest.genMockFromModule("cluster");
+                        const clusterMock = jest.genMockFromModule("cluster");
 
-                        cluster.isMaster = true;
-                        cluster.worker = {
+                        clusterMock.isMaster = true;
+                        clusterMock.worker = {
                             id: 1
                         };
 
-                        cluster.fork = mockClusterForkSpy;
+                        clusterMock.fork = mockClusterForkSpy;
 
-                        return cluster;
+                        return clusterMock;
                     });
 
                     jest.mock("../src/utils/getWildcatConfig", () => {
                         const deepmerge = require("deepmerge");
                         const defaultConfig = require("../src/config/wildcat.config.js");
-                        return function() {
+                        return function () {
                             return deepmerge.all([
                                 defaultConfig,
                                 {
@@ -304,26 +302,24 @@ describe("staticServer", () => {
                     }, done);
                 });
 
-                it(`maxClusterCpuCount=2 should start 2 servers`, function(
-                    done
-                ) {
+                it(`maxClusterCpuCount=2 should start 2 servers`, (done) => {
                     jest.mock("cluster", () => {
-                        const cluster = jest.genMockFromModule("cluster");
+                        const clusterMock = jest.genMockFromModule("cluster");
 
-                        cluster.isMaster = true;
-                        cluster.worker = {
+                        clusterMock.isMaster = true;
+                        clusterMock.worker = {
                             id: 1
                         };
 
-                        cluster.fork = mockClusterForkSpy;
+                        clusterMock.fork = mockClusterForkSpy;
 
-                        return cluster;
+                        return clusterMock;
                     });
 
                     jest.mock("../src/utils/getWildcatConfig", () => {
                         const deepmerge = require("deepmerge");
                         const defaultConfig = require("../src/config/wildcat.config.js");
-                        return function() {
+                        return function () {
                             return deepmerge.all([
                                 defaultConfig,
                                 {
@@ -352,22 +348,22 @@ describe("staticServer", () => {
 
                 it(`maxClusterCpuCount defined as Infinity should start as many servers as machine CPUs`, done => {
                     jest.mock("cluster", () => {
-                        const cluster = jest.genMockFromModule("cluster");
+                        const clusterMock = jest.genMockFromModule("cluster");
 
-                        cluster.isMaster = true;
-                        cluster.worker = {
+                        clusterMock.isMaster = true;
+                        clusterMock.worker = {
                             id: 1
                         };
 
-                        cluster.fork = mockClusterForkSpy;
+                        clusterMock.fork = mockClusterForkSpy;
 
-                        return cluster;
+                        return clusterMock;
                     });
 
                     jest.mock("../src/utils/getWildcatConfig", () => {
                         const deepmerge = require("deepmerge");
                         const defaultConfig = require("../src/config/wildcat.config.js");
-                        return function() {
+                        return function () {
                             return deepmerge.all([
                                 defaultConfig,
                                 {
