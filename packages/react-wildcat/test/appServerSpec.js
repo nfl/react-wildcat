@@ -12,7 +12,7 @@ const path = require("path");
 const os = require("os");
 
 const cluster = require("cluster");
-const asyncTestErrorHandler = require("../../../test/utils");
+const asyncTestErrorHandler = require("../../../test/utils.js");
 
 describe("appServer", () => {
     const mockStubs = require("./fixtures");

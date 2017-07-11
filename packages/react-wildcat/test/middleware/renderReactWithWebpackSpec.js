@@ -1,78 +1,97 @@
 const chai = require("chai");
 const expect = chai.expect;
-const sinon = require("sinon");
+const mockSinon = require("sinon");
 const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 
 const co = require("co");
 const deepmerge = require("deepmerge");
-const proxyquire = require("proxyquire").noPreserveCache();
 const webpack = require("webpack");
 
-module.exports = stubs => {
-    describe("renderReactWithWebpack", function() {
-        this.timeout(30000);
+module.exports = mockStubs => {
+    describe("renderReactWithWebpack", () => {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
         const wildcatConfig = require("../../src/utils/getWildcatConfig")(
-            stubs.exampleDir
+            mockStubs.exampleDir
         );
         let staticServer;
 
         const loggerStub = {};
 
-        before(done => {
-            const compiler = webpack(require(stubs.prodConfigFile));
+        beforeAll(done => {
+            jest.resetModules();
+
+            const compiler = webpack(require(mockStubs.prodConfigFile));
 
             compiler.run(err => {
                 if (err) {
                     done(err);
                 }
 
-                Object.keys(stubs.logMethods).forEach(method => {
-                    loggerStub[method] = sinon.stub(stubs.logger, method);
+                Object.keys(mockStubs.logMethods).forEach(method => {
+                    loggerStub[method] = mockSinon.stub(
+                        mockStubs.logger,
+                        method
+                    );
                     loggerStub[method].returns();
                 });
 
-                sinon.stub(console, "info").returns();
+                mockSinon.stub(console, "info").returns();
 
-                staticServer = proxyquire("../../src/staticServer", {
-                    cluster: {
+                jest.mock("cluster", () => {
+                    return {
                         isMaster: false,
                         worker: {
                             id: 1
                         }
-                    },
-                    "./utils/logger": (() => {
-                        const NullLogger = stubs.Logger;
-                        NullLogger.prototype = stubs.logger;
-
-                        return NullLogger;
-                    })(),
-                    "./utils/getMorganOptions": () => ({
-                        skip: () => true,
-                        stream: sinon.stub().returns()
-                    })
+                    };
                 });
+
+                jest.mock("../../src/utils/logger.js", () => {
+                    const NullLogger = mockStubs.Logger;
+                    NullLogger.prototype = mockStubs.logger;
+
+                    return NullLogger;
+                });
+
+                jest.mock("../../src/utils/getMorganOptions.js", () => {
+                    return function () {
+                        return {
+                            skip: () => true,
+                            stream: mockSinon.stub().returns()
+                        };
+                    };
+                });
+
+                staticServer = require("../../src/staticServer");
 
                 staticServer.start().then(() => done());
             });
         });
 
-        after(done => {
-            Object.keys(stubs.logMethods).forEach(method => {
+        afterAll(done => {
+            Object.keys(mockStubs.logMethods).forEach(method => {
                 loggerStub[method].restore();
             });
 
             console.info.restore();
             staticServer.close();
+
+            jest.unmock("cluster");
+            jest.unmock("../../src/utils/logger.js");
+            jest.unmock("../../src/utils/getMorganOptions.js");
+
             done();
         });
 
         beforeEach(() => {
-            sinon.stub(console, "warn").returns();
+            mockSinon.stub(console, "warn").returns();
         });
 
         afterEach(() => {
+            jest.unmock("../../src/middleware/renderReactWithWebpack");
+            jest.unmock("../../src/utils/webpackBundleValidation");
             console.warn.restore();
         });
 
@@ -104,18 +123,18 @@ module.exports = stubs => {
         ];
 
         ["development", "production"].forEach(currentEnv => {
-            context(currentEnv, () => {
+            describe(currentEnv, () => {
                 const isCurrentlyProd = currentEnv === "production";
 
                 renderTypes.forEach(render => {
                     it(render.name, done => {
                         const renderReactWithWebpack = require("../../src/middleware/renderReactWithWebpack")(
-                            stubs.exampleDir,
+                            mockStubs.exampleDir,
                             {
-                                logger: stubs.logger,
+                                logger: mockStubs.logger,
                                 wildcatConfig: deepmerge(
                                     wildcatConfig,
-                                    stubs.getEnvironment({
+                                    mockStubs.getEnvironment({
                                         NODE_ENV: currentEnv
                                     })
                                 )
@@ -126,9 +145,8 @@ module.exports = stubs => {
                             return yield renderReactWithWebpack.call({
                                 request: {
                                     header: {
-                                        host:
-                                            wildcatConfig.generalSettings
-                                                .originUrl,
+                                        host: wildcatConfig.generalSettings
+                                            .originUrl,
                                         "user-agent": "Mozilla/5.0"
                                     },
                                     fresh: render.fresh,
@@ -156,12 +174,12 @@ module.exports = stubs => {
 
                 it("handles server errors", done => {
                     const renderReactWithWebpack = require("../../src/middleware/renderReactWithWebpack")(
-                        stubs.exampleDir,
+                        mockStubs.exampleDir,
                         {
-                            logger: stubs.logger,
+                            logger: mockStubs.logger,
                             wildcatConfig: deepmerge.all([
                                 wildcatConfig,
-                                stubs.getEnvironment({
+                                mockStubs.getEnvironment({
                                     NODE_ENV: currentEnv
                                 }),
                                 {
@@ -177,8 +195,8 @@ module.exports = stubs => {
                         return yield renderReactWithWebpack.call({
                             request: {
                                 header: {
-                                    host:
-                                        wildcatConfig.generalSettings.originUrl,
+                                    host: wildcatConfig.generalSettings
+                                        .originUrl,
                                     "user-agent": "Mozilla/5.0"
                                 },
                                 fresh: false,
@@ -206,34 +224,38 @@ module.exports = stubs => {
                 });
 
                 it("handles validation errors", done => {
-                    const renderReactWithWebpack = proxyquire(
-                        "../../src/middleware/renderReactWithWebpack",
-                        {
-                            "../utils/webpackBundleValidation": () => ({
-                                onReady: cb => cb(stubs.errorStub)
-                            })
-                        }
-                    )(stubs.exampleDir, {
-                        logger: stubs.logger,
-                        wildcatConfig: deepmerge.all([
-                            wildcatConfig,
-                            stubs.getEnvironment({
-                                NODE_ENV: currentEnv
-                            }),
-                            {
-                                serverSettings: {
-                                    displayBlueBoxOfDeath: !isCurrentlyProd
-                                }
-                            }
-                        ])
+                    jest.mock("../../src/utils/webpackBundleValidation", () => {
+                        return function () {
+                            return {
+                                onReady: cb => cb(mockStubs.errorStub)
+                            };
+                        };
                     });
+
+                    const renderReactWithWebpack = require("../../src/middleware/renderReactWithWebpack")(
+                        mockStubs.exampleDir,
+                        {
+                            logger: mockStubs.logger,
+                            wildcatConfig: deepmerge.all([
+                                wildcatConfig,
+                                mockStubs.getEnvironment({
+                                    NODE_ENV: currentEnv
+                                }),
+                                {
+                                    serverSettings: {
+                                        displayBlueBoxOfDeath: !isCurrentlyProd
+                                    }
+                                }
+                            ])
+                        }
+                    );
 
                     co(function*() {
                         return yield renderReactWithWebpack.call({
                             request: {
                                 header: {
-                                    host:
-                                        wildcatConfig.generalSettings.originUrl,
+                                    host: wildcatConfig.generalSettings
+                                        .originUrl,
                                     "user-agent": "Mozilla/5.0"
                                 },
                                 fresh: false,
@@ -249,7 +271,9 @@ module.exports = stubs => {
                         });
                     })
                         .then(result => {
-                            expect(result).to.include(stubs.errorStub.message);
+                            expect(result).to.include(
+                                mockStubs.errorStub.message
+                            );
 
                             done();
                         })
@@ -259,27 +283,31 @@ module.exports = stubs => {
         });
 
         it("handles Webpack bundle errors", done => {
-            const renderReactWithWebpack = proxyquire(
-                "../../src/middleware/renderReactWithWebpack",
-                {
-                    "../utils/webpackBundleValidation": () => ({
-                        onReady: cb => cb(null, stubs.statsWithErrors)
-                    })
-                }
-            )(stubs.exampleDir, {
-                logger: stubs.logger,
-                wildcatConfig: deepmerge.all([
-                    wildcatConfig,
-                    stubs.getEnvironment({
-                        NODE_ENV: "development"
-                    }),
-                    {
-                        serverSettings: {
-                            displayBlueBoxOfDeath: true
-                        }
-                    }
-                ])
+            jest.mock("../../src/utils/webpackBundleValidation", () => {
+                return function () {
+                    return {
+                        onReady: cb => cb(mockStubs.statsWithErrors)
+                    };
+                };
             });
+
+            const renderReactWithWebpack = require("../../src/middleware/renderReactWithWebpack")(
+                mockStubs.exampleDir,
+                {
+                    logger: mockStubs.logger,
+                    wildcatConfig: deepmerge.all([
+                        wildcatConfig,
+                        mockStubs.getEnvironment({
+                            NODE_ENV: "development"
+                        }),
+                        {
+                            serverSettings: {
+                                displayBlueBoxOfDeath: true
+                            }
+                        }
+                    ])
+                }
+            );
 
             co(function*() {
                 return yield renderReactWithWebpack.call({
@@ -301,7 +329,7 @@ module.exports = stubs => {
                 });
             })
                 .then(result => {
-                    expect(result).to.include(stubs.errorStub.message);
+                    expect(result).to.include(mockStubs.errorStub.message);
 
                     done();
                 })
