@@ -113,7 +113,7 @@ module.exports = stubs => {
                                 "../../src/utils/getWildcatConfig",
                                 () => {
                                     const wildcatConfig = require("../../src/config/wildcat.config.js");
-                                    return function() {
+                                    return function () {
                                         wildcatConfig.serverSettings.graylog = mockGraylogSettingsStub;
                                         return wildcatConfig;
                                     };

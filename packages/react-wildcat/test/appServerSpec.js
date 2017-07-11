@@ -125,7 +125,7 @@ describe("appServer", () => {
                     jest.mock("../src/utils/getWildcatConfig", () => {
                         const deepmerge = require("deepmerge");
                         const defaultConfig = require("../src/config/wildcat.config.js");
-                        return function() {
+                        return function () {
                             return deepmerge.all([
                                 defaultConfig,
                                 mockStubs.getEnvironment({
@@ -148,7 +148,7 @@ describe("appServer", () => {
                         };
                     });
 
-                    jest.mock("../src/memory.js", function() {
+                    jest.mock("../src/memory.js", () => {
                         return mockMemorySpy;
                     });
 
@@ -189,7 +189,7 @@ describe("appServer", () => {
                         jest.mock("../src/utils/getWildcatConfig", () => {
                             const deepmerge = require("deepmerge");
                             const defaultConfig = require("../src/config/wildcat.config.js");
-                            return function() {
+                            return function () {
                                 return deepmerge.all([
                                     defaultConfig,
                                     mockStubs.getEnvironment({
@@ -266,7 +266,7 @@ describe("appServer", () => {
 
                 jest.mock("../src/utils/getWildcatConfig", () => {
                     const defaultConfig = require("../src/config/wildcat.config.js");
-                    return function() {
+                    return function () {
                         defaultConfig.serverSettings.appServer.middleware = [
                             (app, wildcatConfig) => {
                                 mockMiddlewareSetup = {
@@ -319,7 +319,7 @@ describe("appServer", () => {
 
                 jest.mock("../src/utils/getWildcatConfig", () => {
                     const defaultConfig = require("../src/config/wildcat.config.js");
-                    return function() {
+                    return function () {
                         defaultConfig.serverSettings.appServer.middleware = [
                             "this is a bad middleware function",
                             null
@@ -424,7 +424,7 @@ describe("appServer", () => {
 
                     jest.mock("../src/utils/getWildcatConfig", () => {
                         const defaultConfig = require("../src/config/wildcat.config.js");
-                        return function() {
+                        return function () {
                             return defaultConfig;
                         };
                     });
@@ -459,7 +459,7 @@ describe("appServer", () => {
         });
 
         describe("cluster", () => {
-            describe("When attempting to start a cluster of app servers", function() {
+            describe("When attempting to start a cluster of app servers", () => {
                 jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
                 let clusterForkStub;
@@ -481,7 +481,7 @@ describe("appServer", () => {
                 it(`maxClusterCpuCount defined as 1 should only start one server`, done => {
                     jest.mock("../src/utils/getWildcatConfig", () => {
                         const defaultConfig = require("../src/config/wildcat.config.js");
-                        return function() {
+                        return function () {
                             defaultConfig.serverSettings.appServer.maxClusterCpuCount = 1;
                             return defaultConfig;
                         };
@@ -506,7 +506,7 @@ describe("appServer", () => {
                 it(`maxClusterCpuCount=2 should start 2 servers`, done => {
                     jest.mock("../src/utils/getWildcatConfig", () => {
                         const defaultConfig = require("../src/config/wildcat.config.js");
-                        return function() {
+                        return function () {
                             defaultConfig.serverSettings.appServer.maxClusterCpuCount = 2;
                             defaultConfig.__ClusterServerTest__ = true;
                             return defaultConfig;
@@ -531,7 +531,7 @@ describe("appServer", () => {
                 it(`maxClusterCpuCount defined as Infinity should start as many servers as machine CPUs`, done => {
                     jest.mock("../src/utils/getWildcatConfig", () => {
                         const defaultConfig = require("../src/config/wildcat.config.js");
-                        return function() {
+                        return function () {
                             defaultConfig.serverSettings.appServer.maxClusterCpuCount = Infinity;
                             defaultConfig.__ClusterServerTest__ = true;
                             return defaultConfig;
