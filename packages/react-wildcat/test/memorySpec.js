@@ -12,10 +12,6 @@ describe("memory", () => {
         memory(logger);
     });
 
-    afterEach(() => {
-        logger = {info: sinon.stub()};
-    });
-
     it("should log a stats event", (done) => {
         memwatch.emit("stats");
         expect(logger.info.callCount).to.equal(3);
@@ -23,6 +19,7 @@ describe("memory", () => {
         setTimeout(() => {
             memwatch.emit("stats");
             expect(logger.info.callCount).to.equal(4);
+            logger = {info: sinon.stub()};
             done();
         }, 1);
     });
@@ -31,6 +28,7 @@ describe("memory", () => {
         memwatch.emit("leak");
         setTimeout(() => {
             expect(logger.info.callCount).to.equal(2);
+            logger = {info: sinon.stub()};
             done();
         }, 1);
     });
