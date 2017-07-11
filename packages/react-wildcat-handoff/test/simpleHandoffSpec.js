@@ -9,25 +9,30 @@ describe("react-wildcat-handoff/simple", () => {
     it("exists", () => {
         expect(simple).to.exist;
 
-        expect(simple)
-            .to.be.a("function")
+        expect(simple).to.be
+            .a("function")
             .that.has.property("name")
             .that.equals("simple");
     });
 
     describe("response", () => {
-        it("returns HTML on a route", (done) => {
+        it("returns HTML on a route", done => {
             const simpleHandoff = simple(stubs.routes.sync);
 
-            expect(simpleHandoff)
-                .to.be.a("function")
+            expect(simpleHandoff).to.be
+                .a("function")
                 .that.has.property("name")
                 .that.equals("simpleHandoff");
 
-            const result = simpleHandoff(stubs.requests.basic, stubs.cookieParser, stubs.wildcatConfig)
+            const result = simpleHandoff(
+                stubs.requests.basic,
+                stubs.response,
+                stubs.cookieParser,
+                stubs.wildcatConfig
+            )
                 .then(response => {
-                    expect(response)
-                        .to.be.an("object")
+                    expect(response).to.be
+                        .an("object")
                         .that.has.property("html")
                         .that.is.a("string");
 
@@ -35,8 +40,7 @@ describe("react-wildcat-handoff/simple", () => {
                 })
                 .catch(error => done(error));
 
-            expect(result)
-                .to.be.an.instanceof(Promise);
+            expect(result).to.be.an.instanceof(Promise);
         });
     });
 });
