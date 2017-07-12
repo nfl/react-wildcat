@@ -12,7 +12,7 @@ describe("memory", () => {
         memory(logger);
     });
 
-    it("should log a stats event", (done) => {
+    it("should log a stats event", done => {
         memwatch.emit("stats");
         expect(logger.info.callCount).to.equal(3);
 
@@ -24,7 +24,7 @@ describe("memory", () => {
         }, 1);
     });
 
-    it("should log a leak event", (done) => {
+    it("should log a leak event", done => {
         memwatch.emit("leak");
         setTimeout(() => {
             expect(logger.info.callCount).to.equal(2);

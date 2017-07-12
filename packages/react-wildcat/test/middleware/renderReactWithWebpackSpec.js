@@ -56,7 +56,7 @@ module.exports = mockStubs => {
                 });
 
                 jest.mock("../../src/utils/getMorganOptions.js", () => {
-                    return function () {
+                    return function() {
                         return {
                             skip: () => true,
                             stream: mockSinon.stub().returns()
@@ -145,8 +145,9 @@ module.exports = mockStubs => {
                             return yield renderReactWithWebpack.call({
                                 request: {
                                     header: {
-                                        host: wildcatConfig.generalSettings
-                                            .originUrl,
+                                        host:
+                                            wildcatConfig.generalSettings
+                                                .originUrl,
                                         "user-agent": "Mozilla/5.0"
                                     },
                                     fresh: render.fresh,
@@ -195,8 +196,8 @@ module.exports = mockStubs => {
                         return yield renderReactWithWebpack.call({
                             request: {
                                 header: {
-                                    host: wildcatConfig.generalSettings
-                                        .originUrl,
+                                    host:
+                                        wildcatConfig.generalSettings.originUrl,
                                     "user-agent": "Mozilla/5.0"
                                 },
                                 fresh: false,
@@ -225,7 +226,7 @@ module.exports = mockStubs => {
 
                 it("handles validation errors", done => {
                     jest.mock("../../src/utils/webpackBundleValidation", () => {
-                        return function () {
+                        return function() {
                             return {
                                 onReady: cb => cb(mockStubs.errorStub)
                             };
@@ -254,8 +255,8 @@ module.exports = mockStubs => {
                         return yield renderReactWithWebpack.call({
                             request: {
                                 header: {
-                                    host: wildcatConfig.generalSettings
-                                        .originUrl,
+                                    host:
+                                        wildcatConfig.generalSettings.originUrl,
                                     "user-agent": "Mozilla/5.0"
                                 },
                                 fresh: false,
@@ -284,7 +285,7 @@ module.exports = mockStubs => {
 
         it("handles Webpack bundle errors", done => {
             jest.mock("../../src/utils/webpackBundleValidation", () => {
-                return function () {
+                return function() {
                     return {
                         onReady: cb => cb(mockStubs.statsWithErrors)
                     };

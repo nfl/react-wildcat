@@ -90,7 +90,8 @@ module.exports = stubs => {
                     });
 
                     Object.keys(stubs.logMethods).forEach(method => {
-                        it(`sends logger.${method} data to Graylog as an "${stubs.mapLogMethods[method]}" log`, () => {
+                        it(`sends logger.${method} data to Graylog as an "${stubs
+                            .mapLogMethods[method]}" log`, () => {
                             const testLog = `test log`;
                             const mockSetConfigStub = sinon.stub();
                             const mockGraylogSettingsStub = {
@@ -113,7 +114,7 @@ module.exports = stubs => {
                                 "../../src/utils/getWildcatConfig",
                                 () => {
                                     const wildcatConfig = require("../../src/config/wildcat.config.js");
-                                    return function () {
+                                    return function() {
                                         wildcatConfig.serverSettings.graylog = mockGraylogSettingsStub;
                                         return wildcatConfig;
                                     };
