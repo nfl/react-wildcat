@@ -80,26 +80,11 @@
     "webpack": "^2.2.1",
     "whatwg-fetch": "^2.0.0"
   },
-  "jest": {
-    "collectCoverage": true,
-    "coverageDirectory": "coverage/browser",
-    "coverageReporters": [
-      "json",
-      "lcov",
-      "text",
-      "html"
-    ],
-    "setupFiles": [
-      "./test/setupJest.js"
-    ],
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg)$": "<rootDir>/test/mocks/fileMock.js"
-    }
-  },
   "scripts": {
     "changelog": "conventional-changelog -k packages/react-wildcat/package.json -p angular -i CHANGELOG.md -s",
-    "test:node": "env BABEL_ENV=test jest --env=node jest test/node.test.js",
-    "test:browser": "env BABEL_ENV=test jest test/browser.test.js"
+    "test:memory": "env BABEL_ENV=test jest --env=node jest test/memory.test.js --no-cache --config .jestrc.memory.json",
+    "test:node": "env BABEL_ENV=test jest --env=node jest test/node.test.js --no-cache --config .jestrc.node.json",
+    "test:browser": "env BABEL_ENV=test jest test/browser.test.js  --no-cache --config .jestrc.browser.json"
   },
   "config": {
     "commitizen": {

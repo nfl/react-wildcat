@@ -39,7 +39,10 @@ test-browser:
 test-node:
 	./shell/test-node.sh
 
-test-cov: clean-coverage test-node test-browser combine-coverage
+test-memory:
+	./shell/test-memory.sh
+
+test-cov: clean-coverage test-memory test-node test-browser combine-coverage
 
 test-travis: bootstrap install-example lint test-cov
 

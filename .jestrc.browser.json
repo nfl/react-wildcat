@@ -1,0 +1,17 @@
+{
+    "collectCoverage": true,
+    "coverageDirectory": "coverage/browser",
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "html"
+    ],
+    "setupFiles": [
+      "./test/setupJest.js"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg)$": "<rootDir>/test/mocks/fileMock.js"
+    }
+  }
+

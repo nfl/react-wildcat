@@ -44,7 +44,6 @@ describe("staticServer", () => {
                 afterAll(() => {
                     jest.unmock("cluster");
                     jest.unmock("../src/utils/getWildcatConfig");
-                    jest.unmock("../src/memory.js");
                     jest.unmock("../src/utils/logger.js");
 
                     console.info.restore();
