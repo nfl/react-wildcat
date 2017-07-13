@@ -1,11 +1,7 @@
 #!/bin/sh
 
-set -e
-
-istanbulBin=node_modules/istanbul/lib/cli.js
-
 # Combine Node / browser reports
-node ${istanbulBin} report lcov
+npm run mapCoverage
 
 if [ -n "$CI" ]; then
     # Send to codecov.io

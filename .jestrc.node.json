@@ -1,12 +1,7 @@
 {
     "collectCoverage": true,
     "coverageDirectory": "coverage/node",
-    "coverageReporters": [
-      "json",
-      "lcov",
-      "text",
-      "html"
-    ],
+    "coverageReporters": ["json"],
     "setupFiles": [
       "./test/setupJest.js"
     ],
