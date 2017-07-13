@@ -53,17 +53,7 @@ exports.cacheEnvDir = CACHE_ENV_DIR;
 
 exports.externals = nodeExternals();
 
-const babelLoader = {
-    test: /\.js$/,
-    include,
-    exclude,
-    use: [
-        {
-            loader: "babel-loader"
-        }
-    ]
-};
-const happypackLoader = {
+exports.rules = [{
     test: /\.js$/,
     include,
     exclude,
@@ -72,8 +62,7 @@ const happypackLoader = {
             loader: "happypack/loader"
         }
     ]
-};
-const urlLoader = {
+}, {
     test: /\.(css|png|jpg|jpeg|gif|svg)$/,
     include,
     exclude,
@@ -82,11 +71,7 @@ const urlLoader = {
             loader: "url-loader"
         }
     ]
-};
-
-const rules = __PROD__? [happypackLoader, urlLoader]: [babelLoader, urlLoader];
-
-exports.rules = rules;
+}];
 
 exports.resolve = {
     alias: {
