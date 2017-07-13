@@ -1,3 +1,13 @@
+<a name="7.5.0"></a>
+# [7.5.0](https://github.com/nfl/react-wildcat/compare/7.4.0...7.5.0) (2017-07-13)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Pass server response / request to Prefetch ([7e19ef9](https://github.com/nfl/react-wildcat/commit/7e19ef9))
+
+
+
 <a name="7.4.0"></a>
 # [7.4.0](https://github.com/nfl/react-wildcat/compare/7.3.0...7.4.0) (2017-07-10)
 
