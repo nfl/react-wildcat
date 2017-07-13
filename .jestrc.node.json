@@ -1,5 +1,6 @@
 {
     "collectCoverage": true,
+    "collectCoverageFrom": ["/packages"],
     "coverageDirectory": "coverage/node",
     "coverageReporters": ["json"],
     "setupFiles": [
