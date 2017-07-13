@@ -128,7 +128,8 @@ describe("staticServer", () => {
                                         }),
                                         {
                                             clientSettings: {
-                                                webpackDevSettings: `config/webpack/${mockCurrentEnv}.client.config.js`
+                                                webpackDevSettings:
+                                                    mockStubs.devClientConfigFile
                                             },
                                             serverSettings: {
                                                 staticServer: {

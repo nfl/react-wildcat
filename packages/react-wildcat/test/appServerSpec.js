@@ -137,7 +137,8 @@ describe("appServer", () => {
                                         originUrl: "localhost"
                                     },
                                     serverSettings: {
-                                        webpackDevSettings: `config/webpack/${mockCurrentEnv}.server.config.js`,
+                                        webpackDevSettings:
+                                            mockStubs.devServerConfigFile,
                                         appServer: {
                                             minClusterCpuCount: 1,
                                             maxClusterCpuCount: 1
