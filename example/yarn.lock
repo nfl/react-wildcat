@@ -2955,7 +2955,7 @@ handlebars@^4.0.1, handlebars@^4.0.3:
   optionalDependencies:
     uglify-js "^2.6"
 
-happypack@^3.0.2:
+happypack@3.1.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/happypack/-/happypack-3.1.0.tgz#8bc55e3701bacff718d3889cb88b5021641cad59"
   dependencies:
