@@ -10,7 +10,7 @@ const webpack = require("webpack");
 
 module.exports = mockStubs => {
     describe("renderReactWithWebpack", () => {
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = 300000;
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000;
 
         const wildcatConfig = require("../../src/utils/getWildcatConfig")(
             mockStubs.exampleDir
