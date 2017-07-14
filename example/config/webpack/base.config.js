@@ -11,7 +11,7 @@ const wildcatConfig = require("react-wildcat/src/utils/getWildcatConfig")(root);
 
 const {
     generalSettings: {
-        env: {__TEST__, __PROD__, BABEL_ENV, NODE_ENV = "development"},
+        env: {__TEST__, BABEL_ENV, NODE_ENV = "development"},
         staticUrl
     }
 } = wildcatConfig;
@@ -53,25 +53,28 @@ exports.cacheEnvDir = CACHE_ENV_DIR;
 
 exports.externals = nodeExternals();
 
-exports.rules = [{
-    test: /\.js$/,
-    include,
-    exclude,
-    use: [
-        {
-            loader: "happypack/loader"
-        }
-    ]
-}, {
-    test: /\.(css|png|jpg|jpeg|gif|svg)$/,
-    include,
-    exclude,
-    use: [
-        {
-            loader: "url-loader"
-        }
-    ]
-}];
+exports.rules = [
+    {
+        test: /\.js$/,
+        include,
+        exclude,
+        use: [
+            {
+                loader: "happypack/loader"
+            }
+        ]
+    },
+    {
+        test: /\.(css|png|jpg|jpeg|gif|svg)$/,
+        include,
+        exclude,
+        use: [
+            {
+                loader: "url-loader"
+            }
+        ]
+    }
+];
 
 exports.resolve = {
     alias: {
