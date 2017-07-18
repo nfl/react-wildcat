@@ -6,6 +6,7 @@ services:
       context: .
     image: "nfl/react-wildcat:latest"
     environment:
+      DOCKER: "true"
       NODE_ENV: development
       PORT: 3000
       STATIC_PORT: 4000
