@@ -1,3 +1,5 @@
+#!/bin/sh
+
 set -e
 
 TIMEOUT=10000

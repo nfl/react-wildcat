@@ -83,8 +83,7 @@
     "scripts": {
         "changelog": "conventional-changelog -k packages/react-wildcat/package.json -p angular -i CHANGELOG.md -s",
         "test:node": "env BABEL_ENV=test jest --env=node jest test/node.test.js --config .jestrc.node.json",
-        "test:browser": "env BABEL_ENV=test jest test/browser.test.js --config .jestrc.browser.json",
-        "mapCoverage": "node ./test/mapCoverage.js"
+        "test:browser": "env BABEL_ENV=test jest test/browser.test.js --config .jestrc.browser.json"
     },
     "config": {
         "commitizen": {
