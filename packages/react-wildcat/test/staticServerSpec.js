@@ -190,6 +190,9 @@ describe("staticServer", () => {
                         "./utils/getWildcatConfig": () => {
                             wildcatConfig = deepmerge.all([
                                 wildcatConfig,
+                                stubs.getEnvironment({
+                                    NODE_ENV: "test"
+                                }),
                                 {
                                     serverSettings: {
                                         staticServer: {
