@@ -204,6 +204,9 @@ describe("staticServer", () => {
                         return function() {
                             return deepmerge.all([
                                 defaultConfig,
+                                mockStubs.getEnvironment({
+                                    NODE_ENV: "test"
+                                }),
                                 {
                                     serverSettings: {
                                         staticServer: {
