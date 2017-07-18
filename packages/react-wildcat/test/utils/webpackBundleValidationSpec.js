@@ -4,207 +4,156 @@ const sinon = require("sinon");
 const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 
-module.exports = mockStubs => {
-    describe("webpackBundleValidation", () => {
-        it("returns a validation object", () => {
-            const webpackBundleValidation = require("../../src/utils/webpackBundleValidation");
-            const validate = webpackBundleValidation(mockStubs.exampleDir, {
-                __DEV__: false,
-                logger: mockStubs.logger,
-                webpackDevSettings: mockStubs.devServerConfigFile
-            });
+const chalk = require("chalk");
+const proxyquire = require("proxyquire").noPreserveCache();
 
-            expect(validate).to.exist;
+module.exports = stubs => {
+    describe("logger", () => {
+        const wildcatConfig = require("../../src/utils/getWildcatConfig")(
+            stubs.exampleDir
+        );
 
-            expect(validate).to.be.an("object");
+        it("bootstraps custom logger", () => {
+            const CustomLogger = proxyquire("../../src/utils/logger.js", {});
 
-            expect(validate).to.respondTo("onReady");
+            expect(CustomLogger).to.exist;
 
-            expect(validate).to.respondTo("ready");
+            const customLoggerInstance = new CustomLogger(stubs.customEmoji);
+
+            expect(customLoggerInstance).to.be.an.instanceof(CustomLogger);
         });
 
-        describe("onReady()", () => {
-            let loggerStub;
+        Object.keys(stubs.logMethods).forEach(method => {
+            it(`responds to logger.${method}`, () => {
+                const testLog = `test log`;
 
-            beforeEach(() => {
-                jest.resetModules();
-                loggerStub = sinon.stub(mockStubs.logger, "info").returns();
-            });
-            afterEach(() => {
-                jest.unmock("webpack");
-                mockStubs.logger.info.restore();
-            });
+                const consoleStub = sinon
+                    .stub(console, stubs.logMethods[method])
+                    .returns();
 
-            it("waits for Webpack to be ready when the current bundle is invalid", () => {
-                jest.mock("webpack", () => {
-                    return () => ({
-                        watch() {}
-                    });
-                });
-
-                const webpackBundleValidation = require("../../src/utils/webpackBundleValidation");
-
-                const validate = webpackBundleValidation(mockStubs.exampleDir, {
-                    __DEV__: true,
-                    logger: mockStubs.logger,
-                    webpackDevSettings: mockStubs.devServerConfigFile
-                });
-
-                validate._watcher = {
-                    invalid: true
-                };
-
-                function onReadyHandler() {}
-
-                validate.onReady(onReadyHandler);
-
-                expect(validate).to.have
-                    .property("_handlers")
-                    .that.is.an("array")
-                    .that.includes(onReadyHandler);
-
-                expect(loggerStub).to.have.been.calledWith(
-                    "webpack: wait until bundle finished"
+                const CustomLogger = proxyquire(
+                    "../../src/utils/logger.js",
+                    {}
                 );
-            });
+                const customLogger = new CustomLogger(stubs.customEmoji);
 
-            it("validates the current bundle when ready", done => {
-                jest.mock("webpack", () => {
-                    return () => ({
-                        watch(opts, cb) {
-                            setTimeout(() => {
-                                cb(null, mockStubs.stats);
-                            });
-                        }
-                    });
-                });
+                customLogger[method](testLog);
 
-                const webpackBundleValidation = require("../../src/utils/webpackBundleValidation");
-
-                const validate = webpackBundleValidation(mockStubs.exampleDir, {
-                    __DEV__: true,
-                    logger: mockStubs.logger,
-                    webpackDevSettings: mockStubs.devServerConfigFile
-                });
-
-                validate._watcher = {
-                    invalid: true
-                };
-
-                function onReadyHandler(err, stats) {
-                    expect(err).to.not.exist;
-
-                    expect(stats).to.be.an("object");
-
-                    done();
-                }
-
-                validate.onReady(onReadyHandler);
-
-                expect(validate).to.have
-                    .property("_handlers")
-                    .that.is.an("array")
-                    .that.includes(onReadyHandler);
-
-                expect(loggerStub).to.have.been.calledWith(
-                    "webpack: wait until bundle finished"
+                expect(consoleStub).to.have.been.calledWith(
+                    stubs.addColor(`${customLogger.id}  ~>`, method),
+                    stubs.addColor(testLog, method)
                 );
-            });
 
-            it("returns callback in production mode", done => {
-                const webpackBundleValidation = require("../../src/utils/webpackBundleValidation");
-
-                const validate = webpackBundleValidation(mockStubs.exampleDir, {
-                    __DEV__: false,
-                    logger: mockStubs.logger,
-                    webpackDevSettings: mockStubs.devServerConfigFile
-                });
-
-                validate._stats = {};
-
-                function onReadyHandler(err, stats) {
-                    expect(err).to.not.exist;
-
-                    expect(stats).to.exist;
-
-                    done();
-                }
-
-                validate.onReady(onReadyHandler);
+                console[stubs.logMethods[method]].restore();
             });
         });
 
-        describe("ready()", () => {
-            it("clears require cache of all Webpack-generated files", done => {
-                const mockExpect = expect;
+        it("logger.error outputs an Error stack trace", () => {
+            const CustomLogger = proxyquire("../../src/utils/logger.js", {});
 
-                jest.mock("clear-require", () => {
-                    mockExpect("webpack-stub.js").to.be
-                        .a("string")
-                        .that.equals(mockStubs.webpackFileStub);
-                    return jest.genMockFromModule("clear-require");
-                });
+            const getErrorColor = str => {
+                return chalk.styles.red.open + str + chalk.styles.red.close;
+            };
 
-                const webpackBundleValidation = require("../../src/utils/webpackBundleValidation");
+            const errorStub = new Error("test error");
+            const errorIdStub = arg => {
+                return getErrorColor(
+                    `${stubs.customEmoji}  ~>${arg ? ` ${arg}` : ``}`
+                );
+            };
 
-                const validate = webpackBundleValidation(mockStubs.exampleDir, {
-                    __DEV__: false,
-                    logger: mockStubs.logger,
-                    webpackDevSettings: mockStubs.devServerConfigFile
-                });
+            expect(CustomLogger).to.exist;
 
-                validate._stats = {};
+            const customLoggerInstance = new CustomLogger(stubs.customEmoji);
+            const consoleErrorStub = sinon.stub(console, "error").returns();
 
-                validate.ready({
-                    err: undefined,
-                    stats: {
-                        compilation: {
-                            assets: {
-                                "webpack-stub": {
-                                    existsAt: mockStubs.webpackFileStub
+            customLoggerInstance.error(errorStub);
+
+            expect(consoleErrorStub.args[2][0]).to.equal(
+                getErrorColor(errorStub.stack)
+            );
+
+            expect(consoleErrorStub).to.have.been.calledWith(
+                errorIdStub(),
+                errorStub
+            );
+
+            expect(consoleErrorStub).to.have.been.calledWith(
+                errorIdStub("Stack Trace:")
+            );
+
+            console.error.restore();
+        });
+
+        context("Graylog", () => {
+            ["development", "production"].forEach(env => {
+                context(env, () => {
+                    Object.keys(stubs.logMethods).forEach(method => {
+                        it(`sends logger.${method} data to Graylog as an "${stubs
+                            .mapLogMethods[method]}" log`, () => {
+                            const testLog = `test log`;
+                            const setConfigStub = sinon.stub();
+                            const graylogSettingsStub = {
+                                fields: {
+                                    app: "example",
+                                    env,
+                                    loggerName: "example"
                                 }
-                            }
-                        }
-                    }
-                });
+                            };
 
-                done();
-            });
+                            const CustomLogger = proxyquire(
+                                "../../src/utils/logger.js",
+                                {
+                                    "gelf-pro": {
+                                        setConfig: setConfigStub
+                                    },
+                                    "./getWildcatConfig": () => {
+                                        const config = Object.assign(
+                                            {},
+                                            wildcatConfig
+                                        );
+                                        wildcatConfig.serverSettings.graylog = graylogSettingsStub;
 
-            it("calls all pending handlers", done => {
-                const webpackBundleValidation = require("../../src/utils/webpackBundleValidation");
-                let handlerCount = 0;
+                                        return config;
+                                    }
+                                }
+                            );
 
-                const validate = webpackBundleValidation(mockStubs.exampleDir, {
-                    __DEV__: false,
-                    logger: mockStubs.logger,
-                    webpackDevSettings: mockStubs.devServerConfigFile
-                });
+                            expect(CustomLogger).to.exist;
 
-                function firstHandlerStub() {
-                    handlerCount++;
+                            const customLogger = new CustomLogger(
+                                stubs.customEmoji
+                            );
 
-                    expect(handlerCount).to.equal(1);
-                }
+                            expect(customLogger).to.be.an.instanceof(
+                                CustomLogger
+                            );
 
-                function secondHandlerStub() {
-                    handlerCount++;
+                            const consoleStub = sinon
+                                .stub(console, stubs.logMethods[method])
+                                .returns();
 
-                    expect(handlerCount).to.equal(2);
+                            expect(customLogger).to.respondTo(method);
 
-                    setTimeout(() => {
-                        expect(validate._handlers).to.be.an("array").that.is
-                            .empty;
+                            customLogger[method](testLog);
 
-                        done();
+                            expect(setConfigStub).to.have.been.calledWith(
+                                graylogSettingsStub
+                            );
+
+                            expect(
+                                consoleStub.lastCall
+                            ).to.have.been.calledWith(
+                                stubs.addColor(
+                                    `${customLogger.id}  ~>`,
+                                    method
+                                ),
+                                stubs.addColor(testLog, method)
+                            );
+
+                            console[stubs.logMethods[method]].restore();
+                        });
                     });
-                }
-
-                validate._handlers = [firstHandlerStub, secondHandlerStub];
-
-                validate.ready({
-                    err: undefined,
-                    stats: mockStubs.stats
                 });
             });
         });

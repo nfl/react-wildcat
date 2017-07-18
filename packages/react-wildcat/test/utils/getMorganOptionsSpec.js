@@ -4,6 +4,8 @@ const sinon = require("sinon");
 const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 
+const proxyquire = require("proxyquire");
+
 module.exports = stubs => {
     describe("getMorganOptions", () => {
         const testLog = ``;
@@ -91,59 +93,54 @@ module.exports = stubs => {
                 }
             }
         ].forEach(test => {
-            describe(`returns custom morgan options when logLevel is ${test.logLevel}`, () => {
-                Object.keys(test.statusCodes).forEach(statusCode => {
-                    it(`with a ${statusCode} statusCode`, () => {
-                        const getMorganOptions = require("../../src/utils/getMorganOptions");
-                        const morganOptions = getMorganOptions(
-                            test.logLevel,
-                            stubs.serverSettings
-                        );
+            context(
+                `returns custom morgan options when logLevel is ${test.logLevel}`,
+                () => {
+                    Object.keys(test.statusCodes).forEach(statusCode => {
+                        it(`with a ${statusCode} statusCode`, () => {
+                            const getMorganOptions = require("../../src/utils/getMorganOptions");
+                            const morganOptions = getMorganOptions(
+                                test.logLevel,
+                                stubs.serverSettings
+                            );
 
-                        expect(morganOptions).to.exist;
+                            expect(morganOptions).to.exist;
 
-                        expect(morganOptions).to.be.an("object");
+                            expect(morganOptions).to.be.an("object");
 
-                        expect(morganOptions).to.have
-                            .property("skip")
-                            .that.is.a("function");
+                            expect(morganOptions).to.have
+                                .property("skip")
+                                .that.is.a("function");
 
-                        expect(morganOptions).to.have
-                            .property("stream")
-                            .that.is.an("object")
-                            .that.has.property("write")
-                            .that.is.a("function");
+                            expect(morganOptions).to.have
+                                .property("stream")
+                                .that.is.an("object")
+                                .that.has.property("write")
+                                .that.is.a("function");
 
-                        morganOptions.stream.write(testLog);
+                            morganOptions.stream.write(testLog);
 
-                        const shouldSkip = morganOptions.skip(
-                            morganRequestStub,
-                            {
-                                statusCode
-                            }
-                        );
+                            const shouldSkip = morganOptions.skip(
+                                morganRequestStub,
+                                {
+                                    statusCode
+                                }
+                            );
 
-                        expect(shouldSkip).to.equal(
-                            test.statusCodes[statusCode]
-                        );
+                            expect(shouldSkip).to.equal(
+                                test.statusCodes[statusCode]
+                            );
+                        });
                     });
-                });
-            });
+                }
+            );
         });
 
-        describe("Graylog", () => {
+        context("Graylog", () => {
             ["development", "production"].forEach(env => {
-                describe(env, () => {
-                    beforeEach(() => {
-                        jest.resetModules();
-                    });
-
-                    afterEach(() => {
-                        jest.unmock("gelf-pro");
-                    });
-
+                context(env, () => {
                     it(`sends data to Graylog`, () => {
-                        const mockSetConfigStub = sinon.stub();
+                        const setConfigStub = sinon.stub();
                         const graylogSettingsStub = {
                             fields: {
                                 app: "example",
@@ -152,14 +149,14 @@ module.exports = stubs => {
                             }
                         };
 
-                        jest.mock("gelf-pro", () => {
-                            return {
-                                setConfig: mockSetConfigStub,
-                                debug: () => {}
-                            };
-                        });
-
-                        const getMorganOptions = require("../../src/utils/getMorganOptions.js");
+                        const getMorganOptions = proxyquire(
+                            "../../src/utils/getMorganOptions.js",
+                            {
+                                "gelf-pro": {
+                                    setConfig: setConfigStub
+                                }
+                            }
+                        );
 
                         expect(getMorganOptions).to.exist;
 
@@ -172,7 +169,7 @@ module.exports = stubs => {
 
                         morganOptions.stream.write(testLog);
 
-                        expect(mockSetConfigStub).to.have.been.calledWith(
+                        expect(setConfigStub).to.have.been.calledWith(
                             graylogSettingsStub
                         );
 

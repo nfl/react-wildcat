@@ -33,16 +33,16 @@ publish: lint
 test-example:
 	./shell/test-example.sh
 
-test-browser:
-	./shell/test-browser.sh
+test-jest-browser:
+	./shell/test-jest-browser.sh
 
-test-node:
-	./shell/test-node.sh
+test-jest-node:
+	./shell/test-jest-node.sh
 
-test-memory:
-	./shell/test-memory.sh
+test-karma-node:
+	./shell/test-karma-node.sh
 
-test-cov: clean-coverage test-memory test-node test-browser combine-coverage
+test-cov: clean-coverage test-karma-node test-jest-node test-jest-browser combine-coverage
 
 test-travis: bootstrap install-example lint test-cov
 

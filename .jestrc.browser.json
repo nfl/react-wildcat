@@ -1,7 +1,7 @@
 {
     "collectCoverage": true,
     "collectCoverageFrom": ["/packages"],
-    "coverageDirectory": "coverage/browser",
+    "coverageDirectory": "coverage/jest-browser",
     "coverageReporters": ["json"],
     "setupFiles": [
       "./test/setupJest.js"

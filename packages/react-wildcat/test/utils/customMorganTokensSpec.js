@@ -18,7 +18,7 @@ module.exports = stubs => {
             expect(customMorganTokens).to.exist;
         });
 
-        describe("id", () => {
+        context("id", () => {
             it("logs custom IDs", () => {
                 const id = stubs.customEmoji;
 
@@ -37,7 +37,7 @@ module.exports = stubs => {
             });
         });
 
-        describe("status", () => {
+        context("status", () => {
             [
                 {code: 200, color: "cyan"},
                 {code: 301, color: "magenta"},
@@ -65,7 +65,7 @@ module.exports = stubs => {
             });
         });
 
-        describe("url", () => {
+        context("url", () => {
             ["originalUrl", "url"].forEach(parameter => {
                 it(`logs requests using req.${parameter}`, () => {
                     const url = "/flexbox-example";

@@ -4,6 +4,8 @@ const expect = chai.expect;
 const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 
+const proxyquire = require("proxyquire").noPreserveCache();
+
 module.exports = stubs => {
     describe("getWildcatConfig", () => {
         it("returns a Wildcat configuration object", () => {
@@ -15,14 +17,15 @@ module.exports = stubs => {
             expect(wildcatConfig).to.be.an("object");
         });
 
-        describe("with specified config values", () => {
+        context("with specified config values", () => {
             let wildcatConfig;
 
-            beforeAll(() => {
+            before(() => {
                 const customCwd = path.resolve(__dirname, "../fixtures");
-                wildcatConfig = require("../../src/utils/getWildcatConfig.js")(
-                    customCwd
-                );
+                wildcatConfig = proxyquire(
+                    "../../src/utils/getWildcatConfig.js",
+                    {}
+                )(customCwd);
             });
 
             it(`uses specified originUrl`, () => {
@@ -38,11 +41,14 @@ module.exports = stubs => {
             });
         });
 
-        describe("without specified config values", () => {
+        context("without specified config values", () => {
             let wildcatConfig;
 
-            beforeAll(() => {
-                wildcatConfig = require("../../src/utils/getWildcatConfig.js")();
+            before(() => {
+                wildcatConfig = proxyquire(
+                    "../../src/utils/getWildcatConfig.js",
+                    {}
+                )();
             });
 
             it(`uses calculated originUrl`, () => {

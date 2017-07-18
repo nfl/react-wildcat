@@ -10,48 +10,42 @@ const path = require("path");
 const os = require("os");
 
 const cluster = require("cluster");
+const deepmerge = require("deepmerge");
+const proxyquire = require("proxyquire");
 
 describe("staticServer", () => {
-    const mockStubs = require("./fixtures");
+    const stubs = require("./fixtures");
 
-    beforeAll(() => {
-        [mockStubs.publicDir].forEach(fs.removeSync);
+    before(() => {
+        [stubs.publicDir].forEach(fs.removeSync);
 
-        process.chdir(mockStubs.exampleDir);
+        process.chdir(stubs.exampleDir);
     });
 
-    describe("middleware", () => {
-        require("./middleware/webpackHotMiddlewareSpec.js")(mockStubs);
+    context("middleware", () => {
+        require("./middleware/webpackHotMiddlewareSpec.js")(stubs);
     });
 
-    describe("static server", () => {
+    context("static server", () => {
         const expectations = {
             development: ["Static server is running at"],
             production: ["Static server is running"]
         };
 
-        ["development", "production"].forEach(mockCurrentEnv => {
-            describe(mockCurrentEnv, () => {
-                beforeAll(() => {
-                    jest.resetModules();
+        before(() => {
+            sinon.stub(console, "info").returns();
+            sinon.stub(stubs.logger, "info").returns();
+        });
 
-                    jest.mock("../src/utils/logger");
+        after(() => {
+            console.info.restore();
+            stubs.logger.info.restore();
+        });
 
-                    sinon.stub(console, "info").returns();
-                    sinon.stub(mockStubs.logger, "info").returns();
-                });
-
-                afterAll(() => {
-                    jest.unmock("cluster");
-                    jest.unmock("../src/utils/getWildcatConfig");
-                    jest.unmock("../src/utils/logger.js");
-
-                    console.info.restore();
-                    mockStubs.logger.info.restore();
-                });
-
+        ["development", "production"].forEach(currentEnv => {
+            context(currentEnv, () => {
                 it("starts the server via cli", done => {
-                    const currentExpectations = expectations[mockCurrentEnv];
+                    const currentExpectations = expectations[currentEnv];
                     let currentExpectationCount = 0;
                     let cli;
 
@@ -100,50 +94,50 @@ describe("staticServer", () => {
                     }
                 });
 
-                ["http2", "https", "http"].forEach(mockCurrentProtocol => {
-                    describe(mockCurrentProtocol, () => {
+                ["http2", "https", "http"].forEach(currentProtocol => {
+                    context(currentProtocol, () => {
                         it("starts the server programmatically", done => {
-                            jest.mock("cluster", () => {
-                                const clusterMock = jest.genMockFromModule(
-                                    "cluster"
-                                );
-
-                                clusterMock.isMaster = false;
-                                clusterMock.worker = {
-                                    id: 1
-                                };
-
-                                return clusterMock;
-                            });
-
-                            jest.mock("../src/utils/getWildcatConfig", () => {
-                                const defaultConfig = require("../src/config/wildcat.config.js");
-                                const deepmerge = require("deepmerge");
-
-                                return function() {
-                                    return deepmerge.all([
-                                        defaultConfig,
-                                        mockStubs.getEnvironment({
-                                            NODE_ENV: mockCurrentEnv
-                                        }),
-                                        {
-                                            clientSettings: {
-                                                webpackDevSettings:
-                                                    mockStubs.devClientConfigFile
-                                            },
-                                            serverSettings: {
-                                                staticServer: {
-                                                    minClusterCpuCount: 1,
-                                                    maxClusterCpuCount: 1,
-                                                    protocol: mockCurrentProtocol
+                            const staticServer = proxyquire(
+                                "../src/staticServer.js",
+                                {
+                                    cluster: {
+                                        isMaster: false,
+                                        worker: {
+                                            id: 1
+                                        }
+                                    },
+                                    "./utils/getWildcatConfig": () => {
+                                        const defaultConfig = require("../src/utils/getWildcatConfig")();
+                                        return deepmerge.all([
+                                            defaultConfig,
+                                            stubs.getEnvironment({
+                                                NODE_ENV: currentEnv
+                                            }),
+                                            {
+                                                serverSettings: {
+                                                    staticServer: {
+                                                        minClusterCpuCount: 1,
+                                                        maxClusterCpuCount: 1,
+                                                        protocol: currentProtocol
+                                                    }
                                                 }
                                             }
-                                        }
-                                    ]);
-                                };
-                            });
+                                        ]);
+                                    },
+                                    "./utils/logger": (() => {
+                                        function Logger() {}
 
-                            const staticServer = require("../src/staticServer.js");
+                                        Logger.prototype = {
+                                            info: () => {},
+                                            meta: () => {},
+                                            ok: () => {},
+                                            warn: () => {}
+                                        };
+
+                                        return Logger;
+                                    })()
+                                }
+                            );
 
                             expect(staticServer).to.exist;
 
@@ -159,7 +153,7 @@ describe("staticServer", () => {
                                     expect(result).to.be
                                         .an("object")
                                         .that.has.property("env")
-                                        .that.equals(mockCurrentEnv);
+                                        .that.equals(currentEnv);
 
                                     staticServer.close();
                                     done();
@@ -174,7 +168,7 @@ describe("staticServer", () => {
             });
         });
 
-        describe("lifecycle events", () => {
+        context("lifecycle events", () => {
             const lifecycleTests = [
                 "onBeforeStart",
                 "onWorkerStart",
@@ -182,43 +176,36 @@ describe("staticServer", () => {
                 "onAfterStart"
             ];
 
-            lifecycleTests.forEach(mockLifecycle => {
-                it(mockLifecycle, done => {
-                    const mockLifecycleSpy = sinon.spy();
+            lifecycleTests.forEach(lifecycle => {
+                let wildcatConfig = require("../src/utils/getWildcatConfig")();
 
-                    jest.mock("cluster", () => {
-                        const clusterMock = jest.genMockFromModule("cluster");
-
-                        clusterMock.isMaster = false;
-                        clusterMock.worker = {
-                            id: 1
-                        };
-
-                        return clusterMock;
-                    });
-
-                    jest.mock("../src/utils/getWildcatConfig", () => {
-                        const defaultConfig = require("../src/config/wildcat.config.js");
-                        const deepmerge = require("deepmerge");
-
-                        return function() {
-                            return deepmerge.all([
-                                defaultConfig,
-                                mockStubs.getEnvironment({
+                it(lifecycle, done => {
+                    const server = proxyquire("../src/staticServer.js", {
+                        cluster: {
+                            isMaster: false,
+                            worker: {
+                                id: 1
+                            }
+                        },
+                        "./utils/getWildcatConfig": () => {
+                            wildcatConfig = deepmerge.all([
+                                wildcatConfig,
+                                stubs.getEnvironment({
                                     NODE_ENV: "test"
                                 }),
                                 {
                                     serverSettings: {
                                         staticServer: {
-                                            [mockLifecycle]: mockLifecycleSpy
+                                            [lifecycle]: sinon.spy()
                                         }
                                     }
                                 }
                             ]);
-                        };
-                    });
 
-                    const server = require("../src/staticServer.js");
+                            return wildcatConfig;
+                        },
+                        "./utils/logger": stubs.NullConsoleLogger
+                    });
 
                     expect(server).to.exist;
 
@@ -231,7 +218,11 @@ describe("staticServer", () => {
                         .then(result => {
                             expect(result).to.exist;
 
-                            expect(mockLifecycleSpy.calledOnce);
+                            expect(
+                                wildcatConfig.serverSettings.staticServer[
+                                    lifecycle
+                                ].calledOnce
+                            ).to.be.true;
 
                             server.close();
                             done();
@@ -244,164 +235,120 @@ describe("staticServer", () => {
             });
         });
 
-        describe("cluster", () => {
-            describe("When attempting to start a cluster of static servers", () => {
-                jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
-                let mockClusterForkSpy;
+        context("cluster", () => {
+            context(
+                "When attempting to start a cluster of static servers",
+                function() {
+                    this.timeout(30000);
 
-                let server;
+                    let clusterForkStub;
+                    let server;
 
-                beforeEach(() => {
-                    jest.resetModules();
-                    mockClusterForkSpy = sinon.spy();
-                });
-
-                afterEach(() => {
-                    jest.unmock("../src/utils/getWildcatConfig");
-                    mockClusterForkSpy.reset();
-
-                    server && server.close && server.close();
-                });
-
-                it(`maxClusterCpuCount defined as 1 should only start one server`, done => {
-                    jest.mock("cluster", () => {
-                        const clusterMock = jest.genMockFromModule("cluster");
-
-                        clusterMock.isMaster = true;
-                        clusterMock.worker = {
-                            id: 1
-                        };
-
-                        clusterMock.fork = mockClusterForkSpy;
-
-                        return clusterMock;
+                    beforeEach(() => {
+                        clusterForkStub = sinon.stub(cluster, "fork");
                     });
 
-                    jest.mock("../src/utils/getWildcatConfig", () => {
-                        const deepmerge = require("deepmerge");
-                        const defaultConfig = require("../src/config/wildcat.config.js");
-                        return function() {
-                            return deepmerge.all([
-                                defaultConfig,
-                                {
-                                    __ClusterServerTest__: true,
-                                    serverSettings: {
-                                        staticServer: {
-                                            maxClusterCpuCount: 1
+                    afterEach(() => {
+                        clusterForkStub.restore();
+                        server && server.close && server.close();
+                    });
+
+                    it(`maxClusterCpuCount defined as 1 should only start one server`, done => {
+                        server = proxyquire("../src/staticServer.js", {
+                            "./utils/getWildcatConfig": () => {
+                                const defaultConfig = require("../src/utils/getWildcatConfig")();
+                                return deepmerge.all([
+                                    defaultConfig,
+                                    {
+                                        serverSettings: {
+                                            staticServer: {
+                                                maxClusterCpuCount: 1
+                                            }
                                         }
                                     }
-                                }
-                            ]);
-                        };
-                    });
+                                ]);
+                            },
+                            "./utils/logger": stubs.NullConsoleLogger
+                        });
 
-                    server = require("../src/staticServer.js");
+                        server.start().then(result => {
+                            expect(result.clusterForksCount).to.equal(1);
 
-                    server.start().then(result => {
-                        expect(result.clusterForksCount).to.equal(1);
-                        expect(cluster.fork.calledOnce);
-
-                        done();
-                    }, done);
-                });
-
-                it(`maxClusterCpuCount=2 should start 2 servers`, done => {
-                    jest.mock("cluster", () => {
-                        const clusterMock = jest.genMockFromModule("cluster");
-
-                        clusterMock.isMaster = true;
-                        clusterMock.worker = {
-                            id: 1
-                        };
-
-                        clusterMock.fork = mockClusterForkSpy;
-
-                        return clusterMock;
-                    });
-
-                    jest.mock("../src/utils/getWildcatConfig", () => {
-                        const deepmerge = require("deepmerge");
-                        const defaultConfig = require("../src/config/wildcat.config.js");
-                        return function() {
-                            return deepmerge.all([
-                                defaultConfig,
-                                {
-                                    __ClusterServerTest__: true,
-                                    serverSettings: {
-                                        staticServer: {
-                                            maxClusterCpuCount: 2
-                                        }
-                                    }
-                                }
-                            ]);
-                        };
-                    });
-
-                    server = require("../src/staticServer.js");
-
-                    server
-                        .start()
-                        .then(result => {
-                            expect(result.clusterForksCount).to.equal(2);
-                            expect(cluster.fork.calledTwice);
-                        })
-                        .then(done)
-                        .catch(done);
-                });
-
-                it(`maxClusterCpuCount defined as Infinity should start as many servers as machine CPUs`, done => {
-                    jest.mock("cluster", () => {
-                        const clusterMock = jest.genMockFromModule("cluster");
-
-                        clusterMock.isMaster = true;
-                        clusterMock.worker = {
-                            id: 1
-                        };
-
-                        clusterMock.fork = mockClusterForkSpy;
-
-                        return clusterMock;
-                    });
-
-                    jest.mock("../src/utils/getWildcatConfig", () => {
-                        const deepmerge = require("deepmerge");
-                        const defaultConfig = require("../src/config/wildcat.config.js");
-                        return function() {
-                            return deepmerge.all([
-                                defaultConfig,
-                                {
-                                    __ClusterServerTest__: true,
-                                    serverSettings: {
-                                        staticServer: {
-                                            maxClusterCpuCount: Infinity
-                                        }
-                                    }
-                                }
-                            ]);
-                        };
-                    });
-
-                    server = require("../src/staticServer.js");
-
-                    server
-                        .start()
-                        .then(result => {
-                            expect(result.clusterForksCount).to.equal(
-                                os.cpus().length
-                            );
-                            expect(mockClusterForkSpy.callCount).to.equal(
-                                os.cpus().length
-                            );
+                            sinon.assert.callCount(clusterForkStub, 1);
 
                             done();
-                        })
-                        .catch(done);
-                });
-            });
+                        }, done);
+                    });
+
+                    it(`maxClusterCpuCount=2 should start 2 servers`, done => {
+                        server = proxyquire("../src/staticServer.js", {
+                            "./utils/getWildcatConfig": () => {
+                                const defaultConfig = require("../src/utils/getWildcatConfig")();
+                                return deepmerge.all([
+                                    defaultConfig,
+                                    {
+                                        __ClusterServerTest__: true,
+                                        serverSettings: {
+                                            staticServer: {
+                                                maxClusterCpuCount: 2
+                                            }
+                                        }
+                                    }
+                                ]);
+                            },
+                            "./utils/logger": stubs.NullConsoleLogger
+                        });
+
+                        server
+                            .start()
+                            .then(result => {
+                                expect(result.clusterForksCount).to.equal(2);
+                                sinon.assert.callCount(clusterForkStub, 2);
+                            })
+                            .then(done)
+                            .catch(done);
+                    });
+
+                    it(`maxClusterCpuCount defined as Infinity should start as many servers as machine CPUs`, done => {
+                        server = proxyquire("../src/staticServer.js", {
+                            "./utils/getWildcatConfig": () => {
+                                const defaultConfig = require("../src/utils/getWildcatConfig")();
+                                return deepmerge.all([
+                                    defaultConfig,
+                                    {
+                                        __ClusterServerTest__: true,
+                                        serverSettings: {
+                                            staticServer: {
+                                                maxClusterCpuCount: Infinity
+                                            }
+                                        }
+                                    }
+                                ]);
+                            },
+                            "./utils/logger": stubs.NullConsoleLogger
+                        });
+
+                        server
+                            .start()
+                            .then(result => {
+                                expect(result.clusterForksCount).to.equal(
+                                    os.cpus().length
+                                );
+                                sinon.assert.callCount(
+                                    clusterForkStub,
+                                    os.cpus().length
+                                );
+
+                                done();
+                            })
+                            .catch(done);
+                    });
+                }
+            );
         });
     });
 
-    afterAll(() => {
+    after(() => {
         process.chdir(cwd);
     });
 });
