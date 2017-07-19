@@ -4,156 +4,207 @@ const sinon = require("sinon");
 const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 
-const chalk = require("chalk");
-const proxyquire = require("proxyquire").noPreserveCache();
+const proxyquire = require("proxyquire");
 
 module.exports = stubs => {
-    describe("logger", () => {
-        const wildcatConfig = require("../../src/utils/getWildcatConfig")(
-            stubs.exampleDir
-        );
+    describe("webpackBundleValidation", () => {
+        it("returns a validation object", () => {
+            const webpackBundleValidation = require("../../src/utils/webpackBundleValidation");
+            const validate = webpackBundleValidation(stubs.exampleDir, {
+                __DEV__: false,
+                logger: stubs.logger,
+                webpackDevSettings: stubs.devServerConfigFile
+            });
 
-        it("bootstraps custom logger", () => {
-            const CustomLogger = proxyquire("../../src/utils/logger.js", {});
+            expect(validate).to.exist;
 
-            expect(CustomLogger).to.exist;
+            expect(validate).to.be.an("object");
 
-            const customLoggerInstance = new CustomLogger(stubs.customEmoji);
+            expect(validate).to.respondTo("onReady");
 
-            expect(customLoggerInstance).to.be.an.instanceof(CustomLogger);
+            expect(validate).to.respondTo("ready");
         });
 
-        Object.keys(stubs.logMethods).forEach(method => {
-            it(`responds to logger.${method}`, () => {
-                const testLog = `test log`;
+        context("onReady()", () => {
+            it("waits for Webpack to be ready when the current bundle is invalid", () => {
+                const loggerStub = sinon.stub(stubs.logger, "info").returns();
 
-                const consoleStub = sinon
-                    .stub(console, stubs.logMethods[method])
-                    .returns();
-
-                const CustomLogger = proxyquire(
-                    "../../src/utils/logger.js",
-                    {}
-                );
-                const customLogger = new CustomLogger(stubs.customEmoji);
-
-                customLogger[method](testLog);
-
-                expect(consoleStub).to.have.been.calledWith(
-                    stubs.addColor(`${customLogger.id}  ~>`, method),
-                    stubs.addColor(testLog, method)
+                const webpackBundleValidation = proxyquire(
+                    "../../src/utils/webpackBundleValidation",
+                    {
+                        webpack: () => ({
+                            watch() {}
+                        })
+                    }
                 );
 
-                console[stubs.logMethods[method]].restore();
+                const validate = webpackBundleValidation(stubs.exampleDir, {
+                    __DEV__: true,
+                    logger: stubs.logger,
+                    webpackDevSettings: stubs.devServerConfigFile
+                });
+
+                validate._watcher = {
+                    invalid: true
+                };
+
+                function onReadyHandler() {}
+                validate.onReady(onReadyHandler);
+
+                expect(validate).to.have
+                    .property("_handlers")
+                    .that.is.an("array")
+                    .that.includes(onReadyHandler);
+
+                expect(loggerStub).to.have.been.calledWith(
+                    "webpack: wait until bundle finished"
+                );
+
+                stubs.logger.info.restore();
+            });
+
+            it("validates the current bundle when ready", done => {
+                const loggerStub = sinon.stub(stubs.logger, "info").returns();
+
+                const webpackBundleValidation = proxyquire(
+                    "../../src/utils/webpackBundleValidation",
+                    {
+                        webpack: () => ({
+                            watch(opts, cb) {
+                                setTimeout(() => {
+                                    cb(null, stubs.stats);
+                                });
+                            }
+                        })
+                    }
+                );
+
+                const validate = webpackBundleValidation(stubs.exampleDir, {
+                    __DEV__: true,
+                    logger: stubs.logger,
+                    webpackDevSettings: stubs.devServerConfigFile
+                });
+
+                validate._watcher = {
+                    invalid: true
+                };
+
+                function onReadyHandler(err, stats) {
+                    expect(err).to.not.exist;
+
+                    expect(stats).to.be.an("object");
+
+                    done();
+                }
+
+                validate.onReady(onReadyHandler);
+
+                expect(validate).to.have
+                    .property("_handlers")
+                    .that.is.an("array")
+                    .that.includes(onReadyHandler);
+
+                expect(loggerStub).to.have.been.calledWith(
+                    "webpack: wait until bundle finished"
+                );
+
+                stubs.logger.info.restore();
+            });
+
+            it("returns callback in production mode", done => {
+                const webpackBundleValidation = require("../../src/utils/webpackBundleValidation");
+
+                const validate = webpackBundleValidation(stubs.exampleDir, {
+                    __DEV__: false,
+                    logger: stubs.logger,
+                    webpackDevSettings: stubs.devServerConfigFile
+                });
+
+                validate._stats = {};
+
+                function onReadyHandler(err, stats) {
+                    expect(err).to.not.exist;
+
+                    expect(stats).to.exist;
+
+                    done();
+                }
+
+                validate.onReady(onReadyHandler);
             });
         });
 
-        it("logger.error outputs an Error stack trace", () => {
-            const CustomLogger = proxyquire("../../src/utils/logger.js", {});
+        context("ready()", () => {
+            it("clears require cache of all Webpack-generated files", done => {
+                const webpackBundleValidation = proxyquire(
+                    "../../src/utils/webpackBundleValidation",
+                    {
+                        "clear-require": moduleName => {
+                            expect(moduleName).to.be
+                                .a("string")
+                                .that.equals(stubs.webpackFileStub);
 
-            const getErrorColor = str => {
-                return chalk.styles.red.open + str + chalk.styles.red.close;
-            };
-
-            const errorStub = new Error("test error");
-            const errorIdStub = arg => {
-                return getErrorColor(
-                    `${stubs.customEmoji}  ~>${arg ? ` ${arg}` : ``}`
+                            done();
+                        }
+                    }
                 );
-            };
 
-            expect(CustomLogger).to.exist;
+                const validate = webpackBundleValidation(stubs.exampleDir, {
+                    __DEV__: false,
+                    logger: stubs.logger,
+                    webpackDevSettings: stubs.devServerConfigFile
+                });
 
-            const customLoggerInstance = new CustomLogger(stubs.customEmoji);
-            const consoleErrorStub = sinon.stub(console, "error").returns();
+                validate._stats = {};
 
-            customLoggerInstance.error(errorStub);
-
-            expect(consoleErrorStub.args[2][0]).to.equal(
-                getErrorColor(errorStub.stack)
-            );
-
-            expect(consoleErrorStub).to.have.been.calledWith(
-                errorIdStub(),
-                errorStub
-            );
-
-            expect(consoleErrorStub).to.have.been.calledWith(
-                errorIdStub("Stack Trace:")
-            );
-
-            console.error.restore();
-        });
-
-        context("Graylog", () => {
-            ["development", "production"].forEach(env => {
-                context(env, () => {
-                    Object.keys(stubs.logMethods).forEach(method => {
-                        it(`sends logger.${method} data to Graylog as an "${stubs
-                            .mapLogMethods[method]}" log`, () => {
-                            const testLog = `test log`;
-                            const setConfigStub = sinon.stub();
-                            const graylogSettingsStub = {
-                                fields: {
-                                    app: "example",
-                                    env,
-                                    loggerName: "example"
+                validate.ready({
+                    err: undefined,
+                    stats: {
+                        compilation: {
+                            assets: {
+                                "webpack-stub": {
+                                    existsAt: stubs.webpackFileStub
                                 }
-                            };
+                            }
+                        }
+                    }
+                });
+            });
 
-                            const CustomLogger = proxyquire(
-                                "../../src/utils/logger.js",
-                                {
-                                    "gelf-pro": {
-                                        setConfig: setConfigStub
-                                    },
-                                    "./getWildcatConfig": () => {
-                                        const config = Object.assign(
-                                            {},
-                                            wildcatConfig
-                                        );
-                                        wildcatConfig.serverSettings.graylog = graylogSettingsStub;
+            it("calls all pending handlers", done => {
+                const webpackBundleValidation = require("../../src/utils/webpackBundleValidation");
+                let handlerCount = 0;
 
-                                        return config;
-                                    }
-                                }
-                            );
+                const validate = webpackBundleValidation(stubs.exampleDir, {
+                    __DEV__: false,
+                    logger: stubs.logger,
+                    webpackDevSettings: stubs.devServerConfigFile
+                });
 
-                            expect(CustomLogger).to.exist;
+                function firstHandlerStub() {
+                    handlerCount++;
 
-                            const customLogger = new CustomLogger(
-                                stubs.customEmoji
-                            );
+                    expect(handlerCount).to.equal(1);
+                }
 
-                            expect(customLogger).to.be.an.instanceof(
-                                CustomLogger
-                            );
+                function secondHandlerStub() {
+                    handlerCount++;
 
-                            const consoleStub = sinon
-                                .stub(console, stubs.logMethods[method])
-                                .returns();
+                    expect(handlerCount).to.equal(2);
 
-                            expect(customLogger).to.respondTo(method);
+                    setTimeout(() => {
+                        expect(validate._handlers).to.be.an("array").that.is
+                            .empty;
 
-                            customLogger[method](testLog);
-
-                            expect(setConfigStub).to.have.been.calledWith(
-                                graylogSettingsStub
-                            );
-
-                            expect(
-                                consoleStub.lastCall
-                            ).to.have.been.calledWith(
-                                stubs.addColor(
-                                    `${customLogger.id}  ~>`,
-                                    method
-                                ),
-                                stubs.addColor(testLog, method)
-                            );
-
-                            console[stubs.logMethods[method]].restore();
-                        });
+                        done();
                     });
+                }
+
+                validate._handlers = [firstHandlerStub, secondHandlerStub];
+
+                validate.ready({
+                    err: undefined,
+                    stats: stubs.stats
                 });
             });
         });
