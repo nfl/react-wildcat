@@ -305,6 +305,14 @@ describe("react-wildcat-prefetch", () => {
             expect(key).to.equal("asyncData");
         });
 
+        it("exposes setInitialDataKey static method", () => {
+            expect(WrappedPrefetch.prefetch).to.exist;
+
+            expect(WrappedPrefetch.prefetch).to.respondTo("setInitialDataKey");
+
+            WrappedPrefetch.prefetch.setInitialDataKey("Hello World");
+        });
+
         describe("unique key", () => {
             it("as string", () => {
                 WrappedPrefetch = Prefetch(
