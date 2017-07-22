@@ -103,6 +103,10 @@ function prefetchWrap(action, options = {}) {
                     customInitialDataKey
                 ) {
                     initialDataKey = customInitialDataKey;
+                },
+
+                getInitialDataKey: function getInitialDataKey() {
+                    return initialDataKey;
                 }
             };
 

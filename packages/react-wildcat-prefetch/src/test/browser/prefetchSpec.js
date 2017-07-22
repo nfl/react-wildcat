@@ -309,8 +309,18 @@ describe("react-wildcat-prefetch", () => {
             expect(WrappedPrefetch.prefetch).to.exist;
 
             expect(WrappedPrefetch.prefetch).to.respondTo("setInitialDataKey");
+        });
 
-            WrappedPrefetch.prefetch.setInitialDataKey("Hello World");
+        it("exposes getInitialDataKey static method", () => {
+            expect(WrappedPrefetch.prefetch).to.exist;
+
+            expect(WrappedPrefetch.prefetch).to.respondTo("getInitialDataKey");
+
+            WrappedPrefetch.prefetch.setInitialDataKey("HelloWorld");
+            const initialDataKey = WrappedPrefetch.prefetch.getInitialDataKey(
+                "HelloWorld"
+            );
+            expect(initialDataKey).to.equal("HelloWorld");
         });
 
         describe("unique key", () => {
