@@ -8,7 +8,7 @@ const __REACT_ROOT_ID__ = stubs.__REACT_ROOT_ID__;
 
 /* eslint-disable max-nested-callbacks */
 describe("react-wildcat-handoff/client", () => {
-    before(() => {
+    beforeAll(() => {
         window[__REACT_ROOT_ID__] =
             stubs.wildcatConfig.clientSettings.reactRootElementID;
         document.body.innerHTML = defaultTemplate({
@@ -41,8 +41,8 @@ describe("react-wildcat-handoff/client", () => {
             .that.equals("client");
     });
 
-    context("routing", () => {
-        context("matches routes", () => {
+    describe("routing", () => {
+        describe("matches routes", () => {
             ["async", "sync"].forEach(timing => {
                 it(timing, done => {
                     const clientHandoff = client(stubs.routes[timing])
@@ -83,7 +83,7 @@ describe("react-wildcat-handoff/client", () => {
             });
         });
 
-        context("matches subdomains", () => {
+        describe("matches subdomains", () => {
             ["async", "sync"].forEach(timing => {
                 it(timing, done => {
                     const clientHandoff = client(stubs.subdomains[timing])
@@ -113,7 +113,7 @@ describe("react-wildcat-handoff/client", () => {
             });
         });
 
-        context("handles unwrapped subdomains", () => {
+        describe("handles unwrapped subdomains", () => {
             ["async", "sync"].forEach(timing => {
                 it(timing, done => {
                     const clientHandoff = client(stubs.unwrappedDomains[timing])
@@ -143,7 +143,7 @@ describe("react-wildcat-handoff/client", () => {
             });
         });
 
-        context("matches domains", () => {
+        describe("matches domains", () => {
             ["async", "sync"].forEach(timing => {
                 it(timing, done => {
                     const clientHandoff = client(stubs.domains[timing])

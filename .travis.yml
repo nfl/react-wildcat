@@ -2,7 +2,7 @@ language: node_js
 sudo: false
 cache: false
 node_js:
-  - 6.9.1
+  - 6.10.0
 script:
   - make test-travis
 env:
@@ -17,7 +17,6 @@ addons:
     packages:
       - g++-4.8
 before_install:
-  - npm install -g yarn@0.18.1
   # Skip installing optional dependencies
   - npm config set optional false
   - npm config set loglevel warn

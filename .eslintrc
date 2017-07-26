@@ -2,7 +2,8 @@
     "extends": ["eslint-config-nfl", "prettier"],
     "env": {
         "node": true,
-        "mocha": true
+        "mocha": true,
+        "jest": true
     },
     "plugins": [
         "prettier"
@@ -29,7 +30,9 @@
         "browser": true,
         "by": true,
         "element": true,
-        "protractor": true
+        "protractor": true,
+        "beforeAll": true,
+        "jasmine": true
     },
     "settings": {
         "import/ignore": [
