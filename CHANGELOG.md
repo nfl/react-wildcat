@@ -1,3 +1,13 @@
+<a name="7.4.1"></a>
+## [7.4.1](https://github.com/nfl/react-wildcat/compare/7.4.0...7.4.1) (2017-07-27)
+
+
+### Bug Fixes
+
+* **react-wildcat-test-runners:** Increase max memory ([480478b](https://github.com/nfl/react-wildcat/commit/480478b))
+
+
+
 <a name="7.4.0"></a>
 # [7.4.0](https://github.com/nfl/react-wildcat/compare/7.3.0...7.4.0) (2017-07-10)
 

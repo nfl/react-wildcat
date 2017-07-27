@@ -1,6 +1,6 @@
 {
   "name": "react-wildcat-test-runners",
-  "version": "7.0.0",
+  "version": "7.4.1",
   "description": "Test runners for Wildcat.",
   "bin": {
     "wildcat-protractor-runner": "./cli/protractor.js",
