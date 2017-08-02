@@ -2,61 +2,39 @@ const fs = require("fs");
 const path = require("path");
 
 const pkg = require("./package.json");
-const __DEV__ = (process.env.NODE_ENV === "development");
-const __PROD__ = (process.env.NODE_ENV === "production");
-const __BUNDLE__ = process.env.COVERAGE !== "e2e";
+const __PROD__ = process.env.NODE_ENV === "production";
+const __TEST__ = process.env.BABEL_ENV === "test";
 
 function getDefaultSSLFile(filename) {
-    const filePath = process.env.HOST === "localhost" || !process.env.HOST ? "../packages/react-wildcat/ssl/server." : "ssl/example.";
-    return fs.readFileSync(path.join(__dirname, `${filePath}${filename}`), "utf8");
+    const filePath = process.env.HOST === "localhost" || !process.env.HOST
+        ? "../packages/react-wildcat/ssl/server."
+        : "ssl/example.";
+    return fs.readFileSync(
+        path.join(__dirname, `${filePath}${filename}`),
+        "utf8"
+    );
 }
 
 const defaultServerKey = getDefaultSSLFile("key");
 const defaultServerCert = getDefaultSSLFile("crt");
 const defaultServerCA = getDefaultSSLFile("csr");
 
-// Only applicable when one of http2/https is true
-// https://github.com/indutny/node-spdy#options
-const secureSettings = {
-    // Provide your own key / cert / ca
-    key: defaultServerKey,
-    cert: defaultServerCert,
-    ca: defaultServerCA,
-
-    // If using http2, use the following protocols
-    protocols: [
-        "h2",
-        "spdy/3.1",
-        "spdy/3",
-        "spdy/2",
-        "http/1.1",
-        "http/1.0"
-    ]
-};
-
 function getPort(port, defaultPort) {
-    if ((typeof port !== "undefined") && !(Number(port))) {
+    if (typeof port !== "undefined" && !Number(port)) {
         return false;
     }
 
     return Number(port) || defaultPort;
 }
 
-const excludes = [
-    "**/node_modules/**",
-    "**/jspm_packages/**",
-    "**/test/**",
-    "**/Test*",
-    "**/*.json"
-];
+const excludes = ["**/node_modules/**", "**/test/**", "**/Test*", "**/*.json"];
 
 /* istanbul ignore next */
 const wildcatConfig = {
     generalSettings: {
-        // Grab the config file from package.json
-        jspmConfigFile: pkg.configFile || (pkg.jspm || {}).configFile || "config.js",
-
-        seleniumAddress: process.env.HOST === "localhost" || !process.env.HOST ? null : "http://selenium:4444/wd/hub",
+        seleniumAddress: process.env.HOST === "localhost" || !process.env.HOST
+            ? null
+            : "http://selenium:4444/wd/hub",
 
         // Project name
         name: pkg.name,
@@ -65,7 +43,7 @@ const wildcatConfig = {
         version: pkg.version,
 
         // Instrument your code with Istanbul.
-        coverage: !!(process.env.COVERAGE),
+        coverage: !!process.env.COVERAGE,
 
         // Only applicable when coverage is true
         coverageSettings: {
@@ -80,16 +58,6 @@ const wildcatConfig = {
                     dir: "coverage/e2e",
                     reports: ["lcov", "html"]
                 }
-            },
-
-            unit: {
-                instrumentation: {
-                    excludes
-                },
-
-                reporting: {
-                    dir: "coverage/unit"
-                }
             }
         },
 
@@ -103,37 +71,24 @@ const wildcatConfig = {
     },
 
     clientSettings: {
-        // Path to the entry config file relative to the project root
-        entry: "public/main.js",
-
         hotReload: !__PROD__,
 
-        serviceWorker: __PROD__ && __BUNDLE__,
+        serviceWorker: process.env.SERVICE_WORKERS || (__PROD__ && !__TEST__),
 
-        // Path to the client renderer. This can be a jspm package or a relative path
-        renderHandler: "react-wildcat-handoff/client",
-
-        // The target element id where React will be injected
-        reactRootElementID: "content",
-
-        // Enable / disable client-side IndexedDB module caching
-        indexedDBModuleCache: __DEV__
+        webpackDevSettings: "./config/webpack/development.client.config.js"
     },
 
     serverSettings: {
         // Path to the entry config file relative to the project root
-        entry: "public/main.js",
+        entry: "public/server.js",
 
         hotReload: !__PROD__,
 
-        // Path to the server renderer. This can be a jspm package or a relative path
-        renderHandler: "react-wildcat-handoff/server",
-
-        // Directory to save raw binaries (jpg, gif, fonts, etc)
-        binDir: "bin",
-
         // BYO-HTML template
         // htmlTemplate: require("./customHtmlTemplate.js"),
+
+        // BYO-HTML 404 template
+        // htmlNotFoundTemplate: require("./customHtmlNotFoundTemplate.js"),
 
         // Graylog config options for the node server
         // https://www.npmjs.com/package/gelf-pro#configuration
@@ -145,6 +100,8 @@ const wildcatConfig = {
         // Path to your source JavaScript files
         sourceDir: "src",
 
+        webpackDevSettings: "./config/webpack/development.server.config.js",
+
         // config options for the app server
         appServer: {
             // One of http2 | https | http
@@ -154,10 +111,6 @@ const wildcatConfig = {
 
             // App server port
             port: getPort(process.env.PORT, 3000),
-
-            // number to limit the max number of CPU's
-            // to spin up on a cluster
-            maxClusterCpuCount: Infinity, // Infinity === as many CPU's as the machine has
 
             middleware: [
                 // EXAMPLE:
@@ -174,17 +127,20 @@ const wildcatConfig = {
 
             // Only applicable when one of http2/https is true
             // https://github.com/indutny/node-spdy#options
-            secureSettings
+            // Only applicable when one of http2/https is true
+            // https://github.com/indutny/node-spdy#options
+            secureSettings: {
+                // Provide your own key / cert / ca
+                key: defaultServerKey,
+                cert: defaultServerCert,
+                ca: defaultServerCA
+            }
         },
 
         // config options for the static server
         staticServer: {
             // An array of domains to allow for cross-origin requests
-            corsOrigins: [
-                "localhost",
-                "www.example.dev",
-                "example.dev"
-            ],
+            corsOrigins: ["localhost", "www.example.dev", "example.dev"],
 
             // One of http2 | https | http
             protocol: "http2",
@@ -194,13 +150,16 @@ const wildcatConfig = {
             // Static server port
             port: getPort(process.env.STATIC_PORT, 4000),
 
-            // number to limit the max number of CPU's
-            // to spin up on a cluster
-            maxClusterCpuCount: Infinity, // Infinity === as many CPU's as the machine has
-
             // Only applicable when one of http2/https is true
             // https://github.com/indutny/node-spdy#options
-            secureSettings
+            // Only applicable when one of http2/https is true
+            // https://github.com/indutny/node-spdy#options
+            secureSettings: {
+                // Provide your own key / cert / ca
+                key: defaultServerKey,
+                cert: defaultServerCert,
+                ca: defaultServerCA
+            }
         }
     }
 };

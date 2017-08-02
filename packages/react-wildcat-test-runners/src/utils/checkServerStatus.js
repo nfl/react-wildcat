@@ -7,10 +7,13 @@ import request from "request";
 export default async function checkServerStatus(origin) {
     try {
         return new Promise(resolve => {
-            request({
-                strictSSL: false,
-                url: origin
-            }, err => resolve(!!err));
+            request(
+                {
+                    strictSSL: false,
+                    url: origin
+                },
+                err => resolve(!!err)
+            );
         });
     } catch (e) {
         return Promise.resolve(true);

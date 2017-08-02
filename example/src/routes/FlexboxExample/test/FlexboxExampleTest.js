@@ -1,6 +1,7 @@
 import React from "react";
 import {shallow} from "enzyme";
 import {TestMode} from "radium";
+import {expect} from "chai";
 
 import FlexboxExample from "../FlexboxExample.js";
 import * as flexboxExampleRoutes from "../routes.js";
@@ -12,43 +13,38 @@ describe("Flexbox Example", () => {
         expect(FlexboxExample).to.exist;
     });
 
-    context("render", () => {
-        before(() => {
+    describe("render", () => {
+        beforeAll(() => {
             TestMode.enable();
         });
 
         it("renders correctly", () => {
-            const flexboxExample = shallow(
-                <FlexboxExample />
-            );
+            const flexboxExample = shallow(<FlexboxExample />);
 
             expect(flexboxExample).to.exist;
         });
 
         it("renders #flexbox element", () => {
-            const flexboxExample = shallow(
-                <FlexboxExample />
-            );
+            const flexboxExample = shallow(<FlexboxExample />);
 
-            expect(flexboxExample.find(`#flexbox`))
-                .to.have.length.of(1);
+            expect(flexboxExample.find(`#flexbox`)).to.have.length.of(1);
         });
 
-        after(() => {
+        afterAll(() => {
             TestMode.disable();
         });
     });
 
-    context("routes", () => {
+    describe("routes", () => {
         it("has a defined path", () => {
             expect(flexboxExampleRoutes).to.exist;
-            expect(flexboxExampleRoutes)
-                .to.have.property("path")
+            expect(flexboxExampleRoutes).to.have
+                .property("path")
                 .that.is.a("string")
                 .that.equals(flexboxExamplePath);
         });
 
-        it("asynchronously fetches component", (done) => {
+        it("asynchronously fetches component", done => {
             expect(flexboxExampleRoutes).to.exist;
             expect(flexboxExampleRoutes).to.respondTo("getComponent");
 
@@ -64,4 +60,3 @@ describe("Flexbox Example", () => {
         });
     });
 });
-

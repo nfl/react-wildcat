@@ -1,5 +1,6 @@
 import React from "react";
 import {shallow} from "enzyme";
+import {expect} from "chai";
 
 import ErrorExample from "../ErrorExample.js";
 import * as errorExampleRoutes from "../routes.js";
@@ -11,27 +12,24 @@ describe("Error Example", () => {
         expect(ErrorExample).to.exist;
     });
 
-    context("render", () => {
-        const errorRender = () => shallow(
-            <ErrorExample />
-        );
+    describe("render", () => {
+        const errorRender = () => shallow(<ErrorExample />);
 
         it("throws a render error", () => {
-            expect(errorRender)
-                .to.throw(TypeError, "this.props");
+            expect(errorRender).to.throw(TypeError, "this.props");
         });
     });
 
-    context("routes", () => {
+    describe("routes", () => {
         it("has a defined path", () => {
             expect(errorExampleRoutes).to.exist;
-            expect(errorExampleRoutes)
-                .to.have.property("path")
+            expect(errorExampleRoutes).to.have
+                .property("path")
                 .that.is.a("string")
                 .that.equals(errorExamplePath);
         });
 
-        it("asynchronously fetches component", (done) => {
+        it("asynchronously fetches component", done => {
             expect(errorExampleRoutes).to.exist;
             expect(errorExampleRoutes).to.respondTo("getComponent");
 
@@ -47,4 +45,3 @@ describe("Error Example", () => {
         });
     });
 });
-

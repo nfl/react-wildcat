@@ -13,9 +13,7 @@ const childProcesses = [];
 function killAllChildProcesses(signal) {
     childProcesses.forEach(childProcess => childProcess.kill(signal));
 }
-program
-    .version(pkg.version)
-    .parse(process.argv);
+program.version(pkg.version).parse(process.argv);
 
 const args = program.args.concat(path.resolve(__dirname, "../main"));
 const server = cp.spawn("node", args, {

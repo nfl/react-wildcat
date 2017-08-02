@@ -1,4 +1,4 @@
 .DS_Store
-lib/test
-src
+lib
+src/test
 test

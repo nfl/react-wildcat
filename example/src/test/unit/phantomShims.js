@@ -1,7 +1,8 @@
 if (!Object.is) {
-    Object.is = function (x, y) {
+    Object.is = function(x, y) {
         // SameValue algorithm
-        if (x === y) { // Steps 1-5, 7-10
+        if (x === y) {
+            // Steps 1-5, 7-10
             // Steps 6.b-6.e: +0 != -0
             return x !== 0 || 1 / x === 1 / y;
         }

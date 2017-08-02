@@ -7,23 +7,45 @@ function getLeadingLeafDomain(subdomain) {
 }
 
 function mapDomainToAlias(host, domainAliases) {
+    if (!domainAliases) {
+        return host;
+    }
+
     var resolvedHost = host;
 
     if (typeof domainAliases === "object") {
-        Object.keys(domainAliases)
-            .forEach(function withAlias(alias) {
-                var possibleHosts = domainAliases[alias];
+        Object.keys(domainAliases).forEach(function withAlias(alias) {
+            var possibleHosts = domainAliases[alias];
+            if (Array.isArray(possibleHosts)) {
+                possibleHosts.forEach(function withPossibleHost(possibleHost) {
+                    if (String(host) === String(possibleHost)) {
+                        resolvedHost = alias;
+                    }
+                });
+            } else if (typeof possibleHosts === "object") {
+                Object.keys(possibleHosts).forEach(function withPossibleHost(
+                    possibleHost
+                ) {
+                    var possibleHostAlias = possibleHosts[possibleHost];
+                    if (Array.isArray(possibleHostAlias)) {
+                        var currentHost = resolvedHost;
+                        possibleHostAlias
+                            .filter(function filterHostAlias(hostAlias) {
+                                return hostAlias;
+                            })
+                            .forEach(function withHostAlias(hostAlias) {
+                                if (hostAlias.endsWith(resolvedHost)) {
+                                    currentHost = alias;
+                                }
+                            });
 
-                if (Array.isArray(possibleHosts)) {
-                    possibleHosts.forEach(function withPossibleHost(possibleHost) {
-                        if (host.startsWith(possibleHost)) {
-                            resolvedHost = alias;
-                        }
-                    });
-                } else {
-                    resolvedHost = alias;
-                }
-            });
+                        resolvedHost = currentHost;
+                    }
+                });
+            } else {
+                resolvedHost = alias;
+            }
+        });
     }
 
     return resolvedHost;
@@ -33,27 +55,26 @@ function mapSubdomainToAlias(host, domainAliases) {
     var resolvedHost = host;
 
     if (typeof domainAliases === "object") {
-        Object.keys(domainAliases)
-            .forEach(function withAlias(alias) {
-                var possibleHosts = domainAliases[alias];
+        Object.keys(domainAliases).forEach(function withAlias(alias) {
+            var possibleHosts = domainAliases[alias];
 
-                if (Array.isArray(possibleHosts)) {
-                    possibleHosts.forEach(function withPossibleHost(possibleHost) {
-                        if (host.startsWith(possibleHost)) {
-                            resolvedHost = alias;
-                        }
-                    });
-                } else {
-                    resolvedHost = mapSubdomainToAlias(host, possibleHosts);
-                }
-            });
+            if (Array.isArray(possibleHosts)) {
+                possibleHosts.forEach(function withPossibleHost(possibleHost) {
+                    if (host.startsWith(possibleHost)) {
+                        resolvedHost = alias;
+                    }
+                });
+            } else {
+                resolvedHost = mapSubdomainToAlias(host, possibleHosts);
+            }
+        });
     } else {
         var subdomain = getLeadingLeafDomain(resolvedHost || defaultSubdomain);
         var subdomainAliases = {
-            "local": defaultSubdomain
+            local: defaultSubdomain
         };
-        var result = subdomainAliases[subdomain] || defaultSubdomain;
-        return result;
+
+        return subdomainAliases[subdomain] || subdomain || defaultSubdomain;
     }
 
     return getLeadingLeafDomain(resolvedHost) || defaultSubdomain;
@@ -61,25 +82,24 @@ function mapSubdomainToAlias(host, domainAliases) {
 
 function getDomainDataFromHost(host, domains) {
     var hostExcludingPort = (host || "").split(":")[0];
-    var resolvedSubdomain = mapSubdomainToAlias(host, domains.domainAliases);
 
     var url = parseDomain(host, {
-        customTlds: [
-            "dev",
-            "example",
-            "invalid",
-            "localhost",
-            "test"
-        ]
+        customTlds: ["dev", "example", "invalid", "localhost", "test"]
     }) || {
         domain: hostExcludingPort,
-        subdomain: resolvedSubdomain,
+        subdomain: undefined,
         tld: undefined
     };
 
     var resolvedDomain = mapDomainToAlias(url.domain, domains.domainAliases);
-    url.domain = resolvedDomain;
-    url.subdomain = url.subdomain.length ? url.subdomain : defaultSubdomain;
+    var resolvedSubdomain = url.subdomain
+        ? mapSubdomainToAlias(host, domains.domainAliases)
+        : null;
+
+    url = Object.assign({}, url, {
+        domain: resolvedDomain,
+        subdomain: resolvedSubdomain || url.subdomain || defaultSubdomain
+    });
 
     return url;
 }
@@ -91,18 +111,20 @@ function resolveSubdomain(domains, subdomain) {
 
     var possibleSubdomains = Object.keys(domains);
 
-    var partialSubdomainMatch = possibleSubdomains.filter(function possibleSubdomain(sub) {
-        var leadingLeafDomain = getLeadingLeafDomain(subdomain);
-        return leadingLeafDomain.split("-").some(function domainPart(part) {
-            return part === sub;
-        });
-    })[0];
+    var partialSubdomainMatch = possibleSubdomains.filter(
+        function possibleSubdomain(sub) {
+            var leadingLeafDomain = getLeadingLeafDomain(subdomain);
+            return leadingLeafDomain.split("-").some(function domainPart(part) {
+                return part === sub;
+            });
+        }
+    )[0];
 
     return domains[partialSubdomainMatch];
 }
 
 function completeGetDomainRoutes(resolveOptions, cb) {
-    var host = resolveOptions.host;
+    var headers = resolveOptions.headers;
     var domainRoutes = resolveOptions.domainRoutes;
     var subdomain = resolveOptions.subdomain;
 
@@ -113,7 +135,7 @@ function completeGetDomainRoutes(resolveOptions, cb) {
         return cb(null, subdomainResult);
     }
 
-    return subdomainResult(host, cb);
+    return subdomainResult(headers, cb);
 }
 
 module.exports = function getDomainRoutes(domains, headers, cb) {
@@ -126,6 +148,7 @@ module.exports = function getDomainRoutes(domains, headers, cb) {
 
     if (domains[domain]) {
         var resolveOptions = {
+            headers: headers,
             subdomain: subdomain,
             host: host
         };
@@ -137,7 +160,10 @@ module.exports = function getDomainRoutes(domains, headers, cb) {
             return completeGetDomainRoutes(resolveOptions, cb);
         }
 
-        return resolveDomain(host, function getSubDomainRoutes(error, domainRoutes) {
+        return resolveDomain(headers, function getSubDomainRoutes(
+            error,
+            domainRoutes
+        ) {
             if (error) {
                 return cb(error);
             }
@@ -153,5 +179,7 @@ module.exports = function getDomainRoutes(domains, headers, cb) {
         return cb(null, resolveDomain);
     }
 
-    return resolveDomain(host, cb);
+    return resolveDomain(headers, cb);
 };
+module.exports.mapDomainToAlias = mapDomainToAlias;
+module.exports.mapSubdomainToAlias = mapSubdomainToAlias;

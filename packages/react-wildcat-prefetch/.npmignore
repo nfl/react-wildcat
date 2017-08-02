@@ -1,6 +1,4 @@
 .DS_Store
 lib/test
-jspm_packages
 reports
 src
-*.config.js

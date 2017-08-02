@@ -1,9 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 class Hello extends React.Component {
     static propTypes = {
-        count: React.PropTypes.number,
-        title: React.PropTypes.string
+        count: PropTypes.number,
+        title: PropTypes.string
     };
 
     static defaultProps = {
@@ -15,7 +16,11 @@ class Hello extends React.Component {
     }
 
     render() {
-        return <div>{Object.keys(this.props)}</div>;
+        return (
+            <div>
+                {Object.keys(this.props)}
+            </div>
+        );
     }
 }
 

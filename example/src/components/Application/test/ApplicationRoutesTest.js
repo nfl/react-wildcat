@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import ApplicationRoutes from "../../../ApplicationRoutes.js";
 
 describe("ApplicationRoutes", () => {
@@ -5,4 +6,3 @@ describe("ApplicationRoutes", () => {
         expect(ApplicationRoutes).to.exist;
     });
 });
-

@@ -4,10 +4,9 @@ services:
   wildcat:
     build:
       context: .
-      args:
-        JSPM_GITHUB_AUTH_TOKEN:
     image: "nfl/react-wildcat:latest"
     environment:
+      DOCKER: "true"
       NODE_ENV: development
       PORT: 3000
       STATIC_PORT: 4000

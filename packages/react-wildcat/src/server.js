@@ -21,31 +21,31 @@ require("./utils/customMorganTokens")(morgan, "🏈");
 const Logger = require("./utils/logger");
 const logger = new Logger("🏈");
 
-const renderReactWithJspm = require("./middleware/renderReactWithJspm");
+const renderReactWithWebpack = require("./middleware/renderReactWithWebpack");
 
 let server;
 
 function start() {
     const wildcatConfig = require("./utils/getWildcatConfig")(cwd);
-    if (process.env.DEBUG && process.env.DEBUG.includes("wildcat")) {
-        require("./memory")(logger);
-    }
 
     const {
-        generalSettings,
+        generalSettings: {
+            env: {__PROD__, __TEST__, DEBUG, NODE_ENV},
+            logLevel,
+            originUrl
+        },
         serverSettings
     } = wildcatConfig;
 
-    const {
-        appServer: appServerSettings
-    } = serverSettings;
+    if (DEBUG && DEBUG.includes("wildcat")) {
+        require("./memory")(logger);
+    }
 
-    const {
-        secureSettings,
-        proxies: proxySettings
-    } = appServerSettings;
+    const {appServer: appServerSettings} = serverSettings;
 
-    const lifecycleHook = (lifecycle) => {
+    const {secureSettings, proxies: proxySettings} = appServerSettings;
+
+    const lifecycleHook = lifecycle => {
         if (typeof appServerSettings[lifecycle] === "function") {
             appServerSettings[lifecycle].call(this, wildcatConfig);
         }
@@ -53,11 +53,7 @@ function start() {
 
     lifecycleHook("onBeforeStart");
 
-    const morganOptions = getMorganOptions(generalSettings.logLevel, serverSettings);
-
-    const __PROD__ = (process.env.NODE_ENV === "production");
-    const __TEST__ = (process.env.BABEL_ENV === "test");
-
+    const morganOptions = getMorganOptions(logLevel, serverSettings);
     let cpuCount = appServerSettings.maxClusterCpuCount;
 
     if (cpuCount === Infinity) {
@@ -84,7 +80,10 @@ function start() {
             }
 
             cluster.on("exit", function clusterExit(worker, code, signal) {
-                logger.warn(`worker ${worker.process.pid} has died (code: ${code}) (signal: ${signal})`);
+                logger.warn(
+                    `worker ${worker.process
+                        .pid} has died (code: ${code}) (signal: ${signal})`
+                );
 
                 if (appServerSettings.reconnectOnWorkerDisconnect === true) {
                     logger.warn(`Starting a new worker`);
@@ -102,7 +101,12 @@ function start() {
 
             lifecycleHook("onStart");
 
-            app.use(morgan.middleware(":id :status :method :url :res[content-length] - :response-time ms", morganOptions));
+            app.use(
+                morgan.middleware(
+                    ":id :status :method :url :res[content-length] - :response-time ms",
+                    morganOptions
+                )
+            );
 
             // enable cors
             app.use(cors());
@@ -116,7 +120,9 @@ function start() {
             // add gzip
             app.use(compress());
 
-            Object.keys(proxySettings).forEach(function eachProxyRoute(proxyRoute) {
+            Object.keys(proxySettings).forEach(function eachProxyRoute(
+                proxyRoute
+            ) {
                 const host = proxySettings[proxyRoute];
 
                 if (cluster.worker.id === cpuCount) {
@@ -124,33 +130,45 @@ function start() {
                 }
 
                 /* istanbul ignore next */
-                app.use(proxy({
-                    host,
-                    map: (hostPath) => hostPath.replace(proxyRoute, ""),
-                    match: proxyRoute
-                }));
+                app.use(
+                    proxy({
+                        host,
+                        map: hostPath => hostPath.replace(proxyRoute, ""),
+                        match: proxyRoute
+                    })
+                );
             });
 
-            // Allow custom middleware priority over react/jspm/render from below
+            // Allow custom middleware priority over react/render from below
             // otherwise server-only routes will receive 404's.
-            if (appServerSettings.middleware && appServerSettings.middleware.length) {
-                appServerSettings.middleware.forEach(function eachCustomAppMiddleware(middlewareConfigFunction, index) {
-                    if (typeof middlewareConfigFunction === "function") {
-                        middlewareConfigFunction(app, wildcatConfig);
-                    } else {
-                        const errorMsg = `
+            if (
+                appServerSettings.middleware &&
+                appServerSettings.middleware.length
+            ) {
+                appServerSettings.middleware.forEach(
+                    function eachCustomAppMiddleware(
+                        middlewareConfigFunction,
+                        index
+                    ) {
+                        if (typeof middlewareConfigFunction === "function") {
+                            middlewareConfigFunction(app, wildcatConfig);
+                        } else {
+                            const errorMsg = `
 Middleware at serverSettings.appServer.middleware[${index}] could not be correclty initialized. Expecting middleware to have the following signature:
     function(app, wildcatConfig) { /* custom middleware */ }
     Erroring middleware: ${(middlewareConfigFunction || "").toString()}`;
-                        logger.error(errorMsg, middlewareConfigFunction);
+                            logger.error(errorMsg, middlewareConfigFunction);
+                        }
                     }
-                });
+                );
             }
 
-            app.use(renderReactWithJspm(cwd, {
-                logger,
-                wildcatConfig
-            }));
+            app.use(
+                renderReactWithWebpack(cwd, {
+                    logger,
+                    wildcatConfig
+                })
+            );
 
             let serverType;
 
@@ -176,7 +194,10 @@ Middleware at serverSettings.appServer.middleware[${index}] could not be correcl
             if (appServerSettings.protocol === "http") {
                 server = serverType.createServer(app.callback());
             } else {
-                server = serverType.createServer(secureSettings, app.callback());
+                server = serverType.createServer(
+                    secureSettings,
+                    app.callback()
+                );
             }
 
             server.listen(port, function serverListener() {
@@ -185,13 +206,16 @@ Middleware at serverSettings.appServer.middleware[${index}] could not be correcl
                     if (__PROD__) {
                         logger.ok("Node server is running on pid", process.pid);
                     } else {
-                        logger.ok(`Node server is running at ${generalSettings.originUrl} on pid`, process.pid);
+                        logger.ok(
+                            `Node server is running at ${originUrl} on pid`,
+                            process.pid
+                        );
                     }
 
                     lifecycleHook("onAfterStart");
 
                     resolve({
-                        env: process.env.NODE_ENV,
+                        env: NODE_ENV,
                         server
                     });
                 }

@@ -10,7 +10,5 @@ example=example
 
     # Remove node modules
     rm -fr node_modules;
-
-    # Remove jspm packages
-    rm -fr jspm_packages;
+    rm -f yarn.lock;
 )

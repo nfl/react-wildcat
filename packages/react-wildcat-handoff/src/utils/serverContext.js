@@ -1,26 +1,33 @@
-"use strict";
-
 const React = require("react");
+const PropTypes = require("prop-types");
 const Router = require("react-router");
+const createReactClass = require("create-react-class");
 
 const RouterContext = Router.RouterContext;
 
-module.exports = function serverContext(request, headers, renderProps) {
-    /* eslint-disable react/no-multi-comp */
-    const ServerContext = React.createClass({
+module.exports = function serverContext(
+    {request, response}, // eslint-disable-line react/prop-types
+    headers,
+    renderProps
+) {
+    const ServerContext = createReactClass({
         childContextTypes: {
-            headers: React.PropTypes.shape({
-                cookies: React.PropTypes.object,
-                host: React.PropTypes.string,
-                referrer: React.PropTypes.string,
-                userAgent: React.PropTypes.string
-            })
+            headers: PropTypes.shape({
+                cookies: PropTypes.object,
+                host: PropTypes.string,
+                referrer: PropTypes.string,
+                userAgent: PropTypes.string
+            }),
+            request: PropTypes.object,
+            response: PropTypes.object
         },
 
         getChildContext() {
             // Pass user agent to Radium
             return {
-                headers
+                headers,
+                request,
+                response
             };
         },
 
@@ -31,10 +38,15 @@ module.exports = function serverContext(request, headers, renderProps) {
         render() {
             const createElement = this.createElement;
 
-            return (
-                React.createElement(RouterContext, Object.assign({
-                    createElement
-                }, this.props, renderProps))
+            return React.createElement(
+                RouterContext,
+                Object.assign(
+                    {
+                        createElement
+                    },
+                    this.props,
+                    renderProps
+                )
             );
         }
     });

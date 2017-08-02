@@ -1,7 +1,9 @@
-import React from "react";
-import ExecutionEnvironment from "exenv";
-import invariant from "invariant";
-import hoistStatics from "hoist-non-react-statics";
+/*  eslint-disable indent */
+const React = require("react");
+const PropTypes = require("prop-types");
+const ExecutionEnvironment = require("exenv");
+const invariant = require("invariant");
+const hoistStatics = require("hoist-non-react-statics");
 
 const __DEFAULT_INITIAL_DATA_KEY__ = "__INITIAL_DATA__";
 const __DEFAULT_ASYNC_DATA_KEY__ = "asyncData";
@@ -45,7 +47,10 @@ function getAction(action, ComposedComponent) {
 function invariantCheck(exists, key, action, ComposedComponent) {
     invariant(
         exists,
-        "Prefetch did not retrieve any data with key " + key + " for component " + ComposedComponent.displayName + ". This either means an error occurred attempting to reach the provided data endpoint" + ((typeof action === "string") ? (" " + action) : "") + ", or this component is a child of a route component. The Prefetch decorator can only be used on top-level route components."
+        `Prefetch did not retrieve any data with key ${key} for component ${ComposedComponent.displayName}. This either means an error occurred attempting to reach the provided data endpoint${typeof action ===
+        "string"
+            ? " " + action
+            : ""}, or this component is a child of a route component. The Prefetch decorator can only be used on top-level route components.`
     );
 }
 
@@ -65,37 +70,76 @@ function getDisplayName(Comp) {
  * If action is a function it will execute the function
  * If action is an string it will make a request based on that url
  */
-function prefetchWrap(action, options) {
-    var key;
-
-    options = options || {};
-    key = options.key || (typeof options === "string" ? options : __DEFAULT_ASYNC_DATA_KEY__);
+function prefetchWrap(action, options = {}) {
+    const key =
+        options.key ||
+        (typeof options === "string" ? options : __DEFAULT_ASYNC_DATA_KEY__);
+    let initialDataKey = options.initialDataKey || __DEFAULT_INITIAL_DATA_KEY__;
 
     return function prefetchWrapper(ComposedComponent) {
         action = action || ComposedComponent[__DEFAULT_STATIC_METHOD__];
-        var _action = getAction(action, ComposedComponent);
+        const _action = getAction(action, ComposedComponent);
 
-        var Prefetch = React.createClass({
-            propTypes: {
-                [__DEFAULT_INITIAL_DATA_KEY__]: React.PropTypes.string
-            },
+        class Prefetch extends React.Component {
+            state = {};
 
-            componentWillMount: function componentWillMount() {
-                var canUseDOM = (typeof options.canUseDOM !== "undefined") ? options.canUseDOM : ExecutionEnvironment.canUseDOM;
+            static propTypes = {
+                [initialDataKey]: PropTypes.string,
+                location: PropTypes.shape({
+                    pathname: PropTypes.string.isRequired
+                }).isRequired
+            };
+
+            static prefetch = {
+                run: function run(props) {
+                    return _action(props);
+                },
+
+                getKey: function getKey() {
+                    return key;
+                },
+
+                setInitialDataKey: function setInitialDataKey(
+                    customInitialDataKey
+                ) {
+                    initialDataKey = customInitialDataKey;
+                },
+
+                getInitialDataKey: function getInitialDataKey() {
+                    return initialDataKey;
+                }
+            };
+
+            static WrappedComponent = ComposedComponent;
+            static displayName = `Prefetch(${getDisplayName(
+                ComposedComponent
+            )})`;
+
+            componentWillMount() {
+                const canUseDOM =
+                    typeof options.canUseDOM !== "undefined"
+                        ? options.canUseDOM
+                        : ExecutionEnvironment.canUseDOM;
 
                 /* istanbul ignore else */
                 if (canUseDOM) {
-                    var initialDataID = this.props[__DEFAULT_INITIAL_DATA_KEY__] || __DEFAULT_INITIAL_DATA_KEY__;
+                    const initialDataID =
+                        this.props[initialDataKey] || initialDataKey;
 
-                    var initialData = window[initialDataID] ? {
-                        ...window[initialDataID]
-                    } : undefined;
+                    const initialData = window[initialDataID]
+                        ? {
+                              ...window[initialDataID]
+                          }
+                        : undefined;
 
-                    var newState = {};
+                    const newState = {};
 
                     if (initialData) {
                         // Delete stored objects
-                        if (window[initialDataID] && window[initialDataID][key]) {
+                        if (
+                            window[initialDataID] &&
+                            window[initialDataID][key]
+                        ) {
                             delete window[initialDataID][key];
 
                             if (!Object.keys(window[initialDataID]).length) {
@@ -107,7 +151,12 @@ function prefetchWrap(action, options) {
                             delete Prefetch.prefetch[key];
                         }
 
-                        invariantCheck(initialData, key, action, ComposedComponent);
+                        invariantCheck(
+                            initialData,
+                            key,
+                            action,
+                            ComposedComponent
+                        );
 
                         if (key in initialData) {
                             newState[key] = initialData[key];
@@ -115,17 +164,7 @@ function prefetchWrap(action, options) {
                         }
                     }
 
-                    return _action(this.props)
-                        .then(function asyncData(data) {
-                            initialData = {
-                                [key]: data
-                            };
-
-                            invariantCheck(initialData, key, action, ComposedComponent);
-
-                            newState[key] = initialData[key];
-                            return this.setState(newState);
-                        }.bind(this));
+                    return this.hydrateData(initialData);
                 }
 
                 if (Prefetch.prefetch[key]) {
@@ -136,39 +175,42 @@ function prefetchWrap(action, options) {
                     // Delete stored object
                     delete Prefetch.prefetch[key];
                 }
-            },
+            }
 
-            getInitialState: function getInitialState() {
-                return {};
-            },
+            hydrateData() {
+                return _action(this.props).then(data => {
+                    const initialData = {
+                        [key]: data
+                    };
 
-            render: function render() {
-                const props = {};
-                props[key] = this.state[key];
+                    invariantCheck(initialData, key, action, ComposedComponent);
+
+                    const newState = {
+                        [key]: initialData[key]
+                    };
+
+                    return this.setState(newState);
+                });
+            }
+
+            render() {
+                const props = {
+                    [key]: this.state[key]
+                };
 
                 return <ComposedComponent {...this.props} {...props} />;
             }
-        });
-
-        Prefetch.prefetch = {
-            run: function run(props) {
-                return _action(props);
-            },
-
-            getKey: function getKey() {
-                return key;
-            }
-        };
-
-        Prefetch.WrappedComponent = ComposedComponent;
-        Prefetch.displayName = "Prefetch(" + getDisplayName(ComposedComponent) + ")";
+        }
 
         return hoistStatics(Prefetch, ComposedComponent);
     };
 }
 
 module.exports = function prefetch(target, ...args) {
-    if (typeof target === "function" && typeof target.displayName === "string") {
+    if (
+        typeof target === "function" &&
+        typeof target.displayName === "string"
+    ) {
         return prefetchWrap()(target, ...args);
     }
 

@@ -1,15 +1,5 @@
 module.exports = function blueBoxOfDeath(err, request) {
-    const path = require("path");
-    const wildcatPkg = require(path.resolve(__dirname, "../../package.json"));
-
-    const {
-        name,
-        version,
-        dependencies,
-        author,
-        license
-    } = wildcatPkg;
-
+    const errors = Array.isArray(err) ? err : [err];
     const bbod = `
 <!doctype html>
 <html>
@@ -32,7 +22,7 @@ module.exports = function blueBoxOfDeath(err, request) {
                 font-size: 1em;
                 padding: 2em 3em;
                 width: 100%;
-                background: rgb(0, 102, 204);
+                background: rgb(50, 50, 50);
                 color: white;
             }
 
@@ -54,7 +44,7 @@ module.exports = function blueBoxOfDeath(err, request) {
 
             .bbod code {
                 display: inline-block;
-                background: rgba(0, 0, 0, 0.5);
+                background: rgba(0, 0, 0, 0.75);
                 padding: 0.05em 0.4em;
                 cursor: default;
             }
@@ -73,7 +63,7 @@ module.exports = function blueBoxOfDeath(err, request) {
                 margin: 0.5em 0 0;
                 padding: 1.25em 1.5em;
                 white-space: pre-wrap;
-                background: rgba(0, 0, 0, 0.5);
+                background: rgba(0, 0, 0, 0.75);
                 color: rgba(255, 255, 255, 0.9);
                 overflow: auto;
                 font: 0.95em 1em/1.5em "Operator Mono", monospace;
@@ -81,7 +71,7 @@ module.exports = function blueBoxOfDeath(err, request) {
             }
 
             .bbod .stack:hover pre {
-                background: rgba(0, 0, 0, 0.8);
+                background: rgba(0, 0, 0, 0.95);
                 color: rgba(255, 255, 255, 1);
             }
         </style>
@@ -94,39 +84,34 @@ module.exports = function blueBoxOfDeath(err, request) {
         </div>
 
         <div class="message info">
-            <p>This may be the result of attempting to load missing or invalid jspm package(s). Possible solutions:</p>
+            <p>Possible solutions:</p>
             <ul>
-                <li>Check your console for <code>40x</code> or <code>50x</code> status codes. These should identify missing packages or modules.</li>
-                <li>Run <code>jspm install</code> to install any missing dependencies.</li>
+                <li>Check your console for <code>40x</code> or <code>50x</code> status codes. These should identify missing modules.</li>
+                <li>Run <code>yarn</code> or <code>npm install</code> to install any missing dependencies.</li>
             </ul>
         </div>
 
-        ${err ? `
-            <div class="stack">
-                <h4>Error Message:</h4>
-                <pre>${err}</pre>
-            </div>
+        ${errors.filter(error => error).map(
+            error => `
+                <div class="stack">
+                    <h4>${error.id || "Error Message"}:</h4>
+                    <pre>${error.message}</pre>
+                </div>
 
-            <div class="stack">
-                <h4>Stack Trace:</h4>
-                <pre>${err.stack}</pre>
-            </div>
-        ` : ""}
+                ${error.stack
+                    ? `
+                    <div class="stack">
+                        <h4>Stack Trace:</h4>
+                        <pre>${error.stack}</pre>
+                    </div>
+                `
+                    : ``}
+            `
+        )}
 
         <div class="stack">
             <h4>Server Request Payload:</h4>
             <pre>${JSON.stringify(request, null, 4)}</pre>
-        </div>
-
-        <div class="stack">
-            <h4>Wildcat Metadata:</h4>
-            <pre>${JSON.stringify({
-                name,
-                version,
-                dependencies,
-                author,
-                license
-            }, null, 4)}</pre>
         </div>
     </body>
 </html>

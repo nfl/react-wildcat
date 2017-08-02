@@ -1,11 +1,6 @@
-"use strict";
-
-const fs = require("fs-extra");
 const cwd = process.cwd();
 const path = require("path");
 const chalk = require("chalk");
-const pathExists = require("path-exists");
-const pathResolve = require("resolve-path");
 
 const Logger = require("../src/utils/logger");
 exports.Logger = Logger;
@@ -22,47 +17,81 @@ exports.generalSettings = generalSettings;
 const serverSettings = wildcatConfig.serverSettings;
 exports.serverSettings = serverSettings;
 
-const binDir = serverSettings.binDir;
-exports.binDir = binDir;
-
 const publicDir = serverSettings.publicDir;
 exports.publicDir = publicDir;
 
 const sourceDir = serverSettings.sourceDir;
 exports.sourceDir = sourceDir;
 
-function getBinPath(source) {
-    "use strict";
-
-    return source
-        .replace(publicDir, binDir)
-        .replace(sourceDir, binDir);
-}
-exports.getBinPath = getBinPath;
-
 function getPublicPath(source) {
-    "use strict";
-
-    return source
-        .replace(binDir, publicDir)
-        .replace(sourceDir, publicDir);
+    return source.replace(sourceDir, publicDir);
 }
 exports.getPublicPath = getPublicPath;
 
 const exampleDir = path.join(cwd, "example");
 exports.exampleDir = exampleDir;
 
-const projectConfigFile = path.join(exampleDir, "wildcat.config.js");
-exports.projectConfigFile = projectConfigFile;
+const errorStub = new Error("test error");
+exports.errorStub = errorStub;
 
-const mainEntrySourcePath = `${sourceDir}/main.js`;
-exports.mainEntrySourcePath = mainEntrySourcePath;
+const devClientConfigFile = path.join(
+    exampleDir,
+    "config/webpack/development.client.config.js"
+);
+exports.devClientConfigFile = devClientConfigFile;
 
-const mainEntryTranspiledPath = getPublicPath(mainEntrySourcePath);
-exports.mainEntryTranspiledPath = mainEntryTranspiledPath;
+const devServerConfigFile = path.join(
+    exampleDir,
+    "config/webpack/development.server.config.js"
+);
+exports.devServerConfigFile = devServerConfigFile;
 
-const mainEntryAbsTranspiledPath = path.join(exampleDir, mainEntryTranspiledPath);
-exports.mainEntryAbsTranspiledPath = mainEntryAbsTranspiledPath;
+const prodConfigFile = path.join(
+    exampleDir,
+    "config/webpack/production.config.js"
+);
+exports.prodConfigFile = prodConfigFile;
+
+const webpackFileStub = "webpack-stub.js";
+exports.webpackFileStub = webpackFileStub;
+
+const stats = {
+    compilation: {
+        assets: {}
+    }
+};
+exports.stats = stats;
+
+const statsWithErrors = Object.assign({}, stats, {
+    compilation: {
+        errors: [
+            {
+                error: errorStub.message,
+                module: {
+                    id: 1
+                }
+            }
+        ]
+    },
+    hasErrors: () => true
+});
+exports.statsWithErrors = statsWithErrors;
+
+const getEnvironment = (
+    {BABEL_ENV = undefined, DEBUG = undefined, NODE_ENV = undefined} = {}
+) => ({
+    generalSettings: {
+        env: {
+            __DEV__: NODE_ENV === "development",
+            __PROD__: NODE_ENV === "production",
+            __TEST__: BABEL_ENV === "test",
+            BABEL_ENV,
+            DEBUG,
+            NODE_ENV
+        }
+    }
+});
+exports.getEnvironment = getEnvironment;
 
 const customEmoji = "🏈";
 exports.customEmoji = customEmoji;
@@ -83,37 +112,42 @@ const NullConsoleLogger = (() => {
 exports.NullConsoleLogger = NullConsoleLogger;
 
 const logMethods = {
-    "error": "error",
-    "info": "info",
-    "log": "log",
-    "meta": "log",
-    "ok": "log",
-    "warn": "warn"
+    error: "error",
+    info: "info",
+    log: "log",
+    meta: "log",
+    ok: "log",
+    warn: "warn"
 };
 exports.logMethods = logMethods;
 
 const logColors = {
-    "error": "red",
-    "info": "magenta",
-    "log": null,
-    "meta": "gray",
-    "ok": "green",
-    "warn": "yellow"
+    error: "red",
+    info: "magenta",
+    log: null,
+    meta: "gray",
+    ok: "green",
+    warn: "yellow"
 };
 exports.logColors = logColors;
 
 const mapLogMethods = {
-    "error": "error",
-    "info": "info",
-    "log": "info",
-    "meta": "info",
-    "ok": "info",
-    "warn": "error"
+    error: "error",
+    info: "info",
+    log: "info",
+    meta: "info",
+    ok: "info",
+    warn: "error"
 };
 exports.mapLogMethods = mapLogMethods;
 
-const errorStub = new Error("test error");
-exports.errorStub = errorStub;
+const errorArrayStub = [
+    {
+        message: `SyntaxError: "foo" is read-only`,
+        id: 92
+    }
+];
+exports.errorArrayStub = errorArrayStub;
 
 const failedRequest = {
     host: "www.example.com",
@@ -127,65 +161,6 @@ exports.origin = origin;
 const logLevel = 4;
 exports.logLevel = logLevel;
 
-const exampleBinarySourcePath = `${sourceDir}/assets/images/primary-background.jpg`;
-exports.exampleBinarySourcePath = exampleBinarySourcePath;
-
-const exampleBinaryPath = `/${publicDir}/assets/images/primary-background.jpg`;
-exports.exampleBinaryPath = exampleBinaryPath;
-
-let babelOptions = {};
-
-const babelRcPath = path.join(exampleDir, ".babelrc");
-exports.babelRcPath = babelRcPath;
-
-if (pathExists.sync(babelRcPath)) {
-    babelOptions = JSON.parse(fs.readFileSync(babelRcPath));
-}
-exports.babelOptions = babelOptions;
-
-function getPathOptions(sourcePath) {
-    const relativePath = getPublicPath(sourcePath);
-    const modulePath = pathResolve(exampleDir, relativePath);
-    const moduleSourcePath = relativePath.replace(publicDir, sourceDir);
-    const moduleBinPath = relativePath.replace(publicDir, binDir);
-
-    return {
-        modulePath,
-        moduleSourcePath,
-        moduleBinPath,
-        relativePath
-    };
-}
-
-function getDataOptions(sourcePath) {
-    const dataOptions = Object.assign({}, babelOptions, {
-        sourceFileName: sourcePath,
-        sourceMapTarget: path.basename(sourcePath)
-    });
-
-    return dataOptions;
-}
-
-const temporaryCache = new Map();
-exports.temporaryCache = temporaryCache;
-
-const binaryToModule = true;
-exports.binaryToModule = binaryToModule;
-
-const importBinaryDefaults = {
-    root: exampleDir,
-    origin,
-
-    logger,
-    logLevel,
-
-    pathOptions: getPathOptions(exampleBinarySourcePath),
-
-    temporaryCache,
-    binaryToModule
-};
-exports.importBinaryDefaults = importBinaryDefaults;
-
 const coverage = undefined;
 exports.coverage = coverage;
 
@@ -195,30 +170,8 @@ exports.coverageSettings = coverageSettings;
 const waitForFileWrite = false;
 exports.waitForFileWrite = waitForFileWrite;
 
-const transpileModuleDefaults = {
-    babel: require("babel-core"),
-
-    logger,
-    logLevel,
-
-    babelOptions,
-    dataOptions: getDataOptions(mainEntrySourcePath),
-    pathOptions: getPathOptions(mainEntrySourcePath),
-
-    temporaryCache,
-
-    coverage,
-    coverageSettings,
-
-    waitForFileWrite
-};
-exports.transpileModuleDefaults = transpileModuleDefaults;
-
 const writeDelay = 200;
 exports.writeDelay = writeDelay;
-
-const jspmPackage = "react";
-exports.jspmPackage = jspmPackage;
 
 const temporaryPackageJSON = path.join(exampleDir, "tmp.json");
 exports.temporaryPackageJSON = temporaryPackageJSON;

@@ -1,8 +1,6 @@
 const chalk = require("chalk");
 
 module.exports = function getMorganOptions(logLevel, serverSettings) {
-    "use strict";
-
     let skip = null;
     let logger, env;
 
@@ -23,21 +21,20 @@ module.exports = function getMorganOptions(logLevel, serverSettings) {
             break;
 
         case 3:
-            skip = (req, res) => !req.url.startsWith("/public") || res.statusCode >= 400;
+            skip = (req, res) =>
+                !req.url.startsWith("/public") || res.statusCode >= 400;
             break;
     }
 
     let graylogData;
 
     const graylog = (req, res) => {
-        "use strict";
-
         if (logger && env) {
             graylogData = {
-                "HTTP_host": req.headers.host,
-                "HTTP_method": req.method,
-                "HTTP_response_code": res.statusCode,
-                "HTTP_URI": req.url
+                HTTP_host: req.headers.host,
+                HTTP_method: req.method,
+                HTTP_response_code: res.statusCode,
+                HTTP_URI: req.url
             };
         }
 
@@ -47,9 +44,7 @@ module.exports = function getMorganOptions(logLevel, serverSettings) {
     return {
         skip: graylog,
         stream: {
-            write: (data) => {
-                "use strict";
-
+            write: data => {
                 if (logger && env) {
                     logger.debug(chalk.stripColor(data), graylogData);
                 }

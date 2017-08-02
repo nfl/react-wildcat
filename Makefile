@@ -6,7 +6,6 @@ export BABEL_ENV = test
 
 bootstrap:
 	yarn install
-	jspm install --log warn -y
 	node ./shell/install.js
 	yarn link --force react-wildcat-prefetch
 
@@ -20,13 +19,13 @@ clean-coverage:
 combine-coverage:
 	./shell/combine-coverage.sh
 
-install: clean bootstrap install-example test-cov test-example
+install: bootstrap install-example test-cov test-example
 
 install-example:
 	node ./shell/install-example.js
 
 lint:
-	node node_modules/.bin/eslint packages/* --ext .js --cache true
+	node node_modules/.bin/eslint packages/* --ext .js --cache --cache-location .cache/.eslintcache --fix
 
 publish: lint
 	./shell/publish.sh
@@ -34,13 +33,16 @@ publish: lint
 test-example:
 	./shell/test-example.sh
 
-test-browser:
-	./shell/test-browser.sh
+test-jest-browser:
+	./shell/test-jest-browser.sh
 
-test-node:
-	./shell/test-node.sh
+test-jest-node:
+	./shell/test-jest-node.sh
 
-test-cov: clean-coverage test-node test-browser combine-coverage
+test-karma-node:
+	./shell/test-karma-node.sh
+
+test-cov: clean-coverage test-karma-node test-jest-node test-jest-browser combine-coverage
 
 test-travis: bootstrap install-example lint test-cov
 

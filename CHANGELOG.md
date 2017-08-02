@@ -1,3 +1,109 @@
+<a name="7.4.0"></a>
+# [7.4.0](https://github.com/nfl/react-wildcat/compare/7.3.0...7.4.0) (2017-07-10)
+
+
+### Bug Fixes
+
+* **react-wildcat:** pass response data to page handler ([c077a09](https://github.com/nfl/react-wildcat/commit/c077a09))
+* Update tests ([92d460e](https://github.com/nfl/react-wildcat/commit/92d460e))
+* **react-wildcat-handoff:** Pass response into simple template ([67b61de](https://github.com/nfl/react-wildcat/commit/67b61de))
+
+
+### Features
+
+* **react-wildcat-handoff:** Pass server request / response data to React as context ([c7eb782](https://github.com/nfl/react-wildcat/commit/c7eb782))
+
+
+
+<a name="7.3.0"></a>
+## [7.3.0](https://github.com/nfl/react-wildcat/compare/7.2.1...7.3.0) (2017-05-19)
+
+
+### Features
+
+* **handoff:** React components can be configured to return an http 404 status ([349ee8a](https://github.com/nfl/react-wildcat/commit/349ee8a))
+
+
+
+<a name="7.2.1"></a>
+## [7.2.1](https://github.com/nfl/react-wildcat/compare/7.1.1...7.2.1) (2017-05-12)
+
+
+### Bug Fixes
+
+* **react-wildcat-prefetch:** Add static method to override initial data key ([#205](https://github.com/nfl/react-wildcat/issues/205)) ([6f60448](https://github.com/nfl/react-wildcat/commit/6f60448))
+
+
+
+<a name="7.0.1"></a>
+## [7.0.1](https://github.com/nfl/react-wildcat/compare/7.1.1...7.0.1) (2017-05-11)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** getHtmlNotFoundTemplate now expects a function not a string ([4ee3345](https://github.com/nfl/react-wildcat/commit/4ee3345))
+* **react-wildcat-prefetch:** Add static method to override initial data key ([#205](https://github.com/nfl/react-wildcat/issues/205)) ([6f60448](https://github.com/nfl/react-wildcat/commit/6f60448))
+
+
+
+<a name="7.2.0"></a>
+# [7.2.0](https://github.com/nfl/react-wildcat/compare/7.1.1...7.2.0) (2017-05-11)
+
+
+### Bug Fixes
+
+* **react-wildcat-prefetch:** Add static method to override initial data key ([291787c](https://github.com/nfl/react-wildcat/commit/291787c))
+
+
+### Features
+
+* **react-wildcat-handoff:** Custom 404 Error template support. ([77f3497](https://github.com/nfl/react-wildcat/commit/77f3497))
+
+
+
+<a name="7.1.1"></a>
+## [7.1.1](https://github.com/nfl/react-wildcat/compare/7.1.0...7.1.1) (2017-05-09)
+
+
+### Bug Fixes
+
+* **react-wildcat-prefetch:** Support custom initial data keys. ([9baead8](https://github.com/nfl/react-wildcat/commit/9baead8))
+
+
+
+<a name="7.0.1"></a>
+# [7.0.1](https://github.com/nfl/react-wildcat/compare/7.0.0...v7.0.1) (2017-04-10)
+
+
+### Bug Fixes
+
+* **react-wildcat:** Remove uws dependency
+
+<a name="7.0.0"></a>
+# [7.0.0](https://github.com/nfl/react-wildcat/compare/6.2.0...7.0.0) (2017-04-10)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Fix domain resolution bug ([#188](https://github.com/nfl/react-wildcat/issues/188)) ([c331a13](https://github.com/nfl/react-wildcat/commit/c331a13))
+
+
+### Features
+
+* Webpack 2 ([#194](https://github.com/nfl/react-wildcat/issues/194)) ([92a7000](https://github.com/nfl/react-wildcat/commit/92a7000))
+
+
+
+<a name="6.2.1"></a>
+# [6.2.1](https://github.com/nfl/react-wildcat/compare/6.2.0...v6.2.1) (2017-02-14)
+
+
+### Bug Fixes
+
+* **react-wildcat-handoff:** Fix domain resolution bug ([#188](https://github.com/nfl/react-wildcat/issues/188)) ([c331a13](https://github.com/nfl/react-wildcat/commit/c331a13))
+
+
+
 <a name="6.2.0"></a>
 # [6.2.0](https://github.com/nfl/react-wildcat/compare/6.1.0...v6.2.0) (2017-01-18)
 

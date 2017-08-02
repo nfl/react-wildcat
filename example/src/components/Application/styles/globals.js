@@ -22,7 +22,4 @@ const mediaQueries = {
     largeDesktop: "@media (min-width: 1200px)"
 };
 
-export {
-    globals,
-    mediaQueries
-};
+export {globals, mediaQueries};

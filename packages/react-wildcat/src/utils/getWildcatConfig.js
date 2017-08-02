@@ -4,7 +4,7 @@ module.exports = function getWildcatConfig(cwd = process.cwd()) {
     const path = require("path");
     const merge = require("deepmerge");
 
-    const defaultConfig = require("./templates/wildcat.config.js");
+    const defaultConfig = require("../config/wildcat.config.js");
     const projectConfigFile = path.join(cwd, "wildcat.config.js");
 
     let wildcatConfig = defaultConfig;
@@ -21,20 +21,29 @@ module.exports = function getWildcatConfig(cwd = process.cwd()) {
     } = wildcatConfig;
 
     // Add some convenience aliases
-    wildcatConfig = merge({
-        generalSettings: {
-            originUrl: url.format({
-                protocol: appServerSettings.protocol.replace("http2", "https"),
-                hostname: appServerSettings.hostname,
-                port: appServerSettings.port
-            }),
-            staticUrl: url.format({
-                protocol: staticServerSettings.protocol.replace("http2", "https"),
-                hostname: staticServerSettings.hostname,
-                port: staticServerSettings.port
-            })
-        }
-    }, wildcatConfig);
+    wildcatConfig = merge(
+        {
+            generalSettings: {
+                originUrl: url.format({
+                    protocol: appServerSettings.protocol.replace(
+                        "http2",
+                        "https"
+                    ),
+                    hostname: appServerSettings.hostname,
+                    port: appServerSettings.port
+                }),
+                staticUrl: url.format({
+                    protocol: staticServerSettings.protocol.replace(
+                        "http2",
+                        "https"
+                    ),
+                    hostname: staticServerSettings.hostname,
+                    port: staticServerSettings.port
+                })
+            }
+        },
+        wildcatConfig
+    );
 
     return wildcatConfig;
 };

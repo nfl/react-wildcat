@@ -1,4 +1,4 @@
-import {sleepUntilReactAvailable} from "src/test/e2e/utils/index.js";
+import {sleepUntilReactAvailable} from "test/e2e/utils/index.js";
 
 const {maxTimeout, originUrl} = browser.params;
 
@@ -34,9 +34,7 @@ class IndexPageObject {
         return Promise.all([
             sleepUntilReactAvailable(),
             browser.wait(
-                protractor.ExpectedConditions.visibilityOf(
-                    this[dom].container
-                ),
+                protractor.ExpectedConditions.visibilityOf(this[dom].container),
                 maxTimeout
             )
         ]);

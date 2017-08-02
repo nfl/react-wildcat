@@ -1,0 +1,12 @@
+{
+    "collectCoverage": true,
+    "collectCoverageFrom": ["/packages"],
+    "coverageDirectory": "coverage/jest-node",
+    "coverageReporters": ["json"],
+    "setupFiles": [
+      "./test/setupJest.js"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg)$": "<rootDir>/test/mocks/fileMock.js"
+    }
+  }

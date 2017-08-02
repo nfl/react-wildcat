@@ -1,4 +1,6 @@
+/*  eslint-disable indent */
 import React from "react";
+import PropTypes from "prop-types";
 import Helmet from "react-helmet";
 import prefetch from "react-wildcat-prefetch";
 import {nflCDN} from "application.config.js";
@@ -6,7 +8,7 @@ import {nflCDN} from "application.config.js";
 @prefetch(`${nflCDN}/config/anthology/superbowls/superbowls.json`)
 class PrefetchExample extends React.Component {
     static propTypes = {
-        asyncData: React.PropTypes.object.isRequired
+        asyncData: PropTypes.object.isRequired
     };
 
     static defaultProps = {
@@ -24,7 +26,7 @@ class PrefetchExample extends React.Component {
 
                 <h1>Super Bowl Data</h1>
 
-                {superBowls && (
+                {superBowls &&
                     <table>
                         <thead>
                             <tr>
@@ -34,20 +36,25 @@ class PrefetchExample extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {superBowls.map((superBowl) => {
+                            {superBowls.map(superBowl => {
                                 const [team1, team2] = superBowl.teams;
 
                                 return (
                                     <tr key={superBowl.year}>
-                                        <th scope="row">{superBowl.year}</th>
-                                        <td>{superBowl.romanNumeral}</td>
-                                        <td scope="row">{`${team1.location} ${team1.name} vs ${team2.location} ${team2.name}`}</td>
+                                        <th scope="row">
+                                            {superBowl.year}
+                                        </th>
+                                        <td>
+                                            {superBowl.romanNumeral}
+                                        </td>
+                                        <td>
+                                            {" "}{`${team1.location} ${team1.name} vs ${team2.location} ${team2.name}`}{" "}
+                                        </td>
                                     </tr>
                                 );
                             })}
                         </tbody>
-                    </table>
-                )}
+                    </table>}
             </div>
         );
     }

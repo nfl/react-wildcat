@@ -22,14 +22,13 @@ Add more documentation. So much to document...
     - Short and sweet time-to-dev (see [Getting Started](#getting-started) below)
     - Babel for on-the-fly component transpilation
     - react-transform-hmr for hot component reloading
-    - jspm + SystemJS for client-side module resolving
     - Karma + Mocha + Chai + Sinon for unit tests
     - Istanbul for code coverage
     - Protractor + Mocha + Chai for e2e integration tests
     - eslint for static code analysis
 - **client**
     - React 0.14 + React Router 1.0 on the cilent and server
-    - Route-based lazy component loading with React Router + jspm
+    - Route-based lazy component loading with React Router + Webpack
     - Radium for inline styling
     - Helmet for managing your document head
     - React Metrics for tracking analytics
@@ -42,23 +41,14 @@ Add more documentation. So much to document...
 
 ## Server Requirements
 
-- Node v4.x (install via ([n](https://github.com/tj/n)): `n 4.x`)
+- Node 6.x (install via ([n](https://github.com/tj/n)): `n 6.x`)
 - npm v3.x (`npm install -g npm`)
-- jspm v0.16.x (`npm install -g jspm`)
 
 ## Client Requirements
 
 - IE10+
 
 ## Development environment
-
-### First time jspm users
-
-For first-time jspm users, you will need to configure it to use GitHub:
-
-- `jspm registry config github`
-
-Follow the steps to enable GitHub access.
 
 ### Getting started: docker development
 Clone this repository.
@@ -136,14 +126,12 @@ Your app server environment must contain the following files and directories:
 
 ```
 package.json
-system.config.js
 wildcat.config.js
 ```
 
 ```shell
 cd path/to/project
 npm install --production
-jspm install
 env PORT=80 STATIC_URL=https://static.example.com npm run prod
 ```
 
@@ -157,9 +145,7 @@ Your static server environment must contain the following files and directories:
 bin
 bundles
 favicon.ico
-jspm_packages
 public
-system.config.js
 ```
 
 Follow step one below to implement your own custom server, or skip to step 2 to use the bundled static asset server.
@@ -171,7 +157,6 @@ You will need to precompile the static assets:
 ```shell
 cd path/to/project
 npm install --production
-jspm install
 env STATIC_URL=https://static.example.com npm run preprod-static
 ```
 
@@ -180,7 +165,6 @@ env STATIC_URL=https://static.example.com npm run preprod-static
 ```shell
 cd path/to/project
 npm install --production
-jspm install
 env STATIC_URL=https://static.example.com npm run prod-static
 ```
 

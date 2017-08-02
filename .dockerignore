@@ -2,5 +2,7 @@
 .idea
 *.gz
 public/
-node_modules/
-jspm_packages/
+**/node_modules/
+**/coverage/
+**/bundles
+**/.cache

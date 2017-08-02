@@ -3,12 +3,14 @@ const GoogleAnalytics = function GoogleAnalyticsStub(config) {
 };
 
 const metricsConfig = {
-    vendors: [{
-        name: "Google Analytics",
-        api: new GoogleAnalytics({
-            trackingId: "UA-********-*"
-        })
-    }],
+    vendors: [
+        {
+            name: "Google Analytics",
+            api: new GoogleAnalytics({
+                trackingId: "UA-********-*"
+            })
+        }
+    ],
     pageViewEvent: "pageLoad",
     pageDefaults: () => {
         return {

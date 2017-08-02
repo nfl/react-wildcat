@@ -1,5 +1,6 @@
 import React from "react";
 import {shallow} from "enzyme";
+import {expect} from "chai";
 
 import HelmetExample from "../HelmetExample.js";
 import * as helmetExampleRoutes from "../routes.js";
@@ -11,35 +12,30 @@ describe("Helmet Example", () => {
         expect(HelmetExample).to.exist;
     });
 
-    context("render", () => {
+    describe("render", () => {
         it("renders correctly", () => {
-            const helmetExample = shallow(
-                <HelmetExample />
-            );
+            const helmetExample = shallow(<HelmetExample />);
 
             expect(helmetExample).to.exist;
         });
 
         it("renders #helmet element", () => {
-            const helmetExample = shallow(
-                <HelmetExample />
-            );
+            const helmetExample = shallow(<HelmetExample />);
 
-            expect(helmetExample.find(`#helmet`))
-                .to.have.length.of(1);
+            expect(helmetExample.find(`#helmet`)).to.have.length.of(1);
         });
     });
 
-    context("routes", () => {
+    describe("routes", () => {
         it("has a defined path", () => {
             expect(helmetExampleRoutes).to.exist;
-            expect(helmetExampleRoutes)
-                .to.have.property("path")
+            expect(helmetExampleRoutes).to.have
+                .property("path")
                 .that.is.a("string")
                 .that.equals(helmetExamplePath);
         });
 
-        it("asynchronously fetches component", (done) => {
+        it("asynchronously fetches component", done => {
             expect(helmetExampleRoutes).to.exist;
             expect(helmetExampleRoutes).to.respondTo("getComponent");
 
@@ -55,4 +51,3 @@ describe("Helmet Example", () => {
         });
     });
 });
-

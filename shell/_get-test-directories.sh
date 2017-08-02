@@ -4,7 +4,7 @@ set -e
 
 TEST_DIRS=""
 
-for f in packages/*; do
+for f in packages/react-wildcat; do
   if [ -n "$TEST_ONLY" ] && [ `basename $f` != "$TEST_ONLY" ]; then
     continue
   fi
@@ -13,9 +13,5 @@ for f in packages/*; do
     TEST_DIRS="$PWD/$f/test $TEST_DIRS"
   fi
 done
-
-# Add CLI tests
-CLI_DIR="packages/react-wildcat/cli"
-TEST_DIRS="$PWD/$CLI_DIR/test $TEST_DIRS"
 
 echo $TEST_DIRS

@@ -10,7 +10,10 @@ import writeCoverageResults from "./utils/writeCoverageResults.js";
 const cwd = process.cwd();
 
 const wildcatConfig = require(path.join(cwd, "wildcat.config.js"));
-const webdriverBin = path.join(cwd, "node_modules/protractor/bin/webdriver-manager");
+const webdriverBin = path.join(
+    cwd,
+    "node_modules/protractor/bin/webdriver-manager"
+);
 
 const generalSettings = wildcatConfig.generalSettings;
 const coverageSettings = generalSettings.coverageSettings;
@@ -47,19 +50,11 @@ export default (async () => {
         let promises = [];
 
         if (shouldStartLocalServer) {
-            promises = [
-                ...promises,
-                startLocalServer()
-            ];
+            promises = [...promises, startLocalServer()];
         }
 
         if (shouldStartStaticServer) {
-            promises = [
-                ...promises,
-                startStaticServer({
-                    clean: false
-                })
-            ];
+            promises = [...promises, startStaticServer()];
         }
 
         if (coverage) {
