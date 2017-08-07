@@ -10,9 +10,11 @@
     "devDependencies": {
         "babel-core": "^6.22.1",
         "babel-eslint": "^7.0.0",
+        "babel-jest": "^20.0.3",
         "babel-loader": "^6.2.10",
         "babel-plugin-add-module-exports": "^0.2.1",
-        "babel-plugin-istanbul": "^3.1.2",
+        "babel-plugin-dynamic-import-node": "^1.0.2",
+        "babel-plugin-istanbul": "^4.1.4",
         "babel-plugin-module-resolver": "^2.5.0",
         "babel-plugin-react-transform": "^2.0.2",
         "babel-plugin-syntax-dynamic-import": "^6.18.0",
@@ -49,6 +51,7 @@
         "estraverse-fb": "^1.3.1",
         "isomorphic-fetch": "^2.2.1",
         "istanbul": "https://github.com/nfl/istanbul/tarball/0.4.5/combine-coverage",
+        "jest": "^20.0.4",
         "karma": "^1.3.0",
         "karma-chrome-launcher": "^2.0.0",
         "karma-coverage": "^1.0.0",
@@ -74,11 +77,13 @@
         "shelljs": "^0.7.0",
         "sinon": "^2.0.0-pre.5",
         "sinon-chai": "^2.8.0",
-        "webpack": "^2.2.1",
+        "webpack": "^2.6.1",
         "whatwg-fetch": "^2.0.0"
     },
     "scripts": {
-        "changelog": "conventional-changelog -k packages/react-wildcat/package.json -p angular -i CHANGELOG.md -s"
+        "changelog": "conventional-changelog -k packages/react-wildcat/package.json -p angular -i CHANGELOG.md -s",
+        "test:node": "env BABEL_ENV=test jest --env=node jest test/node.test.js --config .jestrc.node.json",
+        "test:browser": "env BABEL_ENV=test jest test/browser.test.js --config .jestrc.browser.json"
     },
     "config": {
         "commitizen": {

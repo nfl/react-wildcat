@@ -1,6 +1,6 @@
 # verbose: true
 instrumentation:
-  root: ./packages
+  root: ./packages/react-wildcat
   excludes:
     - "**/node_modules/**"
     - "**/reports/**"
