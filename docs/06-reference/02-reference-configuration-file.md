@@ -1,12 +1,10 @@
 ## Reference configuration
 
-Configuration information for a wildcat project lives in a `wildcat.config.js` in the project's root directory. Everything is configurable, but by default wildcat loads [sensible defaults](https://github.com/nfl/react-wildcat/blob/master/packages/react-wildcat-handoff/src/utils/defaultTemplate.js). For a brand new project, we reccomend copying the [example project](https://github.com/nfl/react-wildcat/tree/master/example) and tweaking from there.
+Configuration information for a wildcat project lives in a `wildcat.config.js` in the project's root directory. Everything is configurable, but by default wildcat loads [sensible defaults](https://github.com/nfl/react-wildcat/blob/master/packages/react-wildcat-handoff/src/utils/defaultTemplate.js). For a brand new project, we recommend copying the [example project](https://github.com/nfl/react-wildcat/tree/master/example) and tweaking from there.
 
 ```js
 const wildcatConfig = {
     generalSettings: {
-        // Config file for jspm. Defaults to the value defined in package.json
-        jspmConfigFile: "config.js",
 
         // Optional. Set the static url. By default this is determined
         // automatically by Wildcat
@@ -48,7 +46,7 @@ const wildcatConfig = {
                 },
 
                 reporting: {
-                    // Directoryto write unit test coverage results
+                    // Directory to write unit test coverage results
                     dir: "coverage/unit",
                     // Coverage format
                     reports: ["lcov", "html"]
@@ -86,7 +84,7 @@ const wildcatConfig = {
 
     serverSettings: {
         // Path to the entry config file relative to the project root
-        entry: "public/main.js",
+        entry: "public/server.js",
 
         // Path to the server renderer. This can be a jspm package or a relative path
         renderHandler: "react-wildcat-handoff/server",

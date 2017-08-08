@@ -45,4 +45,5 @@
 - Reference
     - [Example Project](docs/06-reference/01-example-project.md)
     - [Reference Configuration File](docs/06-reference/02-reference-configuration-file.md)
-    - [FAQ](docs/06-reference/03-faq.md)
+    - [Environment Variables](docs/06-reference/03-environment-variables.md)
+    - [FAQ](docs/06-reference/04-faq.md)
