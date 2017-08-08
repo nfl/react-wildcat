@@ -1,27 +1,21 @@
 # Wildcat
 
 - Setup
-    - [Goals](docs/01-setup/goals.md)
-    - [Requirements](docs/01-setup/requirements.md)
-        - Server Requirements
-        - Client Requirements
+    - [Goals](docs/01-setup/01-goals.md)
+    - [Requirements](docs/01-setup/02-requirements.md)
     - [Getting Started](docs/01-setup/03-getting-started.md)
 
 - Core Dependencies
     - [First-party](docs/02-dependencies/01-first-party.md)
-        - react-wildcat
-        - react-wildcat-handoff
-        - react-wildcat-prefetch
-        - react-wildcat-test-runners
+        - [react-wildcat](packages/react-wildcat/README.md)
+        - [react-wildcat-handoff](packages/react-wildcat-handoff/README.md)
+        - [react-wildcat-prefetch](packages/react-wildcat-prefetch/README.md)
+        - [react-wildcat-test-runners](packages/react-wildcat-test-runners/README.md)
 
 - Environments
     - [Development](docs/03-environments/01-development.md)
-        - Hot Reloading
     - [Production](docs/03-environments/02-production.md)
-        - Deployment Workflow
     - [Test](docs/03-environments/03-test.md)
-        - Unit Testing
-        - End-to-End Testing
 
 - CLI Tools
     - [wildcat](docs/04-cli-tools/01-wildcat.md)
