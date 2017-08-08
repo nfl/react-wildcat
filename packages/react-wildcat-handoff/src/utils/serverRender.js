@@ -9,7 +9,7 @@ const defaultTemplate = require("./defaultTemplate.js");
 const match = Router.match;
 
 module.exports = function serverRender(cfg) {
-    const {headers, request, wildcatConfig} = cfg;
+    const {headers, request, response, wildcatConfig} = cfg;
 
     return new Promise(function serverRenderPromise(resolve, reject) {
         match(
@@ -59,7 +59,13 @@ module.exports = function serverRender(cfg) {
                                 let key = component.prefetch.getKey();
 
                                 return component.prefetch
-                                    .run(renderProps)
+                                    .run(
+                                        Object.assign({}, renderProps, {
+                                            request,
+                                            response,
+                                            headers
+                                        })
+                                    )
                                     .then(function renderPropsPrefetchResult(
                                         props
                                     ) {
