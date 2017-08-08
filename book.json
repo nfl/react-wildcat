@@ -1,10 +1,6 @@
 {
-    "gitbook": "^2.0.0",
+    "gitbook": "^3.0.0",
     "title": "Wildcat Documentation",
     "description": "Documentation for react-wildcat, an opinionated React environment from the National Football League.",
-    "language": "en",
-    "structure": {
-        "readme": "docs/README.md",
-        "summary": "docs/SUMMARY.md"
-    }
+    "language": "en"
 }
