@@ -5,21 +5,14 @@
     - [Requirements](docs/01-setup/requirements.md)
         - Server Requirements
         - Client Requirements
-        - First-time jspm Users
     - [Getting Started](docs/01-setup/03-getting-started.md)
 
 - Core Dependencies
     - [First-party](docs/02-dependencies/01-first-party.md)
         - react-wildcat
-        - react-wildcat-ensure
         - react-wildcat-handoff
-        - react-wildcat-hot-reloader
         - react-wildcat-prefetch
         - react-wildcat-test-runners
-    - [Third-party](docs/02-dependencies/02-third-party.md)
-        - jspm
-        - React
-        - React Router
 
 - Environments
     - [Development](docs/03-environments/01-development.md)
@@ -44,6 +37,3 @@
 
 - Reference
     - [Example Project](docs/06-reference/01-example-project.md)
-    - [Reference Configuration File](docs/06-reference/02-reference-configuration-file.md)
-    - [Environment Variables](docs/06-reference/03-environment-variables.md)
-    - [FAQ](docs/06-reference/04-faq.md)

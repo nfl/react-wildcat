@@ -29,7 +29,6 @@ wildcat.config.js
 ```shell
 cd path/to/project
 npm install --production
-jspm install
 env PORT=80 STATIC_URL=https://static.example.com npm run prod
 ```
 
@@ -43,7 +42,6 @@ Your static server environment must contain the following files and directories:
 bin
 bundles
 favicon.ico
-jspm_packages
 public
 system.config.js
 ```
@@ -57,7 +55,6 @@ You will need to precompile the static assets:
 ```shell
 cd path/to/project
 npm install --production
-jspm install
 env STATIC_URL=https://static.example.com npm run preprod-static
 ```
 
@@ -66,6 +63,5 @@ env STATIC_URL=https://static.example.com npm run preprod-static
 ```shell
 cd path/to/project
 npm install --production
-jspm install
 env STATIC_URL=https://static.example.com npm run prod-static
 ```
