@@ -2671,7 +2671,7 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
-fbjs@^0.8.4, fbjs@^0.8.9:
+fbjs@^0.8.9:
   version "0.8.14"
   resolved "https://registry.npmjs.org/fbjs/-/fbjs-0.8.14.tgz#d1dbe2be254c35a91e09f31f9cd50a40b2a0ed1c"
   dependencies:
@@ -3131,9 +3131,9 @@ hoek@2.x.x:
   version "2.16.3"
   resolved "https://registry.npmjs.org/hoek/-/hoek-2.16.3.tgz#20bb7403d3cea398e91dc4710a8ff1b8274a25ed"
 
-hoist-non-react-statics@^1.0.5:
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
+hoist-non-react-statics@^2.2.0:
+  version "2.2.2"
+  resolved "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-2.2.2.tgz#c0eca5a7d5a28c5ada3107eb763b01da6bfa81fb"
 
 home-or-tmp@^2.0.0:
   version "2.0.0"
@@ -5238,23 +5238,15 @@ react-dom@^15.6.0:
     object-assign "^4.1.0"
     prop-types "^15.5.10"
 
-react-wildcat-prefetch@^7.4.0:
-  version "7.4.0"
-  resolved "https://registry.npmjs.org/react-wildcat-prefetch/-/react-wildcat-prefetch-7.4.0.tgz#1d73bab5074c2be79f7bac72fa9f7570fac78fbf"
+react-wildcat-prefetch@^7.6.0:
+  version "7.6.0"
+  resolved "https://registry.npmjs.org/react-wildcat-prefetch/-/react-wildcat-prefetch-7.6.0.tgz#706010ed201564a21c24e94f1ad0e35030d7ff2c"
   dependencies:
     exenv "^1.2.1"
-    hoist-non-react-statics "^1.0.5"
+    hoist-non-react-statics "^2.2.0"
     invariant "^2.2.1"
     prop-types "^15.5.10"
-    react "15.4.2"
-
-react@15.4.2:
-  version "15.4.2"
-  resolved "https://registry.npmjs.org/react/-/react-15.4.2.tgz#41f7991b26185392ba9bae96c8889e7e018397ef"
-  dependencies:
-    fbjs "^0.8.4"
-    loose-envify "^1.1.0"
-    object-assign "^4.1.0"
+    react "^15.6.0"
 
 react@^15.6.0:
   version "15.6.1"
