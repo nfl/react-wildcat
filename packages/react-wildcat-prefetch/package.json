@@ -5,15 +5,15 @@
   "main": "lib/index.js",
   "dependencies": {
     "exenv": "^1.2.1",
-    "hoist-non-react-statics": "^1.0.5",
+    "hoist-non-react-statics": "^2.2.0",
     "invariant": "^2.2.1",
     "prop-types": "^15.5.10",
-    "react": "15.4.2"
+    "react": "^15.6.0"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
     "create-react-class": "^15.5.3",
-    "react-dom": "15.4.2",
+    "react-dom": "^15.6.0",
     "rimraf": "^2.5.2"
   },
   "scripts": {
