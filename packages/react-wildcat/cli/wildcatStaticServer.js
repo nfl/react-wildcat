@@ -16,7 +16,8 @@ function killAllChildProcesses(signal) {
 
 program.version(pkg.version).parse(process.argv);
 
-const server = cp.spawn("node", [path.resolve(__dirname, "../staticServer")], {
+const args = program.args.concat(path.resolve(__dirname, "../staticServer"));
+const server = cp.spawn("node", args, {
     stdio: "inherit"
 });
 
