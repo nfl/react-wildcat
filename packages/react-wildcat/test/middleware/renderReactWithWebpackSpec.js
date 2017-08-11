@@ -140,7 +140,8 @@ module.exports = stubs => {
                                     status: null,
                                     type: "text/html",
                                     lastModified: null
-                                }
+                                },
+                                state: ""
                             });
                         })
                             .then(result => {
@@ -190,7 +191,8 @@ module.exports = stubs => {
                                 status: null,
                                 type: "text/html",
                                 lastModified: null
-                            }
+                            },
+                            state: ""
                         });
                     })
                         .then(result => {
@@ -245,7 +247,8 @@ module.exports = stubs => {
                                 status: null,
                                 type: "text/html",
                                 lastModified: null
-                            }
+                            },
+                            state: ""
                         });
                     })
                         .then(result => {
@@ -297,7 +300,8 @@ module.exports = stubs => {
                         status: null,
                         type: "text/html",
                         lastModified: null
-                    }
+                    },
+                    state: ""
                 });
             })
                 .then(result => {

@@ -4,6 +4,7 @@ module.exports = function renderReactWithWebpack(root, options) {
     const blueBoxOfDeath = require("../utils/blueBoxOfDeath");
     const Convert = require("ansi-to-html");
     const convert = new Convert();
+    const StackTraceParser = require("stacktrace-parser");
 
     const {logger, wildcatConfig} = options;
 
@@ -17,6 +18,14 @@ module.exports = function renderReactWithWebpack(root, options) {
         logger,
         webpackDevSettings
     });
+
+    function buildEditorLauncherParams(err) {
+        const parsedStackTrace = StackTraceParser.parse(err.stack);
+        return {
+            file: parsedStackTrace[0].file,
+            lineNumber: parsedStackTrace[0].lineNumber
+        };
+    }
 
     function pageHandler(request, response, cookies) {
         return new Promise((resolve, reject) => {
@@ -52,6 +61,7 @@ module.exports = function renderReactWithWebpack(root, options) {
 
             if (displayBlueBoxOfDeath) {
                 return {
+                    reactErrorOverlay: buildEditorLauncherParams(err),
                     error: blueBoxOfDeath(err, request, response),
                     status: 500
                 };
@@ -73,6 +83,8 @@ module.exports = function renderReactWithWebpack(root, options) {
         const reply = yield pageHandler(request, response, cookies);
 
         this.status = reply.status;
+
+        this.state.reactErrorOverlay = reply.reactErrorOverlay;
 
         if (reply.redirect === true) {
             const {redirectLocation} = reply;
