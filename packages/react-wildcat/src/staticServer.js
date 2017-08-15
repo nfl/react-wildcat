@@ -20,6 +20,8 @@ require("./utils/customMorganTokens")(morgan, "☁️");
 const Logger = require("./utils/logger");
 const logger = new Logger("☁️");
 
+const reactErrorOverlayEditorLauncher = require("./middleware/reactErrorOverlayEditorLauncher.js");
+
 let server;
 
 function start() {
@@ -156,6 +158,8 @@ function start() {
                 app.use(webpackDevMiddleware(compiler, devMiddleware));
                 app.use(webpackHotMiddleware(compiler, hotMiddleware));
             }
+
+            app.use(reactErrorOverlayEditorLauncher());
 
             // serve statics
             app.use(fileServer);

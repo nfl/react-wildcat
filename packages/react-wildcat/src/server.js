@@ -22,6 +22,7 @@ const Logger = require("./utils/logger");
 const logger = new Logger("🏈");
 
 const renderReactWithWebpack = require("./middleware/renderReactWithWebpack");
+const reactErrorOverlayEditorLauncher = require("./middleware/reactErrorOverlayEditorLauncher.js");
 
 let server;
 
@@ -162,6 +163,8 @@ Middleware at serverSettings.appServer.middleware[${index}] could not be correcl
                     }
                 );
             }
+
+            app.use(reactErrorOverlayEditorLauncher());
 
             app.use(
                 renderReactWithWebpack(cwd, {
