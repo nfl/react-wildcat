@@ -1,0 +1,6 @@
+{
+    "gitbook": "^3.0.0",
+    "title": "Wildcat Documentation",
+    "description": "Documentation for react-wildcat, an opinionated React environment from the National Football League.",
+    "language": "en"
+}
