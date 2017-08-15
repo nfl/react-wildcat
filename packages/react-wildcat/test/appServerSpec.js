@@ -35,6 +35,7 @@ describe("appServer", () => {
 
     context("middleware", () => {
         require("./middleware/renderReactWithWebpackSpec.js")(stubs);
+        require("./middleware/reactErrorOverlayEditorLauncherSpec.js")();
     });
 
     context("app server", () => {

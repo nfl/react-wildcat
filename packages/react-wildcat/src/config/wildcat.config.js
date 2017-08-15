@@ -143,7 +143,11 @@ const wildcatConfig = {
                 //         this.body = "Hello from the server world!";
                 //     }));
                 // }
-                require("../middleware/reactErrorOverlayEditorLauncher.js")
+                function(app) {
+                    app.use(
+                        require("../middleware/reactErrorOverlayEditorLauncher.js")()
+                    );
+                }
             ],
 
             // A key/value of urls to proxy

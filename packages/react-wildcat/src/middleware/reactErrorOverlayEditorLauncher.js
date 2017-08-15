@@ -1,7 +1,7 @@
 const launchEditor = require("react-dev-utils/launchEditor");
 
-module.exports = function(app) {
-    const reactErrorOverlayEditorLauncher = function*(next) {
+module.exports = function reactErrorOverlayEditorLauncher() {
+    return function*(next) {
         yield next;
 
         if (this.response.status === 500) {
@@ -11,6 +11,4 @@ module.exports = function(app) {
             );
         }
     };
-
-    app.use(reactErrorOverlayEditorLauncher);
 };
