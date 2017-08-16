@@ -153,7 +153,7 @@ function start() {
 
                 const compiler = webpack(devConfig);
 
-                app.use(webpackDevMiddleware(compiler, devMiddleware));
+                // app.use(webpackDevMiddleware(compiler, devMiddleware));
                 app.use(webpackHotMiddleware(compiler, hotMiddleware));
             }
 
