@@ -76,8 +76,8 @@
         "sinon-chai": "^2.8.0",
         "sw-precache": "^4.2.1",
         "url-loader": "^0.5.7",
-        "webpack": "^2.2.1",
-        "webpack-hot-middleware": "^2.16.1",
+        "webpack": "^3.5.5",
+        "webpack-hot-middleware": "^2.18.2",
         "webpack-node-externals": "^1.5.4",
         "webpack-visualizer-plugin": "^0.1.10"
     },
