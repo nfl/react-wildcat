@@ -91,15 +91,17 @@ function getDomainDataFromHost(host, domains) {
         tld: undefined
     };
 
-    var resolvedDomain = mapDomainToAlias(url.domain, domains.domainAliases);
-    var resolvedSubdomain = url.subdomain
-        ? mapSubdomainToAlias(host, domains.domainAliases)
-        : null;
+    // var resolvedDomain = mapDomainToAlias(url.domain, domains.domainAliases);
+    // var resolvedSubdomain = url.subdomain
+    //     ? mapSubdomainToAlias(host, domains.domainAliases)
+    //     : null;
 
-    url = Object.assign({}, url, {
-        domain: resolvedDomain,
-        subdomain: resolvedSubdomain || url.subdomain || defaultSubdomain
-    });
+    // url = Object.assign({}, url, {
+    //     domain: resolvedDomain,
+    //     subdomain: resolvedSubdomain || url.subdomain || defaultSubdomain
+    // });
+
+    // console.log("url: ", url);
 
     return url;
 }
