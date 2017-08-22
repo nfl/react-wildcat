@@ -17,6 +17,63 @@ const domains = {
     }
 };
 
+const testResolveOptions = [
+    {
+        headers: {
+            cookies: {},
+            host: "www.aliastoexternal.com",
+            href: "undefined://www.aliastoexternal.com/",
+            pathname: "/",
+            search: "?",
+            userAgent: "Mozilla/5.0"
+        },
+        subdomain: "test",
+        host: "www.aliastoexternal.com",
+        domainRoutes: {domains: {}}
+    },
+    {
+        headers: {
+            cookies: {},
+            host: "127.0.0.1",
+            href: "undefined://127.0.0.1/",
+            pathname: "/",
+            search: "?",
+            userAgent: "Mozilla/5.0"
+        },
+        subdomain: "www",
+        host: "127.0.0.1",
+        domainRoutes: {
+            domains: {
+                www: {
+                    key: null,
+                    ref: null,
+                    props: {
+                        path: "/",
+                        children: [
+                            {
+                                key: null,
+                                ref: null,
+                                props: {from: "/redirect", to: "/"},
+                                _owner: null,
+                                _store: {}
+                            },
+                            {
+                                key: null,
+                                ref: null,
+                                props: {from: "/context.html", to: "/"},
+                                _owner: null,
+                                _store: {}
+                            }
+                        ]
+                    },
+                    _owner: null,
+                    _store: {}
+                }
+            }
+        }
+    }
+];
+
 const testHosts = [
     {
         host: "www.nfl.com",
@@ -63,7 +120,7 @@ const testHosts = [
 ];
 
 /* eslint-disable max-nested-callbacks */
-describe.only("react-wildcat-handoff/getDomainRoutesTest.js", () => {
+describe("react-wildcat-handoff/getDomainRoutesTest.js", () => {
     describe("getDomainDataFromHost", () => {
         it("returns the right tld, domain and subdomain", done => {
             testHosts.forEach(test => {
@@ -78,12 +135,11 @@ describe.only("react-wildcat-handoff/getDomainRoutesTest.js", () => {
 
     describe("completeGetDomainRoutes", () => {
         it("does stuff", done => {
-            const resolveOptions = {
-                headers: "",
-                domainRoutes: "",
-                subdomain: ""
-            };
-            completeGetDomainRoutes();
+            testResolveOptions.forEach(resolveOptions => {
+                completeGetDomainRoutes(resolveOptions, (foo, bar) => {
+                    console.log(foo, bar);
+                });
+            });
             done();
         });
     });
