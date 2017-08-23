@@ -21,6 +21,22 @@ const testResolveOptions = [
     {
         headers: {
             cookies: {},
+            host: "lions.wildcat.clubs.nfl.com",
+            href: "undefined://lions.wildcat.clubs.nfl.com/",
+            method: undefined,
+            pathname: "/",
+            protocol: undefined,
+            referrer: undefined,
+            search: "?",
+            userAgent: "Mozilla/5.0"
+        },
+        subdomain: "lions.wildcat.clubs",
+        host: "lions.wildcat.clubs.nfl.com",
+        domainRoutes: {domains: {}} // this was null
+    },
+    {
+        headers: {
+            cookies: {},
             host: "www.aliastoexternal.com",
             href: "undefined://www.aliastoexternal.com/",
             pathname: "/",
@@ -85,13 +101,13 @@ const testHosts = [
         host: "nfl.com",
         tld: "com",
         domain: "nfl",
-        subdomain: ""
+        subdomain: "www"
     },
     {
         host: "lions.com",
         tld: "com",
         domain: "lions",
-        subdomain: ""
+        subdomain: "www"
     },
     {
         host: "www.lions.com",
@@ -125,9 +141,10 @@ describe("react-wildcat-handoff/getDomainRoutesTest.js", () => {
         it("returns the right tld, domain and subdomain", done => {
             testHosts.forEach(test => {
                 const result = getDomainDataFromHost(test.host, domains);
-                expect(result.tld === test.tld);
-                expect(result.domain === test.domain);
-                expect(result.subdomain === test.subdomain);
+                console.log("result: ", result, "test:", test);
+                expect(result.tld).to.equal(test.tld);
+                expect(result.domain).to.equal(test.domain);
+                expect(result.subdomain).to.equal(test.subdomain);
             });
             done();
         });
@@ -137,7 +154,7 @@ describe("react-wildcat-handoff/getDomainRoutesTest.js", () => {
         it("does stuff", done => {
             testResolveOptions.forEach(resolveOptions => {
                 completeGetDomainRoutes(resolveOptions, (foo, bar) => {
-                    console.log(foo, bar);
+                    console.log("---- callback:", foo, bar);
                 });
             });
             done();

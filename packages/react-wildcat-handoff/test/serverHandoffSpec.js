@@ -344,7 +344,7 @@ describe("react-wildcat-handoff/server", () => {
                         .that.equals("serverHandoff");
 
                     const result = serverHandoff(
-                        stubs.requests.multiSubdomain,
+                        stubs.requests.multiClubsSubdomain,
                         stubs.response,
                         stubs.cookieParser,
                         stubs.wildcatConfig

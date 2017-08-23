@@ -90,6 +90,14 @@ exports.requests = {
         url: "/"
     },
 
+    multiClubsSubdomain: {
+        header: {
+            host: "lions.wildcat.clubs.nfl.com",
+            "user-agent": exports.stubUserAgent
+        },
+        url: "/"
+    },
+
     noSubdomain: {
         header: {
             host: "example.com",

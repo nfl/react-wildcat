@@ -124,15 +124,12 @@ function resolveSubdomain(domains, subdomain) {
 }
 
 function completeGetDomainRoutes(resolveOptions, cb) {
-    // console.log("----- completeGetDomainRoutes: resolveOptions: ", cb);
     var headers = resolveOptions.headers;
     var domainRoutes = resolveOptions.domainRoutes;
     var subdomain = resolveOptions.subdomain;
 
     var domainTarget = domainRoutes.domains || domainRoutes;
     var subdomainResult = resolveSubdomain(domainTarget, subdomain);
-
-    // console.log("subdomainResult:", subdomainResult);
 
     if (typeof subdomainResult !== "function") {
         return cb(null, subdomainResult);
@@ -186,6 +183,3 @@ module.exports = function getDomainRoutes(domains, headers, cb) {
 };
 module.exports.mapDomainToAlias = mapDomainToAlias;
 module.exports.mapSubdomainToAlias = mapSubdomainToAlias;
-
-module.exports.getDomainDataFromHost = getDomainDataFromHost;
-module.exports.completeGetDomainRoutes = completeGetDomainRoutes;
