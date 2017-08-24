@@ -1,3 +1,4 @@
+var parseDomain = require("parse-domain");
 var defaultSubdomain = "www";
 
 function getLeadingLeafDomain(subdomain) {
@@ -137,7 +138,17 @@ function completeGetDomainRoutes(resolveOptions, cb) {
     return subdomainResult(headers, cb);
 }
 
+function thingy(domains: Object) {
+    const testDomain = "lions.clubs.wildcat.nfl.com";
+    const splitDomains = testDomain.split(".");
+
+    splitDomains.forEach(d => {
+        Object.keys(domains);
+    });
+}
+
 module.exports = function getDomainRoutes(domains, headers, cb) {
+    // console.log("----- domains: ", JSON.stringify(domains, null, 4));
     var host = headers.host;
     var url = getDomainDataFromHost(host, domains);
 

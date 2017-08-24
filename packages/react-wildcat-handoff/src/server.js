@@ -58,6 +58,10 @@ function render(cfg) {
         }
 
         if (!cfg.routes && cfg.domains) {
+            console.log(
+                "---- cfg.domains: ",
+                JSON.stringify(cfg.domains, null, 4)
+            );
             return new Promise((resolve, reject) => {
                 getDomainRoutes(cfg.domains, headers, (error, routes) => {
                     if (error) {
