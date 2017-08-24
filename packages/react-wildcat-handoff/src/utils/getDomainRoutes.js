@@ -1,4 +1,3 @@
-var parseDomain = require("parse-domain");
 var defaultSubdomain = "www";
 
 function getLeadingLeafDomain(subdomain) {

@@ -21,8 +21,8 @@ const testResolveOptions = [
     {
         headers: {
             cookies: {},
-            host: "lions.wildcat.clubs.nfl.com",
-            href: "undefined://lions.wildcat.clubs.nfl.com/",
+            host: "lions.clubs.wildcat.nfl.com",
+            href: "undefined://lions.clubs.wildcat.nfl.com/",
             method: undefined,
             pathname: "/",
             protocol: undefined,
@@ -31,7 +31,7 @@ const testResolveOptions = [
             userAgent: "Mozilla/5.0"
         },
         subdomain: "lions.wildcat.clubs",
-        host: "lions.wildcat.clubs.nfl.com",
+        host: "lions.clubs.wildcat.nfl.com",
         domainRoutes: {domains: {}} // this was null
     },
     {
