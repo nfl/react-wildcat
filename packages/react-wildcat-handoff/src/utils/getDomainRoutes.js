@@ -124,6 +124,7 @@ function resolveSubdomain(domains, subdomain) {
 }
 
 function completeGetDomainRoutes(resolveOptions, cb) {
+    console.log("-- completeGetDomainRoutes:", resolveOptions);
     var headers = resolveOptions.headers;
     var domainRoutes = resolveOptions.domainRoutes;
     var subdomain = resolveOptions.subdomain;
@@ -138,14 +139,14 @@ function completeGetDomainRoutes(resolveOptions, cb) {
     return subdomainResult(headers, cb);
 }
 
-function thingy(domains: Object) {
-    const testDomain = "lions.clubs.wildcat.nfl.com";
-    const splitDomains = testDomain.split(".");
+// function thingy(domains: Object) {
+//     const testDomain = "lions.clubs.wildcat.nfl.com";
+//     const splitDomains = testDomain.split(".");
 
-    splitDomains.forEach(d => {
-        Object.keys(domains);
-    });
-}
+//     splitDomains.forEach(d => {
+//         Object.keys(domains);
+//     });
+// }
 
 module.exports = function getDomainRoutes(domains, headers, cb) {
     // console.log("----- domains: ", JSON.stringify(domains, null, 4));

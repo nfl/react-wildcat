@@ -378,7 +378,12 @@ exports.subdomains = {
 
     sync: {
         domains: {
-            www: routes
+            www: routes,
+            clubs: {
+                lions: {
+                    routes
+                }
+            }
         }
     }
 };
@@ -498,6 +503,9 @@ exports.domainsWithMultipleAliases = {
         domains: {
             domainAliases: exports.domainAliasesMultiple,
             example: exports.subdomains.sync,
+            clubs: {
+                lions: routes
+            },
             external: {
                 test: routes
             }

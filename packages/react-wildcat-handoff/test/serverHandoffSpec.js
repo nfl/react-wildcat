@@ -741,7 +741,7 @@ describe("react-wildcat-handoff/server", () => {
             expect(result).to.be.an.instanceof(Promise);
         });
 
-        it("resolves to host with a string domain alias", done => {
+        it.only("resolves to host with a string domain alias", done => {
             const serverHandoff = server(stubs.domainsWithMultipleAliases.sync);
 
             expect(serverHandoff).to.be
