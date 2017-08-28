@@ -82,9 +82,116 @@ function mapSubdomainToAlias(host, domainAliases) {
 
 function getDomainDataFromHost(host, domains) {
     var hostExcludingPort = (host || "").split(":")[0];
+    var parsedUrl = parseDomain(host, {
+        customTlds: ["dev", "example", "invalid", "localhost", "test"]
+    }) || {
+        domain: hostExcludingPort,
+        subdomain: undefined,
+        tld: undefined
+    };
+
+    var splitHosts = Array.isArray(host) ? host : host.split(".");
+
+    var finalUrl = splitHosts
+        .map(h => {
+            if (domains[h]) {
+                return splitHosts
+                    .map(hh => {
+                        if (domains[h][hh]) {
+                            var url = {
+                                domain: h,
+                                subdomain: hh,
+                                tld: parsedUrl.tld
+                            };
+                            return url;
+                        }
+                        return undefined;
+                    })
+                    .filter(d => d);
+            }
+            return undefined;
+        })
+        .filter(d => d);
+
+    // if (finalUrl[0][0].domain && finalUrl[0][0].subdomain) {
+    //     return finalUrl[0][0];
+    // }
+
+    var resolvedDomain = mapDomainToAlias(
+        finalUrl[0][0].domain,
+        domains.domainAliases
+    );
+    // var resolvedSubdomain = finalUrl[0][0].subdomain
+    //     ? mapSubdomainToAlias(host, domains.domainAliases)
+    //     : null;
+
+    var url = Object.assign({}, url, {
+        domain: resolvedDomain,
+        subdomain: url.subdomain || defaultSubdomain
+    });
+
+    return url;
+}
+
+// function getDomainDataFromHost(host, domains, url) {
+//     if (!url) {
+//         var hostExcludingPort = (host || "").split(":")[0];
+//         var parsedUrl = parseDomain(host, {
+//             customTlds: [
+//                 "dev",
+//                 "example",
+//                 "invalid",
+//                 "localhost",
+//                 "nfl",
+//                 "test"
+//             ]
+//         }) || {
+//             domain: hostExcludingPort,
+//             subdomain: undefined,
+//             tld: undefined
+//         };
+
+//         var url = {
+//             domain: null,
+//             subdomain: null,
+//             tld: parsedUrl.tld
+//         };
+//     }
+
+//     // If there's a ., split the host
+//     var splitHosts = Array.isArray(host) ? host : host.split(".");
+
+//     if (splitHosts && splitHosts.length && domains) {
+//         var dir = splitHosts[0];
+//         console.log("dir", dir);
+//         var route = domains[dir];
+//         if (!!domains[dir]) {
+//             if (url.domain) {
+//                 url.subdomain = dir;
+//             } else {
+//                 url.domain = dir;
+//             }
+//             console.log("map", url);
+//             domains = route;
+//         }
+
+//         if (splitHosts.length > 1) {
+//             return getDomainDataFromHost(splitHosts.slice(1), domains, url);
+//         }
+//     }
+
+//     if (!url.subdomain) {
+//         url.subdomain = defaultSubdomain;
+//     }
+
+//     return url;
+// }
+
+function getDomainDataFromHost(host, domains) {
+    var hostExcludingPort = (host || "").split(":")[0];
 
     var url = parseDomain(host, {
-        customTlds: ["dev", "example", "invalid", "localhost", "test"]
+        customTlds: ["dev", "example", "invalid", "localhost", "nfl", "test"]
     }) || {
         domain: hostExcludingPort,
         subdomain: undefined,
@@ -140,8 +247,8 @@ function completeGetDomainRoutes(resolveOptions, cb) {
 }
 
 // function thingy(domains: Object) {
-//     const testDomain = "lions.clubs.wildcat.nfl.com";
-//     const splitDomains = testDomain.split(".");
+//     var testDomain = "lions.clubs.wildcat.nfl.com";
+//     var splitDomains = testDomain.split(".");
 
 //     splitDomains.forEach(d => {
 //         Object.keys(domains);
@@ -194,3 +301,6 @@ module.exports = function getDomainRoutes(domains, headers, cb) {
 };
 module.exports.mapDomainToAlias = mapDomainToAlias;
 module.exports.mapSubdomainToAlias = mapSubdomainToAlias;
+
+module.exports.completeGetDomainRoutes = completeGetDomainRoutes;
+module.exports.getDomainDataFromHost = getDomainDataFromHost;

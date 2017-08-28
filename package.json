@@ -82,7 +82,8 @@
     },
     "scripts": {
         "changelog": "conventional-changelog -k packages/react-wildcat/package.json -p angular -i CHANGELOG.md -s",
-        "test:node": "env BABEL_ENV=test node debug --debug-brk ./node_modules/.bin/jest --runInBand --env=node test/node.test.js --config .jestrc.node.json",
+        "test:node:debug": "env BABEL_ENV=test node debug --debug-brk ./node_modules/.bin/jest --runInBand --env=node test/node.test.js --config .jestrc.node.json",
+        "test:node": "env BABEL_ENV=test jest --env=node test/node.test.js --config .jestrc.node.json",
         "test:browser": "env BABEL_ENV=test jest test/browser.test.js --config .jestrc.browser.json"
     },
     "config": {

@@ -67,6 +67,7 @@ function render(cfg) {
                     if (error) {
                         return reject(error);
                     }
+                    console.log("---getDomainRoutes: ", routes);
 
                     return resolve(completeRender(cfg, routes));
                 });

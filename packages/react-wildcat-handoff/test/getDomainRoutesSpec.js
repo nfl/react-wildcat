@@ -6,13 +6,44 @@ const {
     completeGetDomainRoutes
 } = require("../src/utils/getDomainRoutes.js");
 
+// Might make sense to change the domain object and leverage
+// this plugin: https://github.com/isaacs/node-glob
+// const newDomains = {
+//     domainAliases: {},
+//     "lions*[dev|com]": (foo, bar) => {
+//         console.log(foo, bar);
+//     },
+//     "www.nfl.[dev|com]": (foo, bar) => {
+//         console.log(foo, bar);
+//     }
+// };
+
 const domains = {
-    domainAliases: {
-        nfl: {
-            www: [null]
+    // domainAliases: {
+    //     nfl: {
+    //         www: [null]
+    //     }
+    //     // nflclubs: {
+    //     //     lions: ["www.lions"]
+    //     // },
+    //     // lions: {
+    //     //     www: ["lions.clubs"]
+    //     // }
+    // },
+    nfl: {
+        amp: (foo, bar) => {
+            console.log(foo, bar);
         },
-        nflclubs: {
-            lions: ["www.buffalolions"]
+        www: (foo, bar) => {
+            console.log(foo, bar);
+        }
+    },
+    clubs: {
+        lions: (foo, bar) => {
+            console.log(foo, bar);
+        },
+        bills: (foo, bar) => {
+            console.log(foo, bar);
         }
     }
 };
@@ -37,57 +68,73 @@ const testResolveOptions = [
     {
         headers: {
             cookies: {},
-            host: "www.aliastoexternal.com",
-            href: "undefined://www.aliastoexternal.com/",
+            host: "rams.clubs.wildcat.nfl.com",
+            href: "undefined://rams.clubs.wildcat.nfl.com/",
+            method: undefined,
             pathname: "/",
+            protocol: undefined,
+            referrer: undefined,
             search: "?",
             userAgent: "Mozilla/5.0"
         },
-        subdomain: "test",
-        host: "www.aliastoexternal.com",
-        domainRoutes: {domains: {}}
-    },
-    {
-        headers: {
-            cookies: {},
-            host: "127.0.0.1",
-            href: "undefined://127.0.0.1/",
-            pathname: "/",
-            search: "?",
-            userAgent: "Mozilla/5.0"
-        },
-        subdomain: "www",
-        host: "127.0.0.1",
-        domainRoutes: {
-            domains: {
-                www: {
-                    key: null,
-                    ref: null,
-                    props: {
-                        path: "/",
-                        children: [
-                            {
-                                key: null,
-                                ref: null,
-                                props: {from: "/redirect", to: "/"},
-                                _owner: null,
-                                _store: {}
-                            },
-                            {
-                                key: null,
-                                ref: null,
-                                props: {from: "/context.html", to: "/"},
-                                _owner: null,
-                                _store: {}
-                            }
-                        ]
-                    },
-                    _owner: null,
-                    _store: {}
-                }
-            }
-        }
+        subdomain: "rams.wildcat.clubs",
+        host: "rams.clubs.wildcat.nfl.com",
+        domainRoutes: {domains: {}} // this was null
     }
+    // {
+    //     headers: {
+    //         cookies: {},
+    //         host: "www.aliastoexternal.com",
+    //         href: "undefined://www.aliastoexternal.com/",
+    //         pathname: "/",
+    //         search: "?",
+    //         userAgent: "Mozilla/5.0"
+    //     },
+    //     subdomain: "test",
+    //     host: "www.aliastoexternal.com",
+    //     domainRoutes: {domains: {}}
+    // },
+    // {
+    //     headers: {
+    //         cookies: {},
+    //         host: "127.0.0.1",
+    //         href: "undefined://127.0.0.1/",
+    //         pathname: "/",
+    //         search: "?",
+    //         userAgent: "Mozilla/5.0"
+    //     },
+    //     subdomain: "www",
+    //     host: "127.0.0.1",
+    //     domainRoutes: {
+    //         domains: {
+    //             www: {
+    //                 key: null,
+    //                 ref: null,
+    //                 props: {
+    //                     path: "/",
+    //                     children: [
+    //                         {
+    //                             key: null,
+    //                             ref: null,
+    //                             props: {from: "/redirect", to: "/"},
+    //                             _owner: null,
+    //                             _store: {}
+    //                         },
+    //                         {
+    //                             key: null,
+    //                             ref: null,
+    //                             props: {from: "/context.html", to: "/"},
+    //                             _owner: null,
+    //                             _store: {}
+    //                         }
+    //                     ]
+    //                 },
+    //                 _owner: null,
+    //                 _store: {}
+    //             }
+    //         }
+    //     }
+    // }
 ];
 
 const testHosts = [
@@ -103,23 +150,23 @@ const testHosts = [
         domain: "nfl",
         subdomain: "www"
     },
-    {
-        host: "lions.com",
-        tld: "com",
-        domain: "lions",
-        subdomain: "www"
-    },
-    {
-        host: "www.lions.com",
-        tld: "com",
-        domain: "lions",
-        subdomain: "www"
-    },
+    // {
+    //     host: "lions.com",
+    //     tld: "com",
+    //     domain: "clubs",
+    //     subdomain: "lions"
+    // },
+    // {
+    //     host: "www.lions.com",
+    //     tld: "com",
+    //     domain: "clubs",
+    //     subdomain: "lions"
+    // },
     {
         host: "www.wildcat.nfl.com",
         tld: "com",
         domain: "nfl",
-        subdomain: "www.wildcat"
+        subdomain: "www"
     },
     {
         host: "www.nfl.dev",
@@ -130,14 +177,14 @@ const testHosts = [
     {
         host: "lions.clubs.nfl.dev",
         tld: "dev",
-        domain: "nfl",
-        subdomain: "lions.clubs"
+        domain: "clubs",
+        subdomain: "lions"
     }
 ];
 
 /* eslint-disable max-nested-callbacks */
 describe("react-wildcat-handoff/getDomainRoutesTest.js", () => {
-    describe("getDomainDataFromHost", () => {
+    describe.only("getDomainDataFromHost", () => {
         it("returns the right tld, domain and subdomain", done => {
             testHosts.forEach(test => {
                 const result = getDomainDataFromHost(test.host, domains);
@@ -153,9 +200,12 @@ describe("react-wildcat-handoff/getDomainRoutesTest.js", () => {
     describe("completeGetDomainRoutes", () => {
         it("does stuff", done => {
             testResolveOptions.forEach(resolveOptions => {
-                completeGetDomainRoutes(resolveOptions, (foo, bar) => {
-                    console.log("---- callback:", foo, bar);
-                });
+                completeGetDomainRoutes(
+                    resolveOptions,
+                    (foo, subDomainResult) => {
+                        console.log("---- callback:", foo, subDomainResult);
+                    }
+                );
             });
             done();
         });
