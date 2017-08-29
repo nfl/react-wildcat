@@ -92,11 +92,6 @@ function getDomainDataFromHost(host, domains) {
         tld: undefined
     };
 
-    // var resolvedDomain = mapDomainToAlias(url.domain, domains.domainAliases);
-    // var resolvedSubdomain = url.subdomain
-    //     ? mapSubdomainToAlias(host, domains.domainAliases)
-    //     : null;
-
     url = Object.assign({}, url, {
         domain: resolvedDomain,
         subdomain: resolvedSubdomain || url.subdomain || defaultSubdomain
@@ -104,30 +99,6 @@ function getDomainDataFromHost(host, domains) {
 
     return url;
 }
-
-// function getDomainDataFromHost(host, domains) {
-//     var hostExcludingPort = (host || "").split(":")[0];
-
-//     var url = parseDomain(host, {
-//         customTlds: ["dev", "example", "invalid", "localhost", "test"]
-//     }) || {
-//         domain: hostExcludingPort,
-//         subdomain: undefined,
-//         tld: undefined
-//     };
-
-//     var resolvedDomain = mapDomainToAlias(url.domain, domains.domainAliases);
-//     var resolvedSubdomain = url.subdomain
-//         ? mapSubdomainToAlias(host, domains.domainAliases)
-//         : null;
-
-//     url = Object.assign({}, url, {
-//         domain: resolvedDomain,
-//         subdomain: resolvedSubdomain || url.subdomain || defaultSubdomain
-//     });
-
-//     return url;
-// }
 
 function resolveSubdomain(domains, subdomain) {
     if (domains[subdomain]) {
@@ -164,6 +135,7 @@ function completeGetDomainRoutes(resolveOptions, cb) {
 }
 
 module.exports = function getDomainRoutes(domains, headers, cb) {
+    console.log("------ domains.globMatching === ", domains.globMatching);
     if (domains.globMatching) {
         return getGlobDomainRoutes(domains, headers, cb);
     }
