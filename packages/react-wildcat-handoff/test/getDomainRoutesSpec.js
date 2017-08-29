@@ -10,12 +10,13 @@ const {
 // Might make sense to change the domain object and leverage
 // this plugin: https://github.com/isaacs/node-glob
 const newDomains = {
+    globMatching: true,
     domainAliases: {},
-    "lions*[dev|com]": (foo, bar) => {
-        console.log(foo, bar);
+    "*lions*[dev|com]": (foo, bar) => {
+        console.log("Lions test callback: ", foo, bar);
     },
     "www.nfl.[dev|com]": (foo, bar) => {
-        console.log(foo, bar);
+        console.log("NFL test callback: ", foo, bar);
     }
 };
 
@@ -80,6 +81,22 @@ const testResolveOptions = [
         },
         subdomain: "rams.wildcat.clubs",
         host: "rams.clubs.wildcat.nfl.com",
+        domainRoutes: {domains: {}} // this was null
+    },
+    {
+        headers: {
+            cookies: {},
+            host: "detroitlions.com",
+            href: "undefined://detroitlions.com/",
+            method: undefined,
+            pathname: "/",
+            protocol: undefined,
+            referrer: undefined,
+            search: "?",
+            userAgent: "Mozilla/5.0"
+        },
+        subdomain: "www",
+        host: "detroitlions.com",
         domainRoutes: {domains: {}} // this was null
     },
     {
@@ -190,7 +207,7 @@ describe("react-wildcat-handoff/getDomainRoutesTest.js", () => {
             testResolveOptions.forEach(resolveOption => {
                 newGetDomainRoutes(
                     newDomains,
-                    resolveOption,
+                    resolveOption.headers,
                     (foo, subDomainResult) => {
                         console.log(
                             "---- getDomainRoutes callback:",

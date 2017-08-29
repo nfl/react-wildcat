@@ -164,20 +164,20 @@ function completeGetDomainRoutes(resolveOptions, cb) {
 }
 
 module.exports = function getDomainRoutes(domains, headers, cb) {
-    const newFlag = Object.keys(domains).some(domain => {
-        console.log(
-            "--- 0 test testy: ",
-            typeof domains[domain],
-            domain,
-            domains[domain]
-        );
-        return (
-            typeof domains[domain] === "function" ||
-            (typeof domains[domain] === "string" && domains[domain])
-        );
-    });
+    // const newFlag = Object.keys(domains).some(domain => {
+    //     console.log(
+    //         "--- 0 test testy: ",
+    //         typeof domains[domain],
+    //         domain,
+    //         domains[domain]
+    //     );
+    //     return (
+    //         typeof domains[domain] === "function" ||
+    //         (typeof domains[domain] === "string" && domains[domain])
+    //     );
+    // });
 
-    if (newFlag) {
+    if (domains.globMatching) {
         return newGetDomainRoutes(domains, headers, cb);
     }
 
@@ -225,13 +225,22 @@ module.exports = function getDomainRoutes(domains, headers, cb) {
 };
 
 function newGetDomainRoutes(domains, headers, cb) {
-    var resolveDomain = Object.keys(domains).find(domain => {
-        if (minimatch(headers.host, domain)) {
-            console.log("----- testy test: ", headers.host, domain);
-            return domains[domain];
-        }
-        return false;
-    });
+    var resolveDomain = Object.keys(domains)
+        .map(domain => {
+            if (minimatch(headers.host, domain)) {
+                console.log(
+                    "----- testy test: ",
+                    headers.host,
+                    domain,
+                    domains[domain]
+                );
+                return domains[domain];
+            }
+            return false;
+        })
+        .filter(d => d)[0];
+
+    console.log("--- resolveDomain: ", resolveDomain);
 
     if (typeof resolveDomain !== "function") {
         return cb(null, resolveDomain);
