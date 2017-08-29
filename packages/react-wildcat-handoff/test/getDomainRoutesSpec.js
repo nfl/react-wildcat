@@ -3,20 +3,21 @@ const expect = chai.expect;
 
 const {
     getDomainDataFromHost,
-    completeGetDomainRoutes
+    completeGetDomainRoutes,
+    newGetDomainRoutes
 } = require("../src/utils/getDomainRoutes.js");
 
 // Might make sense to change the domain object and leverage
 // this plugin: https://github.com/isaacs/node-glob
-// const newDomains = {
-//     domainAliases: {},
-//     "lions*[dev|com]": (foo, bar) => {
-//         console.log(foo, bar);
-//     },
-//     "www.nfl.[dev|com]": (foo, bar) => {
-//         console.log(foo, bar);
-//     }
-// };
+const newDomains = {
+    domainAliases: {},
+    "lions*[dev|com]": (foo, bar) => {
+        console.log(foo, bar);
+    },
+    "www.nfl.[dev|com]": (foo, bar) => {
+        console.log(foo, bar);
+    }
+};
 
 const domains = {
     // domainAliases: {
@@ -80,61 +81,61 @@ const testResolveOptions = [
         subdomain: "rams.wildcat.clubs",
         host: "rams.clubs.wildcat.nfl.com",
         domainRoutes: {domains: {}} // this was null
+    },
+    {
+        headers: {
+            cookies: {},
+            host: "www.aliastoexternal.com",
+            href: "undefined://www.aliastoexternal.com/",
+            pathname: "/",
+            search: "?",
+            userAgent: "Mozilla/5.0"
+        },
+        subdomain: "test",
+        host: "www.aliastoexternal.com",
+        domainRoutes: {domains: {}}
+    },
+    {
+        headers: {
+            cookies: {},
+            host: "127.0.0.1",
+            href: "undefined://127.0.0.1/",
+            pathname: "/",
+            search: "?",
+            userAgent: "Mozilla/5.0"
+        },
+        subdomain: "www",
+        host: "127.0.0.1",
+        domainRoutes: {
+            domains: {
+                www: {
+                    key: null,
+                    ref: null,
+                    props: {
+                        path: "/",
+                        children: [
+                            {
+                                key: null,
+                                ref: null,
+                                props: {from: "/redirect", to: "/"},
+                                _owner: null,
+                                _store: {}
+                            },
+                            {
+                                key: null,
+                                ref: null,
+                                props: {from: "/context.html", to: "/"},
+                                _owner: null,
+                                _store: {}
+                            }
+                        ]
+                    },
+                    _owner: null,
+                    _store: {}
+                }
+            }
+        }
     }
-    // {
-    //     headers: {
-    //         cookies: {},
-    //         host: "www.aliastoexternal.com",
-    //         href: "undefined://www.aliastoexternal.com/",
-    //         pathname: "/",
-    //         search: "?",
-    //         userAgent: "Mozilla/5.0"
-    //     },
-    //     subdomain: "test",
-    //     host: "www.aliastoexternal.com",
-    //     domainRoutes: {domains: {}}
-    // },
-    // {
-    //     headers: {
-    //         cookies: {},
-    //         host: "127.0.0.1",
-    //         href: "undefined://127.0.0.1/",
-    //         pathname: "/",
-    //         search: "?",
-    //         userAgent: "Mozilla/5.0"
-    //     },
-    //     subdomain: "www",
-    //     host: "127.0.0.1",
-    //     domainRoutes: {
-    //         domains: {
-    //             www: {
-    //                 key: null,
-    //                 ref: null,
-    //                 props: {
-    //                     path: "/",
-    //                     children: [
-    //                         {
-    //                             key: null,
-    //                             ref: null,
-    //                             props: {from: "/redirect", to: "/"},
-    //                             _owner: null,
-    //                             _store: {}
-    //                         },
-    //                         {
-    //                             key: null,
-    //                             ref: null,
-    //                             props: {from: "/context.html", to: "/"},
-    //                             _owner: null,
-    //                             _store: {}
-    //                         }
-    //                     ]
-    //                 },
-    //                 _owner: null,
-    //                 _store: {}
-    //             }
-    //         }
-    //     }
-    // }
 ];
 
 const testHosts = [
@@ -184,7 +185,27 @@ const testHosts = [
 
 /* eslint-disable max-nested-callbacks */
 describe("react-wildcat-handoff/getDomainRoutesTest.js", () => {
-    describe.only("getDomainDataFromHost", () => {
+    describe("getDomainRoutes", () => {
+        it("returns the right tld, domain and subdomain", done => {
+            testResolveOptions.forEach(resolveOption => {
+                newGetDomainRoutes(
+                    newDomains,
+                    resolveOption,
+                    (foo, subDomainResult) => {
+                        console.log(
+                            "---- getDomainRoutes callback:",
+                            foo,
+                            subDomainResult
+                        );
+                    }
+                );
+            });
+
+            done();
+        });
+    });
+
+    describe("getDomainDataFromHost", () => {
         it("returns the right tld, domain and subdomain", done => {
             testHosts.forEach(test => {
                 const result = getDomainDataFromHost(test.host, domains);
