@@ -164,21 +164,8 @@ function completeGetDomainRoutes(resolveOptions, cb) {
 }
 
 module.exports = function getDomainRoutes(domains, headers, cb) {
-    // const newFlag = Object.keys(domains).some(domain => {
-    //     console.log(
-    //         "--- 0 test testy: ",
-    //         typeof domains[domain],
-    //         domain,
-    //         domains[domain]
-    //     );
-    //     return (
-    //         typeof domains[domain] === "function" ||
-    //         (typeof domains[domain] === "string" && domains[domain])
-    //     );
-    // });
-
     if (domains.globMatching) {
-        return newGetDomainRoutes(domains, headers, cb);
+        return getGlobDomainRoutes(domains, headers, cb);
     }
 
     var host = headers.host;
@@ -224,7 +211,7 @@ module.exports = function getDomainRoutes(domains, headers, cb) {
     return resolveDomain(headers, cb);
 };
 
-function newGetDomainRoutes(domains, headers, cb) {
+function getGlobDomainRoutes(domains, headers, cb) {
     var resolveDomain = Object.keys(domains)
         .map(domain => {
             if (minimatch(headers.host, domain)) {
@@ -247,7 +234,7 @@ function newGetDomainRoutes(domains, headers, cb) {
     }
     return resolveDomain(headers, cb);
 }
-module.exports.newGetDomainRoutes = newGetDomainRoutes;
+module.exports.getGlobDomainRoutes = getGlobDomainRoutes;
 
 module.exports.mapDomainToAlias = mapDomainToAlias;
 module.exports.mapSubdomainToAlias = mapSubdomainToAlias;
