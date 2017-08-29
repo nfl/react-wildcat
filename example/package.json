@@ -1,7 +1,7 @@
 {
     "name": "react-wildcat-example",
     "description": "An example Wildcat project.",
-    "version": "7.6.0",
+    "version": "7.7.0",
     "dependencies": {
         "babel-jest": "^20.0.3",
         "koa-favicon": "^1.2.1",
@@ -84,12 +84,7 @@
     "jest": {
         "collectCoverage": true,
         "coverageDirectory": "coverage/unit",
-        "coverageReporters": [
-            "json",
-            "lcov",
-            "text",
-            "html"
-        ],
+        "coverageReporters": ["json", "lcov", "text", "html"],
         "moduleNameMapper": {
             "\\.(jpg|jpeg)$": "<rootDir>/src/test/mocks/fileMock.js"
         },

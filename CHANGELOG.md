@@ -1,3 +1,11 @@
+<a name="7.7.0"></a>
+# [7.7.0](https://github.com/nfl/react-wildcat/compare/7.6.0...7.7.0) (2017-08-29)
+
+### Features
+
+* **react-wildcat:** Revert all webpack and react versions
+
+
 <a name="7.6.0"></a>
 # [7.6.0](https://github.com/nfl/react-wildcat/compare/7.4.0...7.6.0) (2017-08-10)
 

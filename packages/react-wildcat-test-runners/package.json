@@ -1,40 +1,40 @@
 {
-  "name": "react-wildcat-test-runners",
-  "version": "7.6.0",
-  "description": "Test runners for Wildcat.",
-  "bin": {
-    "wildcat-protractor-runner": "./cli/protractor.js",
-    "wildcat-karma-runner": "./cli/karma.js"
-  },
-  "author": "engineers@nfl.com",
-  "license": "MIT",
-  "dependencies": {
-    "babel-runtime": "^6.6.1",
-    "chalk": "^1.1.3",
-    "glob": "^7.0.3",
-    "istanbul": "https://github.com/nfl/istanbul/tarball/0.4.5/source-map-resolve",
-    "karma": "^1.3.0",
-    "karma-cli": "^1.0.1",
-    "open": "^0.0.5",
-    "request": "^2.72.0",
-    "rimraf": "^2.5.2",
-    "yargs": "^6.4.0"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.8.0"
-  },
-  "peerDependencies": {
-    "babel-polyfill": "*",
-    "babel-register": "*",
-    "istanbul": "*",
-    "karma": "*",
-    "protractor": "*"
-  },
-  "scripts": {
-    "build": "npm run clean && npm run compile",
-    "clean": "rimraf lib",
-    "compile": "babel src --out-dir lib --plugins transform-runtime",
-    "prepublish": "env NODE_ENV=production npm run build",
-    "pretest": "npm run prepublish"
-  }
+    "name": "react-wildcat-test-runners",
+    "version": "7.7.0",
+    "description": "Test runners for Wildcat.",
+    "bin": {
+        "wildcat-protractor-runner": "./cli/protractor.js",
+        "wildcat-karma-runner": "./cli/karma.js"
+    },
+    "author": "engineers@nfl.com",
+    "license": "MIT",
+    "dependencies": {
+        "babel-runtime": "^6.6.1",
+        "chalk": "^1.1.3",
+        "glob": "^7.0.3",
+        "istanbul": "https://github.com/nfl/istanbul/tarball/0.4.5/source-map-resolve",
+        "karma": "^1.3.0",
+        "karma-cli": "^1.0.1",
+        "open": "^0.0.5",
+        "request": "^2.72.0",
+        "rimraf": "^2.5.2",
+        "yargs": "^6.4.0"
+    },
+    "devDependencies": {
+        "babel-cli": "^6.8.0"
+    },
+    "peerDependencies": {
+        "babel-polyfill": "*",
+        "babel-register": "*",
+        "istanbul": "*",
+        "karma": "*",
+        "protractor": "*"
+    },
+    "scripts": {
+        "build": "npm run clean && npm run compile",
+        "clean": "rimraf lib",
+        "compile": "babel src --out-dir lib --plugins transform-runtime",
+        "prepublish": "env NODE_ENV=production npm run build",
+        "pretest": "npm run prepublish"
+    }
 }
