@@ -132,6 +132,8 @@ function completeGetDomainRoutes(resolveOptions, cb) {
     var domainTarget = domainRoutes.domains || domainRoutes;
     var subdomainResult = resolveSubdomain(domainTarget, subdomain);
 
+    console.log("---- subdomainResult: ", subdomainResult);
+
     if (typeof subdomainResult !== "function") {
         return cb(null, subdomainResult);
     }
@@ -140,9 +142,9 @@ function completeGetDomainRoutes(resolveOptions, cb) {
 }
 
 module.exports = function getDomainRoutes(domains, headers, cb) {
-    console.log("------ domains.globMatching === ", domains.globMatching);
-    if (domains.globMatching) {
-        return getGlobDomainRoutes(domains, headers, cb);
+    console.log("------ domains.routes === ", domains.routes);
+    if (domains.routes) {
+        return getGlobDomainRoutes(domains.routes, headers, cb);
     }
 
     var host = headers.host;
@@ -189,9 +191,17 @@ module.exports = function getDomainRoutes(domains, headers, cb) {
 };
 
 function getGlobDomainRoutes(domains, headers, cb) {
+    console.log("getGlobDomainRoutes: ", domains);
     var resolveDomain = Object.keys(domains)
         .map(domain => {
-            if (minimatch(headers.host, domain)) {
+            var hostExcludingPort = (headers.host || "").split(":")[0];
+            console.log("--- domain : ", domain, hostExcludingPort);
+
+            var domainRegex = new RegExp(domain, "g");
+
+            console.log("--- domainRegex: ", domainRegex);
+
+            if (domainRegex.test(hostExcludingPort)) {
                 console.log(
                     "----- testy test: ",
                     headers.host,
@@ -200,16 +210,24 @@ function getGlobDomainRoutes(domains, headers, cb) {
                 );
                 return domains[domain];
             }
-            return false;
+            return undefined;
         })
         .filter(d => d)[0];
 
     console.log("--- resolveDomain: ", resolveDomain);
 
+    var nextThing = resolveDomain(headers, cb);
+
+    console.log("--- next thing: ", nextThing);
+
     if (typeof resolveDomain !== "function") {
         return cb(null, resolveDomain);
     }
-    return resolveDomain(headers, cb);
+
+    return resolveDomain(headers, (headers, cb) => {
+        console.log("-- i heard you like callbacks: ", cb, headers);
+    });
+    // return resolveDomain(headers, cb);
 }
 module.exports.getGlobDomainRoutes = getGlobDomainRoutes;
 
