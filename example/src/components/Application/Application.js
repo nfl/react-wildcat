@@ -46,9 +46,7 @@ class Application extends React.Component {
                             </ul>
                         </nav>
                     </header>
-                    <main role="main">
-                        {this.props.children}
-                    </main>
+                    <main role="main">{this.props.children}</main>
                 </div>
             </div>
         );

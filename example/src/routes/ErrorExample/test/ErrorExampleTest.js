@@ -23,8 +23,8 @@ describe("Error Example", () => {
     describe("routes", () => {
         it("has a defined path", () => {
             expect(errorExampleRoutes).to.exist;
-            expect(errorExampleRoutes).to.have
-                .property("path")
+            expect(errorExampleRoutes)
+                .to.have.property("path")
                 .that.is.a("string")
                 .that.equals(errorExamplePath);
         });

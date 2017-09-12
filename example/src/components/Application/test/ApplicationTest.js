@@ -48,19 +48,11 @@ describe("Application", () => {
         it("renders children when passed in", () => {
             const application = shallow(
                 <Application>
-                    <div>
-                        {testChildText}
-                    </div>
+                    <div>{testChildText}</div>
                 </Application>
             );
 
-            expect(
-                application.contains(
-                    <div>
-                        {testChildText}
-                    </div>
-                )
-            ).to.be.true;
+            expect(application.contains(<div>{testChildText}</div>)).to.be.true;
         });
 
         afterAll(() => {

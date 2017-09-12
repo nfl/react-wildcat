@@ -108,7 +108,7 @@
         "dev": "env NODE_ENV=development NODE_TLS_REJECT_UNAUTHORIZED=0 concurrently -k -r 'wildcat' 'wildcat-static-server'",
         "dev:sw": "env SERVICE_WORKERS=true npm run dev",
         "flow": "flow; test $? -eq 0 -o $? -eq 2",
-        "lint": "eslint src/* --cache --cache-location .cache/.eslintcache",
+        "lint": "eslint --fix src/* --cache --cache-location .cache/.eslintcache",
         "predev": "npm run build:precache && npm run bundle:bootstrap",
         "preprod": "npm run build:precache && npm run clean:prod && npm run bundle:prod",
         "pretest:e2e": "npm run clean:e2e && env BABEL_ENV=test npm run preprod",
