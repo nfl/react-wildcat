@@ -144,8 +144,8 @@ module.exports = stubs => {
                             });
                         })
                             .then(result => {
-                                expect(result).to.be
-                                    .a("string")
+                                expect(result)
+                                    .to.be.a("string")
                                     .that.includes(render.expectation);
 
                                 done();
@@ -194,8 +194,8 @@ module.exports = stubs => {
                         });
                     })
                         .then(result => {
-                            expect(result).to.be
-                                .a("string")
+                            expect(result)
+                                .to.be.a("string")
                                 .that.includes(
                                     "TypeError: this.props is not a function"
                                 );

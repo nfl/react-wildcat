@@ -54,8 +54,8 @@ describe("react-wildcat-prefetch", () => {
                         const key = WrappedPrefetch.prefetch.getKey();
                         WrappedPrefetch.prefetch[key] = props;
 
-                        expect(WrappedPrefetch.prefetch).to.have
-                            .property(key)
+                        expect(WrappedPrefetch.prefetch)
+                            .to.have.property(key)
                             .that.is.an("object")
                             .that.eql(stubs.prefetchedData.asyncData);
 

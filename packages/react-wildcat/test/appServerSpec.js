@@ -141,8 +141,8 @@ describe("appServer", () => {
                         .then(result => {
                             expect(result).to.exist;
 
-                            expect(result).to.be
-                                .an("object")
+                            expect(result)
+                                .to.be.an("object")
                                 .that.has.property("env")
                                 .that.equals(currentEnv);
 
@@ -195,8 +195,8 @@ describe("appServer", () => {
                             .then(result => {
                                 expect(result).to.exist;
 
-                                expect(result).to.be
-                                    .an("object")
+                                expect(result)
+                                    .to.be.an("object")
                                     .that.has.property("env")
                                     .that.equals(currentEnv);
 
@@ -305,8 +305,8 @@ describe("appServer", () => {
                     try {
                         expect(loggerErrorMessages.length).to.equal(2);
 
-                        expect(loggerErrorMessages[0]).to
-                            .contain(
+                        expect(loggerErrorMessages[0])
+                            .to.contain(
                                 "Middleware at serverSettings.appServer.middleware[0] could not be correclty initialized."
                             )
                             .and.to.contain(

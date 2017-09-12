@@ -11,7 +11,10 @@ const wildcatConfig = require(path.join(cwd, "wildcat.config.js"));
 const generalSettings = wildcatConfig.generalSettings;
 const coverageSettings = generalSettings.coverageSettings;
 
-const args = process.argv.slice(2).join(" ").trim();
+const args = process.argv
+    .slice(2)
+    .join(" ")
+    .trim();
 
 /* eslint-disable no-process-exit */
 export default (async () => {

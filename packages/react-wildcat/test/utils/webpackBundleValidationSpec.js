@@ -51,8 +51,8 @@ module.exports = stubs => {
                 function onReadyHandler() {}
                 validate.onReady(onReadyHandler);
 
-                expect(validate).to.have
-                    .property("_handlers")
+                expect(validate)
+                    .to.have.property("_handlers")
                     .that.is.an("array")
                     .that.includes(onReadyHandler);
 
@@ -99,8 +99,8 @@ module.exports = stubs => {
 
                 validate.onReady(onReadyHandler);
 
-                expect(validate).to.have
-                    .property("_handlers")
+                expect(validate)
+                    .to.have.property("_handlers")
                     .that.is.an("array")
                     .that.includes(onReadyHandler);
 
@@ -140,8 +140,8 @@ module.exports = stubs => {
                     "../../src/utils/webpackBundleValidation",
                     {
                         "clear-require": moduleName => {
-                            expect(moduleName).to.be
-                                .a("string")
+                            expect(moduleName)
+                                .to.be.a("string")
                                 .that.equals(stubs.webpackFileStub);
 
                             done();
