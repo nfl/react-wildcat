@@ -38,8 +38,8 @@ describe("Flexbox Example", () => {
     describe("routes", () => {
         it("has a defined path", () => {
             expect(flexboxExampleRoutes).to.exist;
-            expect(flexboxExampleRoutes).to.have
-                .property("path")
+            expect(flexboxExampleRoutes)
+                .to.have.property("path")
                 .that.is.a("string")
                 .that.equals(flexboxExamplePath);
         });

@@ -26,7 +26,7 @@ class PrefetchExample extends React.Component {
 
                 <h1>Super Bowl Data</h1>
 
-                {superBowls &&
+                {superBowls && (
                     <table>
                         <thead>
                             <tr>
@@ -41,20 +41,18 @@ class PrefetchExample extends React.Component {
 
                                 return (
                                     <tr key={superBowl.year}>
-                                        <th scope="row">
-                                            {superBowl.year}
-                                        </th>
+                                        <th scope="row">{superBowl.year}</th>
+                                        <td>{superBowl.romanNumeral}</td>
                                         <td>
-                                            {superBowl.romanNumeral}
-                                        </td>
-                                        <td>
-                                            {" "}{`${team1.location} ${team1.name} vs ${team2.location} ${team2.name}`}{" "}
+                                            {" "}
+                                            {`${team1.location} ${team1.name} vs ${team2.location} ${team2.name}`}{" "}
                                         </td>
                                     </tr>
                                 );
                             })}
                         </tbody>
-                    </table>}
+                    </table>
+                )}
             </div>
         );
     }

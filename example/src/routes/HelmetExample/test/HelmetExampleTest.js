@@ -29,8 +29,8 @@ describe("Helmet Example", () => {
     describe("routes", () => {
         it("has a defined path", () => {
             expect(helmetExampleRoutes).to.exist;
-            expect(helmetExampleRoutes).to.have
-                .property("path")
+            expect(helmetExampleRoutes)
+                .to.have.property("path")
                 .that.is.a("string")
                 .that.equals(helmetExamplePath);
         });
