@@ -214,10 +214,6 @@ function getGlobDomainRoutes(domains, headers, cb) {
 
     console.log("--- resolveDomain: ", resolveDomain);
 
-    var nextThing = resolveDomain(headers, cb);
-
-    console.log("--- next thing: ", nextThing);
-
     if (typeof resolveDomain !== "function") {
         return cb(null, resolveDomain);
     }
@@ -225,7 +221,6 @@ function getGlobDomainRoutes(domains, headers, cb) {
     return resolveDomain(headers, (headers, cb) => {
         console.log("-- i heard you like callbacks: ", cb, headers);
     });
-    // return resolveDomain(headers, cb);
 }
 module.exports.getGlobDomainRoutes = getGlobDomainRoutes;
 
