@@ -1,6 +1,5 @@
 var parseDomain = require("parse-domain");
 var defaultSubdomain = "www";
-var minimatch = require("minimatch");
 
 function getLeadingLeafDomain(subdomain) {
     var leafDomains = subdomain.split(".");
@@ -142,7 +141,6 @@ function completeGetDomainRoutes(resolveOptions, cb) {
 }
 
 module.exports = function getDomainRoutes(domains, headers, cb) {
-    console.log("------ domains.routes === ", domains.routes);
     if (domains.routes) {
         return getGlobDomainRoutes(domains.routes, headers, cb);
     }
