@@ -388,11 +388,9 @@ exports.regexDomains = {
         domains: {
             routes: {
                 "lions.*(dev|com)": function getRoutes(location, cb) {
-                    console.error("------1 regexDomains: ", location);
                     return setTimeout(() => cb(null, routes), 0);
                 },
                 "www.example.(dev|com)": function getRoutes(location, cb) {
-                    console.error("------1 regexDomains: ", location);
                     return setTimeout(() => cb(null, routes), 0);
                 },
                 "**InvalidRegex**": function getERRRoutes(location, cb) {
