@@ -26,6 +26,14 @@ exports.requests = {
         url: "/"
     },
 
+    clubs: {
+        header: {
+            host: "lions.clubs.nfl.com",
+            "user-agent": exports.stubUserAgent
+        },
+        url: "/"
+    },
+
     ephemeral: {
         header: {
             host: "www-staging.example.com",
@@ -383,6 +391,30 @@ exports.subdomains = {
                 lions: {
                     routes
                 }
+            }
+        }
+    }
+};
+
+exports.regexDomains = {
+    async: {
+        domains: {
+            routes: {
+                "*lions*(dev|com)": function getRoutes(location, cb) {
+                    return setTimeout(() => cb(exports.callbackError), 0);
+                },
+                "www.nfl.(dev|com)": function getRoutes(location, cb) {
+                    return setTimeout(() => cb(exports.callbackError), 0);
+                }
+            }
+        }
+    },
+
+    sync: {
+        domains: {
+            routes: {
+                "*lions*(dev|com)": routes,
+                "www.nfl.(dev|com)": routes
             }
         }
     }
