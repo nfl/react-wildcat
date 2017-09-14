@@ -131,8 +131,6 @@ function completeGetDomainRoutes(resolveOptions, cb) {
     var domainTarget = domainRoutes.domains || domainRoutes;
     var subdomainResult = resolveSubdomain(domainTarget, subdomain);
 
-    console.log("---- subdomainResult: ", subdomainResult);
-
     if (typeof subdomainResult !== "function") {
         return cb(null, subdomainResult);
     }
@@ -189,38 +187,24 @@ module.exports = function getDomainRoutes(domains, headers, cb) {
 };
 
 function getGlobDomainRoutes(domains, headers, cb) {
-    console.log("getGlobDomainRoutes: ", domains);
     var resolveDomain = Object.keys(domains)
         .map(domain => {
             var hostExcludingPort = (headers.host || "").split(":")[0];
-            console.log("--- domain : ", domain, hostExcludingPort);
 
             var domainRegex = new RegExp(domain, "g");
 
-            console.log("--- domainRegex: ", domainRegex);
-
             if (domainRegex.test(hostExcludingPort)) {
-                console.log(
-                    "----- testy test: ",
-                    headers.host,
-                    domain,
-                    domains[domain]
-                );
                 return domains[domain];
             }
             return undefined;
         })
         .filter(d => d)[0];
 
-    console.log("--- resolveDomain: ", resolveDomain);
-
     if (typeof resolveDomain !== "function") {
         return cb(null, resolveDomain);
     }
 
-    return resolveDomain(headers, (headers, cb) => {
-        console.log("-- i heard you like callbacks: ", cb, headers);
-    });
+    return resolveDomain(headers);
 }
 module.exports.getGlobDomainRoutes = getGlobDomainRoutes;
 
