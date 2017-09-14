@@ -98,14 +98,6 @@ exports.requests = {
         url: "/"
     },
 
-    multiClubsSubdomain: {
-        header: {
-            host: "lions.wildcat.clubs.nfl.com",
-            "user-agent": exports.stubUserAgent
-        },
-        url: "/"
-    },
-
     noSubdomain: {
         header: {
             host: "example.com",
@@ -386,12 +378,7 @@ exports.subdomains = {
 
     sync: {
         domains: {
-            www: routes,
-            clubs: {
-                lions: {
-                    routes
-                }
-            }
+            www: routes
         }
     }
 };
@@ -540,9 +527,6 @@ exports.domainsWithMultipleAliases = {
         domains: {
             domainAliases: exports.domainAliasesMultiple,
             example: exports.subdomains.sync,
-            clubs: {
-                lions: routes
-            },
             external: {
                 test: routes
             }
