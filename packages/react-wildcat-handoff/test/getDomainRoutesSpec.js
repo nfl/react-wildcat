@@ -12,7 +12,7 @@ const {
 const newDomains = {
     globMatching: true,
     domainAliases: {},
-    "lions*(dev|com)": (foo, bar) => {
+    "lions.*(dev|com)": (foo, bar) => {
         console.log("Lions test callback: ", foo, bar);
     },
     "www.nfl.(dev|com)": (foo, bar) => {

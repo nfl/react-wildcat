@@ -400,7 +400,7 @@ exports.regexDomains = {
     async: {
         domains: {
             routes: {
-                "lions*(dev|com)": function getRoutes(location, cb) {
+                "lions.*(dev|com)": function getRoutes(location, cb) {
                     return setTimeout(() => cb(exports.callbackError), 0);
                 },
                 "www.example.(dev|com)": function getRoutes(location, cb) {
@@ -413,7 +413,7 @@ exports.regexDomains = {
     sync: {
         domains: {
             routes: {
-                "lions*(dev|com)": routes,
+                "lions.*(dev|com)": routes,
                 "www.example.(dev|com)": routes
             }
         }
