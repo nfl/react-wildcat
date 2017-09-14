@@ -187,11 +187,23 @@ module.exports = function getDomainRoutes(domains, headers, cb) {
 };
 
 function getGlobDomainRoutes(domains, headers, cb) {
+    console.error("---- domains: ", domains);
+    console.error("---- headers: ", headers);
+
     var resolveDomain = Object.keys(domains)
         .map(domain => {
+            console.error("-- resolveDomain domain:", domain);
             var hostExcludingPort = (headers.host || "").split(":")[0];
 
-            var domainRegex = new RegExp(domain, "g");
+            console.error("hostExcludingPort", hostExcludingPort);
+
+            try {
+                var domainRegex = new RegExp(domain, "g");
+            } catch (err) {
+                console.error("Invalid Regex: ", domain, err);
+            }
+
+            console.error("--- domainRegex: ", domainRegex);
 
             if (domainRegex.test(hostExcludingPort)) {
                 return domains[domain];

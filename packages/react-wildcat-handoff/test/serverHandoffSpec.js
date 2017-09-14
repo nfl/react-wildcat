@@ -395,7 +395,7 @@ describe("react-wildcat-handoff/server", () => {
             });
         });
 
-        describe("matches regex domains", () => {
+        describe.only("matches regex domains", () => {
             ["async", "sync"].forEach(timing => {
                 it(timing, done => {
                     const serverHandoff = server(stubs.regexDomains[timing]);
