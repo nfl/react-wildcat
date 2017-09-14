@@ -6,9 +6,10 @@ const __PROD__ = process.env.NODE_ENV === "production";
 const __TEST__ = process.env.BABEL_ENV === "test";
 
 function getDefaultSSLFile(filename) {
-    const filePath = process.env.HOST === "localhost" || !process.env.HOST
-        ? "../packages/react-wildcat/ssl/server."
-        : "ssl/example.";
+    const filePath =
+        process.env.HOST === "localhost" || !process.env.HOST
+            ? "../packages/react-wildcat/ssl/server."
+            : "ssl/example.";
     return fs.readFileSync(
         path.join(__dirname, `${filePath}${filename}`),
         "utf8"
@@ -32,9 +33,10 @@ const excludes = ["**/node_modules/**", "**/test/**", "**/Test*", "**/*.json"];
 /* istanbul ignore next */
 const wildcatConfig = {
     generalSettings: {
-        seleniumAddress: process.env.HOST === "localhost" || !process.env.HOST
-            ? null
-            : "http://selenium:4444/wd/hub",
+        seleniumAddress:
+            process.env.HOST === "localhost" || !process.env.HOST
+                ? null
+                : "http://selenium:4444/wd/hub",
 
         // Project name
         name: pkg.name,

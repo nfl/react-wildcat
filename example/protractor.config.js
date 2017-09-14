@@ -92,8 +92,14 @@ exports.config = {
         // Move right to view tests in the background
         const browserOffset = 800;
 
-        browser.driver.manage().window().setSize(browserWidth, browserHeight);
-        browser.driver.manage().window().setPosition(browserOffset, 0);
+        browser.driver
+            .manage()
+            .window()
+            .setSize(browserWidth, browserHeight);
+        browser.driver
+            .manage()
+            .window()
+            .setPosition(browserOffset, 0);
 
         browser.ignoreSynchronization = true;
     },
