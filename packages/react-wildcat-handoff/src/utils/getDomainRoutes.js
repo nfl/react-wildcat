@@ -140,7 +140,7 @@ function completeGetDomainRoutes(resolveOptions, cb) {
 
 module.exports = function getDomainRoutes(domains, headers, cb) {
     if (domains.routes) {
-        return getGlobDomainRoutes(domains.routes, headers, cb);
+        return getRegexDomainRoutes(domains.routes, headers, cb);
     }
 
     var host = headers.host;
@@ -186,7 +186,7 @@ module.exports = function getDomainRoutes(domains, headers, cb) {
     return resolveDomain(headers, cb);
 };
 
-function getGlobDomainRoutes(domains, headers, cb) {
+function getRegexDomainRoutes(domains, headers, cb) {
     var resolveDomain = Object.keys(domains)
         .map(domain => {
             var hostExcludingPort = (headers.host || "").split(":")[0];
@@ -210,7 +210,6 @@ function getGlobDomainRoutes(domains, headers, cb) {
 
     return resolveDomain(headers, cb);
 }
-module.exports.getGlobDomainRoutes = getGlobDomainRoutes;
 
 module.exports.mapDomainToAlias = mapDomainToAlias;
 module.exports.mapSubdomainToAlias = mapSubdomainToAlias;
