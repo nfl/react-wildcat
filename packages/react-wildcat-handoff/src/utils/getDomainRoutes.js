@@ -195,9 +195,10 @@ function getRegexDomainRoutes(domains, headers, cb) {
                 var domainRegex = new RegExp(domain, "g");
             } catch (err) {
                 console.error("Invalid Regex: ", domain, err);
+                return undefined;
             }
 
-            if (domainRegex.test(hostExcludingPort)) {
+            if (domainRegex && domainRegex.test(hostExcludingPort)) {
                 return domains[domain];
             }
             return undefined;
