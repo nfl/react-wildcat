@@ -35,8 +35,8 @@ describe("react-wildcat-handoff/client", () => {
     it("exists", () => {
         expect(client).to.exist;
 
-        expect(client).to.be
-            .a("function")
+        expect(client)
+            .to.be.a("function")
             .that.has.property("name")
             .that.equals("client");
     });
@@ -49,16 +49,16 @@ describe("react-wildcat-handoff/client", () => {
                         .then(([response]) => {
                             expect(response).to.exist;
 
-                            expect(response).to.be.an
-                                .instanceof(HTMLDivElement)
+                            expect(response)
+                                .to.be.an.instanceof(HTMLDivElement)
                                 .that.has.property("id")
                                 .that.equals(
                                     stubs.wildcatConfig.clientSettings
                                         .reactRootElementID
                                 );
 
-                            expect(response).to.have
-                                .property("dataset")
+                            expect(response)
+                                .to.have.property("dataset")
                                 .that.is.an.instanceof(DOMStringMap)
                                 .that.has.property("reactAvailable")
                                 .that.equals("true");
@@ -90,16 +90,16 @@ describe("react-wildcat-handoff/client", () => {
                         .then(([response]) => {
                             expect(response).to.exist;
 
-                            expect(response).to.be.an
-                                .instanceof(HTMLDivElement)
+                            expect(response)
+                                .to.be.an.instanceof(HTMLDivElement)
                                 .that.has.property("id")
                                 .that.equals(
                                     stubs.wildcatConfig.clientSettings
                                         .reactRootElementID
                                 );
 
-                            expect(response).to.have
-                                .property("dataset")
+                            expect(response)
+                                .to.have.property("dataset")
                                 .that.is.an.instanceof(DOMStringMap)
                                 .that.has.property("reactAvailable")
                                 .that.equals("true");
@@ -120,16 +120,16 @@ describe("react-wildcat-handoff/client", () => {
                         .then(([response]) => {
                             expect(response).to.exist;
 
-                            expect(response).to.be.an
-                                .instanceof(HTMLDivElement)
+                            expect(response)
+                                .to.be.an.instanceof(HTMLDivElement)
                                 .that.has.property("id")
                                 .that.equals(
                                     stubs.wildcatConfig.clientSettings
                                         .reactRootElementID
                                 );
 
-                            expect(response).to.have
-                                .property("dataset")
+                            expect(response)
+                                .to.have.property("dataset")
                                 .that.is.an.instanceof(DOMStringMap)
                                 .that.has.property("reactAvailable")
                                 .that.equals("true");
@@ -150,16 +150,16 @@ describe("react-wildcat-handoff/client", () => {
                         .then(([response]) => {
                             expect(response).to.exist;
 
-                            expect(response).to.be.an
-                                .instanceof(HTMLDivElement)
+                            expect(response)
+                                .to.be.an.instanceof(HTMLDivElement)
                                 .that.has.property("id")
                                 .that.equals(
                                     stubs.wildcatConfig.clientSettings
                                         .reactRootElementID
                                 );
 
-                            expect(response).to.have
-                                .property("dataset")
+                            expect(response)
+                                .to.have.property("dataset")
                                 .that.is.an.instanceof(DOMStringMap)
                                 .that.has.property("reactAvailable")
                                 .that.equals("true");

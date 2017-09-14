@@ -23,8 +23,8 @@ module.exports = stubs => {
 
         it("provides a middleware function", () => {
             const webpackHotMiddleware = require("../../src/middleware/webpackHotMiddleware");
-            expect(webpackHotMiddleware).to.be
-                .a("function")
+            expect(webpackHotMiddleware)
+                .to.be.a("function")
                 .that.has.property("name")
                 .that.equals("webpackHotMiddleware");
         });

@@ -24,11 +24,7 @@ const World = createReactClass({
     },
 
     render() {
-        return (
-            <div>
-                {Object.keys(this.props)}
-            </div>
-        );
+        return <div>{Object.keys(this.props)}</div>;
     }
 });
 

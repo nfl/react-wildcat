@@ -28,8 +28,8 @@ module.exports = stubs => {
                     id
                 });
 
-                expect(result).to.be
-                    .a("string")
+                expect(result)
+                    .to.be.a("string")
                     .that.equals(
                         `${chalk.styles.gray.open}${id}  ~>${chalk.styles.gray
                             .close}`
@@ -54,8 +54,8 @@ module.exports = stubs => {
                         }
                     );
 
-                    expect(result).to.be
-                        .a("string")
+                    expect(result)
+                        .to.be.a("string")
                         .that.equals(
                             chalk.styles[status.color].open +
                                 status.code +
@@ -76,8 +76,8 @@ module.exports = stubs => {
                         [parameter]: url
                     });
 
-                    expect(result).to.be
-                        .a("string")
+                    expect(result)
+                        .to.be.a("string")
                         .that.equals(
                             chalk.styles.gray.open +
                                 url +

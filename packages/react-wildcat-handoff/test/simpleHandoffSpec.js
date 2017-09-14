@@ -9,8 +9,8 @@ describe("react-wildcat-handoff/simple", () => {
     it("exists", () => {
         expect(simple).to.exist;
 
-        expect(simple).to.be
-            .a("function")
+        expect(simple)
+            .to.be.a("function")
             .that.has.property("name")
             .that.equals("simple");
     });
@@ -19,8 +19,8 @@ describe("react-wildcat-handoff/simple", () => {
         it("returns HTML on a route", done => {
             const simpleHandoff = simple(stubs.routes.sync);
 
-            expect(simpleHandoff).to.be
-                .a("function")
+            expect(simpleHandoff)
+                .to.be.a("function")
                 .that.has.property("name")
                 .that.equals("simpleHandoff");
 
@@ -31,8 +31,8 @@ describe("react-wildcat-handoff/simple", () => {
                 stubs.wildcatConfig
             )
                 .then(response => {
-                    expect(response).to.be
-                        .an("object")
+                    expect(response)
+                        .to.be.an("object")
                         .that.has.property("html")
                         .that.is.a("string");
 

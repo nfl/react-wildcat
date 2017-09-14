@@ -28,12 +28,12 @@ module.exports = stubs => {
 
             expect(morganOptions).to.be.an("object");
 
-            expect(morganOptions).to.have
-                .property("skip")
+            expect(morganOptions)
+                .to.have.property("skip")
                 .that.is.a("function");
 
-            expect(morganOptions).to.have
-                .property("stream")
+            expect(morganOptions)
+                .to.have.property("stream")
                 .that.is.an("object")
                 .that.has.property("write")
                 .that.is.a("function");
@@ -108,12 +108,12 @@ module.exports = stubs => {
 
                             expect(morganOptions).to.be.an("object");
 
-                            expect(morganOptions).to.have
-                                .property("skip")
+                            expect(morganOptions)
+                                .to.have.property("skip")
                                 .that.is.a("function");
 
-                            expect(morganOptions).to.have
-                                .property("stream")
+                            expect(morganOptions)
+                                .to.have.property("stream")
                                 .that.is.an("object")
                                 .that.has.property("write")
                                 .that.is.a("function");

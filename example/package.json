@@ -63,7 +63,7 @@
         "istanbul": "https://github.com/nfl/istanbul/tarball/0.4.5/source-map-resolve",
         "jest": "^20.0.4",
         "mocha": "^3.2.0",
-        "prettier": "^1.4.4",
+        "prettier": "^1.6.1",
         "progress-bar-webpack-plugin": "^1.9.3",
         "protractor": "^5.1.0",
         "protractor-console": "^2.0.1",
