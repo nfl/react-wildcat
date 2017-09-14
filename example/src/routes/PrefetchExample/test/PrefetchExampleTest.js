@@ -60,8 +60,8 @@ describe("Prefetch Example", () => {
     describe("routes", () => {
         it("has a defined path", () => {
             expect(prefetchExampleRoutes).to.exist;
-            expect(prefetchExampleRoutes).to.have
-                .property("path")
+            expect(prefetchExampleRoutes)
+                .to.have.property("path")
                 .that.is.a("string")
                 .that.equals(prefetchExamplePath);
         });

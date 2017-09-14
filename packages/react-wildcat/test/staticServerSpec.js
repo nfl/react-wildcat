@@ -150,8 +150,8 @@ describe("staticServer", () => {
                                 .then(result => {
                                     expect(result).to.exist;
 
-                                    expect(result).to.be
-                                        .an("object")
+                                    expect(result)
+                                        .to.be.an("object")
                                         .that.has.property("env")
                                         .that.equals(currentEnv);
 

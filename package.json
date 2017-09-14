@@ -65,7 +65,7 @@
         "mocha": "^2.4.5",
         "mocha-loader": "^1.1.0",
         "phantomjs-prebuilt": "^2.1.7",
-        "prettier": "^1.4.4",
+        "prettier": "^1.6.1",
         "prop-types": "^15.5.10",
         "proxyquire": "^1.7.4",
         "react": "15.4.2",
