@@ -401,10 +401,12 @@ exports.regexDomains = {
         domains: {
             routes: {
                 "lions.*(dev|com)": function getRoutes(location, cb) {
-                    return setTimeout(() => cb(exports.callbackError), 0);
+                    console.error("------1 regexDomains: ", location);
+                    return setTimeout(() => cb(null, routes), 0);
                 },
                 "www.example.(dev|com)": function getRoutes(location, cb) {
-                    return setTimeout(() => cb(exports.callbackError), 0);
+                    console.error("------1 regexDomains: ", location);
+                    return setTimeout(() => cb(null, routes), 0);
                 }
             }
         }

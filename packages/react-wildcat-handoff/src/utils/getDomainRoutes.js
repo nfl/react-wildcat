@@ -216,7 +216,7 @@ function getGlobDomainRoutes(domains, headers, cb) {
         return cb(null, resolveDomain);
     }
 
-    return resolveDomain(headers);
+    return resolveDomain(headers, cb);
 }
 module.exports.getGlobDomainRoutes = getGlobDomainRoutes;
 
