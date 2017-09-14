@@ -403,7 +403,7 @@ exports.regexDomains = {
                 "*lions*(dev|com)": function getRoutes(location, cb) {
                     return setTimeout(() => cb(exports.callbackError), 0);
                 },
-                "www.nfl.(dev|com)": function getRoutes(location, cb) {
+                "www.example.(dev|com)": function getRoutes(location, cb) {
                     return setTimeout(() => cb(exports.callbackError), 0);
                 }
             }
@@ -414,7 +414,7 @@ exports.regexDomains = {
         domains: {
             routes: {
                 "*lions*(dev|com)": routes,
-                "www.nfl.(dev|com)": routes
+                "www.example.(dev|com)": routes
             }
         }
     }
