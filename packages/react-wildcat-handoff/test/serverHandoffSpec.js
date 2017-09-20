@@ -399,71 +399,32 @@ describe("react-wildcat-handoff/server", () => {
             ["async", "sync"].forEach(timing => {
                 it(timing, done => {
                     const serverHandoff = server(stubs.regexDomains[timing]);
+                    ["clubs", "stageClub", "prodClub"].forEach(request => {
+                        expect(serverHandoff)
+                            .to.be.a("function")
+                            .that.has.property("name")
+                            .that.equals("serverHandoff");
 
-                    expect(serverHandoff)
-                        .to.be.a("function")
-                        .that.has.property("name")
-                        .that.equals("serverHandoff");
+                        const result = serverHandoff(
+                            stubs.requests[request],
+                            stubs.response,
+                            stubs.cookieParser,
+                            stubs.wildcatConfig
+                        )
+                            .then(response => {
+                                expect(response)
+                                    .to.be.an("object")
+                                    .that.has.property("html")
+                                    .that.is.a("string");
 
-                    const result = serverHandoff(
-                        stubs.requests.clubs,
-                        stubs.response,
-                        stubs.cookieParser,
-                        stubs.wildcatConfig
-                    )
-                        .then(response => {
-                            expect(response)
-                                .to.be.an("object")
-                                .that.has.property("html")
-                                .that.is.a("string");
+                                expect(response.status).to.equal(200);
 
-                            expect(response.status).to.equal(200);
+                                done();
+                            })
+                            .catch(error => done(error));
 
-                            done();
-                        })
-                        .catch(error => done(error));
-
-                    expect(result).to.be.an.instanceof(Promise);
-
-                    const result2 = serverHandoff(
-                        stubs.requests.prodClub,
-                        stubs.response,
-                        stubs.cookieParser,
-                        stubs.wildcatConfig
-                    )
-                        .then(response => {
-                            expect(response)
-                                .to.be.an("object")
-                                .that.has.property("html")
-                                .that.is.a("string");
-
-                            expect(response.status).to.equal(200);
-
-                            done();
-                        })
-                        .catch(error => done(error));
-
-                    expect(result2).to.be.an.instanceof(Promise);
-
-                    const result3 = serverHandoff(
-                        stubs.requests.stageClub,
-                        stubs.response,
-                        stubs.cookieParser,
-                        stubs.wildcatConfig
-                    )
-                        .then(response => {
-                            expect(response)
-                                .to.be.an("object")
-                                .that.has.property("html")
-                                .that.is.a("string");
-
-                            expect(response.status).to.equal(200);
-
-                            done();
-                        })
-                        .catch(error => done(error));
-
-                    expect(result3).to.be.an.instanceof(Promise);
+                        expect(result).to.be.an.instanceof(Promise);
+                    });
                 });
             });
         });
