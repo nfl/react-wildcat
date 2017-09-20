@@ -1,4 +1,4 @@
-import {spawn} from "child_process";
+const {spawn} = require("child_process");
 
 const childProcesses = new Set();
 
@@ -8,7 +8,7 @@ const childProcesses = new Set();
  * @param  {Object}  options Options to pass to the spawner (https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options)
  * @return {Promise}         Returns a promise, resolves when the process is complete
  */
-export default function yawn(
+module.exports = function yawn(
     command,
     options = {
         stdio: "inherit"
@@ -19,10 +19,9 @@ export default function yawn(
 
     return new Promise((resolve, reject) => {
         if (resolveWhenLineIncludes && !options.stdio) {
-            options = {
-                ...options,
+            options = Object.assign(options, {
                 stdio: [0, "pipe", 2]
-            };
+            });
         }
         const child = spawn(cmd, npmArgs, options);
 
@@ -71,7 +70,7 @@ export default function yawn(
 
         childProcesses.add(child);
     });
-}
+};
 
 /**
  * Kills all tracked child processes

@@ -1,10 +1,10 @@
-import rimraf from "rimraf";
+const rimraf = require("rimraf");
 
 /**
  * Cleans a specified directory
  * @return {Promise}        Returns a promise
  */
-export default async function cleanDirectory(directory) {
+module.exports = async function cleanDirectory(directory) {
     return new Promise((resolve, reject) => {
         if (!directory) {
             return reject(new Error("Directory not specified"));
@@ -18,4 +18,4 @@ export default async function cleanDirectory(directory) {
             return resolve();
         });
     });
-}
+};
