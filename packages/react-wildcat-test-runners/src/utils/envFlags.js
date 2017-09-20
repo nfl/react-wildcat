@@ -1,4 +1,4 @@
-import {argv} from "yargs";
+const {argv} = require("yargs");
 
 const BABEL_ENV = "test";
 const COVERAGE = process.env.COVERAGE;
@@ -16,4 +16,4 @@ const FLAGS = [
     .filter(e => e)
     .join(" ");
 
-export const testEnv = `env ${FLAGS}`;
+exports.testEnv = `env ${FLAGS}`;
