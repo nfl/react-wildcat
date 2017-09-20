@@ -417,11 +417,53 @@ describe("react-wildcat-handoff/server", () => {
                                 .that.has.property("html")
                                 .that.is.a("string");
 
+                            expect(response.status).to.equal(200);
+
                             done();
                         })
                         .catch(error => done(error));
 
                     expect(result).to.be.an.instanceof(Promise);
+
+                    const result2 = serverHandoff(
+                        stubs.requests.prodClub,
+                        stubs.response,
+                        stubs.cookieParser,
+                        stubs.wildcatConfig
+                    )
+                        .then(response => {
+                            expect(response)
+                                .to.be.an("object")
+                                .that.has.property("html")
+                                .that.is.a("string");
+
+                            expect(response.status).to.equal(200);
+
+                            done();
+                        })
+                        .catch(error => done(error));
+
+                    expect(result2).to.be.an.instanceof(Promise);
+
+                    const result3 = serverHandoff(
+                        stubs.requests.stageClub,
+                        stubs.response,
+                        stubs.cookieParser,
+                        stubs.wildcatConfig
+                    )
+                        .then(response => {
+                            expect(response)
+                                .to.be.an("object")
+                                .that.has.property("html")
+                                .that.is.a("string");
+
+                            expect(response.status).to.equal(200);
+
+                            done();
+                        })
+                        .catch(error => done(error));
+
+                    expect(result3).to.be.an.instanceof(Promise);
                 });
             });
         });
@@ -483,6 +525,8 @@ describe("react-wildcat-handoff/server", () => {
                                 .to.be.an("object")
                                 .that.has.property("html")
                                 .that.is.a("string");
+
+                            expect(response.status).to.equal(200);
 
                             done();
                         })

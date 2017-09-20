@@ -34,6 +34,22 @@ exports.requests = {
         url: "/"
     },
 
+    prodClub: {
+        header: {
+            host: "www.lions.com",
+            "user-agent": exports.stubUserAgent
+        },
+        url: "/"
+    },
+
+    stageClub: {
+        header: {
+            host: "www-staging.lions.com",
+            "user-agent": exports.stubUserAgent
+        },
+        url: "/"
+    },
+
     ephemeral: {
         header: {
             host: "www-staging.example.com",
@@ -299,8 +315,9 @@ exports.Application = createReactClass({
         return React.createElement("div");
     }
 });
+exports.Application.routerProps = {status: 200};
 
-const NotFoundApplication = exports.Application;
+const NotFoundApplication = Object.assign({}, exports.Application);
 NotFoundApplication.routerProps = {status: 404};
 
 const routes = React.createElement(
@@ -387,7 +404,7 @@ exports.regexDomains = {
     async: {
         domains: {
             routes: {
-                "lions.*(dev|com)": function getRoutes(location, cb) {
+                ".*lions.*(dev|com)": function getRoutes(location, cb) {
                     return setTimeout(() => cb(null, routes), 0);
                 },
                 "**InvalidRegex**": function getERRRoutes(location, cb) {
@@ -400,7 +417,7 @@ exports.regexDomains = {
     sync: {
         domains: {
             routes: {
-                "lions.*(dev|com)": routes,
+                ".*lions.*(dev|com)": routes,
                 "www.example.(dev|com)": routes
             }
         }
