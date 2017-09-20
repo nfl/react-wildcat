@@ -1,21 +1,22 @@
 {
     "env": {
         "production": {
-            "presets": [
-                "react-optimize"
-            ],
+            "presets": ["react-optimize"],
             "sourceMaps": false
         },
         "test": {
             "plugins": [
-                ["istanbul", {
-                    "exclude": [
-                        "**/node_modules/**",
-                        "**/test/**",
-                        "**/Test*"
-                    ]
-                }],
-                "dynamic-import-node"
+                [
+                    "istanbul",
+                    {
+                        "exclude": [
+                            "**/node_modules/**",
+                            "**/test/**",
+                            "**/Test*"
+                        ]
+                    }
+                ],
+                "syntax-dynamic-import"
             ],
             "sourceMaps": "inline"
         }
@@ -30,16 +31,18 @@
         "syntax-dynamic-import"
     ],
     "presets": [
-        ["env", {
-            "targets": {
-                "browsers": ["last 1 versions", "ie >= 11"]
-            },
-            "modules": "commonjs",
-            "loose": true,
-            "useBuiltIns": true
-        }],
-        "react",
-        "es2015"
+        [
+            "env",
+            {
+                "targets": {
+                    "browsers": ["last 1 versions", "ie >= 11"]
+                },
+                "modules": "commonjs",
+                "loose": true,
+                "useBuiltIns": true
+            }
+        ],
+        "react"
     ],
     "sourceMaps": "inline"
 }

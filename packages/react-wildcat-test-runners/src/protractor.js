@@ -1,11 +1,11 @@
-import url from "url";
-import path from "path";
-import yawn from "./utils/yawn.js";
-import cleanDirectory from "./utils/cleanDirectory.js";
-import checkServerStatus from "./utils/checkServerStatus.js";
-import startLocalServer from "./utils/startLocalServer.js";
-import startStaticServer from "./utils/startStaticServer.js";
-import writeCoverageResults from "./utils/writeCoverageResults.js";
+const url = require("url");
+const path = require("path");
+const yawn = require("./utils/yawn.js");
+const cleanDirectory = require("./utils/cleanDirectory.js");
+const checkServerStatus = require("./utils/checkServerStatus.js");
+const startLocalServer = require("./utils/startLocalServer.js");
+const startStaticServer = require("./utils/startStaticServer.js");
+const writeCoverageResults = require("./utils/writeCoverageResults.js");
 
 const cwd = process.cwd();
 
@@ -39,7 +39,7 @@ const args = process.argv
     .trim();
 
 /* eslint-disable no-process-exit */
-export default (async () => {
+module.exports = (async () => {
     try {
         const origin = originUrl;
         const shouldStartLocalServer = await checkServerStatus(origin);
