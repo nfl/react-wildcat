@@ -1,7 +1,7 @@
 {
     "name": "react-wildcat-example",
     "description": "An example Wildcat project.",
-    "version": "7.6.0",
+    "version": "7.8.0",
     "dependencies": {
         "babel-jest": "^20.0.3",
         "koa-favicon": "^1.2.1",
@@ -10,11 +10,11 @@
         "prop-types": "^15.5.10",
         "radium": "^0.18.1",
         "react-dom": "^15.4.2",
-        "react-helmet": "^4.0.0",
+        "react-helmet": "^5.2.0",
         "react-metrics": "^2.2.3",
         "react-router": "^3.0.2",
-        "react-wildcat": "7.6.0",
-        "react-wildcat-prefetch": "7.6.0",
+        "react-wildcat": "7.8.0",
+        "react-wildcat-prefetch": "7.8.0",
         "rimraf": "^2.5.4"
     },
     "devDependencies": {
@@ -70,7 +70,7 @@
         "protractor-istanbul-plugin": "^2.0.0",
         "react": "^15.4.2",
         "react-hot-loader": "^3.0.0-beta.6",
-        "react-wildcat-test-runners": "7.0.0",
+        "react-wildcat-test-runners": "7.8.0",
         "replace": "^0.3.0",
         "sinon": "^1.17.6",
         "sinon-chai": "^2.8.0",
