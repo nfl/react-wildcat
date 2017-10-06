@@ -2,7 +2,7 @@
 const ReactDOM = require("react-dom/server");
 const Router = require("react-router");
 const serverContext = require("./serverContext.js");
-const Helmet = require("react-helmet"); // eslint-disable-line import/no-unresolved
+const {Helmet} = require("react-helmet"); // eslint-disable-line import/no-unresolved
 
 const defaultTemplate = require("./defaultTemplate.js");
 
@@ -110,7 +110,7 @@ module.exports = function serverRender(cfg) {
                                     meta: "",
                                     title: ""
                                 },
-                                Helmet.rewind()
+                                Helmet.renderStatic()
                             );
 
                             const htmlTemplate =
