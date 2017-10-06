@@ -71,7 +71,7 @@
         "react": "15.4.2",
         "react-addons-test-utils": "15.4.2",
         "react-dom": "15.4.2",
-        "react-wildcat-prefetch": "^7.6.0",
+        "react-wildcat-prefetch": "^7.8.0",
         "resolve": "^1.1.7",
         "rimraf": "^2.5.2",
         "shelljs": "^0.7.0",

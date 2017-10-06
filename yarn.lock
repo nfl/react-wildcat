@@ -5295,9 +5295,9 @@ react-dom@15.4.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
 
-react-wildcat-prefetch@^7.6.0:
-  version "7.7.0"
-  resolved "https://registry.npmjs.org/react-wildcat-prefetch/-/react-wildcat-prefetch-7.7.0.tgz#c79214434bf71cfa129b58cdbc249c7f541d05ad"
+react-wildcat-prefetch@^7.8.0:
+  version "7.8.0"
+  resolved "https://registry.npmjs.org/react-wildcat-prefetch/-/react-wildcat-prefetch-7.8.0.tgz#d2984f68ccbcf2c4d6f9a5cacf2058f99dcc220c"
   dependencies:
     exenv "^1.2.1"
     hoist-non-react-statics "^1.0.5"

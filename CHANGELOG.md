@@ -1,3 +1,13 @@
+<a name="7.8.0"></a>
+# [7.8.0](https://github.com/nfl/react-wildcat/compare/7.6.0...7.8.0) (2017-10-06)
+
+
+### Features
+
+* React Helmet 5 ([92f26c4](https://github.com/nfl/react-wildcat/commit/92f26c4))
+
+
+
 <a name="7.6.0"></a>
 # [7.6.0](https://github.com/nfl/react-wildcat/compare/7.4.0...7.6.0) (2017-08-10)
 
