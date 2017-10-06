@@ -68,7 +68,7 @@ exports.config = {
                     "env",
                     {
                         targets: {
-                            node: "8.5"
+                            node: 6.9
                         },
                         modules: "commonjs",
                         loose: true,
