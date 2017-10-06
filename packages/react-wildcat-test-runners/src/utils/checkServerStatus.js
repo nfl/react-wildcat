@@ -1,10 +1,10 @@
-const request = require("request");
+import request from "request";
 
 /**
  * Checks the local environment for a running server.
  * @return {Promise} Returns a promise, an eventual Boolean
  */
-module.exports = async function checkServerStatus(origin) {
+export default async function checkServerStatus(origin) {
     try {
         return new Promise(resolve => {
             request(
@@ -18,4 +18,4 @@ module.exports = async function checkServerStatus(origin) {
     } catch (e) {
         return Promise.resolve(true);
     }
-};
+}

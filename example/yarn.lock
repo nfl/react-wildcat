@@ -2519,8 +2519,8 @@ eslint-plugin-async-await@^0.0.0:
   resolved "https://registry.npmjs.org/eslint-plugin-async-await/-/eslint-plugin-async-await-0.0.0.tgz#0f2ae17a3814780635d48f2409df9e37898ca09f"
 
 eslint-plugin-flowtype@^2.25.0:
-  version "2.39.0"
-  resolved "https://registry.npmjs.org/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.39.0.tgz#40d14d8799717d3fc90658ceb6fc2b6cdf2a5531"
+  version "2.39.1"
+  resolved "https://registry.npmjs.org/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.39.1.tgz#b5624622a0388bcd969f4351131232dcb9649cd5"
   dependencies:
     lodash "^4.15.0"
 

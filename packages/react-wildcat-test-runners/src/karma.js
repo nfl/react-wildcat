@@ -1,8 +1,8 @@
-const path = require("path");
-const glob = require("glob");
-const open = require("open");
-const yawn = require("./utils/yawn.js");
-const cleanDirectory = require("./utils/cleanDirectory.js");
+import path from "path";
+import glob from "glob";
+import open from "open";
+import yawn from "./utils/yawn.js";
+import cleanDirectory from "./utils/cleanDirectory.js";
 
 const cwd = process.cwd();
 
@@ -17,7 +17,7 @@ const args = process.argv
     .trim();
 
 /* eslint-disable no-process-exit */
-module.exports = (async () => {
+export default (async () => {
     try {
         const coverage = generalSettings.coverage;
         const unitReportDir = coverageSettings.unit.reporting.dir;

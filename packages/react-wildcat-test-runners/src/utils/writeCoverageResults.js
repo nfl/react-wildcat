@@ -1,9 +1,9 @@
-const fs = require("fs");
-const path = require("path");
-const open = require("open");
-const glob = require("glob");
-const istanbul = require("istanbul");
-const configuration = require("istanbul/lib/config");
+import fs from "fs";
+import path from "path";
+import open from "open";
+import glob from "glob";
+import istanbul from "istanbul";
+import configuration from "istanbul/lib/config";
 
 const cwd = process.cwd();
 
@@ -11,7 +11,7 @@ const cwd = process.cwd();
  * Starts a local server in production mode
  * @return {Promise}        Returns a promise
  */
-module.exports = async function writeCoverageResults(coverageEnvSettings) {
+export default async function writeCoverageResults(coverageEnvSettings) {
     return new Promise((resolve, reject) => {
         const reporterConfig = configuration.loadFile(
             null,
@@ -53,4 +53,4 @@ module.exports = async function writeCoverageResults(coverageEnvSettings) {
             return undefined;
         });
     });
-};
+}
