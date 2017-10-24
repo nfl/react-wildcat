@@ -1258,6 +1258,10 @@ hawk@~6.0.2:
     hoek "4.x.x"
     sntp "2.x.x"
 
+heapdump@0.3.9:
+  version "0.3.9"
+  resolved "https://registry.npmjs.org/heapdump/-/heapdump-0.3.9.tgz#03c74eb0df5d67be0982e83429ba9c9d2b3b7f78"
+
 hmac-drbg@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -1819,6 +1823,12 @@ memwatch-next@^0.3.0:
   dependencies:
     bindings "^1.2.1"
     nan "^2.3.2"
+
+memwatch-sigusr2@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/memwatch-sigusr2/-/memwatch-sigusr2-2.0.0.tgz#3d425f7c8f7bc3370c08596ebafd4f6a4abe8b99"
+  dependencies:
+    memwatch-next "^0.3.0"
 
 meow@^3.3.0:
   version "3.7.0"
