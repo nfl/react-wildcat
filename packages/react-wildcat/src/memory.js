@@ -6,7 +6,7 @@ function memory(logger) {
     logger = logger || console;
 
     heapdump.writeSnapshot((err, filename) => {
-        logger("Dump written to: ", filename);
+        logger.info("Dump written to: ", filename);
     });
 
     logger.info("Watching memory...");
