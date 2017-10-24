@@ -4,13 +4,13 @@ const heapdump = require("heapdump");
 function memory(logger) {
     logger = logger || console;
 
+    logger.info("Watching memory...");
+
     heapdump.writeSnapshot((err, filename) => {
         if (err) {
             logger.error("Error while writing snapshot to ", filename, err);
         }
     });
-
-    logger.info("Watching memory...");
 
     memwatch.on("leak", function MemwatchLeak(info) {
         logger.info(`${JSON.stringify(info)}`, {

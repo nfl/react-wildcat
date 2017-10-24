@@ -22,7 +22,7 @@ describe("memory", () => {
 
         setTimeout(() => {
             memwatch.emit("stats");
-            expect(logger.info.callCount).to.equal(4);
+            expect(logger.info.callCount).to.equal(8);
             done();
         }, 1);
     });
