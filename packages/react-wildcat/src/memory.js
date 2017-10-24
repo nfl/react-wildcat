@@ -1,8 +1,7 @@
-const memwatch = require("memwatch-sigusr2");
+const memwatch = require("memwatch");
 const heapdump = require("heapdump");
 
 function memory(logger) {
-    memwatch.setup();
     logger = logger || console;
 
     heapdump.writeSnapshot((err, filename) => {
