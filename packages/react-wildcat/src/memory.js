@@ -2,11 +2,12 @@ const memwatch = require("memwatch-sigusr2");
 const heapdump = require("heapdump");
 
 function memory(logger) {
-    heapdump.writeSnapshot((err, filename) => {
-        console.log("Dump written to: ", filename);
-    });
     memwatch.setup();
     logger = logger || console;
+
+    heapdump.writeSnapshot((err, filename) => {
+        logger("Dump written to: ", filename);
+    });
 
     logger.info("Watching memory...");
 
