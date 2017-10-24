@@ -1817,7 +1817,7 @@ memory-fs@^0.4.0, memory-fs@~0.4.1:
     errno "^0.1.3"
     readable-stream "^2.0.1"
 
-memwatch-next@^0.3.0:
+memwatch-next@0.3.0, memwatch-next@^0.3.0:
   version "0.3.0"
   resolved "https://registry.npmjs.org/memwatch-next/-/memwatch-next-0.3.0.tgz#2111050f9a906e0aa2d72a4ec0f0089c78726f8f"
   dependencies:
