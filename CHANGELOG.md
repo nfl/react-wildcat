@@ -1,3 +1,13 @@
+<a name="7.8.1"></a>
+## [7.8.1](https://github.com/nfl/react-wildcat/compare/7.8.0...7.8.1) (2017-10-25)
+
+
+### Features
+
+* **react-wildcat:** Add heapdump to debug mode ([#235](https://github.com/nfl/react-wildcat/issues/235)) ([59cffdd](https://github.com/nfl/react-wildcat/commit/59cffdd))
+
+
+
 <a name="7.8.0"></a>
 # [7.8.0](https://github.com/nfl/react-wildcat/compare/7.6.0...7.8.0) (2017-10-06)
 
