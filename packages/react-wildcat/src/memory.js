@@ -1,4 +1,5 @@
 const memwatch = require("memwatch-next");
+require("heapdump");
 
 function memory(logger) {
     logger = logger || console;
