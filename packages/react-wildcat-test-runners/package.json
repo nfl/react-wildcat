@@ -1,10 +1,11 @@
 {
   "name": "react-wildcat-test-runners",
-  "version": "7.8.0",
+  "version": "7.8.1",
   "description": "Test runners for Wildcat.",
   "bin": {
     "wildcat-protractor-runner": "./cli/protractor.js",
-    "wildcat-karma-runner": "./cli/karma.js"
+    "wildcat-karma-runner": "./cli/karma.js",
+    "wildcat-jest-runner": "./cli/jest.js"
   },
   "author": "engineers@nfl.com",
   "license": "MIT",
@@ -27,6 +28,7 @@
     "babel-polyfill": "*",
     "babel-register": "*",
     "istanbul": "*",
+    "jest": "*",
     "karma": "*",
     "protractor": "*"
   },
