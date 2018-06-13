@@ -23,7 +23,7 @@ module.exports = function clientRender(cfg) {
                     reactRootElementID
                 );
 
-                ReactDOM.render(
+                ReactDOM.hydrate(
                     component,
                     reactRootElement,
                     function addReactHook() {
