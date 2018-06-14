@@ -68,9 +68,9 @@
         "prettier": "^1.6.1",
         "prop-types": "^15.5.10",
         "proxyquire": "^1.7.4",
-        "react": "15.4.2",
-        "react-addons-test-utils": "15.4.2",
-        "react-dom": "15.4.2",
+        "raf": "3.4.0",
+        "react": "16.3.2",
+        "react-dom": "16.3.2",
         "react-wildcat-prefetch": "^7.8.0",
         "resolve": "^1.1.7",
         "rimraf": "^2.5.2",
@@ -83,11 +83,12 @@
     "scripts": {
         "changelog": "conventional-changelog -k packages/react-wildcat/package.json -p angular -i CHANGELOG.md -s",
         "test:node": "env BABEL_ENV=test jest --env=node jest test/node.test.js --config .jestrc.node.json",
-        "test:browser": "env BABEL_ENV=test jest test/browser.test.js --config .jestrc.browser.json"
+        "test:browser": "env BABEL_ENV=test jest test/browser.test.js --config .jestrc.browser.json --setupTestFrameworkScriptFile=raf/polyfill"
     },
     "config": {
         "commitizen": {
             "path": "./node_modules/cz-conventional-changelog"
         }
-    }
+    },
+    "dependencies": {}
 }
