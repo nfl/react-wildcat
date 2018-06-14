@@ -1,3 +1,11 @@
+<a name="8.0.0"></a>
+# [8.0.0](https://github.com/nfl/react-wildcat/compare/7.8.0...8.0.0) (2017-10-06)
+
+
+### Features
+
+* React 16.3.2 ([d581d53](https://github.com/nfl/react-wildcat/commit/d581d53))
+*
 <a name="7.8.1"></a>
 ## [7.8.1](https://github.com/nfl/react-wildcat/compare/7.8.0...7.8.1) (2017-10-25)
 

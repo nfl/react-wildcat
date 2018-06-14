@@ -1,7 +1,7 @@
 {
     "name": "react-wildcat-example",
     "description": "An example Wildcat project.",
-    "version": "7.8.0",
+    "version": "8.0.0",
     "dependencies": {
         "babel-jest": "^20.0.3",
         "koa-favicon": "^1.2.1",
@@ -14,7 +14,7 @@
         "react-metrics": "^2.2.3",
         "react-router": "^3.0.2",
         "react-wildcat": "8.0.0",
-        "react-wildcat-prefetch": "7.8.0",
+        "react-wildcat-prefetch": "8.0.0",
         "rimraf": "^2.5.4"
     },
     "devDependencies": {
