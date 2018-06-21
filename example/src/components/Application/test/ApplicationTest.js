@@ -1,11 +1,14 @@
 /*  eslint-disable indent */
 import React from "react";
-import {shallow} from "enzyme";
+import Enzyme, {shallow} from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
 import {TestMode} from "radium";
 import {expect} from "chai";
 
 import {ApplicationComponent as Application} from "../Application.js";
 import ApplicationContext from "../ApplicationContext.js";
+
+Enzyme.configure({adapter: new Adapter()});
 
 describe("Application", () => {
     const testChildText = "This text should exist.";

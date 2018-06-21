@@ -1,9 +1,12 @@
 import React from "react";
-import {shallow} from "enzyme";
+import Enzyme, {shallow} from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
 import {expect} from "chai";
 
 import IndexExample from "../IndexExample.js";
 import * as indexExampleRoutes from "../routes.js";
+
+Enzyme.configure({adapter: new Adapter()});
 
 describe("Index Example", () => {
     it("is available", () => {

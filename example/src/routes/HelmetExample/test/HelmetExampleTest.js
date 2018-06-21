@@ -1,9 +1,12 @@
 import React from "react";
-import {shallow} from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
+import Enzyme, {shallow} from "enzyme";
 import {expect} from "chai";
 
 import HelmetExample from "../HelmetExample.js";
 import * as helmetExampleRoutes from "../routes.js";
+
+Enzyme.configure({adapter: new Adapter()});
 
 describe("Helmet Example", () => {
     const helmetExamplePath = "/helmet-example";

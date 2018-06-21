@@ -1,11 +1,14 @@
 import "isomorphic-fetch";
 
 import React from "react";
-import {mount} from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
+import Enzyme, {mount} from "enzyme";
 import {expect} from "chai";
 
 import PrefetchExample from "../PrefetchExample.js";
 import * as prefetchExampleRoutes from "../routes.js";
+
+Enzyme.configure({adapter: new Adapter()});
 
 describe("Prefetch Example", () => {
     const prefetchExamplePath = "/prefetch-example";
