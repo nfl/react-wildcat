@@ -105,7 +105,7 @@ const wildcatConfig = {
         // config options for the app server
         appServer: {
             // One of http2 | https | http
-            protocol: "http2",
+            protocol: "http",
 
             hostname: process.env.HOST || "localhost",
 
@@ -123,43 +123,43 @@ const wildcatConfig = {
             // e.g. /static -> http://example.com/static
             proxies: {
                 "/proxy": "http://example.com/proxy"
-            },
+            }
 
             // Only applicable when one of http2/https is true
             // https://github.com/indutny/node-spdy#options
             // Only applicable when one of http2/https is true
             // https://github.com/indutny/node-spdy#options
-            secureSettings: {
-                // Provide your own key / cert / ca
-                key: defaultServerKey,
-                cert: defaultServerCert,
-                ca: defaultServerCA
-            }
+            // secureSettings: {
+            //     // Provide your own key / cert / ca
+            //     key: defaultServerKey,
+            //     cert: defaultServerCert,
+            //     ca: defaultServerCA
+            // }
         },
 
         // config options for the static server
         staticServer: {
             // An array of domains to allow for cross-origin requests
-            corsOrigins: ["localhost", "www.example.dev", "example.dev"],
+            corsOrigins: ["localhost", "www.example.local", "example.local"],
 
             // One of http2 | https | http
-            protocol: "http2",
+            protocol: "http",
 
             hostname: process.env.STATIC_HOST || "localhost",
 
             // Static server port
-            port: getPort(process.env.STATIC_PORT, 4000),
+            port: getPort(process.env.STATIC_PORT, 4000)
 
             // Only applicable when one of http2/https is true
             // https://github.com/indutny/node-spdy#options
             // Only applicable when one of http2/https is true
             // https://github.com/indutny/node-spdy#options
-            secureSettings: {
-                // Provide your own key / cert / ca
-                key: defaultServerKey,
-                cert: defaultServerCert,
-                ca: defaultServerCA
-            }
+            // secureSettings: {
+            //     // Provide your own key / cert / ca
+            //     key: defaultServerKey,
+            //     cert: defaultServerCert,
+            //     ca: defaultServerCA
+            // }
         }
     }
 };
