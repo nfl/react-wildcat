@@ -1,10 +1,13 @@
 import React from "react";
-import {shallow} from "enzyme";
+import Enzyme, {shallow} from "enzyme";
 import {TestMode} from "radium";
 import {expect} from "chai";
+import Adapter from "enzyme-adapter-react-16";
 
 import FlexboxExample from "../FlexboxExample.js";
 import * as flexboxExampleRoutes from "../routes.js";
+
+Enzyme.configure({adapter: new Adapter()});
 
 describe("Flexbox Example", () => {
     const flexboxExamplePath = "/flexbox-example";
