@@ -53,13 +53,13 @@ module.exports = stubs => {
 
             it(`uses calculated originUrl`, () => {
                 expect(wildcatConfig.generalSettings.originUrl).to.equal(
-                    "http://localhost:3000"
+                    "https://localhost:3000"
                 );
             });
 
             it(`uses calculated staticUrl`, () => {
                 expect(wildcatConfig.generalSettings.staticUrl).to.equal(
-                    "http://localhost:4000"
+                    "https://localhost:4000"
                 );
             });
         });
