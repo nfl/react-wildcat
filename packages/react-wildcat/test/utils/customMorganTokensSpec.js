@@ -31,8 +31,9 @@ module.exports = stubs => {
                 expect(result)
                     .to.be.a("string")
                     .that.equals(
-                        `${chalk.styles.gray.open}${id}  ~>${chalk.styles.gray
-                            .close}`
+                        `${chalk.styles.gray.open}${id}  ~>${
+                            chalk.styles.gray.close
+                        }`
                     );
             });
         });

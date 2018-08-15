@@ -63,14 +63,14 @@ Object.keys(logMethods).forEach(method => {
             console[method](...args);
 
             if (method === "error") {
-                args
-                    .filter(arg => arg instanceof Error && arg.stack)
-                    .forEach(arg => {
+                args.filter(arg => arg instanceof Error && arg.stack).forEach(
+                    arg => {
                         console.error(
                             addColor(`${this.id}  ~> Stack Trace:`, method)
                         );
                         console.error(addColor(arg.stack, method));
-                    });
+                    }
+                );
             }
 
             return true;

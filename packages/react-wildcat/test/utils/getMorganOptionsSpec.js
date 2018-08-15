@@ -94,7 +94,9 @@ module.exports = stubs => {
             }
         ].forEach(test => {
             context(
-                `returns custom morgan options when logLevel is ${test.logLevel}`,
+                `returns custom morgan options when logLevel is ${
+                    test.logLevel
+                }`,
                 () => {
                     Object.keys(test.statusCodes).forEach(statusCode => {
                         it(`with a ${statusCode} statusCode`, () => {
