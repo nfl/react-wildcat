@@ -1,7 +1,7 @@
 {
     "name": "react-wildcat-example",
     "description": "An example Wildcat project.",
-    "version": "7.8.1",
+    "version": "7.9.0",
     "dependencies": {
         "babel-jest": "^20.0.3",
         "koa-favicon": "^1.2.1",
