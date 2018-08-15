@@ -9,7 +9,7 @@
         "koa-static": "^2.0.0",
         "prop-types": "^15.5.10",
         "radium": "^0.18.1",
-        "react-dom": "^15.4.2",
+        "react-dom": "16.4.2",
         "react-helmet": "^5.2.0",
         "react-metrics": "^2.2.3",
         "react-router": "^3.0.2",
