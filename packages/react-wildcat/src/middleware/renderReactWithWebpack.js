@@ -8,7 +8,9 @@ module.exports = function renderReactWithWebpack(root, options) {
     const {logger, wildcatConfig} = options;
 
     const {
-        generalSettings: {env: {__DEV__}},
+        generalSettings: {
+            env: {__DEV__}
+        },
         serverSettings: {displayBlueBoxOfDeath, entry, webpackDevSettings}
     } = wildcatConfig;
 

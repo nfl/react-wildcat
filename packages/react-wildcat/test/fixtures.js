@@ -77,9 +77,11 @@ const statsWithErrors = Object.assign({}, stats, {
 });
 exports.statsWithErrors = statsWithErrors;
 
-const getEnvironment = (
-    {BABEL_ENV = undefined, DEBUG = undefined, NODE_ENV = undefined} = {}
-) => ({
+const getEnvironment = ({
+    BABEL_ENV = undefined,
+    DEBUG = undefined,
+    NODE_ENV = undefined
+} = {}) => ({
     generalSettings: {
         env: {
             __DEV__: NODE_ENV === "development",
