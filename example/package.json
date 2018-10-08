@@ -69,7 +69,7 @@
         "protractor": "^5.1.0",
         "protractor-console": "^2.0.1",
         "protractor-istanbul-plugin": "^2.0.0",
-        "react": "16.3.2",
+        "react": "16.5.2",
         "react-hot-loader": "^3.0.0-beta.6",
         "react-wildcat-test-runners": "7.8.0",
         "replace": "^0.3.0",
