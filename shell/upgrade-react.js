@@ -8,7 +8,7 @@ const path = require("path");
 const REACT_VERSION = fs
     .readFileSync(path.join(cwd, "REACT_VERSION"), "utf8")
     .trim();
-const REACT_PACKAGES = ["react-addons-test-utils", "react", "react-dom"];
+const REACT_PACKAGES = ["react", "react-dom"];
 
 function upgradeReactNpm(pkg) {
     const pkgDependencies = pkg.dependencies || {};

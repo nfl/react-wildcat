@@ -89,8 +89,9 @@ module.exports = stubs => {
             ["development", "production"].forEach(env => {
                 context(env, () => {
                     Object.keys(stubs.logMethods).forEach(method => {
-                        it(`sends logger.${method} data to Graylog as an "${stubs
-                            .mapLogMethods[method]}" log`, () => {
+                        it(`sends logger.${method} data to Graylog as an "${
+                            stubs.mapLogMethods[method]
+                        }" log`, () => {
                             const testLog = `test log`;
                             const setConfigStub = sinon.stub();
                             const graylogSettingsStub = {

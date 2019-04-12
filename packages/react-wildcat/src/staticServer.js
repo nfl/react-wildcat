@@ -85,8 +85,9 @@ function start() {
 
             cluster.on("exit", function clusterExit(worker, code, signal) {
                 logger.warn(
-                    `worker ${worker.process
-                        .pid} has died (code: ${code}) (signal: ${signal})`
+                    `worker ${
+                        worker.process.pid
+                    } has died (code: ${code}) (signal: ${signal})`
                 );
 
                 if (staticServerSettings.reconnectOnWorkerDisconnect === true) {

@@ -13,3 +13,4 @@ npm-debug.log
 newrelic_agent.log
 public
 reports
+yarn-error.log

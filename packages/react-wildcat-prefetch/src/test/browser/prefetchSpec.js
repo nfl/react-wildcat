@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ReactTestUtils from "react-addons-test-utils";
+import ReactTestUtils from "react-dom/test-utils";
 import Prefetch from "../../index.js"; // eslint-disable-line import/default
 
 import Hello from "./fixtures/Hello.js";

@@ -31,14 +31,17 @@ module.exports = function defaultTemplate(cfg) {
     </head>
     <body>
         <div id="${reactRootElementID}">${html}</div>
-        ${serviceWorker && protocol !== "http"
-            ? `
+        ${
+            serviceWorker && protocol !== "http"
+                ? `
         <script src="/register-sw.js"></script>
         `
-            : ``}
+                : ``
+        }
 
-        ${serviceWorker && __DEV__ && protocol !== "http"
-            ? `
+        ${
+            serviceWorker && __DEV__ && protocol !== "http"
+                ? `
         <script>
             // Remove any registered service workers
             if ("serviceWorker" in navigator) {
@@ -53,7 +56,8 @@ module.exports = function defaultTemplate(cfg) {
             }
         </script>
         `
-            : ``}
+                : ``
+        }
 
         <script>
             __INITIAL_DATA__ = ${JSON.stringify(data)};

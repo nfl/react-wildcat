@@ -1,4 +1,4 @@
-<img src="http://static.nfl.com/static/content/public/static/img/logos/nfl-engineering-light.svg" width="300" />
+<img align="right" height="200" src="http://static.nfl.com/static/content/public/static/img/logos/nfl-engineering-light.svg" />
 
 # React Wildcat
 
@@ -181,3 +181,5 @@ Please take a moment to review the [guidelines for contributing](CONTRIBUTING.md
 ## License
 
 MIT
+
+<img src="http://static.nfl.com/static/content/public/static/img/logos/wildcat.svg" width="300" />

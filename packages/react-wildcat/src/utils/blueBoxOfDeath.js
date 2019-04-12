@@ -80,7 +80,9 @@ module.exports = function blueBoxOfDeath(err, request) {
         <h1>Runtime Error</h1>
 
         <div class="message">
-            <h3>An error occurred rendering route <code>${request.url}</code>.</h3>
+            <h3>An error occurred rendering route <code>${
+                request.url
+            }</code>.</h3>
         </div>
 
         <div class="message info">
@@ -98,14 +100,16 @@ module.exports = function blueBoxOfDeath(err, request) {
                     <pre>${error.message}</pre>
                 </div>
 
-                ${error.stack
-                    ? `
+                ${
+                    error.stack
+                        ? `
                     <div class="stack">
                         <h4>Stack Trace:</h4>
                         <pre>${error.stack}</pre>
                     </div>
                 `
-                    : ``}
+                        : ``
+                }
             `
         )}
 
