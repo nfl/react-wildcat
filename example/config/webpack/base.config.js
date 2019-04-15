@@ -55,6 +55,7 @@ exports.rules = [
         include,
         exclude,
         use: [
+            {loader: "thread-loader"},
             {
                 loader: "babel-loader",
                 options: {

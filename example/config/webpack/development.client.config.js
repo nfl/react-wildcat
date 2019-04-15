@@ -40,6 +40,7 @@ module.exports = {
         module: {
             rules
         },
+        devtool: "inline-source-map",
         plugins: webpackPlugins({hot: true}).concat(
             fs
                 .readdirSync(cacheEnvDir)
