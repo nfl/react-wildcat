@@ -2,7 +2,6 @@ const fs = require("fs-extra");
 const path = require("path");
 const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
-const HappyPack = require("happypack");
 const ProgressBarPlugin = require("progress-bar-webpack-plugin");
 
 const root = path.resolve(__dirname, "../..");
@@ -29,9 +28,6 @@ const include = [
 const exclude = [/lib|node_modules/];
 
 const hotEntries = [
-    "react-hot-loader/patch",
-    // activate HMR for React
-
     "event-source-polyfill",
     // hot-loader uses EventSource
 
@@ -60,7 +56,36 @@ exports.rules = [
         exclude,
         use: [
             {
-                loader: "happypack/loader"
+                loader: "babel-loader",
+                options: {
+                    cacheIdentifier: {
+                        BABEL_ENV,
+                        NODE_ENV,
+                        babelRc: JSON.parse(
+                            fs.readFileSync(
+                                path.resolve(root, ".babelrc"),
+                                "utf8"
+                            )
+                        ),
+                        nodeVersion: fs.readFileSync(
+                            path.resolve(root, ".node-version"),
+                            "utf8"
+                        ),
+                        packageJSON: require(path.resolve(
+                            root,
+                            "package.json"
+                        )),
+                        yarnLock: fs.readFileSync(
+                            path.resolve(root, "yarn.lock"),
+                            "utf8"
+                        ),
+                        protractorConfig: require(path.resolve(
+                            root,
+                            "protractor.config.js"
+                        )),
+                        wildcatConfig
+                    }
+                }
             }
         ]
     },
@@ -68,11 +93,7 @@ exports.rules = [
         test: /\.(css|png|jpg|jpeg|gif|svg)$/,
         include,
         exclude,
-        use: [
-            {
-                loader: "url-loader"
-            }
-        ]
+        use: "url-loader"
     }
 ];
 
@@ -153,119 +174,7 @@ exports.plugins = [
     new webpack.IgnorePlugin(/\/iconv-loader$/)
 ];
 
-exports.webpackPlugins = (
-    {
-        hot = false,
-        optimize = true,
-        limit = undefined,
-        minify = true,
-        progress = false,
-        threads = 4
-    } = {}
-) =>
+exports.webpackPlugins = ({hot = false, progress = true} = {}) =>
     exports.plugins
-        .concat(
-            threads
-                ? new HappyPack({
-                      // loaders is the only required parameter:
-                      loaders: [
-                          {
-                              loader: "babel-loader"
-                          }
-                      ],
-
-                      // customize as needed, see Configuration below
-
-                      // An object that is used to invalidate the cache between runs
-                      // based on whatever variables that might affect the transformation
-                      // of your sources, like NODE_ENV for example.
-                      cacheContext: {
-                          BABEL_ENV,
-                          NODE_ENV,
-
-                          babelRc: JSON.parse(
-                              fs.readFileSync(
-                                  path.resolve(root, ".babelrc"),
-                                  "utf8"
-                              )
-                          ),
-                          nodeVersion: fs.readFileSync(
-                              path.resolve(root, ".node-version"),
-                              "utf8"
-                          ),
-                          packageJSON: require(path.resolve(
-                              root,
-                              "package.json"
-                          )),
-                          yarnLock: fs.readFileSync(
-                              path.resolve(root, "yarn.lock"),
-                              "utf8"
-                          ),
-
-                          protractorConfig: require(path.resolve(
-                              root,
-                              "protractor.config.js"
-                          )),
-                          wildcatConfig
-                      },
-                      threads,
-                      tempDir: path.resolve(CACHE_ENV_DIR, "happypack"),
-                      verbose: false
-                  })
-                : []
-        )
-        .concat(
-            hot
-                ? [
-                      new webpack.HotModuleReplacementPlugin(),
-                      // enable HMR globally
-
-                      new webpack.NamedModulesPlugin(),
-                      // prints more readable module names in the browser console on HMR updates
-
-                      new webpack.NoEmitOnErrorsPlugin()
-                  ]
-                : []
-        )
-        .concat(
-            optimize
-                ? [
-                      // // This plugin prevents Webpack from creating chunks
-                      // // that would be too small to be worth loading separately
-                      // new webpack.optimize.MinChunkSizePlugin({
-                      //     minChunkSize: 51200 // ~50kb
-                      // }),
-                      //
-                      new webpack.optimize.CommonsChunkPlugin({
-                          names: ["bootstrap", "manifest"] // Specify the common bundle's name.
-                      }),
-
-                      new webpack.optimize.CommonsChunkPlugin({
-                          async: true,
-                          children: true
-                      })
-                  ]
-                : []
-        )
-        .concat(
-            minify
-                ? [
-                      new webpack.LoaderOptionsPlugin({
-                          minimize: true,
-                          debug: false
-                      }),
-
-                      new webpack.optimize.UglifyJsPlugin(exports.uglifyOptions)
-                  ]
-                : []
-        )
-        .concat(progress ? new ProgressBarPlugin() : [])
-        .concat(
-            limit
-                ? [
-                      new webpack.optimize.LimitChunkCountPlugin({
-                          maxChunks: limit
-                      })
-                  ]
-                : []
-        );
+        .concat(hot ? new webpack.HotModuleReplacementPlugin() : [])
+        .concat(progress ? new ProgressBarPlugin() : []);

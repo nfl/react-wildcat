@@ -23,12 +23,11 @@ module.exports = {
             ignored: "!src/*"
         }
     },
-
     hotMiddleware: {
         path: "/audible"
     },
-
     devConfig: {
+        mode: "development",
         cache: true,
         context,
         name: `client-side rendering <${nodeEnv}>`,
@@ -36,17 +35,12 @@ module.exports = {
             hot: true
         }),
         target: "web",
-        devtool: "eval",
         output,
         resolve,
         module: {
             rules
         },
-        plugins: webpackPlugins({
-            hot: true,
-            optimize: false,
-            minify: false
-        }).concat(
+        plugins: webpackPlugins({hot: true}).concat(
             fs
                 .readdirSync(cacheEnvDir)
                 .filter(file => file.endsWith("-manifest.json"))

@@ -12,6 +12,7 @@ const {
 } = require("./base.config.js");
 
 module.exports = {
+    mode: "production",
     cache: true,
     context,
     name: `client-side rendering <${nodeEnv}>`,
@@ -26,10 +27,7 @@ module.exports = {
     performance: {
         hints: "warning"
     },
-    plugins: webpackPlugins({
-        minify: false,
-        progress: true
-    }).concat([
+    plugins: webpackPlugins().concat([
         new CircularDependencyPlugin({
             // exclude detection of files based on a RegExp
             exclude: /node_modules/
