@@ -1,8 +1,9 @@
 {
   "name": "react-wildcat-test-runners",
-  "version": "7.8.0",
+  "version": "7.9.0",
   "description": "Test runners for Wildcat.",
   "bin": {
+    "wildcat-jest-runner": "./cli/jest.js",
     "wildcat-protractor-runner": "./cli/protractor.js",
     "wildcat-karma-runner": "./cli/karma.js"
   },
