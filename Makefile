@@ -46,10 +46,10 @@ test-cov: clean-coverage test-karma-node test-jest-node test-jest-browser combin
 
 test-travis: bootstrap install-example lint test-cov
 
-
 update-dependencies:
 	./shell/update-dependencies.sh
 	./shell/update-dependencies-example.sh
 
 upgrade-react:
 	node ./shell/upgrade-react.js
+
