@@ -1,5 +1,4 @@
 ## Features
-
 - **dev tooling**
     - Bundle-free development environment
     - Short and sweet time-to-dev (see [Getting Started](#getting-started) below)
