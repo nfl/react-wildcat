@@ -12,13 +12,13 @@ const {
     webpackPlugins
 } = require("./base.config.js");
 
-const {MINIFY} = process.env;
+const { MINIFY } = process.env;
 const __MINIFY__ = MINIFY === "true" || MINIFY === "1" || !isTestEnv;
 
 module.exports = [
     {
+        mode: "production",
         name: `client-side rendering <${nodeEnv}>`,
-
         cache: true,
         context,
         devtool: false,
@@ -31,25 +31,24 @@ module.exports = [
             output,
             __MINIFY__
                 ? {
-                      chunkFilename: "[chunkhash].bundle.js"
-                  }
+                    chunkFilename: "[chunkhash].bundle.js"
+                }
                 : {}
         ),
         performance: {
             hints: "warning"
         },
-        plugins: webpackPlugins({
-            minify: __MINIFY__,
-            progress: true
-        }),
+        optimization: {
+            minimize: __MINIFY__
+        },
+        plugins: webpackPlugins(),
         resolve,
         target: "web"
     },
-
     {
+        mode: "development",
         // The configuration for the server-side rendering
         name: `server-side rendering <${nodeEnv}>`,
-
         cache: true,
         context,
         devtool: false,
@@ -66,11 +65,7 @@ module.exports = [
             chunkFilename: "[id].js",
             libraryTarget: "commonjs2"
         },
-        plugins: webpackPlugins({
-            minify: false,
-            optimize: false,
-            progress: true
-        }),
+        plugins: webpackPlugins(),
         stats: {
             assets: false,
             cached: false,

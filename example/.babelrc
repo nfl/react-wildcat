@@ -2,7 +2,6 @@
     "env": {
         "development": {
             "plugins": [
-                "react-hot-loader/babel",
                 "flow-runtime"
             ]
         },

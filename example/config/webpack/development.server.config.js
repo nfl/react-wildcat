@@ -12,6 +12,7 @@ const {
 
 module.exports = {
     // The configuration for the server-side rendering
+    mode: "development",
     cache: true,
     context,
     name: `server-side rendering <${nodeEnv}>`,
@@ -31,9 +32,6 @@ module.exports = {
     module: {
         rules
     },
-    plugins: webpackPlugins({
-        optimize: false,
-        minify: false
-    }),
+    plugins: webpackPlugins(),
     stats: minimalStats
 };

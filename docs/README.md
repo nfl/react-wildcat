@@ -1,5 +1,4 @@
 # Wildcat
-
 - Setup
     - [Goals](01-setup/goals.md)
     - [Requirements](01-setup/requirements.md)
