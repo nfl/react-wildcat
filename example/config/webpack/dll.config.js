@@ -11,6 +11,7 @@ const {
 } = require("./base.config.js");
 
 module.exports = {
+    mode: "development",
     context,
     entry: {
         dependencies: [
@@ -34,11 +35,7 @@ module.exports = {
     }),
     resolve,
     stats: minimalStats,
-    plugins: webpackPlugins({
-        optimize: false,
-        minify: false,
-        progress: true
-    }).concat([
+    plugins: webpackPlugins().concat([
         new webpack.DllPlugin({
             path: path.join(cacheEnvDir, "[name]-manifest.json"),
             name: "[name]"

@@ -1,6 +1,7 @@
-const {context, resolve, rules, webpackPlugins} = require("./base.config.js");
+const { context, resolve, rules, webpackPlugins } = require("./base.config.js");
 
 module.exports = {
+    mode: "development",
     cache: true,
     context,
     target: "web",
@@ -10,10 +11,6 @@ module.exports = {
     module: {
         rules
     },
-    plugins: webpackPlugins({
-        optimize: false,
-        minify: false,
-        progress: true
-    }),
+    plugins: webpackPlugins(),
     resolve
 };
