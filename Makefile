@@ -44,7 +44,7 @@ test-karma-node:
 
 test-cov: clean-coverage test-karma-node test-jest-node test-jest-browser combine-coverage
 
-test-travis: bootstrap install-example lint
+test-travis: bootstrap install-example lint test-cov
 
 update-dependencies:
 	./shell/update-dependencies.sh
