@@ -1,6 +1,6 @@
 <img align="right" height="200" src="http://static.nfl.com/static/content/public/static/img/logos/nfl-engineering-light.svg" />
 
-# React Wildcat
+# DEPRECATED - React Wildcat - This react framework is no longer supported
 
 [![Join the chat at https://gitter.im/nfl/react-wildcat](https://badges.gitter.im/nfl/react-wildcat.svg)](https://gitter.im/nfl/react-wildcat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
